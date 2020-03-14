@@ -1,5 +1,5 @@
 import re
-from typing import List, Tuple
+from typing import Tuple
 
 from Node import Node
 
@@ -18,6 +18,7 @@ class Parser:
         self.prev_token: Tuple[str, str] = ('', '')  # np.("ASSIGN")
         self.next_token: Tuple[str, str] = ('', '')  # np.("NAME","x")
         self.root: Node = Node("PROGRAM", "program")
+        self.current_line: int = 0
 
     def match(self, token: str) -> None:
         if self.next_token[0] == token:
@@ -63,6 +64,7 @@ class Parser:
         return stmt_list_node
 
     def statement(self) -> Node:
+        self.current_line += 1
         if self.next_token[0] == "WHILE":
             return self.while_statement()
         elif self.next_token[0] == "CALL":
@@ -75,15 +77,15 @@ class Parser:
     def call(self) -> Node:
         self.match("CALL")
         self.match("NAME")
-        call_node: Node = Node("CALL", self.prev_token[1])
+        call_node: Node = Node("CALL", self.prev_token[1], self.current_line)
         self.match("SEMICOLON")
         return call_node
 
     def while_statement(self) -> Node:
         self.match("WHILE")
         self.match("NAME")
-        while_node: Node = Node("WHILE")
-        while_node.add_child(Node(self.prev_token[0], self.prev_token[1]))
+        while_node: Node = Node("WHILE", line=self.current_line)
+        while_node.add_child(Node(self.prev_token[0], self.prev_token[1], self.current_line))
         self.match("OPEN_BRACKET")
         while_node.add_child(self.statement_list())
         self.match("CLOSE_BRACKET")
@@ -91,9 +93,9 @@ class Parser:
         return while_node
 
     def assignment(self) -> Node:
-        assign_node: Node = Node("ASSIGN")
+        assign_node: Node = Node("ASSIGN", line=self.current_line)
         self.match("NAME")
-        assign_node.add_child(Node(self.prev_token[0], self.prev_token[1]))
+        assign_node.add_child(Node(self.prev_token[0], self.prev_token[1], self.current_line))
         self.match("ASSIGN")
         assign_node.add_child(self.expression())
         self.match("SEMICOLON")
@@ -101,10 +103,10 @@ class Parser:
         return assign_node
 
     def if_statement(self) -> Node:
-        if_node: Node = Node("IF")
+        if_node: Node = Node("IF", line=self.current_line)
         self.match("IF")
         self.match("NAME")
-        if_node.add_child(Node(self.prev_token[0], self.prev_token[1]))
+        if_node.add_child(Node(self.prev_token[0], self.prev_token[1], self.current_line))
         self.match("THEN")
         self.match("OPEN_BRACKET")
         if_node.add_child(self.statement_list())
@@ -121,9 +123,9 @@ class Parser:
             self.match("NAME")
         elif self.next_token[0] == "INTEGER":
             self.match("INTEGER")
-        left: Node = Node(self.prev_token[0], self.prev_token[1])
+        left: Node = Node(self.prev_token[0], self.prev_token[1], self.current_line)
         if self.next_token[0] != "SEMICOLON":
-            op_node: Node = Node(self.next_token[0])
+            op_node: Node = Node(self.next_token[0], line=self.current_line)
             op_node.add_child(left)
             self.match(self.next_token[0])
             op_node.add_child(self.expression())
