@@ -1,7 +1,6 @@
 import json
 import re
 from typing import Tuple, Dict
-
 from jsonweb import dumper
 
 from Node import Node
