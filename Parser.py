@@ -1,5 +1,8 @@
+import json
 import re
-from typing import Tuple
+from typing import Tuple, Dict
+
+from jsonweb import dumper
 
 from Node import Node
 
@@ -132,3 +135,8 @@ class Parser:
         else:
             return left
         return op_node
+
+    def get_node_json(self) -> Dict[str, dict]:
+        json_str: str = dumper(self.root)
+        json_dict: Dict[str, dict] = json.loads(json_str)
+        return json_dict
