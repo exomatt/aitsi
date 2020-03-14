@@ -1,6 +1,8 @@
 from typing import List
+from jsonweb.encode import to_object
 
 
+@to_object()
 class Node:
     def __init__(self, node_type: str = '', value: str = '', line: int = 0) -> None:
         self.children: List[Node] = list()
