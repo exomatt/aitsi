@@ -1,13 +1,13 @@
+import argparse
+import json
 from typing import Dict
 
 from parser.Parser import Parser
-import json
-import argparse
 
 
-def export_AST_to_file(filename: str = "AST.json") -> None:
+def export_AST_to_file(json_ast: Dict[str, dict], filename: str = "AST.json") -> None:
     with open(filename, 'w') as f:
-        json.dump(json_tree, f, indent=4, sort_keys=True)
+        json.dump(json_ast, f, indent=4, sort_keys=True)
 
 
 def read_program_from_file(filename: str = "code_short.txt") -> Parser:
@@ -29,4 +29,4 @@ if __name__ == '__main__':
 
     json_tree: Dict[str, dict] = parser.get_node_json()
     print(json_tree)
-    export_AST_to_file(output_filename)
+    export_AST_to_file(json_tree, output_filename)
