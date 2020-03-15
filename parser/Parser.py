@@ -3,7 +3,7 @@ import re
 from typing import Tuple, Dict
 from jsonweb import dumper
 
-from Node import Node
+from parser.Node import Node
 
 
 class Parser:
