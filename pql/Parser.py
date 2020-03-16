@@ -93,7 +93,7 @@ class Parser:
             self.root.add_child(self.with_cl())
 
     def declaration(self) -> Node:
-        declaration_list_node: Node = Node(self.prev_token[1].upper())
+        declaration_list_node: Node = Node(self.prev_token[1].upper().strip())
         while self.next_token[0] != "SEMICOLON":
             self.synonym()
             declaration_list_node.add_child(Node("SYNONYM", self.prev_token[1]))
