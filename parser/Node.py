@@ -1,10 +1,22 @@
 from typing import List
-from jsonweb.encode import to_object
+
+import dataclasses
+from dataclasses import dataclass
+from marshmallow.schema import BaseSchema
+from marshmallow_dataclass import add_schema
 
 
-@to_object()
+@dataclass
+@add_schema(base_schema=BaseSchema)
 class Node:
-    def __init__(self, node_type: str = '', value: str = '', line: int = 0) -> None:
+    node_type: str
+    value: str
+    line: int
+    children: List['Node'] = dataclasses.field(default_factory=lambda: [])
+
+    def __init__(self, node_type: str = '', value: str = '', line: int = 0, children: List = None) -> None:
+        if children is None:
+            children = []
         self.children: List[Node] = list()
         self.node_type: str = node_type
         self.value: str = value
