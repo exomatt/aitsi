@@ -15,17 +15,12 @@ class Parser:
                          (r"\s*=", "EQUALS_SIGN"),
                          (r'\s*_', 'EVERYTHING'), (r'\s*"', 'QUOTE'),
                          (r'\s*while|\s*assign|\s*stmt|\s*variable|\s*constant|\s*prog_line', 'DECLARATION'),
-                         (r'\s*if', 'IF'), (r'\s*while', 'WHILE'), (r'\s*assign', 'ASSIGN'),
-                         (r'\s*procedure', 'PROCEDURE'), (r'\s*call', 'CALL'), (r'\s*stmt', 'STMT'),
-                         (r'\s*variable', 'VARIABLE'), (r'\s*BOOLEAN', 'BOOLEAN'), (r'\s*constant', 'CONSTANT'),
-                         (r'\s*prog_line', 'PROG_LINE'),
+                         (r'\s*BOOLEAN', 'BOOLEAN'),
                          (r'\s*with', 'WITH'), (r'\s*and', 'AND'),
                          (r'\s*"[A-Za-z]+[A-Za-z0-9#]*"', 'IDENT_QUOTE'), (r'\s*[A-Za-z]+[A-Za-z0-9\#]*', 'IDENT'),
                          (r'\s*[0-9]+', 'INTEGER'), (r'\s*,', 'COMMA'), (r'\s*\.', 'DOT')]
 
     def __init__(self) -> None:
-        # todo inicjalizacjat
-
         self.pos: int = 0
         self.prev_token: Tuple[str, str] = ('', '')
         self.next_token: Tuple[str, str] = ('', '')
@@ -49,9 +44,15 @@ class Parser:
             match = regex.match(query, self.pos)
             if match is not None:
                 if match.group(0):
-                    new_token = (token, match.group(0))
-                    self.pos += len(match.group(0))
-                    break
+                    if self.prev_token[0] != "DOT":
+                        new_token = (token, match.group(0))
+                        self.pos += len(match.group(0))
+                        break
+                    elif token == "IDENT":
+                        new_token = (token, match.group(0))
+                        self.pos += len(match.group(0))
+                        break
+
         return new_token
 
     def parse(self, query: str) -> None:
@@ -118,146 +119,72 @@ class Parser:
 
     def rel_ref(self) -> Node:
         if self.next_token[0] == "MODIFIES":
-            return self.modifies()
+            return self.relation_with_other_arguments("MODIFIES")
         elif self.next_token[0] == "MODIFIEST":
-            return self.modifies_t()
+            return self.relation_with_other_arguments("MODIFIEST")
         elif self.next_token[0] == "USES":
-            return self.uses()
+            return self.relation_with_other_arguments("USES")
         elif self.next_token[0] == "USEST":
-            return self.uses_t()
+            return self.relation_with_other_arguments("USEST")
         elif self.next_token[0] == "PARENT":
-            return self.parent()
+            return self.relation_with_the_same_arguments("PARENT")
         elif self.next_token[0] == "PARENTT":
-            return self.parent_t()
+            return self.relation_with_the_same_arguments("PARENTT")
         elif self.next_token[0] == "FOLLOWS":
-            return self.follows()
+            return self.relation_with_the_same_arguments("FOLLOWS")
         elif self.next_token[0] == "FOLLOWST":
-            return self.follows_t()
+            return self.relation_with_the_same_arguments("FOLLOWST")
 
-    def modifies(self) -> Node:
-        self.match("MODIFIES")
-        modifies_node: Node = Node("MODIFIES")
+    def relation_with_the_same_arguments(self, type_node: str) -> Node:
+        self.match(type_node)
+        relation_node: Node = Node(type_node)
         self.match("OPEN_PARENTHESIS")
-        modifies_node.add_child(self.stmt_ref())
+        relation_node.add_child(self.stmt_ref())
         self.match("COMMA")
-        modifies_node.add_child(self.ent_ref())
-        if self.next_token[0] == "AND":
-            self.match("AND")
-            modifies_node.add_child(self.rel_ref())
-        self.match("CLOSE_PARENTHESIS")
-
-        return modifies_node
-
-    def modifies_t(self) -> Node:
-        self.match("MODIFIEST")
-        modifies_node: Node = Node("MODIFIEST")
-        self.match("OPEN_PARENTHESIS")
-        modifies_node.add_child(self.stmt_ref())
-        self.match("COMMA")
-        modifies_node.add_child(self.ent_ref())
+        relation_node.add_child(self.stmt_ref())
         self.match("CLOSE_PARENTHESIS")
         if self.next_token[0] == "AND":
             self.match("AND")
-            modifies_node.add_child(self.rel_ref())
-        return modifies_node
+            relation_node.add_child(self.rel_ref())
+        return relation_node
 
-    def uses(self) -> Node:
-        self.match("USES")
-        uses_node: Node = Node("USES")
+    def relation_with_other_arguments(self, type_node: str) -> Node:
+        self.match(type_node)
+        relation_node: Node = Node(type_node)
         self.match("OPEN_PARENTHESIS")
-        uses_node.add_child(self.stmt_ref())
+        relation_node.add_child(self.stmt_ref())
         self.match("COMMA")
-        uses_node.add_child(self.ent_ref())
+        relation_node.add_child(self.ent_ref())
         self.match("CLOSE_PARENTHESIS")
         if self.next_token[0] == "AND":
             self.match("AND")
-            uses_node.add_child(self.rel_ref())
-        return uses_node
-
-    def uses_t(self) -> Node:
-        self.match("USEST")
-        uses_node: Node = Node("USEST")
-        self.match("OPEN_PARENTHESIS")
-        uses_node.add_child(self.stmt_ref())
-        self.match("COMMA")
-        uses_node.add_child(self.ent_ref())
-        self.match("CLOSE_PARENTHESIS")
-        if self.next_token[0] == "AND":
-            self.match("AND")
-            uses_node.add_child(self.rel_ref())
-        return uses_node
-
-    def parent(self) -> Node:
-        self.match("PARENT")
-        parent_node: Node = Node("PARENT")
-        self.match("OPEN_PARENTHESIS")
-        parent_node.add_child(self.stmt_ref())
-        self.match("COMMA")
-        parent_node.add_child(self.stmt_ref())
-        self.match("CLOSE_PARENTHESIS")
-        if self.next_token[0] == "AND":
-            self.match("AND")
-            parent_node.add_child(self.rel_ref())
-        return parent_node
-
-    def parent_t(self) -> Node:
-        self.match("PARENTT")
-        parent_node: Node = Node("PARENTT")
-        self.match("OPEN_PARENTHESIS")
-        parent_node.add_child(self.stmt_ref())
-        self.match("COMMA")
-        parent_node.add_child(self.stmt_ref())
-        self.match("CLOSE_PARENTHESIS")
-        if self.next_token[0] == "AND":
-            self.match("AND")
-            parent_node.add_child(self.rel_ref())
-        return parent_node
-
-    def follows(self) -> Node:
-        self.match("FOLLOWS")
-        follows_node: Node = Node("FOLLOWS")
-        self.match("OPEN_PARENTHESIS")
-        follows_node.add_child(self.stmt_ref())
-        self.match("COMMA")
-        follows_node.add_child(self.stmt_ref())
-        self.match("CLOSE_PARENTHESIS")
-        if self.next_token[0] == "AND":
-            self.match("AND")
-            follows_node.add_child(self.rel_ref())
-        return follows_node
-
-    def follows_t(self) -> Node:
-        self.match("FOLLOWST")
-        follows_node: Node = Node("FOLLOWST")
-        self.match("OPEN_PARENTHESIS")
-        follows_node.add_child(self.stmt_ref())
-        self.match("COMMA")
-        follows_node.add_child(self.stmt_ref())
-        self.match("CLOSE_PARENTHESIS")
-        if self.next_token[0] == "AND":
-            self.match("AND")
-            follows_node.add_child(self.rel_ref())
-        return follows_node
+            relation_node.add_child(self.rel_ref())
+        return relation_node
 
     def with_cl(self) -> Node:
         self.match("WITH")
         with_node: Node = Node("WITH")
+        with_node.add_child(self.attribute())
+        return with_node
+
+    def attribute(self) -> Node:
         self.synonym()
-        # self.match("DOT")
-        # self.match("NAME")
         synonym_node: Node = Node(self.prev_token[0], self.prev_token[1])
         synonym_node.add_child(self.attr_name())
-        with_node.add_child(synonym_node)
-        return with_node
+        if self.next_token[0] == "AND":
+            self.match("AND")
+            synonym_node.add_child(self.attribute())
+        return synonym_node
 
     def attr_name(self) -> Node:
         self.match("DOT")
         self.match("IDENT")
-        self.match("IDENT")
-        return Node("ATTR_NAME", self.next_token[1])
+        attr_name_node: Node = Node("ATTR_NAME", self.prev_token[1])
+        attr_name_node.add_child(self.ref())
+        return attr_name_node
 
     def ref(self) -> Node:
-        self.match("EQUALS")
+        self.match("EQUALS_SIGN")
         if self.next_token[0] == "IDENT_QUOTE":
             self.match("IDENT_QUOTE")
         elif self.next_token[0] == "INTEGER":
