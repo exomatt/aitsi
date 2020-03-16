@@ -4,6 +4,7 @@ from typing import Dict
 
 from pql.Node import Node
 from pql.QueryProcessor import QueryProcessor
+from pql.relations.ModifiesRelation import ModifiesRelation
 from pql.relations.ParentRelation import ParentRelation
 
 
@@ -49,6 +50,22 @@ if __name__ == '__main__':
     test_9 = parent_rel.parent('_', 'ASSIGN')
     test_10 = parent_rel.parent('_', 'WHILE')
     test_11 = parent_rel.parent('IF', '_')
+    modifies_rel: ModifiesRelation = ModifiesRelation(ast_node)
+    mod_test_1 = modifies_rel.modifies('1', 't')
+    mod_test_2 = modifies_rel.modifies('2', 't')
+    mod_test_3 = modifies_rel.modifies('3', 'd')
+    mod_test_4 = modifies_rel.modifies('3', '_')
+    mod_test_5 = modifies_rel.modifies('8', '_')
+    mod_test_6 = modifies_rel.modifies('3', 'VARIABLE')
+    mod_test_7 = modifies_rel.modifies('_', 'd')
+    mod_test_8 = modifies_rel.modifies('IF', '_')
+    mod_test_9 = modifies_rel.modifies('IF', 'VARIABLE')
+    mod_test_10 = modifies_rel.modifies('IF', '_')
+    mod_test_11 = modifies_rel.modifies('_', '_')
+    mod_test_12 = modifies_rel.modifies('IF', 'a')
+    mod_test_13 = modifies_rel.modifies('WHILE', 'VARIABLE')
+    mod_test_14 = modifies_rel.modifies('WHILE', 'd')
+    mod_test_15 = modifies_rel.modifies('_', 'VARIABLE')
 
     query: str = load_query_from_file(input_query_filename)
 
