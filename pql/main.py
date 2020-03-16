@@ -3,7 +3,7 @@ import json
 from typing import Dict
 
 from pql.Node import Node
-from pql.Parser import Parser
+from pql.QueryProcessor import QueryProcessor
 
 
 def load_ast_from_file(filename: str) -> Node:
@@ -36,8 +36,8 @@ if __name__ == '__main__':
     ast_node: Node = load_ast_from_file(input_ast_filename)
     query: str = load_query_from_file(input_query_filename)
 
-    parser: Parser = Parser()
-    parser.parse(query)
+    parser: QueryProcessor = QueryProcessor()
+    parser.generate_query_tree(query)
     query_tree: Dict[str, dict] = parser.get_node_json()
 
     export_query_tree_to_file(query_tree)

@@ -5,7 +5,7 @@ from typing import Tuple, Dict
 from pql.Node import Node
 
 
-class Parser:
+class QueryProcessor:
     # znacznik * jest przekształcony na litere T(np. Follows* == FOLLOWST)
     token_expressions = [(r'\s*Select', 'SELECT'), (r'\s*such that', 'SUCH_THAT'),
                          (r'\s*Follows\*', 'FOLLOWST'), (r'\s*Parent\*', 'PARENTT'), (r'\s*Modifies\*', 'MODIFIEST'),
@@ -23,6 +23,7 @@ class Parser:
 
     def __init__(self) -> None:
         self.pos: int = 0
+        self.query: str = None
         self.prev_token: Tuple[str, str] = ('', '')
         self.next_token: Tuple[str, str] = ('', '')
         self.root: Node = Node("QUERY", "query")
@@ -56,8 +57,8 @@ class Parser:
 
         return new_token
 
-    def parse(self, query: str) -> None:
-        self.query: str = query.replace('\n', '')
+    def generate_query_tree(self, query: str) -> None:
+        self.query = query.replace('\n', '')
         self.next_token = self.get_token()
         self.select_cl()
         self.root.to_string(0)
