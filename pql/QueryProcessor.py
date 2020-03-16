@@ -14,7 +14,7 @@ class QueryProcessor:
                          (r'\s*Uses', 'USES'), (r'\s*Calls', 'CALLS'),
                          (r'\s*\(', 'OPEN_PARENTHESIS'), (r'\s*\)', 'CLOSE_PARENTHESIS'), (r'\s*;', 'SEMICOLON'),
                          (r"\s*=", "EQUALS_SIGN"),
-                         (r'\s*_', 'EVERYTHING'), (r'\s*"', 'QUOTE'),
+                         (r'\s*_', 'EVERYTHING'),
                          (r'\s*while|\s*assign|\s*stmt|\s*variable|\s*constant|\s*prog_line', 'DECLARATION'),
                          (r'\s*BOOLEAN', 'BOOLEAN'),
                          (r'\s*with', 'WITH'), (r'\s*and', 'AND'),
@@ -77,7 +77,7 @@ class QueryProcessor:
             self.synonym()
         elif self.next_token[0] == "EVERYTHING":
             self.match("EVERYTHING")
-        elif self.next_token[0] == "QUOTE":
+        elif self.next_token[0] == "IDENT_QUOTE":
             self.match("IDENT_QUOTE")
 
         return Node(self.prev_token[0], self.prev_token[1])

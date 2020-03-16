@@ -66,8 +66,8 @@
             {
               "children": [],
               "line": 0,
-              "node_type": "IDENT",
-              "value": "a"
+              "node_type": "EVERYTHING",
+              "value": "_"
             },
             {
               "children": [],
@@ -114,8 +114,8 @@
                         {
                           "children": [],
                           "line": 0,
-                          "node_type": "IDENT",
-                          "value": " v"
+                          "node_type": "IDENT_QUOTE",
+                          "value": " \"v\""
                         }
                       ],
                       "line": 0,
