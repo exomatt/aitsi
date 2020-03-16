@@ -183,13 +183,28 @@ class Parser:
         attr_name_node.add_child(self.ref())
         return attr_name_node
 
+    def attribute_value(self) -> Node:
+        self.synonym()
+        synonym_node: Node = Node(self.prev_token[0], self.prev_token[1])
+        synonym_node.add_child(self.attr_name_value())
+        return synonym_node
+
+    def attr_name_value(self) -> Node:
+        self.match("DOT")
+        self.match("IDENT")
+        attr_name_node: Node = Node("ATTR_NAME", self.prev_token[1])
+        return attr_name_node
+
     def ref(self) -> Node:
         self.match("EQUALS_SIGN")
+        ref_node: Node = Node(self.next_token[0], self.next_token[1])
         if self.next_token[0] == "IDENT_QUOTE":
             self.match("IDENT_QUOTE")
         elif self.next_token[0] == "INTEGER":
             self.match("INTEGER")
-        return Node(self.prev_token[0], self.prev_token[1])
+        elif self.next_token[0] == "IDENT":
+            return self.attribute_value()
+        return ref_node
 
     def synonym(self):
         self.match("IDENT")
