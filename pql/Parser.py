@@ -8,27 +8,20 @@ from pql.Node import Node
 class Parser:
     # znacznik * jest przekształcony na litere T(np. Follows* == FOLLOWST)
     token_expressions = [(r'\s*Select', 'SELECT'), (r'\s*such that', 'SUCH_THAT'),
-                         (r'\s*Follows|\s*Follows*|\s*Parent|\s*Parent*|\s*Uses|\s*Uses*|\s*Modifies|\s*Modifies*|'
-                          r'\s*Calls|\s*Calls*', 'REL_REF'),
+                         (r'\s*Follows\*', 'FOLLOWST'), (r'\s*Parent\*', 'PARENTT'), (r'\s*Modifies\*', 'MODIFIEST'),
+                         (r'\s*Uses\*', 'USEST'), (r'\s*Calls\*', 'CALLST'),
                          (r"\s*Follows", 'FOLLOWS'), (r'\s*Parent', 'PARENT'), (r'\s*Modifies', 'MODIFIES'),
-                         (r'\s*Uses', 'USES'), (r'\s*CallS', 'CALLS'),
-                         (r'\s*Follows*', 'FOLLOWST'), (r'\s*Parent*', 'PARENTT'), (r'\s*Modifies*', 'MODIFIEST'),
-                         (r'\s*Uses*', 'USEST'), (r'\s*CallS*', 'CALLST'),
+                         (r'\s*Uses', 'USES'), (r'\s*Calls', 'CALLS'),
                          (r'\s*\(', 'OPEN_PARENTHESIS'), (r'\s*\)', 'CLOSE_PARENTHESIS'), (r'\s*;', 'SEMICOLON'),
                          (r"\s*=", "EQUALS_SIGN"),
                          (r'\s*_', 'EVERYTHING'), (r'\s*"', 'QUOTE'),
                          (r'\s*while|\s*assign|\s*stmt|\s*variable|\s*constant|\s*prog_line', 'DECLARATION'),
-                         (r'\s*if', 'IF'), (r'\s*while', 'WHILE'), (r'\s*assign', 'ASSIGN'),
-                         (r'\s*procedure', 'PROCEDURE'), (r'\s*call', 'CALL'), (r'\s*stmt', 'STMT'),
-                         (r'\s*variable', 'VARIABLE'), (r'\s*BOOLEAN', 'BOOLEAN'), (r'\s*constant', 'CONSTANT'),
-                         (r'\s*prog_line', 'PROG_LINE'),
+                         (r'\s*BOOLEAN', 'BOOLEAN'),
                          (r'\s*with', 'WITH'), (r'\s*and', 'AND'),
-                         (r'\s*[A-Za-z]+[A-Za-z0-9#]*', 'IDENT'),
-                         (r'\s*[0-9]+', 'INTEGER'), (r'\s*,', 'COMMA')]
+                         (r'\s*"[A-Za-z]+[A-Za-z0-9#]*"', 'IDENT_QUOTE'), (r'\s*[A-Za-z]+[A-Za-z0-9\#]*', 'IDENT'),
+                         (r'\s*[0-9]+', 'INTEGER'), (r'\s*,', 'COMMA'), (r'\s*\.', 'DOT')]
 
     def __init__(self) -> None:
-        # todo inicjalizacja
-
         self.pos: int = 0
         self.prev_token: Tuple[str, str] = ('', '')
         self.next_token: Tuple[str, str] = ('', '')
@@ -52,15 +45,21 @@ class Parser:
             match = regex.match(query, self.pos)
             if match is not None:
                 if match.group(0):
-                    new_token = (token, match.group(0))
-                    self.pos += len(match.group(0))
-                    break
+                    if self.prev_token[0] != "DOT":
+                        new_token = (token, match.group(0))
+                        self.pos += len(match.group(0))
+                        break
+                    elif token == "IDENT":
+                        new_token = (token, match.group(0))
+                        self.pos += len(match.group(0))
+                        break
+
         return new_token
 
     def parse(self, query: str) -> None:
         self.query: str = query.replace('\n', '')
         self.next_token = self.get_token()
-        self.root.add_child(self.select_cl())
+        self.select_cl()
         self.root.to_string(0)
 
     def stmt_ref(self) -> Node:
@@ -70,29 +69,32 @@ class Parser:
             self.match("EVERYTHING")
         elif self.next_token[0] == "INTEGER":
             self.match("INTEGER")
-        return Node("STMT_REF", self.prev_token[1])
+        return Node(self.prev_token[0], self.prev_token[1])
 
     def ent_ref(self) -> Node:
         if self.next_token[0] == "IDENT":
             self.synonym()
         elif self.next_token[0] == "EVERYTHING":
             self.match("EVERYTHING")
-        elif self.next_token[0] == "":
-            self.match("")
-        return Node("ENT_REF", self.prev_token[1])
+        elif self.next_token[0] == "QUOTE":
+            self.match("IDENT_QUOTE")
 
-    def select_cl(self) -> Node:
-        # declaration
+        return Node(self.prev_token[0], self.prev_token[1])
+
+    def select_cl(self) -> None:
         self.root.add_child(self.design_entity())
         self.match("SELECT")
+        result_node: Node = Node("RESULT")
         self.synonym()
+        result_node.add_child(Node(self.prev_token[0], self.prev_token[1]))
+        self.root.add_child(result_node)
         if self.next_token[0] == "SUCH_THAT":
-            return self.such_that_cl()
-        elif self.next_token[0] == "WITH":
-            return self.with_cl()
+            self.root.add_child(self.such_that_cl())
+        if self.next_token[0] == "WITH":
+            self.root.add_child(self.with_cl())
 
     def declaration(self) -> Node:
-        declaration_list_node: Node = Node(self.prev_token[1].upper())
+        declaration_list_node: Node = Node(self.prev_token[1].upper().strip())
         while self.next_token[0] != "SEMICOLON":
             self.synonym()
             declaration_list_node.add_child(Node("SYNONYM", self.prev_token[1]))
@@ -112,69 +114,98 @@ class Parser:
 
     def such_that_cl(self) -> Node:
         self.match("SUCH_THAT")
-        such_that_node: Node = Node("SUCH_THAT", "")
-        # such_that_node.add_child(self.rel_ref())
+        such_that_node: Node = Node("SUCH_THAT")
+        such_that_node.add_child(self.rel_ref())
         return such_that_node
 
     def rel_ref(self) -> Node:
         if self.next_token[0] == "MODIFIES":
-            return self.modifies()
+            return self.relation_with_other_arguments("MODIFIES")
+        elif self.next_token[0] == "MODIFIEST":
+            return self.relation_with_other_arguments("MODIFIEST")
         elif self.next_token[0] == "USES":
-            return self.uses()
+            return self.relation_with_other_arguments("USES")
+        elif self.next_token[0] == "USEST":
+            return self.relation_with_other_arguments("USEST")
         elif self.next_token[0] == "PARENT":
-            return self.parent()
+            return self.relation_with_the_same_arguments("PARENT")
         elif self.next_token[0] == "PARENTT":
-            return self.parent_t()
+            return self.relation_with_the_same_arguments("PARENTT")
         elif self.next_token[0] == "FOLLOWS":
-            return self.follows()
+            return self.relation_with_the_same_arguments("FOLLOWS")
         elif self.next_token[0] == "FOLLOWST":
-            return self.follows_t()
-        # self.match("REL_REF")
-        # rel_ref_node: Node = Node(self.prev_token[1].upper())
-        # while self.next_token[0] != "CLOSE_PARENTHESIS":
-        #     self.match("OPEN_PARENTHESIS")
-        #     rel_ref_node.add_child()
-        #     declaration_node.add_child(self.declaration())
-        # return declaration_node
+            return self.relation_with_the_same_arguments("FOLLOWST")
 
-    def modifies(self) -> Node:
-        self.match("MODIFIES")
-        modifies_node: Node = Node("MODIFIES")
-        while self.next_token[0] != "CLOSE_PARENTHESIS":
-            self.match("OPEN_PARENTHESIS")
-            modifies_node.add_child(self.stmt_ref())
-            if self.next_token[0] == "COMMA":
-                self.match("COMMA")
-                modifies_node.add_child(self.ent_ref())
-                self.match("CLOSE_PARENTHESIS")
-        return modifies_node
+    def relation_with_the_same_arguments(self, type_node: str) -> Node:
+        self.match(type_node)
+        relation_node: Node = Node(type_node)
+        self.match("OPEN_PARENTHESIS")
+        relation_node.add_child(self.stmt_ref())
+        self.match("COMMA")
+        relation_node.add_child(self.stmt_ref())
+        self.match("CLOSE_PARENTHESIS")
+        if self.next_token[0] == "AND":
+            self.match("AND")
+            relation_node.add_child(self.rel_ref())
+        return relation_node
 
-    def modifies_t(self) -> Node:
-        pass
-
-    def uses(self) -> Node:
-        pass
-
-    def uses_t(self) -> Node:
-        pass
-
-    def parent(self) -> Node:
-        pass
-
-    def parent_t(self) -> Node:
-        pass
-
-    def follows(self) -> Node:
-        pass
-
-    def follows_t(self) -> Node:
-        pass
+    def relation_with_other_arguments(self, type_node: str) -> Node:
+        self.match(type_node)
+        relation_node: Node = Node(type_node)
+        self.match("OPEN_PARENTHESIS")
+        relation_node.add_child(self.stmt_ref())
+        self.match("COMMA")
+        relation_node.add_child(self.ent_ref())
+        self.match("CLOSE_PARENTHESIS")
+        if self.next_token[0] == "AND":
+            self.match("AND")
+            relation_node.add_child(self.rel_ref())
+        return relation_node
 
     def with_cl(self) -> Node:
-        pass
+        self.match("WITH")
+        with_node: Node = Node("WITH")
+        with_node.add_child(self.attribute())
+        return with_node
+
+    def attribute(self) -> Node:
+        self.synonym()
+        synonym_node: Node = Node(self.prev_token[0], self.prev_token[1])
+        synonym_node.add_child(self.attr_name())
+        if self.next_token[0] == "AND":
+            self.match("AND")
+            synonym_node.add_child(self.attribute())
+        return synonym_node
+
+    def attr_name(self) -> Node:
+        self.match("DOT")
+        self.match("IDENT")
+        attr_name_node: Node = Node("ATTR_NAME", self.prev_token[1])
+        attr_name_node.add_child(self.ref())
+        return attr_name_node
+
+    def attribute_value(self) -> Node:
+        self.synonym()
+        synonym_node: Node = Node(self.prev_token[0], self.prev_token[1])
+        synonym_node.add_child(self.attr_name_value())
+        return synonym_node
+
+    def attr_name_value(self) -> Node:
+        self.match("DOT")
+        self.match("IDENT")
+        attr_name_node: Node = Node("ATTR_NAME", self.prev_token[1])
+        return attr_name_node
 
     def ref(self) -> Node:
-        pass
+        self.match("EQUALS_SIGN")
+        ref_node: Node = Node(self.next_token[0], self.next_token[1])
+        if self.next_token[0] == "IDENT_QUOTE":
+            self.match("IDENT_QUOTE")
+        elif self.next_token[0] == "INTEGER":
+            self.match("INTEGER")
+        elif self.next_token[0] == "IDENT":
+            return self.attribute_value()
+        return ref_node
 
     def synonym(self):
         self.match("IDENT")
