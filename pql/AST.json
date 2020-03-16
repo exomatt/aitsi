@@ -1,0 +1,21 @@
+{
+  "children": [
+    {
+      "children": [
+        {
+          "children": [
+          ],
+          "line": 0,
+          "node_type": "STMT_LIST",
+          "value": " {"
+        }
+      ],
+      "line": 0,
+      "node_type": "PROCEDURE",
+      "value": " Second"
+    }
+  ],
+  "line": 0,
+  "node_type": "PROGRAM",
+  "value": "program"
+}
