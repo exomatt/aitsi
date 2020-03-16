@@ -9,9 +9,9 @@ class Parser:
     # znacznik * jest przekształcony na litere T(np. Follows* == FOLLOWST)
     token_expressions = [(r'\s*Select', 'SELECT'), (r'\s*such that', 'SUCH_THAT'),
                          (r'\s*Follows\*', 'FOLLOWST'), (r'\s*Parent\*', 'PARENTT'), (r'\s*Modifies\*', 'MODIFIEST'),
-                         (r'\s*Uses\*', 'USEST'), (r'\s*CallS\*', 'CALLST'),
+                         (r'\s*Uses\*', 'USEST'), (r'\s*Calls\*', 'CALLST'),
                          (r"\s*Follows", 'FOLLOWS'), (r'\s*Parent', 'PARENT'), (r'\s*Modifies', 'MODIFIES'),
-                         (r'\s*Uses', 'USES'), (r'\s*CallS', 'CALLS'),
+                         (r'\s*Uses', 'USES'), (r'\s*Calls', 'CALLS'),
                          (r'\s*\(', 'OPEN_PARENTHESIS'), (r'\s*\)', 'CLOSE_PARENTHESIS'), (r'\s*;', 'SEMICOLON'),
                          (r"\s*=", "EQUALS_SIGN"),
                          (r'\s*_', 'EVERYTHING'), (r'\s*"', 'QUOTE'),
