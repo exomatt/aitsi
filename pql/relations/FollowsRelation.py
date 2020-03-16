@@ -1,15 +1,27 @@
-from typing import List
+from typing import List, Optional, Union
+
+from pql.Node import Node
+from pql.utils.SearchUtils import SearchUtils
 
 
 class FollowsRelation:
-    def __init__(self) -> None:
-        pass
+    def __init__(self, ast_tree: Node) -> None:
+        super().__init__()
+        self.ast_tree: Node = ast_tree
 
     def follows(self, param_first: str, param_second: str) -> List[int]:
+        search_utils: SearchUtils = SearchUtils(self.ast_tree)
         if param_first.isdigit():
             if param_second.isdigit():
                 pass
                 # p1 i p2 sa liczbami
+                p1_node: Optional[Node] = search_utils.find_node_by_line(int(param_first))
+                p2_node: Optional[Node] = search_utils.find_node_by_line(int(param_second))
+                if p1_node is None or p2_node is None:
+                    return False
+                else:
+
+                    stmt_list: List[Node] = []
                 # if p1 i p2 sa w tej samej stmt_lst
                 # if p1+1 = p2
             else:
@@ -30,7 +42,7 @@ class FollowsRelation:
                 # linia p1+1 = linia p2
                 pass
 
-    def followsT(self, param_first: str, param_second: str) -> List[int]:
+    def follows_t(self, param_first: str, param_second: str) -> List[int]:
         if param_first.isdigit():
             if param_second.isdigit():
                 pass
