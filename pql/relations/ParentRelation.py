@@ -62,7 +62,6 @@ class ParentRelation:
                     nodes_by_type.extend(search_utils.find_node_by_type('WHILE'))
                     nodes_by_type.extend(search_utils.find_node_by_type('IF'))
                     return self._check_if_nodes_contain_line(nodes_by_type, param_second)
-                    pass
                 elif param_first in ['IF', 'WHILE']:
                     nodes_by_type: List[Node] = search_utils.find_node_by_type(param_first)
                     return self._check_if_nodes_contain_line(nodes_by_type, param_second)
@@ -70,9 +69,50 @@ class ParentRelation:
                     return False
             else:
                 # p1 i p2 nie sa liczbami
-                pass
+                if param_first == '_' and param_second == '_':
+                    nodes_by_type: List[Node] = []
+                    nodes_by_type.extend(search_utils.find_node_by_type('WHILE'))
+                    nodes_by_type.extend(search_utils.find_node_by_type('IF'))
+                    return self._get_all_childs_lines_from_stmtlist(nodes_by_type)
+                elif param_first == '_':
+                    nodes_by_type: List[Node] = []
+                    nodes_by_type.extend(search_utils.find_node_by_type('WHILE'))
+                    nodes_by_type.extend(search_utils.find_node_by_type('IF'))
+                    return self._get_all_lines_by_type_from_stmtlist(nodes_by_type, param_second)
+                elif param_first in ['IF', 'WHILE']:
+                    nodes_by_type: List[Node] = search_utils.find_node_by_type(param_first)
+                    if param_second == '_':
+                        return self._get_all_childs_lines_from_stmtlist(nodes_by_type)
+                    else:
+                        return self._get_all_lines_by_type_from_stmtlist(nodes_by_type, param_second)
+                else:
+                    return False
 
-    def _check_if_nodes_contain_line(self, nodes_by_type, param_second):
+    def _get_all_lines_by_type_from_stmtlist(self, nodes_by_type, param_second) -> List[int]:
+        stmt_list: List[Node] = []
+        result_lines: List[int] = []
+        for node in nodes_by_type:
+            for children in node.children:
+                if children.node_type == 'STMT_LIST':
+                    stmt_list.extend(children.children)
+        for stmt in stmt_list:
+            if stmt.node_type == param_second:
+                result_lines.append(stmt.line)
+        return result_lines
+
+    def _get_all_childs_lines_from_stmtlist(self, nodes_by_type) -> List[int]:
+        stmt_list: List[Node] = []
+        result_lines: List[int] = []
+        for node in nodes_by_type:
+            for children in node.children:
+                if children.node_type == 'STMT_LIST':
+                    stmt_list.extend(children.children)
+        for stmt in stmt_list:
+            if stmt.line != 0:
+                result_lines.append(stmt.line)
+        return result_lines
+
+    def _check_if_nodes_contain_line(self, nodes_by_type, param_second) -> bool:
         stmt_list: List[Node] = []
         for node in nodes_by_type:
             for children in node.children:

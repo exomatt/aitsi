@@ -43,7 +43,13 @@ if __name__ == '__main__':
     test_3 = parent_rel.parent('8', 'WHILE')
 
     test_4 = parent_rel.parent('IF', '18')
-    test_5 = parent_rel.parent('_', '16')
+    test_5 = parent_rel.parent('_', '9')
+    test_6 = parent_rel.parent('_', '_')
+    test_7 = parent_rel.parent('_', 'CALL')
+    test_8 = parent_rel.parent('IF', 'CALL')
+    test_9 = parent_rel.parent('_', 'ASSIGN')
+    test_10 = parent_rel.parent('_', 'WHILE')
+    test_11 = parent_rel.parent('IF', '_')
 
     query: str = load_query_from_file(input_query_filename)
 
