@@ -88,7 +88,7 @@ class ParentRelation:
                 else:
                     return False
 
-    def _get_all_lines_by_type_from_stmtlist(self, nodes_by_type, param_second):
+    def _get_all_lines_by_type_from_stmtlist(self, nodes_by_type, param_second) -> List[int]:
         stmt_list: List[Node] = []
         result_lines: List[int] = []
         for node in nodes_by_type:
@@ -100,7 +100,7 @@ class ParentRelation:
                 result_lines.append(stmt.line)
         return result_lines
 
-    def _get_all_childs_lines_from_stmtlist(self, nodes_by_type):
+    def _get_all_childs_lines_from_stmtlist(self, nodes_by_type) -> List[int]:
         stmt_list: List[Node] = []
         result_lines: List[int] = []
         for node in nodes_by_type:
