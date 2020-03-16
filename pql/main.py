@@ -5,6 +5,7 @@ from typing import Dict
 from pql.Node import Node
 from pql.QueryEvaluator import QueryEvaluator
 from pql.QueryProcessor import QueryProcessor
+from pql.relations.ParentRelation import ParentRelation
 
 
 def load_ast_from_file(filename: str) -> Node:
@@ -35,6 +36,15 @@ if __name__ == '__main__':
     output_query_filename: str = args.o
 
     ast_node: Node = load_ast_from_file(input_ast_filename)
+    parent_rel: ParentRelation = ParentRelation(ast_node)
+    is_parent: bool = parent_rel.parent('8', '9')
+    test_1 = parent_rel.parent('8', '_')
+    test_2 = parent_rel.parent('8', 'CALL')
+    test_3 = parent_rel.parent('8', 'WHILE')
+
+    test_4 = parent_rel.parent('IF', '18')
+    test_5 = parent_rel.parent('_', '16')
+
     query: str = load_query_from_file(input_query_filename)
 
     query_processor: QueryProcessor = QueryProcessor()
