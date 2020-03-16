@@ -1,0 +1,59 @@
+{
+  "children": [
+    {
+      "children": [
+        {
+          "children": [
+            {
+              "children": [],
+              "line": 0,
+              "node_type": "SYNONYM",
+              "value": " a#"
+            }
+          ],
+          "line": 0,
+          "node_type": "STMT",
+          "value": ""
+        },
+        {
+          "children": [
+            {
+              "children": [],
+              "line": 0,
+              "node_type": "SYNONYM",
+              "value": " a"
+            }
+          ],
+          "line": 0,
+          "node_type": " ASSIGN",
+          "value": ""
+        },
+        {
+          "children": [
+            {
+              "children": [],
+              "line": 0,
+              "node_type": "SYNONYM",
+              "value": " v"
+            }
+          ],
+          "line": 0,
+          "node_type": " WHILE",
+          "value": ""
+        }
+      ],
+      "line": 0,
+      "node_type": "DECLARATION",
+      "value": ""
+    },
+    {
+      "children": [],
+      "line": 0,
+      "node_type": "SUCH_THAT",
+      "value": ""
+    }
+  ],
+  "line": 0,
+  "node_type": "QUERY",
+  "value": "query"
+}

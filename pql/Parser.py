@@ -1,5 +1,6 @@
+import json
 import re
-from typing import Tuple
+from typing import Tuple, Dict
 
 from pql.Node import Node
 
@@ -177,3 +178,8 @@ class Parser:
 
     def synonym(self):
         self.match("IDENT")
+
+    def get_node_json(self) -> Dict[str, dict]:
+        json_str = Node.Schema().dumps(self.root)
+        json_dict: Dict[str, dict] = json.loads(json_str)
+        return json_dict
