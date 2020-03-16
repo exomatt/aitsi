@@ -25,7 +25,7 @@
             }
           ],
           "line": 0,
-          "node_type": " ASSIGN",
+          "node_type": "ASSIGN",
           "value": ""
         },
         {
@@ -38,7 +38,7 @@
             }
           ],
           "line": 0,
-          "node_type": " WHILE",
+          "node_type": "WHILE",
           "value": ""
         }
       ],
@@ -47,9 +47,153 @@
       "value": ""
     },
     {
-      "children": [],
+      "children": [
+        {
+          "children": [],
+          "line": 0,
+          "node_type": "IDENT",
+          "value": " v"
+        }
+      ],
+      "line": 0,
+      "node_type": "RESULT",
+      "value": ""
+    },
+    {
+      "children": [
+        {
+          "children": [
+            {
+              "children": [],
+              "line": 0,
+              "node_type": "IDENT",
+              "value": "a"
+            },
+            {
+              "children": [],
+              "line": 0,
+              "node_type": "IDENT",
+              "value": " v"
+            },
+            {
+              "children": [
+                {
+                  "children": [],
+                  "line": 0,
+                  "node_type": "IDENT",
+                  "value": "a"
+                },
+                {
+                  "children": [],
+                  "line": 0,
+                  "node_type": "IDENT",
+                  "value": " v"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [],
+                      "line": 0,
+                      "node_type": "IDENT",
+                      "value": "a"
+                    },
+                    {
+                      "children": [],
+                      "line": 0,
+                      "node_type": "IDENT",
+                      "value": " v"
+                    },
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "line": 0,
+                          "node_type": "IDENT",
+                          "value": "a"
+                        },
+                        {
+                          "children": [],
+                          "line": 0,
+                          "node_type": "IDENT",
+                          "value": " v"
+                        }
+                      ],
+                      "line": 0,
+                      "node_type": "MODIFIEST",
+                      "value": ""
+                    }
+                  ],
+                  "line": 0,
+                  "node_type": "PARENTT",
+                  "value": ""
+                }
+              ],
+              "line": 0,
+              "node_type": "FOLLOWS",
+              "value": ""
+            }
+          ],
+          "line": 0,
+          "node_type": "PARENT",
+          "value": ""
+        }
+      ],
       "line": 0,
       "node_type": "SUCH_THAT",
+      "value": ""
+    },
+    {
+      "children": [
+        {
+          "children": [
+            {
+              "children": [
+                {
+                  "children": [],
+                  "line": 0,
+                  "node_type": "INTEGER",
+                  "value": " 2"
+                }
+              ],
+              "line": 0,
+              "node_type": "ATTR_NAME",
+              "value": "value"
+            },
+            {
+              "children": [
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "line": 0,
+                          "node_type": "ATTR_NAME",
+                          "value": "value"
+                        }
+                      ],
+                      "line": 0,
+                      "node_type": "IDENT",
+                      "value": " c"
+                    }
+                  ],
+                  "line": 0,
+                  "node_type": "ATTR_NAME",
+                  "value": "stmt#"
+                }
+              ],
+              "line": 0,
+              "node_type": "IDENT",
+              "value": " s"
+            }
+          ],
+          "line": 0,
+          "node_type": "IDENT",
+          "value": " c"
+        }
+      ],
+      "line": 0,
+      "node_type": "WITH",
       "value": ""
     }
   ],

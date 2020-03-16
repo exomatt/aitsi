@@ -1,1 +1,1 @@
-stmt a#; assign a; while v; Select v such that Parent (a, v) and Follows (a, v) and Parent* (a, v) and Modifies* (a, v) with s1.stmt#= 5
+stmt a#; assign a; while v; Select v such that Parent (a, v) and Follows (a, v) and Parent* (a, v) and Modifies* (a, v) with c.value = 2 and s.stmt# = c.value
