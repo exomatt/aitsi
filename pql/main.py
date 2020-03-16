@@ -41,6 +41,9 @@ if __name__ == '__main__':
     test_2 = parent_rel.parent('8', 'CALL')
     test_3 = parent_rel.parent('8', 'WHILE')
 
+    test_4 = parent_rel.parent('IF', '18')
+    test_5 = parent_rel.parent('_', '16')
+
     query: str = load_query_from_file(input_query_filename)
 
     parser: QueryProcessor = QueryProcessor()

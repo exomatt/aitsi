@@ -36,3 +36,18 @@ class SearchUtils:
                 else:
                     s_list.extend(node.children)
         return None
+
+    def find_node_by_type(self, node_type: str) -> List[Node]:
+        results: List[Node] = []
+        s_list: List[Node] = []
+        if self.ast_tree.node_type == node_type:
+            results.append(self.ast_tree)
+
+        s_list.extend(self.ast_tree.children)
+        while s_list:
+            node: Node = s_list.pop()
+            if node.node_type == node_type:
+                results.append(node)
+            s_list.extend(node.children)
+
+        return results
