@@ -1,6 +1,6 @@
 from typing import Dict
 
-from Parser import Parser
+from parser.Parser import Parser
 import json
 import argparse
 
