@@ -40,8 +40,9 @@ class ModifiesRelation:
                     return []
                 elif node.node_type == 'ASSIGN':
                     for children in node.children:
-                        if children.node_type == 'NAME' and children.value == param_second:
-                            return [children.line]  # fixme dodc ze tylko dziecko po lewej stronie
+                        if children.node_type == 'NAME':
+                            if children.value == param_second:
+                                return [children.line]
                 return []
 
         elif param_first == '_':
@@ -54,6 +55,7 @@ class ModifiesRelation:
                         for children in stmt.children:
                             if children.node_type == 'NAME':
                                 result_lines.append(children.line)
+                                break
 
                 return result_lines
                 pass
@@ -72,8 +74,10 @@ class ModifiesRelation:
                 for stmt in stmt_list:
                     if stmt.node_type == 'ASSIGN':
                         for children in stmt.children:
-                            if children.node_type == 'NAME' and children.value.strip() == param_second:
-                                result_lines.append(children.line)
+                            if children.node_type == 'NAME':
+                                if children.value.strip() == param_second:
+                                    result_lines.append(children.line)
+                                break
                 return result_lines
         else:
             if param_second == '_':
@@ -85,6 +89,7 @@ class ModifiesRelation:
                         for children in stmt.children:
                             if children.node_type == 'NAME':
                                 result_lines.append(children.line)
+                            break
                 return result_lines
             elif param_second == 'VARIABLE':
                 # wedlug handbooka to kiedy jest if i while to zwracamy wszystkie modyfikowane  zmienne
@@ -100,8 +105,10 @@ class ModifiesRelation:
                 for stmt in stmt_list:
                     if stmt.node_type == 'ASSIGN':
                         for children in stmt.children:
-                            if children.node_type == 'NAME' and children.value.strip() == param_second:
-                                result_lines.append(children.line)
+                            if children.node_type == 'NAME':
+                                if children.value.strip() == param_second:
+                                    result_lines.append(children.line)
+                                break
                 return result_lines
 
     def _get_stmt_list_by_param(self, param_first, search_utils) -> List[Node]:
@@ -125,6 +132,7 @@ class ModifiesRelation:
                 for children in stmt.children:
                     if children.node_type == 'NAME':
                         result_lines.add(children.value.strip())
+                    break
         return list(result_lines)
 
     def _get_all_stmt_list_in_procedure(self, search_utils) -> List[Node]:
