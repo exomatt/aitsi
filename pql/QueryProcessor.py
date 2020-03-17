@@ -15,7 +15,8 @@ class QueryProcessor:
                          (r'\s*\(', 'OPEN_PARENTHESIS'), (r'\s*\)', 'CLOSE_PARENTHESIS'), (r'\s*;', 'SEMICOLON'),
                          (r"\s*=", "EQUALS_SIGN"),
                          (r'\s*_', 'EVERYTHING'),
-                         (r'\s*while|\s*assign|\s*stmt|\s*variable|\s*constant|\s*prog_line', 'DECLARATION'),
+                         (r'\s*while|\s*assign|\s*stmt|\s*variable|\s*constant|\s*prog_line|\s*call|\s*if',
+                          'DECLARATION'),
                          (r'\s*BOOLEAN', 'BOOLEAN'),
                          (r'\s*with', 'WITH'), (r'\s*and', 'AND'),
                          (r'\s*"[A-Za-z]+[A-Za-z0-9#]*"', 'IDENT_QUOTE'), (r'\s*[A-Za-z]+[A-Za-z0-9\#]*', 'IDENT'),
@@ -70,7 +71,7 @@ class QueryProcessor:
             self.match("EVERYTHING")
         elif self.next_token[0] == "INTEGER":
             self.match("INTEGER")
-        return Node(self.prev_token[0], self.prev_token[1])
+        return Node(self.prev_token[0].strip(), self.prev_token[1].strip())
 
     def ent_ref(self) -> Node:
         if self.next_token[0] == "IDENT":
@@ -80,14 +81,17 @@ class QueryProcessor:
         elif self.next_token[0] == "IDENT_QUOTE":
             self.match("IDENT_QUOTE")
 
-        return Node(self.prev_token[0], self.prev_token[1])
+        return Node(self.prev_token[0].strip(), self.prev_token[1].strip())
 
     def select_cl(self) -> None:
         self.root.add_child(self.design_entity())
         self.match("SELECT")
         result_node: Node = Node("RESULT")
-        self.synonym()
-        result_node.add_child(Node(self.prev_token[0], self.prev_token[1]))
+        if self.next_token[0] == 'BOOLEAN':
+            self.match('BOOLEAN')
+        else:
+            self.synonym()
+        result_node.add_child(Node(self.prev_token[0].strip(), self.prev_token[1].strip()))
         self.root.add_child(result_node)
         if self.next_token[0] == "SUCH_THAT":
             self.root.add_child(self.such_that_cl())
@@ -98,7 +102,7 @@ class QueryProcessor:
         declaration_list_node: Node = Node(self.prev_token[1].upper().strip())
         while self.next_token[0] != "SEMICOLON":
             self.synonym()
-            declaration_list_node.add_child(Node("SYNONYM", self.prev_token[1]))
+            declaration_list_node.add_child(Node("SYNONYM", self.prev_token[1].strip()))
             if self.next_token[0] == "COMMA":
                 self.match("COMMA")
         self.match("SEMICOLON")

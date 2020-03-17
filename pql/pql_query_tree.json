@@ -8,37 +8,37 @@
               "children": [],
               "line": 0,
               "node_type": "SYNONYM",
-              "value": " a#"
-            }
-          ],
-          "line": 0,
-          "node_type": "STMT",
-          "value": ""
-        },
-        {
-          "children": [
-            {
-              "children": [],
-              "line": 0,
-              "node_type": "SYNONYM",
-              "value": " a"
-            }
-          ],
-          "line": 0,
-          "node_type": "ASSIGN",
-          "value": ""
-        },
-        {
-          "children": [
-            {
-              "children": [],
-              "line": 0,
-              "node_type": "SYNONYM",
-              "value": " v"
+              "value": "w"
             }
           ],
           "line": 0,
           "node_type": "WHILE",
+          "value": ""
+        },
+        {
+          "children": [
+            {
+              "children": [],
+              "line": 0,
+              "node_type": "SYNONYM",
+              "value": "v"
+            }
+          ],
+          "line": 0,
+          "node_type": "VARIABLE",
+          "value": ""
+        },
+        {
+          "children": [
+            {
+              "children": [],
+              "line": 0,
+              "node_type": "SYNONYM",
+              "value": "s"
+            }
+          ],
+          "line": 0,
+          "node_type": "STMT",
           "value": ""
         }
       ],
@@ -52,7 +52,7 @@
           "children": [],
           "line": 0,
           "node_type": "IDENT",
-          "value": " v"
+          "value": "v"
         }
       ],
       "line": 0,
@@ -66,71 +66,14 @@
             {
               "children": [],
               "line": 0,
-              "node_type": "EVERYTHING",
-              "value": "_"
+              "node_type": "IDENT",
+              "value": "w"
             },
             {
               "children": [],
               "line": 0,
-              "node_type": "IDENT",
-              "value": " v"
-            },
-            {
-              "children": [
-                {
-                  "children": [],
-                  "line": 0,
-                  "node_type": "IDENT",
-                  "value": "a"
-                },
-                {
-                  "children": [],
-                  "line": 0,
-                  "node_type": "IDENT",
-                  "value": " v"
-                },
-                {
-                  "children": [
-                    {
-                      "children": [],
-                      "line": 0,
-                      "node_type": "IDENT",
-                      "value": "a"
-                    },
-                    {
-                      "children": [],
-                      "line": 0,
-                      "node_type": "IDENT",
-                      "value": " v"
-                    },
-                    {
-                      "children": [
-                        {
-                          "children": [],
-                          "line": 0,
-                          "node_type": "IDENT",
-                          "value": "a"
-                        },
-                        {
-                          "children": [],
-                          "line": 0,
-                          "node_type": "IDENT_QUOTE",
-                          "value": " \"v\""
-                        }
-                      ],
-                      "line": 0,
-                      "node_type": "MODIFIEST",
-                      "value": ""
-                    }
-                  ],
-                  "line": 0,
-                  "node_type": "PARENTT",
-                  "value": ""
-                }
-              ],
-              "line": 0,
-              "node_type": "FOLLOWS",
-              "value": ""
+              "node_type": "EVERYTHING",
+              "value": "_"
             }
           ],
           "line": 0,
@@ -140,60 +83,6 @@
       ],
       "line": 0,
       "node_type": "SUCH_THAT",
-      "value": ""
-    },
-    {
-      "children": [
-        {
-          "children": [
-            {
-              "children": [
-                {
-                  "children": [],
-                  "line": 0,
-                  "node_type": "INTEGER",
-                  "value": " 2"
-                }
-              ],
-              "line": 0,
-              "node_type": "ATTR_NAME",
-              "value": "value"
-            },
-            {
-              "children": [
-                {
-                  "children": [
-                    {
-                      "children": [
-                        {
-                          "children": [],
-                          "line": 0,
-                          "node_type": "ATTR_NAME",
-                          "value": "value"
-                        }
-                      ],
-                      "line": 0,
-                      "node_type": "IDENT",
-                      "value": " c"
-                    }
-                  ],
-                  "line": 0,
-                  "node_type": "ATTR_NAME",
-                  "value": "stmt#"
-                }
-              ],
-              "line": 0,
-              "node_type": "IDENT",
-              "value": " s"
-            }
-          ],
-          "line": 0,
-          "node_type": "IDENT",
-          "value": " c"
-        }
-      ],
-      "line": 0,
-      "node_type": "WITH",
       "value": ""
     }
   ],
