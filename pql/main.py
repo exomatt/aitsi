@@ -3,9 +3,9 @@ import json
 from typing import Dict
 
 from pql.Node import Node
-from pql.QueryProcessor import QueryProcessor
-from pql.relations.ModifiesRelation import ModifiesRelation
+from pql.QueryEvaluator import QueryEvaluator
 from pql.relations.ParentRelation import ParentRelation
+from pql.relations.FollowsRelation import FollowsRelation
 
 
 def load_ast_from_file(filename: str) -> Node:
@@ -70,8 +70,12 @@ if __name__ == '__main__':
 
     query: str = load_query_from_file(input_query_filename)
 
-    parser: QueryProcessor = QueryProcessor()
-    parser.generate_query_tree(query)
-    query_tree: Dict[str, dict] = parser.get_node_json()
+    query_processor: QueryProcessor = QueryProcessor()
+    query_processor.generate_query_tree(query)
+    query_tree: Dict[str, dict] = query_processor.get_node_json()
+
+    query_evaluator: QueryEvaluator = QueryEvaluator()
+    response = query_evaluator.generate_result(query_processor.root, ast_node)
+    print(response)
 
     export_query_tree_to_file(query_tree)
