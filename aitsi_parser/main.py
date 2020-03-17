@@ -2,7 +2,7 @@ import argparse
 import json
 from typing import Dict
 
-from parser.Parser import Parser
+from aitsi_parser.Parser import Parser
 
 
 def export_AST_to_file(json_ast: Dict[str, dict], filename: str = "AST.json") -> None:
@@ -30,3 +30,5 @@ if __name__ == '__main__':
     json_tree: Dict[str, dict] = parser.get_node_json()
     print(json_tree)
     export_AST_to_file(json_tree, output_filename)
+    var_table = parser.var_table
+    print(var_table)
