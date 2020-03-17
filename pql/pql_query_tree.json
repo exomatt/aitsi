@@ -52,7 +52,7 @@
           "children": [],
           "line": 0,
           "node_type": "IDENT",
-          "value": "s"
+          "value": "v"
         }
       ],
       "line": 0,
@@ -66,18 +66,18 @@
             {
               "children": [],
               "line": 0,
-              "node_type": "INTEGER",
-              "value": "1"
+              "node_type": "IDENT",
+              "value": "w"
             },
             {
               "children": [],
               "line": 0,
-              "node_type": "COMMA",
-              "value": ","
+              "node_type": "EVERYTHING",
+              "value": "_"
             }
           ],
           "line": 0,
-          "node_type": "MODIFIES",
+          "node_type": "PARENT",
           "value": ""
         }
       ],
