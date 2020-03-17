@@ -1,6 +1,7 @@
 from typing import List
 
 from pql.Node import Node
+from pql.relations.FollowsRelation import FollowsRelation
 from pql.relations.ParentRelation import ParentRelation
 from pql.utils.SearchUtils import SearchUtils
 
