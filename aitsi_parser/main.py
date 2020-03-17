@@ -30,5 +30,4 @@ if __name__ == '__main__':
     json_tree: Dict[str, dict] = parser.get_node_json()
     print(json_tree)
     export_AST_to_file(json_tree, output_filename)
-    var_table = parser.var_table
-    print(var_table)
+    parser.var_table.to_string()

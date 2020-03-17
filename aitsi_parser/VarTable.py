@@ -32,7 +32,7 @@ class VarTable:
     def is_in(self, var_name: str) -> bool:
         return var_name in self.table.keys()
 
-    def to_string(self, i: int) -> None:
+    def to_string(self) -> None:
         print("VarTable:")
         for key, value in self.table.items():
             print("Index: " + str(self.get_var_index(key)) + ";\tVar_name: " + key + ";\tOther_info: " + str(value))
