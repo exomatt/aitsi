@@ -66,6 +66,7 @@ if __name__ == '__main__':
     mod_test_13 = modifies_rel.modifies('WHILE', 'VARIABLE')
     mod_test_14 = modifies_rel.modifies('WHILE', 'd')
     mod_test_15 = modifies_rel.modifies('_', 'VARIABLE')
+    mod_test_16 = modifies_rel.modifies('_', 'i')
 
     query: str = load_query_from_file(input_query_filename)
 

@@ -41,7 +41,7 @@ class ModifiesRelation:
                 elif node.node_type == 'ASSIGN':
                     for children in node.children:
                         if children.node_type == 'NAME' and children.value == param_second:
-                            return [children.line]
+                            return [children.line]  # fixme dodc ze tylko dziecko po lewej stronie
                 return []
 
         elif param_first == '_':
