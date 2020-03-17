@@ -17,7 +17,7 @@ class Node:
     def __init__(self, node_type: str = '', value: str = '', line: int = 0, children: List = None) -> None:
         if children is None:
             children = []
-        self.children: List[Node] = list()
+        self.children: List[Node] = children
         self.node_type: str = node_type
         self.value: str = value
         self.line: int = line

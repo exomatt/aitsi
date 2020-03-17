@@ -2,7 +2,8 @@ import json
 import re
 from typing import Tuple, Dict
 
-from parser.Node import Node
+from aitsi_parser.Node import Node
+from aitsi_parser.VarTable import VarTable
 
 
 class Parser:
@@ -15,11 +16,12 @@ class Parser:
 
     def __init__(self, code: str) -> None:
         self.code: str = code.replace('\n', '')
+        self.current_line: int = 0
+        self.next_token: Tuple[str, str] = ('', '')  # np.("NAME","x")
         self.pos: int = 0
         self.prev_token: Tuple[str, str] = ('', '')  # np.("ASSIGN")
-        self.next_token: Tuple[str, str] = ('', '')  # np.("NAME","x")
         self.root: Node = Node("PROGRAM", "program")
-        self.current_line: int = 0
+        self.var_table: VarTable = VarTable()
 
     def match(self, token: str) -> None:
         if self.next_token[0] == token:
@@ -97,6 +99,7 @@ class Parser:
         assign_node: Node = Node("ASSIGN", line=self.current_line)
         self.match("NAME")
         assign_node.add_child(Node(self.prev_token[0], self.prev_token[1], self.current_line))
+        self.var_table.insert_var(self.prev_token[1])
         self.match("ASSIGN")
         assign_node.add_child(self.expression())
         self.match("SEMICOLON")
