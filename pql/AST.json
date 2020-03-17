@@ -10,13 +10,13 @@
                   "children": [],
                   "line": 1,
                   "node_type": "NAME",
-                  "value": "t"
+                  "value": "x"
                 },
                 {
                   "children": [],
                   "line": 1,
                   "node_type": "INTEGER",
-                  "value": " 1"
+                  "value": " 0"
                 }
               ],
               "line": 1,
@@ -29,26 +29,13 @@
                   "children": [],
                   "line": 2,
                   "node_type": "NAME",
-                  "value": "a"
+                  "value": "i"
                 },
                 {
-                  "children": [
-                    {
-                      "children": [],
-                      "line": 2,
-                      "node_type": "NAME",
-                      "value": " t"
-                    },
-                    {
-                      "children": [],
-                      "line": 2,
-                      "node_type": "INTEGER",
-                      "value": " 10"
-                    }
-                  ],
+                  "children": [],
                   "line": 2,
-                  "node_type": "PLUS",
-                  "value": ""
+                  "node_type": "INTEGER",
+                  "value": " 5"
                 }
               ],
               "line": 2,
@@ -61,39 +48,13 @@
                   "children": [],
                   "line": 3,
                   "node_type": "NAME",
-                  "value": "d"
+                  "value": "x"
                 },
                 {
-                  "children": [
-                    {
-                      "children": [],
-                      "line": 3,
-                      "node_type": "NAME",
-                      "value": " t"
-                    },
-                    {
-                      "children": [
-                        {
-                          "children": [],
-                          "line": 3,
-                          "node_type": "NAME",
-                          "value": " a"
-                        },
-                        {
-                          "children": [],
-                          "line": 3,
-                          "node_type": "INTEGER",
-                          "value": " 2"
-                        }
-                      ],
-                      "line": 3,
-                      "node_type": "PLUS",
-                      "value": ""
-                    }
-                  ],
+                  "children": [],
                   "line": 3,
-                  "node_type": "MULTIPLY",
-                  "value": ""
+                  "node_type": "NAME",
+                  "value": " i"
                 }
               ],
               "line": 3,
@@ -101,79 +62,106 @@
               "value": ""
             },
             {
-              "children": [],
+              "children": [
+                {
+                  "children": [],
+                  "line": 4,
+                  "node_type": "NAME",
+                  "value": " i"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "line": 5,
+                          "node_type": "NAME",
+                          "value": "x"
+                        },
+                        {
+                          "children": [
+                            {
+                              "children": [],
+                              "line": 5,
+                              "node_type": "NAME",
+                              "value": " x"
+                            },
+                            {
+                              "children": [
+                                {
+                                  "children": [],
+                                  "line": 5,
+                                  "node_type": "INTEGER",
+                                  "value": " 2"
+                                },
+                                {
+                                  "children": [],
+                                  "line": 5,
+                                  "node_type": "NAME",
+                                  "value": "y"
+                                }
+                              ],
+                              "line": 5,
+                              "node_type": "MULTIPLY",
+                              "value": ""
+                            }
+                          ],
+                          "line": 5,
+                          "node_type": "PLUS",
+                          "value": ""
+                        }
+                      ],
+                      "line": 5,
+                      "node_type": "ASSIGN",
+                      "value": ""
+                    },
+                    {
+                      "children": [],
+                      "line": 6,
+                      "node_type": "CALL",
+                      "value": " Third"
+                    },
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "line": 7,
+                          "node_type": "NAME",
+                          "value": "i"
+                        },
+                        {
+                          "children": [
+                            {
+                              "children": [],
+                              "line": 7,
+                              "node_type": "NAME",
+                              "value": " i"
+                            },
+                            {
+                              "children": [],
+                              "line": 7,
+                              "node_type": "INTEGER",
+                              "value": " 1"
+                            }
+                          ],
+                          "line": 7,
+                          "node_type": "MINUS",
+                          "value": ""
+                        }
+                      ],
+                      "line": 7,
+                      "node_type": "ASSIGN",
+                      "value": ""
+                    }
+                  ],
+                  "line": 0,
+                  "node_type": "STMT_LIST",
+                  "value": " {"
+                }
+              ],
               "line": 4,
-              "node_type": "CALL",
-              "value": " Triangle"
-            },
-            {
-              "children": [
-                {
-                  "children": [],
-                  "line": 5,
-                  "node_type": "NAME",
-                  "value": "b"
-                },
-                {
-                  "children": [
-                    {
-                      "children": [],
-                      "line": 5,
-                      "node_type": "NAME",
-                      "value": " t"
-                    },
-                    {
-                      "children": [],
-                      "line": 5,
-                      "node_type": "NAME",
-                      "value": " a"
-                    }
-                  ],
-                  "line": 5,
-                  "node_type": "PLUS",
-                  "value": ""
-                }
-              ],
-              "line": 5,
-              "node_type": "ASSIGN",
-              "value": ""
-            },
-            {
-              "children": [],
-              "line": 6,
-              "node_type": "CALL",
-              "value": " Hexagon"
-            },
-            {
-              "children": [
-                {
-                  "children": [],
-                  "line": 7,
-                  "node_type": "NAME",
-                  "value": "b"
-                },
-                {
-                  "children": [
-                    {
-                      "children": [],
-                      "line": 7,
-                      "node_type": "NAME",
-                      "value": " t"
-                    },
-                    {
-                      "children": [],
-                      "line": 7,
-                      "node_type": "NAME",
-                      "value": " a"
-                    }
-                  ],
-                  "line": 7,
-                  "node_type": "PLUS",
-                  "value": ""
-                }
-              ],
-              "line": 7,
-              "node_type": "ASSIGN",
+              "node_type": "WHILE",
               "value": ""
             },
             {
@@ -182,7 +170,7 @@
                   "children": [],
                   "line": 8,
                   "node_type": "NAME",
-                  "value": " t"
+                  "value": " x"
                 },
                 {
                   "children": [
@@ -192,7 +180,7 @@
                           "children": [],
                           "line": 9,
                           "node_type": "NAME",
-                          "value": "k"
+                          "value": "x"
                         },
                         {
                           "children": [
@@ -200,137 +188,21 @@
                               "children": [],
                               "line": 9,
                               "node_type": "NAME",
-                              "value": " a"
+                              "value": " x"
                             },
                             {
                               "children": [],
                               "line": 9,
-                              "node_type": "NAME",
-                              "value": " d"
+                              "node_type": "INTEGER",
+                              "value": "1"
                             }
                           ],
                           "line": 9,
-                          "node_type": "MINUS",
-                          "value": ""
-                        }
-                      ],
-                      "line": 9,
-                      "node_type": "ASSIGN",
-                      "value": ""
-                    },
-                    {
-                      "children": [
-                        {
-                          "children": [],
-                          "line": 10,
-                          "node_type": "NAME",
-                          "value": " c"
-                        },
-                        {
-                          "children": [
-                            {
-                              "children": [
-                                {
-                                  "children": [],
-                                  "line": 11,
-                                  "node_type": "NAME",
-                                  "value": "d"
-                                },
-                                {
-                                  "children": [
-                                    {
-                                      "children": [],
-                                      "line": 11,
-                                      "node_type": "NAME",
-                                      "value": " d"
-                                    },
-                                    {
-                                      "children": [],
-                                      "line": 11,
-                                      "node_type": "NAME",
-                                      "value": " t"
-                                    }
-                                  ],
-                                  "line": 11,
-                                  "node_type": "PLUS",
-                                  "value": ""
-                                }
-                              ],
-                              "line": 11,
-                              "node_type": "ASSIGN",
-                              "value": ""
-                            },
-                            {
-                              "children": [
-                                {
-                                  "children": [],
-                                  "line": 12,
-                                  "node_type": "NAME",
-                                  "value": "c"
-                                },
-                                {
-                                  "children": [
-                                    {
-                                      "children": [],
-                                      "line": 12,
-                                      "node_type": "NAME",
-                                      "value": " d"
-                                    },
-                                    {
-                                      "children": [],
-                                      "line": 12,
-                                      "node_type": "INTEGER",
-                                      "value": " 1"
-                                    }
-                                  ],
-                                  "line": 12,
-                                  "node_type": "PLUS",
-                                  "value": ""
-                                }
-                              ],
-                              "line": 12,
-                              "node_type": "ASSIGN",
-                              "value": ""
-                            }
-                          ],
-                          "line": 0,
-                          "node_type": "STMT_LIST",
-                          "value": " {"
-                        }
-                      ],
-                      "line": 10,
-                      "node_type": "WHILE",
-                      "value": ""
-                    },
-                    {
-                      "children": [
-                        {
-                          "children": [],
-                          "line": 13,
-                          "node_type": "NAME",
-                          "value": "a"
-                        },
-                        {
-                          "children": [
-                            {
-                              "children": [],
-                              "line": 13,
-                              "node_type": "NAME",
-                              "value": " d"
-                            },
-                            {
-                              "children": [],
-                              "line": 13,
-                              "node_type": "NAME",
-                              "value": " t"
-                            }
-                          ],
-                          "line": 13,
                           "node_type": "PLUS",
                           "value": ""
                         }
                       ],
-                      "line": 13,
+                      "line": 9,
                       "node_type": "ASSIGN",
                       "value": ""
                     }
@@ -345,69 +217,18 @@
                       "children": [
                         {
                           "children": [],
-                          "line": 14,
+                          "line": 10,
                           "node_type": "NAME",
-                          "value": "a"
+                          "value": "z"
                         },
-                        {
-                          "children": [
-                            {
-                              "children": [],
-                              "line": 14,
-                              "node_type": "NAME",
-                              "value": " d"
-                            },
-                            {
-                              "children": [],
-                              "line": 14,
-                              "node_type": "NAME",
-                              "value": " t"
-                            }
-                          ],
-                          "line": 14,
-                          "node_type": "PLUS",
-                          "value": ""
-                        }
-                      ],
-                      "line": 14,
-                      "node_type": "ASSIGN",
-                      "value": ""
-                    },
-                    {
-                      "children": [],
-                      "line": 15,
-                      "node_type": "CALL",
-                      "value": " Hexagon"
-                    },
-                    {
-                      "children": [
                         {
                           "children": [],
-                          "line": 16,
-                          "node_type": "NAME",
-                          "value": "c"
-                        },
-                        {
-                          "children": [
-                            {
-                              "children": [],
-                              "line": 16,
-                              "node_type": "NAME",
-                              "value": " c"
-                            },
-                            {
-                              "children": [],
-                              "line": 16,
-                              "node_type": "INTEGER",
-                              "value": " 1"
-                            }
-                          ],
-                          "line": 16,
-                          "node_type": "MINUS",
-                          "value": ""
+                          "line": 10,
+                          "node_type": "INTEGER",
+                          "value": " 1"
                         }
                       ],
-                      "line": 16,
+                      "line": 10,
                       "node_type": "ASSIGN",
                       "value": ""
                     }
@@ -422,10 +243,126 @@
               "value": ""
             },
             {
-              "children": [],
-              "line": 17,
-              "node_type": "CALL",
-              "value": " Rectangle"
+              "children": [
+                {
+                  "children": [],
+                  "line": 11,
+                  "node_type": "NAME",
+                  "value": "z"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [],
+                      "line": 11,
+                      "node_type": "NAME",
+                      "value": " z"
+                    },
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "line": 11,
+                          "node_type": "NAME",
+                          "value": " x"
+                        },
+                        {
+                          "children": [],
+                          "line": 11,
+                          "node_type": "NAME",
+                          "value": " i"
+                        }
+                      ],
+                      "line": 11,
+                      "node_type": "PLUS",
+                      "value": ""
+                    }
+                  ],
+                  "line": 11,
+                  "node_type": "PLUS",
+                  "value": ""
+                }
+              ],
+              "line": 11,
+              "node_type": "ASSIGN",
+              "value": ""
+            },
+            {
+              "children": [
+                {
+                  "children": [],
+                  "line": 12,
+                  "node_type": "NAME",
+                  "value": "y"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [],
+                      "line": 12,
+                      "node_type": "NAME",
+                      "value": " z"
+                    },
+                    {
+                      "children": [],
+                      "line": 12,
+                      "node_type": "INTEGER",
+                      "value": " 2"
+                    }
+                  ],
+                  "line": 12,
+                  "node_type": "PLUS",
+                  "value": ""
+                }
+              ],
+              "line": 12,
+              "node_type": "ASSIGN",
+              "value": ""
+            },
+            {
+              "children": [
+                {
+                  "children": [],
+                  "line": 13,
+                  "node_type": "NAME",
+                  "value": "x"
+                },
+                {
+                  "children": [
+                    {
+                      "children": [],
+                      "line": 13,
+                      "node_type": "NAME",
+                      "value": " x"
+                    },
+                    {
+                      "children": [
+                        {
+                          "children": [],
+                          "line": 13,
+                          "node_type": "NAME",
+                          "value": " y"
+                        },
+                        {
+                          "children": [],
+                          "line": 13,
+                          "node_type": "NAME",
+                          "value": " z"
+                        }
+                      ],
+                      "line": 13,
+                      "node_type": "PLUS",
+                      "value": ""
+                    }
+                  ],
+                  "line": 13,
+                  "node_type": "MULTIPLY",
+                  "value": ""
+                }
+              ],
+              "line": 13,
+              "node_type": "ASSIGN",
+              "value": ""
             }
           ],
           "line": 0,
@@ -435,7 +372,7 @@
       ],
       "line": 0,
       "node_type": "PROCEDURE",
-      "value": " Circle"
+      "value": " Second"
     }
   ],
   "line": 0,

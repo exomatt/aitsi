@@ -2,6 +2,7 @@ from typing import List
 
 from pql.Node import Node
 from pql.relations.FollowsRelation import FollowsRelation
+from pql.relations.ModifiesRelation import ModifiesRelation
 from pql.relations.ParentRelation import ParentRelation
 from pql.utils.SearchUtils import SearchUtils
 
@@ -63,7 +64,7 @@ class QueryEvaluator:
 
     def select_relation(self, relation_type: str, argument_first: str, argument_second: str):
         if relation_type == 'MODIFIES':
-            result_relation = ModifiesRelation(self.code_tree).modifices(argument_first, argument_second)
+            result_relation = ModifiesRelation(self.code_tree).modifies(argument_first, argument_second)
         elif relation_type == 'USES':
             result_relation = UsesRelation(self.code_tree).uses(argument_first, argument_second)
         elif relation_type == 'PARENT':
