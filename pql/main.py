@@ -3,6 +3,7 @@ import json
 from typing import Dict
 
 from pql.Node import Node
+from pql.QueryEvaluator import QueryEvaluator
 from pql.QueryProcessor import QueryProcessor
 from pql.relations.ParentRelation import ParentRelation
 
@@ -36,24 +37,28 @@ if __name__ == '__main__':
 
     ast_node: Node = load_ast_from_file(input_ast_filename)
     parent_rel: ParentRelation = ParentRelation(ast_node)
-    is_parent: bool = parent_rel.parent('8', '9')
-    test_1 = parent_rel.parent('8', '_')
-    test_2 = parent_rel.parent('8', 'CALL')
-    test_3 = parent_rel.parent('8', 'WHILE')
-
-    test_4 = parent_rel.parent('IF', '18')
-    test_5 = parent_rel.parent('_', '9')
-    test_6 = parent_rel.parent('_', '_')
-    test_7 = parent_rel.parent('_', 'CALL')
-    test_8 = parent_rel.parent('IF', 'CALL')
-    test_9 = parent_rel.parent('_', 'ASSIGN')
-    test_10 = parent_rel.parent('_', 'WHILE')
-    test_11 = parent_rel.parent('IF', '_')
+    # is_parent: bool = parent_rel.parent('8', '9')
+    # test_1 = parent_rel.parent('8', '_')
+    # test_2 = parent_rel.parent('8', 'CALL')
+    # test_3 = parent_rel.parent('8', 'WHILE')
+    #
+    # test_4 = parent_rel.parent('IF', '18')
+    # test_5 = parent_rel.parent('_', '9')
+    # test_6 = parent_rel.parent('_', '_')
+    # test_7 = parent_rel.parent('_', 'CALL')
+    # test_8 = parent_rel.parent('IF', 'CALL')
+    # test_9 = parent_rel.parent('_', 'ASSIGN')
+    # test_10 = parent_rel.parent('_', 'WHILE')
+    # test_11 = parent_rel.parent('IF', '_')
 
     query: str = load_query_from_file(input_query_filename)
 
-    parser: QueryProcessor = QueryProcessor()
-    parser.generate_query_tree(query)
-    query_tree: Dict[str, dict] = parser.get_node_json()
+    query_processor: QueryProcessor = QueryProcessor()
+    query_processor.generate_query_tree(query)
+    query_tree: Dict[str, dict] = query_processor.get_node_json()
+
+    query_evaluator: QueryEvaluator = QueryEvaluator()
+    response = query_evaluator.generate_result(query_processor.root, ast_node)
+    print(response)
 
     export_query_tree_to_file(query_tree)
