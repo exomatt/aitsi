@@ -18,6 +18,7 @@ class ModifiesTable:
         if stmt not in self.table.columns.values:
             self.table[stmt] = pd.Series(1, index=[var_name])
             self.table = self.table.sort_index(axis=1)
+            self.table = self.table.fillna(value=0)
         else:
             self.table[stmt][var_name] = 1
 
