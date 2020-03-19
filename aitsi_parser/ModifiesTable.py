@@ -15,7 +15,11 @@ class ModifiesTable:
             indexes = list(self.table.index[:])
             indexes.append(var_name)
             self.table = self.table.reindex(indexes)
-        self.table[stmt] = pd.Series(1, index=[var_name])
+        if stmt not in self.table.columns.values:
+            self.table[stmt] = pd.Series(1, index=[var_name])
+            self.table = self.table.sort_index(axis=1)
+        else:
+            self.table[stmt][var_name] = 1
 
     def get_modified(self, stmt: int) -> List[str]:
         results: List[str] = []
