@@ -2,6 +2,7 @@ import json
 import re
 from typing import Tuple, Dict
 
+from aitsi_parser.ModifiesTable import ModifiesTable
 from aitsi_parser.Node import Node
 from aitsi_parser.VarTable import VarTable
 
@@ -17,6 +18,7 @@ class Parser:
     def __init__(self, code: str) -> None:
         self.code: str = code.replace('\n', '')
         self.current_line: int = 0
+        self.mod_table: ModifiesTable = ModifiesTable()
         self.next_token: Tuple[str, str] = ('', '')  # np.("NAME","x")
         self.pos: int = 0
         self.prev_token: Tuple[str, str] = ('', '')  # np.("ASSIGN")
@@ -91,6 +93,12 @@ class Parser:
         while_node.add_child(Node(self.prev_token[0], self.prev_token[1], self.current_line))
         self.match("OPEN_BRACKET")
         while_node.add_child(self.statement_list())
+        for child in while_node.children[1].children:
+            if child.node_type == 'ASSIGN':
+                for letter in self.mod_table.get_modified(child.line):
+                    self.mod_table.set_modifies(letter, while_node.line)
+                    self.mod_table.to_string()
+
         self.match("CLOSE_BRACKET")
 
         return while_node
@@ -100,6 +108,7 @@ class Parser:
         self.match("NAME")
         assign_node.add_child(Node(self.prev_token[0], self.prev_token[1], self.current_line))
         self.var_table.insert_var(self.prev_token[1])
+        self.mod_table.set_modifies(self.prev_token[1], self.current_line)
         self.match("ASSIGN")
         assign_node.add_child(self.expression())
         self.match("SEMICOLON")
@@ -114,10 +123,20 @@ class Parser:
         self.match("THEN")
         self.match("OPEN_BRACKET")
         if_node.add_child(self.statement_list())
+        for child in if_node.children[1].children:
+            if child.node_type == 'ASSIGN':
+                for letter in self.mod_table.get_modified(child.line):
+                    self.mod_table.set_modifies(letter, if_node.line)
+                    self.mod_table.to_string()
         self.match("CLOSE_BRACKET")
         self.match("ELSE")
         self.match("OPEN_BRACKET")
         if_node.add_child(self.statement_list())
+        for child in if_node.children[2].children:
+            if child.node_type == 'ASSIGN':
+                for letter in self.mod_table.get_modified(child.line):
+                    self.mod_table.set_modifies(letter, if_node.line)
+                    self.mod_table.to_string()
         self.match("CLOSE_BRACKET")
 
         return if_node
