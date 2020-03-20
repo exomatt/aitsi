@@ -12,7 +12,7 @@ class ModifiesTable:
 
     def set_modifies(self, var_name: str, stmt: int) -> None:
         if var_name not in self.table.index[:]:
-            indexes = list(self.table.index[:])
+            indexes: List[str] = list(self.table.index[:])
             indexes.append(var_name)
             self.table = self.table.reindex(indexes)
         if stmt not in self.table.columns.values:

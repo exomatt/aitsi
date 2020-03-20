@@ -23,7 +23,7 @@ class ProcTable:
         return len(self.table)
 
     def is_in(self, proc_name: str) -> bool:
-        names = self.table['proc_name'] == proc_name
+        names: pd.Series = self.table['proc_name'] == proc_name
         for name in names:
             if name:
                 return True
