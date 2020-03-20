@@ -23,7 +23,7 @@ class VarTable:
         return len(self.table)
 
     def is_in(self, var_name: str) -> bool:
-        names = self.table['variable_name'] == var_name
+        names: pd.Series = self.table['variable_name'] == var_name
         for name in names:
             if name:
                 return True

@@ -12,7 +12,7 @@ class ParentTable:
 
     def set_parent(self, parent_stmt: int, child_stmt: int) -> None:
         if parent_stmt not in self.table.index[:]:
-            indexes = list(self.table.index[:])
+            indexes: List[int] = list(self.table.index[:])
             indexes.append(parent_stmt)
             self.table = self.table.reindex(indexes)
         if child_stmt not in self.table.columns.values:
