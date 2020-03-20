@@ -2,9 +2,12 @@ import argparse
 import json
 from typing import Dict
 
+from aitsi_parser.ModifiesTable import ModifiesTable
+from aitsi_parser.VarTable import VarTable
 from pql.Node import Node
 from pql.QueryEvaluator import QueryEvaluator
 from pql.QueryProcessor import QueryProcessor
+from pql.utils.CsvReader import CsvReader
 
 
 def load_ast_from_file(filename: str) -> Node:
@@ -29,13 +32,20 @@ if __name__ == '__main__':
     arg_parser.add_argument("--i", default="pql_query.txt", type=str, help="Input file with pql query")
     arg_parser.add_argument("--o", default="pql_query_tree.json", type=str, help="Output file for pql query tree ")
     arg_parser.add_argument("--ast", default="AST.json", type=str, help="Input file with AST tree")
+    arg_parser.add_argument("--p", default="database/test/code_short", required=True, type=str, help="Path to dir")
+
     args: argparse.Namespace = arg_parser.parse_args()
     input_query_filename: str = args.i
     input_ast_filename: str = args.ast
     output_query_filename: str = args.o
+    tables_directory_path: str = args.p
 
     ast_node: Node = load_ast_from_file(input_ast_filename)
 
+    var_table: VarTable = VarTable(CsvReader.read_csv_from_file(tables_directory_path + "\\VarTable.csv"))
+    modifies_table: ModifiesTable = ModifiesTable(
+        CsvReader.read_csv_from_file(tables_directory_path + "\\ModifiesTable.csv"))
+    # todo - jak będą tabelki to odczytać je tutaj
 
     query: str = load_query_from_file(input_query_filename)
 
