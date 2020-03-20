@@ -35,6 +35,7 @@ if __name__ == '__main__':
     print(json_tree)
     export_AST_to_file(json_tree, output_filename)
     parser.var_table.to_string()
+    parser.proc_table.to_string()
     parser.mod_table.to_string()
     parser.parent_table.to_string()
 

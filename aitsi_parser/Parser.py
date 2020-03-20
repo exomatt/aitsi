@@ -5,6 +5,7 @@ from typing import Tuple, Dict
 from aitsi_parser.ModifiesTable import ModifiesTable
 from aitsi_parser.Node import Node
 from aitsi_parser.ParentTable import ParentTable
+from aitsi_parser.ProcTable import ProcTable
 from aitsi_parser.VarTable import VarTable
 
 
@@ -24,6 +25,7 @@ class Parser:
         self.parent_table: ParentTable = ParentTable()
         self.pos: int = 0
         self.prev_token: Tuple[str, str] = ('', '')  # np.("ASSIGN")
+        self.proc_table: ProcTable = ProcTable()
         self.root: Node = Node("PROGRAM", "program")
         self.var_table: VarTable = VarTable()
 
@@ -52,12 +54,14 @@ class Parser:
 
     def program(self) -> None:
         self.next_token = self.get_token()
-        self.root.add_child(self.procedure())
+        while self.next_token[0] == "PROCEDURE":
+            self.root.add_child(self.procedure())
 
     def procedure(self) -> Node:
         self.match("PROCEDURE")
         self.match("NAME")
         proc_node: Node = Node("PROCEDURE", self.prev_token[1])
+        self.proc_table.insert_proc(proc_node.value)
         self.match("OPEN_BRACKET")
         proc_node.add_child(self.statement_list())
         self.match("CLOSE_BRACKET")
