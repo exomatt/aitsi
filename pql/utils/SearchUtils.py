@@ -51,3 +51,18 @@ class SearchUtils:
             s_list.extend(node.children)
 
         return results
+
+    def find_node_line_number_by_type(self, node_type: str) -> List[int]:
+        results: List[int] = []
+        s_list: List[Node] = []
+        if self.ast_tree.node_type == node_type:
+            results.append(self.ast_tree.line)
+
+        s_list.extend(self.ast_tree.children)
+        while s_list:
+            node: Node = s_list.pop()
+            if node.node_type == node_type:
+                results.append(node.line)
+            s_list.extend(node.children)
+
+        return results

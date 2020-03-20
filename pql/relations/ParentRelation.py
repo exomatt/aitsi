@@ -1,127 +1,106 @@
-from typing import Optional, List, Union
+from typing import List, Union, Set
 
+from aitsi_parser.ParentTable import ParentTable
 from pql.Node import Node
 from pql.utils.SearchUtils import SearchUtils
 
 
 class ParentRelation:
 
-    def __init__(self, ast_tree: Node) -> None:
+    def __init__(self, ast_tree: Node, parent_table: ParentTable) -> None:
         super().__init__()
         self.ast_tree: Node = ast_tree
+        self.parent_table: ParentTable = parent_table
 
-    def parent(self, param_first: str, param_second: str, ) -> Union[bool, List[int]]:
-        search_utils: SearchUtils = SearchUtils(self.ast_tree)
+    def parent(self, param_first: str, param_second: str) -> Union[bool, List[int]]:
+
         if param_first.isdigit():
             if param_second.isdigit():
                 # p1 i p2 sa liczbami
-                node: Optional[Node] = search_utils.find_node_by_line(int(param_first))
-                if node is None:
-                    return False
-                elif node.node_type in ['IF', 'WHILE']:
-                    stmt_list: List[Node] = []
-                    for children in node.children:
-                        if children.node_type == 'STMT_LIST':
-                            stmt_list.extend(children.children)
-                    for stmt in stmt_list:
-                        if stmt.line == int(param_second):
-                            return True
-                return False
+                return self.parent_table.is_parent(int(param_first), int(param_second))
+            elif param_second == '_':
+                # p1 jest liczba, a p2  "_"
+                return self.parent_table.get_child(int(param_first))
             else:
-                # p1 jest liczba, a p2 nie
-                node: Optional[Node] = search_utils.find_node_by_line(int(param_first))
-                if node is None:
-                    return []
-                elif node.node_type in ['IF', 'WHILE']:
-                    if param_second == '_':
-                        stmt_list: List[Node] = []
-                        result_lines: List[int] = []
-                        for children in node.children:
-                            if children.node_type == 'STMT_LIST':
-                                stmt_list.extend(children.children)
-                        for stmt in stmt_list:
-                            if stmt.line != 0:
-                                result_lines.append(stmt.line)
-                        return result_lines
-                    else:
-                        stmt_list: List[Node] = []
-                        result_lines: List[int] = []
-                        for children in node.children:
-                            if children.node_type == 'STMT_LIST':
-                                stmt_list.extend(children.children)
-                        for stmt in stmt_list:
-                            if stmt.node_type == param_second:
-                                result_lines.append(stmt.line)
-                        return result_lines
-                return []
+                # p1 jest liczba, a p2 str np. "CALL"
+                return self._digit_and_string_with_type(param_first, param_second)
+        elif param_first == '_':
+            if param_second.isdigit():
+                # p1  "_"  p2 jest liczba
+                return self.parent_table.get_parent(int(param_second))
+
+                pass
+            elif param_second == '_':
+                # p1  "_", a p2  "_"
+                return self._two_wild_cards()
+            else:
+                # p1  "_", a p2 str np. "CALL"
+                return self._wild_card_and_str_with_type(param_second)
         else:
             if param_second.isdigit():
-                # p1 nie jest liczba, a p2 jest liczba
-                if param_first == '_':
-                    nodes_by_type: List[Node] = []
-                    nodes_by_type.extend(search_utils.find_node_by_type('WHILE'))
-                    nodes_by_type.extend(search_utils.find_node_by_type('IF'))
-                    return self._check_if_nodes_contain_line(nodes_by_type, param_second)
-                elif param_first in ['IF', 'WHILE']:
-                    nodes_by_type: List[Node] = search_utils.find_node_by_type(param_first)
-                    return self._check_if_nodes_contain_line(nodes_by_type, param_second)
-                else:
-                    return False
+                # p1 str np. "IF"  p2 jest liczba
+                return self._str_with_type_and_digit(param_first, param_second)
+            elif param_second == '_':
+                # p1 str np. "IF", a p2  "_"
+                return self._str_with_type_and_wild_card(param_first)
             else:
-                # p1 i p2 nie sa liczbami
-                if param_first == '_' and param_second == '_':
-                    nodes_by_type: List[Node] = []
-                    nodes_by_type.extend(search_utils.find_node_by_type('WHILE'))
-                    nodes_by_type.extend(search_utils.find_node_by_type('IF'))
-                    return self._get_all_childs_lines_from_stmtlist(nodes_by_type)
-                elif param_first == '_':
-                    nodes_by_type: List[Node] = []
-                    nodes_by_type.extend(search_utils.find_node_by_type('WHILE'))
-                    nodes_by_type.extend(search_utils.find_node_by_type('IF'))
-                    return self._get_all_lines_by_type_from_stmtlist(nodes_by_type, param_second)
-                elif param_first in ['IF', 'WHILE']:
-                    nodes_by_type: List[Node] = search_utils.find_node_by_type(param_first)
-                    if param_second == '_':
-                        return self._get_all_childs_lines_from_stmtlist(nodes_by_type)
-                    else:
-                        return self._get_all_lines_by_type_from_stmtlist(nodes_by_type, param_second)
-                else:
-                    return False
+                # p1 str np. "IF", a p2 str np. "CALL"
+                return self._two_str_with_types(param_first, param_second)
+        pass
 
-    def _get_all_lines_by_type_from_stmtlist(self, nodes_by_type, param_second) -> List[int]:
-        stmt_list: List[Node] = []
-        result_lines: List[int] = []
-        for node in nodes_by_type:
-            for children in node.children:
-                if children.node_type == 'STMT_LIST':
-                    stmt_list.extend(children.children)
-        for stmt in stmt_list:
-            if stmt.node_type == param_second:
-                result_lines.append(stmt.line)
-        return result_lines
+    def _two_wild_cards(self):
+        search_utils: SearchUtils = SearchUtils(self.ast_tree)
+        result: List[int] = []
+        lines_numbers: List[int] = []
+        lines_numbers.extend(search_utils.find_node_line_number_by_type('WHILE'))
+        lines_numbers.extend(search_utils.find_node_line_number_by_type('IF'))
+        for number in lines_numbers:
+            result.extend(self.parent_table.get_child(number))
+        return result
 
-    def _get_all_childs_lines_from_stmtlist(self, nodes_by_type) -> List[int]:
-        stmt_list: List[Node] = []
-        result_lines: List[int] = []
-        for node in nodes_by_type:
-            for children in node.children:
-                if children.node_type == 'STMT_LIST':
-                    stmt_list.extend(children.children)
-        for stmt in stmt_list:
-            if stmt.line != 0:
-                result_lines.append(stmt.line)
-        return result_lines
+    def _wild_card_and_str_with_type(self, param_second):
+        result: Set[int] = set()
+        search_utils: SearchUtils = SearchUtils(self.ast_tree)
+        lines_numbers: List[int] = []
+        lines_numbers.extend(search_utils.find_node_line_number_by_type(param_second))
+        for number in lines_numbers:
+            result.update(self.parent_table.get_parent(number))
+        return list(result)
 
-    def _check_if_nodes_contain_line(self, nodes_by_type, param_second) -> bool:
-        stmt_list: List[Node] = []
-        for node in nodes_by_type:
-            for children in node.children:
-                if children.node_type == 'STMT_LIST':
-                    stmt_list.extend(children.children)
-        for stmt in stmt_list:
-            if stmt.line == int(param_second):
+    def _two_str_with_types(self, param_first, param_second):
+        search_utils: SearchUtils = SearchUtils(self.ast_tree)
+        p1_lines_numbers: List[int] = []
+        p1_lines_numbers.extend(search_utils.find_node_line_number_by_type(param_first))
+        p2_lines_numbers: List[int] = []
+        p2_lines_numbers.extend(search_utils.find_node_line_number_by_type(param_second))
+        for p1_number in p1_lines_numbers:
+            for p2_number in p2_lines_numbers:
+                if self.parent_table.is_parent(p1_number, p2_number):
+                    return [p2_number]
+        return []
+
+    def _str_with_type_and_wild_card(self, param_first):
+        result: List[int] = []
+        search_utils: SearchUtils = SearchUtils(self.ast_tree)
+        lines_numbers: List[int] = []
+        lines_numbers.extend(search_utils.find_node_line_number_by_type(param_first))
+        for number in lines_numbers:
+            result.extend(self.parent_table.get_child(number))
+        return result
+
+    def _str_with_type_and_digit(self, param_first, param_second):
+        search_utils: SearchUtils = SearchUtils(self.ast_tree)
+        lines_numbers: List[int] = []
+        lines_numbers.extend(search_utils.find_node_line_number_by_type(param_first))
+        for number in lines_numbers:
+            if self.parent_table.is_parent(number, int(param_second)):
                 return True
         return False
 
-    def parent_T(self, param_first: str, param_second: str) -> bool:
-        pass
+    def _digit_and_string_with_type(self, param_first, param_second):
+        search_utils: SearchUtils = SearchUtils(self.ast_tree)
+        lines_numbers: List[int] = search_utils.find_node_line_number_by_type(param_second)
+        for number in lines_numbers:
+            if self.parent_table.is_parent(int(param_first), number):
+                return True
+        return False
