@@ -4,6 +4,7 @@ from typing import Tuple, Dict
 
 from aitsi_parser.ModifiesTable import ModifiesTable
 from aitsi_parser.Node import Node
+from aitsi_parser.ParentTable import ParentTable
 from aitsi_parser.VarTable import VarTable
 
 
@@ -20,6 +21,7 @@ class Parser:
         self.current_line: int = 0
         self.mod_table: ModifiesTable = ModifiesTable()
         self.next_token: Tuple[str, str] = ('', '')  # np.("NAME","x")
+        self.parent_table: ParentTable = ParentTable()
         self.pos: int = 0
         self.prev_token: Tuple[str, str] = ('', '')  # np.("ASSIGN")
         self.root: Node = Node("PROGRAM", "program")
@@ -94,11 +96,10 @@ class Parser:
         self.match("OPEN_BRACKET")
         while_node.add_child(self.statement_list())
         for child in while_node.children[1].children:
+            self.parent_table.set_parent(while_node.line, child.line)
             if child.node_type == 'ASSIGN':
                 for letter in self.mod_table.get_modified(child.line):
                     self.mod_table.set_modifies(letter, while_node.line)
-                    self.mod_table.to_string()
-
         self.match("CLOSE_BRACKET")
 
         return while_node
@@ -124,19 +125,19 @@ class Parser:
         self.match("OPEN_BRACKET")
         if_node.add_child(self.statement_list())
         for child in if_node.children[1].children:
+            self.parent_table.set_parent(if_node.line, child.line)
             if child.node_type == 'ASSIGN':
                 for letter in self.mod_table.get_modified(child.line):
                     self.mod_table.set_modifies(letter, if_node.line)
-                    self.mod_table.to_string()
         self.match("CLOSE_BRACKET")
         self.match("ELSE")
         self.match("OPEN_BRACKET")
         if_node.add_child(self.statement_list())
         for child in if_node.children[2].children:
+            self.parent_table.set_parent(if_node.line, child.line)
             if child.node_type == 'ASSIGN':
                 for letter in self.mod_table.get_modified(child.line):
                     self.mod_table.set_modifies(letter, if_node.line)
-                    self.mod_table.to_string()
         self.match("CLOSE_BRACKET")
 
         return if_node
