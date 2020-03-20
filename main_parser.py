@@ -33,3 +33,4 @@ if __name__ == '__main__':
     parser.var_table.to_string()
     parser.mod_table.to_string()
     parser.parent_table.to_string()
+    print(parser.parent_table.get_parent(7))

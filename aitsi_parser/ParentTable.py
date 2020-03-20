@@ -26,9 +26,9 @@ class ParentTable:
         results: List[int] = []
         if stmt not in self.table.columns.values:
             return results
-        for i in range(len(self.table[stmt])):
+        for i in self.table[stmt].index[:]:
             if self.table[stmt][i] == 1:
-                results.append(self.table[stmt].index[i])
+                results.append(i)
         return results
 
     def get_child(self, stmt: int) -> List[int]:
