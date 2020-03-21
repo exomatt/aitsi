@@ -1,13 +1,9 @@
 import json
-
+import argparse
 from anytree.exporter import UniqueDotExporter
 from anytree.importer import DictImporter
 
 importer = DictImporter()
-filename = 'AST.json'
-with open(filename) as json_file:
-    data = json.load(json_file)
-
 
 def remove_dots(obj):
     for key in obj.keys():
@@ -22,10 +18,19 @@ def remove_dots(obj):
             del obj[key]
     return obj
 
+if __name__ == '__main__':
+    arg_parser = argparse.ArgumentParser(description='Tree Gnerator!')
+    arg_parser.add_argument("--i", default="AST.json", type=str, help="Input JSON file with Nodes")
+    arg_parser.add_argument("--o", default="tree.png", type=str, help="Output image for tree ")
+    args: argparse.Namespace = arg_parser.parse_args()
+    input_filename: str = args.i
+    output_filename: str = args.o
 
-new_json = json.loads(json.dumps(data), object_hook=remove_dots)
+    with open(input_filename) as json_file:
+        data = json.load(json_file)
 
-root = importer.import_(new_json)
+    new_json = json.loads(json.dumps(data), object_hook=remove_dots)
 
-out_filename = "tree.png"
-UniqueDotExporter(root).to_picture(out_filename)
+    root = importer.import_(new_json)
+
+    UniqueDotExporter(root).to_picture(output_filename)
