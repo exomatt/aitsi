@@ -41,7 +41,7 @@ class ParentTable:
         return results
 
     def is_parent(self, parent_stmt: int, child_stmt: int) -> bool:
-        if child_stmt not in self.table.columns.values:
+        if child_stmt not in self.table.columns.values or parent_stmt not in self.table.index[:]:
             return False
         return self.table.at[parent_stmt, child_stmt] == 1
 

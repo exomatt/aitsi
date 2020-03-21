@@ -41,7 +41,7 @@ class ModifiesTable:
         return results
 
     def is_modified(self, var_name: str, stmt: int) -> bool:
-        if stmt not in self.table.columns.values:
+        if stmt not in self.table.columns.values or var_name not in self.table.index[:]:
             return False
         return self.table.at[var_name, stmt] == 1
 
