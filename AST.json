@@ -1,0 +1,866 @@
+{
+    "children": [
+        {
+            "children": [
+                {
+                    "children": [
+                        {
+                            "children": [
+                                {
+                                    "children": [],
+                                    "line": 1,
+                                    "node_type": "NAME",
+                                    "value": "t"
+                                },
+                                {
+                                    "children": [],
+                                    "line": 1,
+                                    "node_type": "INTEGER",
+                                    "value": "1"
+                                }
+                            ],
+                            "line": 1,
+                            "node_type": "ASSIGN",
+                            "value": ""
+                        },
+                        {
+                            "children": [
+                                {
+                                    "children": [],
+                                    "line": 2,
+                                    "node_type": "NAME",
+                                    "value": "a"
+                                },
+                                {
+                                    "children": [
+                                        {
+                                            "children": [],
+                                            "line": 2,
+                                            "node_type": "NAME",
+                                            "value": "t"
+                                        },
+                                        {
+                                            "children": [],
+                                            "line": 2,
+                                            "node_type": "INTEGER",
+                                            "value": "10"
+                                        }
+                                    ],
+                                    "line": 2,
+                                    "node_type": "PLUS",
+                                    "value": ""
+                                }
+                            ],
+                            "line": 2,
+                            "node_type": "ASSIGN",
+                            "value": ""
+                        },
+                        {
+                            "children": [
+                                {
+                                    "children": [],
+                                    "line": 3,
+                                    "node_type": "NAME",
+                                    "value": "d"
+                                },
+                                {
+                                    "children": [
+                                        {
+                                            "children": [],
+                                            "line": 3,
+                                            "node_type": "NAME",
+                                            "value": "t"
+                                        },
+                                        {
+                                            "children": [
+                                                {
+                                                    "children": [],
+                                                    "line": 3,
+                                                    "node_type": "NAME",
+                                                    "value": "a"
+                                                },
+                                                {
+                                                    "children": [],
+                                                    "line": 3,
+                                                    "node_type": "INTEGER",
+                                                    "value": "2"
+                                                }
+                                            ],
+                                            "line": 3,
+                                            "node_type": "PLUS",
+                                            "value": ""
+                                        }
+                                    ],
+                                    "line": 3,
+                                    "node_type": "MULTIPLY",
+                                    "value": ""
+                                }
+                            ],
+                            "line": 3,
+                            "node_type": "ASSIGN",
+                            "value": ""
+                        },
+                        {
+                            "children": [],
+                            "line": 4,
+                            "node_type": "CALL",
+                            "value": "Triangle"
+                        },
+                        {
+                            "children": [
+                                {
+                                    "children": [],
+                                    "line": 5,
+                                    "node_type": "NAME",
+                                    "value": "b"
+                                },
+                                {
+                                    "children": [
+                                        {
+                                            "children": [],
+                                            "line": 5,
+                                            "node_type": "NAME",
+                                            "value": "t"
+                                        },
+                                        {
+                                            "children": [],
+                                            "line": 5,
+                                            "node_type": "NAME",
+                                            "value": "a"
+                                        }
+                                    ],
+                                    "line": 5,
+                                    "node_type": "PLUS",
+                                    "value": ""
+                                }
+                            ],
+                            "line": 5,
+                            "node_type": "ASSIGN",
+                            "value": ""
+                        },
+                        {
+                            "children": [],
+                            "line": 6,
+                            "node_type": "CALL",
+                            "value": "Hexagon"
+                        },
+                        {
+                            "children": [
+                                {
+                                    "children": [],
+                                    "line": 7,
+                                    "node_type": "NAME",
+                                    "value": "b"
+                                },
+                                {
+                                    "children": [
+                                        {
+                                            "children": [],
+                                            "line": 7,
+                                            "node_type": "NAME",
+                                            "value": "t"
+                                        },
+                                        {
+                                            "children": [],
+                                            "line": 7,
+                                            "node_type": "NAME",
+                                            "value": "a"
+                                        }
+                                    ],
+                                    "line": 7,
+                                    "node_type": "PLUS",
+                                    "value": ""
+                                }
+                            ],
+                            "line": 7,
+                            "node_type": "ASSIGN",
+                            "value": ""
+                        },
+                        {
+                            "children": [
+                                {
+                                    "children": [],
+                                    "line": 8,
+                                    "node_type": "NAME",
+                                    "value": "t"
+                                },
+                                {
+                                    "children": [
+                                        {
+                                            "children": [
+                                                {
+                                                    "children": [],
+                                                    "line": 9,
+                                                    "node_type": "NAME",
+                                                    "value": "k"
+                                                },
+                                                {
+                                                    "children": [
+                                                        {
+                                                            "children": [],
+                                                            "line": 9,
+                                                            "node_type": "NAME",
+                                                            "value": "a"
+                                                        },
+                                                        {
+                                                            "children": [],
+                                                            "line": 9,
+                                                            "node_type": "NAME",
+                                                            "value": "d"
+                                                        }
+                                                    ],
+                                                    "line": 9,
+                                                    "node_type": "MINUS",
+                                                    "value": ""
+                                                }
+                                            ],
+                                            "line": 9,
+                                            "node_type": "ASSIGN",
+                                            "value": ""
+                                        },
+                                        {
+                                            "children": [
+                                                {
+                                                    "children": [],
+                                                    "line": 10,
+                                                    "node_type": "NAME",
+                                                    "value": "c"
+                                                },
+                                                {
+                                                    "children": [
+                                                        {
+                                                            "children": [
+                                                                {
+                                                                    "children": [],
+                                                                    "line": 11,
+                                                                    "node_type": "NAME",
+                                                                    "value": "d"
+                                                                },
+                                                                {
+                                                                    "children": [
+                                                                        {
+                                                                            "children": [],
+                                                                            "line": 11,
+                                                                            "node_type": "NAME",
+                                                                            "value": "d"
+                                                                        },
+                                                                        {
+                                                                            "children": [],
+                                                                            "line": 11,
+                                                                            "node_type": "NAME",
+                                                                            "value": "t"
+                                                                        }
+                                                                    ],
+                                                                    "line": 11,
+                                                                    "node_type": "PLUS",
+                                                                    "value": ""
+                                                                }
+                                                            ],
+                                                            "line": 11,
+                                                            "node_type": "ASSIGN",
+                                                            "value": ""
+                                                        },
+                                                        {
+                                                            "children": [
+                                                                {
+                                                                    "children": [],
+                                                                    "line": 12,
+                                                                    "node_type": "NAME",
+                                                                    "value": "c"
+                                                                },
+                                                                {
+                                                                    "children": [
+                                                                        {
+                                                                            "children": [],
+                                                                            "line": 12,
+                                                                            "node_type": "NAME",
+                                                                            "value": "d"
+                                                                        },
+                                                                        {
+                                                                            "children": [],
+                                                                            "line": 12,
+                                                                            "node_type": "INTEGER",
+                                                                            "value": "1"
+                                                                        }
+                                                                    ],
+                                                                    "line": 12,
+                                                                    "node_type": "PLUS",
+                                                                    "value": ""
+                                                                }
+                                                            ],
+                                                            "line": 12,
+                                                            "node_type": "ASSIGN",
+                                                            "value": ""
+                                                        }
+                                                    ],
+                                                    "line": 0,
+                                                    "node_type": "STMT_LIST",
+                                                    "value": "{"
+                                                }
+                                            ],
+                                            "line": 10,
+                                            "node_type": "WHILE",
+                                            "value": ""
+                                        },
+                                        {
+                                            "children": [
+                                                {
+                                                    "children": [],
+                                                    "line": 13,
+                                                    "node_type": "NAME",
+                                                    "value": "a"
+                                                },
+                                                {
+                                                    "children": [
+                                                        {
+                                                            "children": [],
+                                                            "line": 13,
+                                                            "node_type": "NAME",
+                                                            "value": "d"
+                                                        },
+                                                        {
+                                                            "children": [],
+                                                            "line": 13,
+                                                            "node_type": "NAME",
+                                                            "value": "t"
+                                                        }
+                                                    ],
+                                                    "line": 13,
+                                                    "node_type": "PLUS",
+                                                    "value": ""
+                                                }
+                                            ],
+                                            "line": 13,
+                                            "node_type": "ASSIGN",
+                                            "value": ""
+                                        }
+                                    ],
+                                    "line": 0,
+                                    "node_type": "STMT_LIST",
+                                    "value": "{"
+                                },
+                                {
+                                    "children": [
+                                        {
+                                            "children": [
+                                                {
+                                                    "children": [],
+                                                    "line": 14,
+                                                    "node_type": "NAME",
+                                                    "value": "a"
+                                                },
+                                                {
+                                                    "children": [
+                                                        {
+                                                            "children": [],
+                                                            "line": 14,
+                                                            "node_type": "NAME",
+                                                            "value": "d"
+                                                        },
+                                                        {
+                                                            "children": [],
+                                                            "line": 14,
+                                                            "node_type": "NAME",
+                                                            "value": "t"
+                                                        }
+                                                    ],
+                                                    "line": 14,
+                                                    "node_type": "PLUS",
+                                                    "value": ""
+                                                }
+                                            ],
+                                            "line": 14,
+                                            "node_type": "ASSIGN",
+                                            "value": ""
+                                        },
+                                        {
+                                            "children": [],
+                                            "line": 15,
+                                            "node_type": "CALL",
+                                            "value": "Hexagon"
+                                        },
+                                        {
+                                            "children": [
+                                                {
+                                                    "children": [],
+                                                    "line": 16,
+                                                    "node_type": "NAME",
+                                                    "value": "c"
+                                                },
+                                                {
+                                                    "children": [
+                                                        {
+                                                            "children": [],
+                                                            "line": 16,
+                                                            "node_type": "NAME",
+                                                            "value": "c"
+                                                        },
+                                                        {
+                                                            "children": [],
+                                                            "line": 16,
+                                                            "node_type": "INTEGER",
+                                                            "value": "1"
+                                                        }
+                                                    ],
+                                                    "line": 16,
+                                                    "node_type": "MINUS",
+                                                    "value": ""
+                                                }
+                                            ],
+                                            "line": 16,
+                                            "node_type": "ASSIGN",
+                                            "value": ""
+                                        }
+                                    ],
+                                    "line": 0,
+                                    "node_type": "STMT_LIST",
+                                    "value": "{"
+                                }
+                            ],
+                            "line": 8,
+                            "node_type": "IF",
+                            "value": ""
+                        },
+                        {
+                            "children": [],
+                            "line": 17,
+                            "node_type": "CALL",
+                            "value": "Rectangle"
+                        }
+                    ],
+                    "line": 0,
+                    "node_type": "STMT_LIST",
+                    "value": "{"
+                }
+            ],
+            "line": 0,
+            "node_type": "PROCEDURE",
+            "value": "Circle"
+        },
+        {
+            "children": [
+                {
+                    "children": [
+                        {
+                            "children": [
+                                {
+                                    "children": [],
+                                    "line": 18,
+                                    "node_type": "NAME",
+                                    "value": "c"
+                                },
+                                {
+                                    "children": [
+                                        {
+                                            "children": [
+                                                {
+                                                    "children": [],
+                                                    "line": 19,
+                                                    "node_type": "NAME",
+                                                    "value": "t"
+                                                },
+                                                {
+                                                    "children": [
+                                                        {
+                                                            "children": [],
+                                                            "line": 19,
+                                                            "node_type": "NAME",
+                                                            "value": "d"
+                                                        },
+                                                        {
+                                                            "children": [
+                                                                {
+                                                                    "children": [],
+                                                                    "line": 19,
+                                                                    "node_type": "INTEGER",
+                                                                    "value": "3"
+                                                                },
+                                                                {
+                                                                    "children": [
+                                                                        {
+                                                                            "children": [],
+                                                                            "line": 19,
+                                                                            "node_type": "NAME",
+                                                                            "value": "a"
+                                                                        },
+                                                                        {
+                                                                            "children": [],
+                                                                            "line": 19,
+                                                                            "node_type": "NAME",
+                                                                            "value": "c"
+                                                                        }
+                                                                    ],
+                                                                    "line": 19,
+                                                                    "node_type": "PLUS",
+                                                                    "value": ""
+                                                                }
+                                                            ],
+                                                            "line": 19,
+                                                            "node_type": "MULTIPLY",
+                                                            "value": ""
+                                                        }
+                                                    ],
+                                                    "line": 19,
+                                                    "node_type": "PLUS",
+                                                    "value": ""
+                                                }
+                                            ],
+                                            "line": 19,
+                                            "node_type": "ASSIGN",
+                                            "value": ""
+                                        },
+                                        {
+                                            "children": [],
+                                            "line": 20,
+                                            "node_type": "CALL",
+                                            "value": "Triangle"
+                                        },
+                                        {
+                                            "children": [
+                                                {
+                                                    "children": [],
+                                                    "line": 21,
+                                                    "node_type": "NAME",
+                                                    "value": "c"
+                                                },
+                                                {
+                                                    "children": [
+                                                        {
+                                                            "children": [],
+                                                            "line": 21,
+                                                            "node_type": "NAME",
+                                                            "value": "c"
+                                                        },
+                                                        {
+                                                            "children": [],
+                                                            "line": 21,
+                                                            "node_type": "INTEGER",
+                                                            "value": "20"
+                                                        }
+                                                    ],
+                                                    "line": 21,
+                                                    "node_type": "PLUS",
+                                                    "value": ""
+                                                }
+                                            ],
+                                            "line": 21,
+                                            "node_type": "ASSIGN",
+                                            "value": ""
+                                        }
+                                    ],
+                                    "line": 0,
+                                    "node_type": "STMT_LIST",
+                                    "value": "{"
+                                }
+                            ],
+                            "line": 18,
+                            "node_type": "WHILE",
+                            "value": ""
+                        },
+                        {
+                            "children": [],
+                            "line": 22,
+                            "node_type": "CALL",
+                            "value": "Triangle"
+                        },
+                        {
+                            "children": [
+                                {
+                                    "children": [],
+                                    "line": 23,
+                                    "node_type": "NAME",
+                                    "value": "d"
+                                },
+                                {
+                                    "children": [],
+                                    "line": 23,
+                                    "node_type": "NAME",
+                                    "value": "t"
+                                }
+                            ],
+                            "line": 23,
+                            "node_type": "ASSIGN",
+                            "value": ""
+                        }
+                    ],
+                    "line": 0,
+                    "node_type": "STMT_LIST",
+                    "value": "{"
+                }
+            ],
+            "line": 0,
+            "node_type": "PROCEDURE",
+            "value": "Rectangle"
+        },
+        {
+            "children": [
+                {
+                    "children": [
+                        {
+                            "children": [
+                                {
+                                    "children": [],
+                                    "line": 24,
+                                    "node_type": "NAME",
+                                    "value": "d"
+                                },
+                                {
+                                    "children": [
+                                        {
+                                            "children": [
+                                                {
+                                                    "children": [],
+                                                    "line": 25,
+                                                    "node_type": "NAME",
+                                                    "value": "t"
+                                                },
+                                                {
+                                                    "children": [
+                                                        {
+                                                            "children": [
+                                                                {
+                                                                    "children": [],
+                                                                    "line": 26,
+                                                                    "node_type": "NAME",
+                                                                    "value": "d"
+                                                                },
+                                                                {
+                                                                    "children": [
+                                                                        {
+                                                                            "children": [],
+                                                                            "line": 26,
+                                                                            "node_type": "NAME",
+                                                                            "value": "t"
+                                                                        },
+                                                                        {
+                                                                            "children": [],
+                                                                            "line": 26,
+                                                                            "node_type": "INTEGER",
+                                                                            "value": "2"
+                                                                        }
+                                                                    ],
+                                                                    "line": 26,
+                                                                    "node_type": "PLUS",
+                                                                    "value": ""
+                                                                }
+                                                            ],
+                                                            "line": 26,
+                                                            "node_type": "ASSIGN",
+                                                            "value": ""
+                                                        }
+                                                    ],
+                                                    "line": 0,
+                                                    "node_type": "STMT_LIST",
+                                                    "value": "{"
+                                                },
+                                                {
+                                                    "children": [
+                                                        {
+                                                            "children": [
+                                                                {
+                                                                    "children": [],
+                                                                    "line": 27,
+                                                                    "node_type": "NAME",
+                                                                    "value": "a"
+                                                                },
+                                                                {
+                                                                    "children": [
+                                                                        {
+                                                                            "children": [],
+                                                                            "line": 27,
+                                                                            "node_type": "NAME",
+                                                                            "value": "t"
+                                                                        },
+                                                                        {
+                                                                            "children": [
+                                                                                {
+                                                                                    "children": [],
+                                                                                    "line": 27,
+                                                                                    "node_type": "NAME",
+                                                                                    "value": "a"
+                                                                                },
+                                                                                {
+                                                                                    "children": [
+                                                                                        {
+                                                                                            "children": [],
+                                                                                            "line": 27,
+                                                                                            "node_type": "NAME",
+                                                                                            "value": "d"
+                                                                                        },
+                                                                                        {
+                                                                                            "children": [
+                                                                                                {
+                                                                                                    "children": [],
+                                                                                                    "line": 27,
+                                                                                                    "node_type": "NAME",
+                                                                                                    "value": "k"
+                                                                                                },
+                                                                                                {
+                                                                                                    "children": [],
+                                                                                                    "line": 27,
+                                                                                                    "node_type": "NAME",
+                                                                                                    "value": "b"
+                                                                                                }
+                                                                                            ],
+                                                                                            "line": 27,
+                                                                                            "node_type": "MULTIPLY",
+                                                                                            "value": ""
+                                                                                        }
+                                                                                    ],
+                                                                                    "line": 27,
+                                                                                    "node_type": "PLUS",
+                                                                                    "value": ""
+                                                                                }
+                                                                            ],
+                                                                            "line": 27,
+                                                                            "node_type": "PLUS",
+                                                                            "value": ""
+                                                                        }
+                                                                    ],
+                                                                    "line": 27,
+                                                                    "node_type": "MULTIPLY",
+                                                                    "value": ""
+                                                                }
+                                                            ],
+                                                            "line": 27,
+                                                            "node_type": "ASSIGN",
+                                                            "value": ""
+                                                        }
+                                                    ],
+                                                    "line": 0,
+                                                    "node_type": "STMT_LIST",
+                                                    "value": "{"
+                                                }
+                                            ],
+                                            "line": 25,
+                                            "node_type": "IF",
+                                            "value": ""
+                                        }
+                                    ],
+                                    "line": 0,
+                                    "node_type": "STMT_LIST",
+                                    "value": "{"
+                                }
+                            ],
+                            "line": 24,
+                            "node_type": "WHILE",
+                            "value": ""
+                        },
+                        {
+                            "children": [],
+                            "line": 28,
+                            "node_type": "CALL",
+                            "value": "Hexagon"
+                        },
+                        {
+                            "children": [
+                                {
+                                    "children": [],
+                                    "line": 29,
+                                    "node_type": "NAME",
+                                    "value": "c"
+                                },
+                                {
+                                    "children": [
+                                        {
+                                            "children": [],
+                                            "line": 29,
+                                            "node_type": "NAME",
+                                            "value": "t"
+                                        },
+                                        {
+                                            "children": [
+                                                {
+                                                    "children": [],
+                                                    "line": 29,
+                                                    "node_type": "NAME",
+                                                    "value": "k"
+                                                },
+                                                {
+                                                    "children": [],
+                                                    "line": 29,
+                                                    "node_type": "NAME",
+                                                    "value": "d"
+                                                }
+                                            ],
+                                            "line": 29,
+                                            "node_type": "PLUS",
+                                            "value": ""
+                                        }
+                                    ],
+                                    "line": 29,
+                                    "node_type": "PLUS",
+                                    "value": ""
+                                }
+                            ],
+                            "line": 29,
+                            "node_type": "ASSIGN",
+                            "value": ""
+                        }
+                    ],
+                    "line": 0,
+                    "node_type": "STMT_LIST",
+                    "value": "{"
+                }
+            ],
+            "line": 0,
+            "node_type": "PROCEDURE",
+            "value": "Triangle"
+        },
+        {
+            "children": [
+                {
+                    "children": [
+                        {
+                            "children": [
+                                {
+                                    "children": [],
+                                    "line": 30,
+                                    "node_type": "NAME",
+                                    "value": "t"
+                                },
+                                {
+                                    "children": [
+                                        {
+                                            "children": [],
+                                            "line": 30,
+                                            "node_type": "NAME",
+                                            "value": "a"
+                                        },
+                                        {
+                                            "children": [],
+                                            "line": 30,
+                                            "node_type": "NAME",
+                                            "value": "t"
+                                        }
+                                    ],
+                                    "line": 30,
+                                    "node_type": "PLUS",
+                                    "value": ""
+                                }
+                            ],
+                            "line": 30,
+                            "node_type": "ASSIGN",
+                            "value": ""
+                        },
+                        {
+                            "children": [],
+                            "line": 31,
+                            "node_type": "CALL",
+                            "value": "Circle"
+                        }
+                    ],
+                    "line": 0,
+                    "node_type": "STMT_LIST",
+                    "value": "{"
+                }
+            ],
+            "line": 0,
+            "node_type": "PROCEDURE",
+            "value": "Hexagon"
+        }
+    ],
+    "line": 0,
+    "node_type": "PROGRAM",
+    "value": "program"
+}
