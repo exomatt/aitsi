@@ -38,6 +38,7 @@ if __name__ == '__main__':
     parser.proc_table.to_string()
     parser.mod_table.to_string()
     parser.parent_table.to_string()
+    parser.calls_table.to_string()
 
     dirname, filename = os.path.split(os.path.abspath(__file__))
 
@@ -48,4 +49,5 @@ if __name__ == '__main__':
     CsvBuilder.save_table_to_csv_file(parser.mod_table.table, path + "ModifiesTable.csv")
     CsvBuilder.save_table_to_csv_file(parser.var_table.table, path + "VarTable.csv")
     CsvBuilder.save_table_to_csv_file(parser.parent_table.table, path + "ParentTable.csv")
+    CsvBuilder.save_table_to_csv_file(parser.calls_table.table, path + "ParentTable.csv")
     # todo - dodać resztę tabelek jak będą :*

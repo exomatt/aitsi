@@ -2,6 +2,7 @@ import json
 import re
 from typing import Tuple, Dict
 
+from aitsi_parser.CallsTable import CallsTable
 from aitsi_parser.ModifiesTable import ModifiesTable
 from aitsi_parser.Node import Node
 from aitsi_parser.ParentTable import ParentTable
@@ -28,6 +29,8 @@ class Parser:
         self.proc_table: ProcTable = ProcTable()
         self.root: Node = Node("PROGRAM", "program")
         self.var_table: VarTable = VarTable()
+        self.calls_table: CallsTable = CallsTable()
+        self.call_procedure = None
 
     def match(self, token: str) -> None:
         if self.next_token[0] == token:
@@ -62,6 +65,7 @@ class Parser:
         self.match("NAME")
         proc_node: Node = Node("PROCEDURE", self.prev_token[1])
         self.proc_table.insert_proc(proc_node.value)
+        self.call_procedure = proc_node.value
         self.match("OPEN_BRACKET")
         proc_node.add_child(self.statement_list())
         self.match("CLOSE_BRACKET")
@@ -87,6 +91,7 @@ class Parser:
 
     def call(self) -> Node:
         self.match("CALL")
+        self.calls_table.set_calls(self.call_procedure, self.next_token[1].strip())
         self.match("NAME")
         call_node: Node = Node("CALL", self.prev_token[1], self.current_line)
         self.match("SEMICOLON")
