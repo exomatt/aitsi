@@ -4,6 +4,8 @@ from typing import Tuple, Dict
 
 from aitsi_parser.ModifiesTable import ModifiesTable
 from aitsi_parser.Node import Node
+from aitsi_parser.ParentTable import ParentTable
+from aitsi_parser.ProcTable import ProcTable
 from aitsi_parser.VarTable import VarTable
 
 
@@ -20,8 +22,10 @@ class Parser:
         self.current_line: int = 0
         self.mod_table: ModifiesTable = ModifiesTable()
         self.next_token: Tuple[str, str] = ('', '')  # np.("NAME","x")
+        self.parent_table: ParentTable = ParentTable()
         self.pos: int = 0
         self.prev_token: Tuple[str, str] = ('', '')  # np.("ASSIGN")
+        self.proc_table: ProcTable = ProcTable()
         self.root: Node = Node("PROGRAM", "program")
         self.var_table: VarTable = VarTable()
 
@@ -50,12 +54,14 @@ class Parser:
 
     def program(self) -> None:
         self.next_token = self.get_token()
-        self.root.add_child(self.procedure())
+        while self.next_token[0] == "PROCEDURE":
+            self.root.add_child(self.procedure())
 
     def procedure(self) -> Node:
         self.match("PROCEDURE")
         self.match("NAME")
         proc_node: Node = Node("PROCEDURE", self.prev_token[1])
+        self.proc_table.insert_proc(proc_node.value)
         self.match("OPEN_BRACKET")
         proc_node.add_child(self.statement_list())
         self.match("CLOSE_BRACKET")
@@ -94,11 +100,10 @@ class Parser:
         self.match("OPEN_BRACKET")
         while_node.add_child(self.statement_list())
         for child in while_node.children[1].children:
+            self.parent_table.set_parent(while_node.line, child.line)
             if child.node_type == 'ASSIGN':
                 for letter in self.mod_table.get_modified(child.line):
                     self.mod_table.set_modifies(letter, while_node.line)
-                    self.mod_table.to_string()
-
         self.match("CLOSE_BRACKET")
 
         return while_node
@@ -124,19 +129,19 @@ class Parser:
         self.match("OPEN_BRACKET")
         if_node.add_child(self.statement_list())
         for child in if_node.children[1].children:
+            self.parent_table.set_parent(if_node.line, child.line)
             if child.node_type == 'ASSIGN':
                 for letter in self.mod_table.get_modified(child.line):
                     self.mod_table.set_modifies(letter, if_node.line)
-                    self.mod_table.to_string()
         self.match("CLOSE_BRACKET")
         self.match("ELSE")
         self.match("OPEN_BRACKET")
         if_node.add_child(self.statement_list())
         for child in if_node.children[2].children:
+            self.parent_table.set_parent(if_node.line, child.line)
             if child.node_type == 'ASSIGN':
                 for letter in self.mod_table.get_modified(child.line):
                     self.mod_table.set_modifies(letter, if_node.line)
-                    self.mod_table.to_string()
         self.match("CLOSE_BRACKET")
 
         return if_node

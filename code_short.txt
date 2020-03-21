@@ -13,3 +13,15 @@ z = z + x + i;
 y = z + 2;
 x = x * y + z;
 }
+
+procedure Third {
+x = x + 1;
+if j then {
+i = i - 1; }
+else {
+z = z + 1; }
+while h {
+a = x;
+b = d;
+c = a+b; }
+}
