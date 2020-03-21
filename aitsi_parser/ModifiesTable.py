@@ -15,6 +15,7 @@ class ModifiesTable:
             indexes: List[str] = list(self.table.index[:])
             indexes.append(var_name)
             self.table = self.table.reindex(indexes)
+            self.table = self.table.sort_index(axis=0)
         if stmt not in self.table.columns.values:
             self.table[stmt] = pd.Series(1, index=[var_name])
             self.table = self.table.sort_index(axis=1)

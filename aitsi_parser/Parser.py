@@ -47,7 +47,7 @@ class Parser:
             match = regex.match(code, self.pos)
             if match is not None:
                 if match.group(0):
-                    new_token = (token, match.group(0))
+                    new_token = (token, match.group(0).strip())
                     self.pos += len(match.group(0))
                     break
         return new_token
