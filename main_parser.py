@@ -14,7 +14,7 @@ def export_AST_to_file(json_ast: Dict[str, dict], filename: str = "AST.json") ->
 
 def read_program_from_file(filename: str = "code_short.txt") -> Parser:
     with open(filename) as g:
-        _parser: Parser = Parser(g.read())
+        _parser: Parser = Parser(g.read(), filename)
         return _parser
 
 
@@ -36,8 +36,10 @@ if __name__ == '__main__':
     export_AST_to_file(json_tree, output_filename)
     parser.var_table.to_string()
     parser.proc_table.to_string()
+    parser.calls_table.to_string()
     parser.mod_table.to_string()
     parser.parent_table.to_string()
+    parser.uses_table.to_string()
 
     dirname, filename = os.path.split(os.path.abspath(__file__))
 
@@ -47,5 +49,8 @@ if __name__ == '__main__':
 
     CsvBuilder.save_table_to_csv_file(parser.mod_table.table, path + "ModifiesTable.csv")
     CsvBuilder.save_table_to_csv_file(parser.var_table.table, path + "VarTable.csv")
+    CsvBuilder.save_table_to_csv_file(parser.proc_table.table, path + "ProcTable.csv")
     CsvBuilder.save_table_to_csv_file(parser.parent_table.table, path + "ParentTable.csv")
+    CsvBuilder.save_table_to_csv_file(parser.calls_table.table, path + "CallsTable.csv")
+    CsvBuilder.save_table_to_csv_file(parser.uses_table.table, path + "UsesTable.csv")
     # todo - dodać resztę tabelek jak będą :*
