@@ -54,4 +54,5 @@ if __name__ == '__main__':
     CsvBuilder.save_table_to_csv_file(parser.parent_table.table, path + "ParentTable.csv")
     CsvBuilder.save_table_to_csv_file(parser.calls_table.table, path + "CallsTable.csv")
     CsvBuilder.save_table_to_csv_file(parser.uses_table.table, path + "UsesTable.csv")
+    CsvBuilder.save_table_to_csv_file(parser.follows_table.table, path + "FollowsTable.csv")
     # todo - dodać resztę tabelek jak będą :*
