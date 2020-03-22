@@ -111,6 +111,7 @@ class Parser:
         self.match("NAME")
         while_node: Node = Node("WHILE", line=self.current_line)
         while_node.add_child(Node(self.prev_token[0], self.prev_token[1], self.current_line))
+        self.uses_table.set_uses(self.prev_token[1],self.current_line)
         self.match("OPEN_BRACKET")
         while_node.add_child(self.statement_list())
         for child in while_node.children[1].children:
@@ -141,6 +142,7 @@ class Parser:
         self.match("IF")
         self.match("NAME")
         if_node.add_child(Node(self.prev_token[0], self.prev_token[1], self.current_line))
+        self.uses_table.set_uses(self.prev_token[1], self.current_line)
         self.match("THEN")
         self.match("OPEN_BRACKET")
         if_node.add_child(self.statement_list())
