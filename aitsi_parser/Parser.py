@@ -3,6 +3,7 @@ import re
 from typing import Tuple, Dict
 
 from aitsi_parser.CallsTable import CallsTable
+from aitsi_parser.FollowsTable import FollowsTable
 from aitsi_parser.ModifiesTable import ModifiesTable
 from aitsi_parser.Node import Node
 from aitsi_parser.ParentTable import ParentTable
@@ -27,6 +28,7 @@ class Parser:
         self.mod_table: ModifiesTable = ModifiesTable()
         self.next_token: Tuple[str, str] = ('', '')  # np.("NAME","x")
         self.parent_table: ParentTable = ParentTable()
+        self.follows_table: FollowsTable = FollowsTable()
         self.pos: int = 0
         self.prev_token: Tuple[str, str] = ('', '')  # np.("ASSIGN")
         self.proc_table: ProcTable = ProcTable()
@@ -75,8 +77,13 @@ class Parser:
 
     def statement_list(self) -> Node:
         stmt_list_node: Node = Node("STMT_LIST", self.prev_token[1])
+        prev_node: Node = None
         while self.next_token[0] != "CLOSE_BRACKET":
-            stmt_list_node.add_child(self.statement())
+            stmt_node = self.statement()
+            if prev_node is not None:
+                self.follows_table.set_follows(prev_node.line, stmt_node.line)
+            stmt_list_node.add_child(stmt_node)
+            prev_node = stmt_node
 
         return stmt_list_node
 

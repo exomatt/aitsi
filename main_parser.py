@@ -40,6 +40,7 @@ if __name__ == '__main__':
     parser.mod_table.to_string()
     parser.parent_table.to_string()
     parser.uses_table.to_string()
+    parser.follows_table.to_string()
 
     dirname, filename = os.path.split(os.path.abspath(__file__))
 
