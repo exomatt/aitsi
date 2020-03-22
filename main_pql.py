@@ -45,10 +45,11 @@ if __name__ == '__main__':
     ast_node: Node = load_ast_from_file(input_ast_filename)
 
     var_table: VarTable = VarTable(CsvReader.read_csv_from_file(tables_directory_path + "\\VarTable.csv"))
-    uses_table: UsesTable = UsesTable(CsvReader.read_csv_from_file(tables_directory_path + "\\UsesTable.csv"))
-    parent_table: ParentTable = ParentTable(CsvReader.read_csv_from_file(tables_directory_path + "\\ParentTable.csv"))
+    uses_table: UsesTable = UsesTable(CsvReader.read_csv_from_file(tables_directory_path + "\\UsesTable.csv", True))
+    parent_table: ParentTable = ParentTable(
+        CsvReader.read_csv_from_file(tables_directory_path + "\\ParentTable.csv", True))
     modifies_table: ModifiesTable = ModifiesTable(
-        CsvReader.read_csv_from_file(tables_directory_path + "\\ModifiesTable.csv"))
+        CsvReader.read_csv_from_file(tables_directory_path + "\\ModifiesTable.csv", True))
     # todo - jak będą tabelki to odczytać je tutaj
 
     query: str = load_query_from_file(input_query_filename)
