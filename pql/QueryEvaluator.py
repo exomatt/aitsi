@@ -4,6 +4,7 @@ from pql.Node import Node
 from pql.relations.FollowsRelation import FollowsRelation
 from pql.relations.ModifiesRelation import ModifiesRelation
 from pql.relations.ParentRelation import ParentRelation
+from pql.relations.UsesRelation import UsesRelation
 from pql.utils.SearchUtils import SearchUtils
 
 

@@ -15,6 +15,7 @@ class ParentTable:
             indexes: List[int] = list(self.table.index[:])
             indexes.append(parent_stmt)
             self.table = self.table.reindex(indexes)
+            self.table = self.table.sort_index(axis=0)
         if child_stmt not in self.table.columns.values:
             self.table[child_stmt] = pd.Series(1, index=[parent_stmt])
             self.table = self.table.sort_index(axis=1)
@@ -41,7 +42,7 @@ class ParentTable:
         return results
 
     def is_parent(self, parent_stmt: int, child_stmt: int) -> bool:
-        if child_stmt not in self.table.columns.values:
+        if child_stmt not in self.table.columns.values or parent_stmt not in self.table.index[:]:
             return False
         return self.table.at[parent_stmt, child_stmt] == 1
 

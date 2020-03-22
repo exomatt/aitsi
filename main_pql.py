@@ -3,6 +3,8 @@ import json
 from typing import Dict
 
 from aitsi_parser.ModifiesTable import ModifiesTable
+from aitsi_parser.ParentTable import ParentTable
+from aitsi_parser.UsesTable import UsesTable
 from aitsi_parser.VarTable import VarTable
 from pql.Node import Node
 from pql.QueryEvaluator import QueryEvaluator
@@ -43,8 +45,11 @@ if __name__ == '__main__':
     ast_node: Node = load_ast_from_file(input_ast_filename)
 
     var_table: VarTable = VarTable(CsvReader.read_csv_from_file(tables_directory_path + "\\VarTable.csv"))
+    uses_table: UsesTable = UsesTable(CsvReader.read_csv_from_file(tables_directory_path + "\\UsesTable.csv", True))
+    parent_table: ParentTable = ParentTable(
+        CsvReader.read_csv_from_file(tables_directory_path + "\\ParentTable.csv", True))
     modifies_table: ModifiesTable = ModifiesTable(
-        CsvReader.read_csv_from_file(tables_directory_path + "\\ModifiesTable.csv"))
+        CsvReader.read_csv_from_file(tables_directory_path + "\\ModifiesTable.csv", True))
     # todo - jak będą tabelki to odczytać je tutaj
 
     query: str = load_query_from_file(input_query_filename)

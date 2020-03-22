@@ -2,10 +2,12 @@ import json
 import re
 from typing import Tuple, Dict
 
+from aitsi_parser.CallsTable import CallsTable
 from aitsi_parser.ModifiesTable import ModifiesTable
 from aitsi_parser.Node import Node
 from aitsi_parser.ParentTable import ParentTable
 from aitsi_parser.ProcTable import ProcTable
+from aitsi_parser.UsesTable import UsesTable
 from aitsi_parser.VarTable import VarTable
 
 
@@ -17,7 +19,9 @@ class Parser:
                          (r"\s*\)", "CLOSE_PARENTHESIS"), (r"\s*[A-Za-z]+[A-Za-z0-9]*", 'NAME'),
                          (r"\s*[0-9]+", 'INTEGER')]
 
-    def __init__(self, code: str) -> None:
+    def __init__(self, code: str, filename: str) -> None:
+        self.calls_table: CallsTable = CallsTable()
+        self.call_procedure = None
         self.code: str = code.replace('\n', '')
         self.current_line: int = 0
         self.mod_table: ModifiesTable = ModifiesTable()
@@ -26,8 +30,9 @@ class Parser:
         self.pos: int = 0
         self.prev_token: Tuple[str, str] = ('', '')  # np.("ASSIGN")
         self.proc_table: ProcTable = ProcTable()
-        self.root: Node = Node("PROGRAM", "program")
+        self.root: Node = Node("PROGRAM", filename)
         self.var_table: VarTable = VarTable()
+        self.uses_table: UsesTable = UsesTable()
 
     def match(self, token: str) -> None:
         if self.next_token[0] == token:
@@ -44,7 +49,7 @@ class Parser:
             match = regex.match(code, self.pos)
             if match is not None:
                 if match.group(0):
-                    new_token = (token, match.group(0))
+                    new_token = (token, match.group(0).strip())
                     self.pos += len(match.group(0))
                     break
         return new_token
@@ -62,6 +67,7 @@ class Parser:
         self.match("NAME")
         proc_node: Node = Node("PROCEDURE", self.prev_token[1])
         self.proc_table.insert_proc(proc_node.value)
+        self.call_procedure = proc_node.value
         self.match("OPEN_BRACKET")
         proc_node.add_child(self.statement_list())
         self.match("CLOSE_BRACKET")
@@ -87,6 +93,7 @@ class Parser:
 
     def call(self) -> Node:
         self.match("CALL")
+        self.calls_table.set_calls(self.call_procedure, self.next_token[1].strip())
         self.match("NAME")
         call_node: Node = Node("CALL", self.prev_token[1], self.current_line)
         self.match("SEMICOLON")
@@ -101,9 +108,11 @@ class Parser:
         while_node.add_child(self.statement_list())
         for child in while_node.children[1].children:
             self.parent_table.set_parent(while_node.line, child.line)
-            if child.node_type == 'ASSIGN':
+            if child.node_type == 'ASSIGN' or child.node_type == 'WHILE' or child.node_type == 'IF':
                 for letter in self.mod_table.get_modified(child.line):
                     self.mod_table.set_modifies(letter, while_node.line)
+                for letter in self.uses_table.get_used(child.line):
+                    self.uses_table.set_uses(letter, while_node.line)
         self.match("CLOSE_BRACKET")
 
         return while_node
@@ -130,18 +139,22 @@ class Parser:
         if_node.add_child(self.statement_list())
         for child in if_node.children[1].children:
             self.parent_table.set_parent(if_node.line, child.line)
-            if child.node_type == 'ASSIGN':
+            if child.node_type == 'ASSIGN' or child.node_type == 'WHILE' or child.node_type == 'IF':
                 for letter in self.mod_table.get_modified(child.line):
                     self.mod_table.set_modifies(letter, if_node.line)
+                for letter in self.uses_table.get_used(child.line):
+                    self.uses_table.set_uses(letter, if_node.line)
         self.match("CLOSE_BRACKET")
         self.match("ELSE")
         self.match("OPEN_BRACKET")
         if_node.add_child(self.statement_list())
         for child in if_node.children[2].children:
             self.parent_table.set_parent(if_node.line, child.line)
-            if child.node_type == 'ASSIGN':
+            if child.node_type == 'ASSIGN' or child.node_type == 'WHILE' or child.node_type == 'IF':
                 for letter in self.mod_table.get_modified(child.line):
                     self.mod_table.set_modifies(letter, if_node.line)
+                for letter in self.uses_table.get_used(child.line):
+                    self.uses_table.set_uses(letter, if_node.line)
         self.match("CLOSE_BRACKET")
 
         return if_node
@@ -149,6 +162,7 @@ class Parser:
     def expression(self) -> Node:
         if self.next_token[0] == "NAME":
             self.match("NAME")
+            self.uses_table.set_uses(self.prev_token[1], self.current_line)
         elif self.next_token[0] == "INTEGER":
             self.match("INTEGER")
         left: Node = Node(self.prev_token[0], self.prev_token[1], self.current_line)
