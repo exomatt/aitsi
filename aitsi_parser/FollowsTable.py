@@ -2,6 +2,7 @@ from typing import List
 
 import pandas as pd
 
+
 class FollowsTable:
     def __init__(self, table: pd.DataFrame = None) -> None:
         if table is None:
@@ -42,7 +43,7 @@ class FollowsTable:
     def is_follows(self, follows_stmt: int, child_stmt: int) -> bool:
         if child_stmt not in self.table.columns.values or follows_stmt not in self.table.index[:]:
             return False
-        return self.table.at[follows_stmt, child_stmt] == 1
+        return bool(self.table.at[follows_stmt, child_stmt] == 1)
 
     def to_string(self) -> None:
         print("followsTable:")

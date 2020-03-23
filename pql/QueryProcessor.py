@@ -15,7 +15,8 @@ class QueryProcessor:
                          (r'\s*\(', 'OPEN_PARENTHESIS'), (r'\s*\)', 'CLOSE_PARENTHESIS'), (r'\s*;', 'SEMICOLON'),
                          (r"\s*=", "EQUALS_SIGN"),
                          (r'\s*_', 'EVERYTHING'),
-                         (r'\s*while|\s*assign|\s*stmt|\s*variable|\s*constant|\s*prog_line|\s*call|\s*if',
+                         (r'.stmt#|.value|.procName|.varName', 'ATTR_NAME'),
+                         (r'\s*while|\s*assign|\s*stmt|\s*variable|\s*constant|\s*procedure|\s*prog_line|\s*call|\s*if',
                           'DECLARATION'),
                          (r'\s*BOOLEAN', 'BOOLEAN'),
                          (r'\s*with', 'WITH'), (r'\s*and', 'AND'),
@@ -175,7 +176,7 @@ class QueryProcessor:
 
     def attribute(self) -> Node:
         self.synonym()
-        synonym_node: Node = Node(self.prev_token[0], self.prev_token[1])
+        synonym_node: Node = Node(self.prev_token[0], self.prev_token[1].strip())
         synonym_node.add_child(self.attr_name())
         if self.next_token[0] == "AND":
             self.match("AND")
@@ -183,22 +184,20 @@ class QueryProcessor:
         return synonym_node
 
     def attr_name(self) -> Node:
-        self.match("DOT")
-        self.match("IDENT")
-        attr_name_node: Node = Node("ATTR_NAME", self.prev_token[1])
+        self.match('ATTR_NAME')
+        attr_name_node: Node = Node(self.prev_token[0], self.prev_token[1].replace('.', ''))
         attr_name_node.add_child(self.ref())
         return attr_name_node
 
     def attribute_value(self) -> Node:
         self.synonym()
-        synonym_node: Node = Node(self.prev_token[0], self.prev_token[1])
+        synonym_node: Node = Node(self.prev_token[0].strip(), self.prev_token[1].strip())
         synonym_node.add_child(self.attr_name_value())
         return synonym_node
 
     def attr_name_value(self) -> Node:
-        self.match("DOT")
-        self.match("IDENT")
-        attr_name_node: Node = Node("ATTR_NAME", self.prev_token[1])
+        self.match('ATTR_NAME')
+        attr_name_node: Node = Node(self.prev_token[0], self.prev_token[1].replace('.', '').split())
         return attr_name_node
 
     def ref(self) -> Node:

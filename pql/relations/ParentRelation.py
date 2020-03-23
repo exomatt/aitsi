@@ -1,4 +1,4 @@
-from typing import List, Union, Set
+from typing import List, Union
 
 from aitsi_parser.ParentTable import ParentTable
 from pql.Node import Node
@@ -6,6 +6,7 @@ from pql.utils.SearchUtils import SearchUtils
 
 
 class ParentRelation:
+    statements = ['WHILE', 'IF', 'CALL', 'ASSIGN']
 
     def __init__(self, ast_tree: Node, parent_table: ParentTable) -> None:
         super().__init__()
@@ -59,13 +60,14 @@ class ParentRelation:
         return result
 
     def _wild_card_and_str_with_type(self, param_second):
-        result: Set[int] = set()
+        result: List[int] = []
         search_utils: SearchUtils = SearchUtils(self.ast_tree)
-        lines_numbers: List[int] = []
-        lines_numbers.extend(search_utils.find_node_line_number_by_type(param_second))
+        lines_numbers: List[int] = search_utils.find_node_line_number_by_type(param_second)
         for number in lines_numbers:
-            result.update(self.parent_table.get_parent(number))
-        return list(result)
+            parents: List[int] = self.parent_table.get_parent(number)
+            if len(parents) != 0:
+                result.append(number)
+        return result
 
     def _two_str_with_types(self, param_first, param_second):
         search_utils: SearchUtils = SearchUtils(self.ast_tree)
@@ -91,16 +93,26 @@ class ParentRelation:
     def _str_with_type_and_digit(self, param_first, param_second):
         search_utils: SearchUtils = SearchUtils(self.ast_tree)
         lines_numbers: List[int] = []
-        lines_numbers.extend(search_utils.find_node_line_number_by_type(param_first))
+        if param_first == 'STMT':
+            for stmt in self.statements:
+                lines_numbers.extend(search_utils.find_node_line_number_by_type(stmt))
+        else:
+            lines_numbers.extend(search_utils.find_node_line_number_by_type(param_first))
         for number in lines_numbers:
             if self.parent_table.is_parent(number, int(param_second)):
-                return True
-        return False
+                return [number]
+        return []
 
     def _digit_and_string_with_type(self, param_first, param_second):
+        result: List[int] = []
         search_utils: SearchUtils = SearchUtils(self.ast_tree)
-        lines_numbers: List[int] = search_utils.find_node_line_number_by_type(param_second)
+        lines_numbers: List[int] = []
+        if param_second == 'STMT':
+            for stmt in self.statements:
+                lines_numbers.extend(search_utils.find_node_line_number_by_type(stmt))
+        else:
+            lines_numbers.extend(search_utils.find_node_line_number_by_type(param_second))
         for number in lines_numbers:
             if self.parent_table.is_parent(int(param_first), number):
-                return True
-        return False
+                result.append(number)
+        return result
