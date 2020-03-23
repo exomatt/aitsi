@@ -27,7 +27,6 @@ procedure Rectangle {
         call Triangle;
         c = c + 20;
     }
-    call Triangle;
     d = t;
 }
 
@@ -39,11 +38,9 @@ procedure Triangle {
             a = t * a + d + k * b;
         }
     }
-    call Hexagon;
     c = t + k + d;
 }
 
 procedure Hexagon {
     t = a + t;
-    call Circle;
 }

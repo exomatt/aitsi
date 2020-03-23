@@ -10,6 +10,8 @@ pandas = "*"
 marshmallow = "*"
 dataclasses = "*"
 marshmallow-dataclass = "*"
+anytree = "*"
+graphviz = "*"
 
 [requires]
 python_version = "3.6.5"

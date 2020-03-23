@@ -1,0 +1,6 @@
+ZAINSTALOWAĆ!!!
+https://bobswift.atlassian.net/wiki/spaces/GVIZ/pages/131924165/Graphviz+installation
+
+1. wygenerować plik AST.json
+2. python main_tree-gen.py
+3. pojawi się rezultat w png
