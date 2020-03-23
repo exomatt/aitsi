@@ -66,3 +66,9 @@ class SearchUtils:
             s_list.extend(node.children)
 
         return results
+
+    def find_last_line_number(self) -> int:
+        last_line: int = 0
+        while self.find_node_by_line(last_line + 1) is not None:
+            last_line += 1
+        return last_line
