@@ -1,109 +1,100 @@
-from typing import List
+from typing import List, Union
 
+from aitsi_parser import FollowsTable
 from pql.Node import Node
 from pql.utils.SearchUtils import SearchUtils
 
 
 class FollowsRelation:
-    def __init__(self, ast_tree: Node) -> None:
+    def __init__(self, ast_tree: Node, follows_table: FollowsTable) -> None:
+        super().__init__()
         self.ast_tree: Node = ast_tree
+        self.follows_table: FollowsTable = follows_table
 
-    def follows(self, param_first: str, param_second: str) -> List[int]:
+    def follows(self, param_first: str, param_second: str) -> Union[bool, List[int]]:
+
+        if param_first.isdigit():
+            if param_second.isdigit():
+                # p1 i p2 sa liczbami
+                return self.follows_table.is_follows(int(param_first), int(param_second))
+            elif param_second == '_':
+                # p1 jest liczba, a p2  "_"
+                return self.follows_table.get_child(int(param_first))
+            else:
+                # p1 jest liczba, a p2 str np. "CALL"
+                return self._digit_and_string_with_type(param_first, param_second)
+        elif param_first == '_':
+            if param_second.isdigit():
+                # p1  "_"  p2 jest liczba
+                return self.follows_table.get_follows(int(param_second))
+            elif param_second == '_':
+                # p1  "_", a p2  "_"
+                return self._two_wild_cards()
+            else:
+                # p1  "_", a p2 str np. "CALL"
+                return self._wild_card_and_str_with_type(param_second)
+        else:
+            if param_second.isdigit():
+                # p1 str np. "IF"  p2 jest liczba
+                return self._str_with_type_and_digit(param_first, param_second)
+            elif param_second == '_':
+                # p1 str np. "IF", a p2  "_"
+                return self._str_with_type_and_wild_card(param_first)
+            else:
+                # p1 str np. "IF", a p2 str np. "CALL"
+                return self._two_str_with_types(param_first, param_second)
+
+    def _two_wild_cards(self):
         search_utils: SearchUtils = SearchUtils(self.ast_tree)
-        list_parents: List[Node] = search_utils.find_node_by_type('STMT_LIST')
         result: List[int] = []
-        if param_first.isdigit():
-            if param_second.isdigit():
-                # p1 i p2 sa liczbami
-                for parent in list_parents:
-                    for index in range(len(parent.children)):
-                        if parent.children[index].line == int(param_first):
-                            if parent.children[index + 1].line == int(param_second):
-                                return [int(param_first), int(param_second)]
-                            else:
-                                return []
-            else:
-                # p1 jest liczba, a p2 nie
-                for parent in list_parents:
-                    for index in range(len(parent.children)):
-                        if parent.children[index].line == int(param_first):
-                            if parent.children[index + 1].node_type == param_second:
-                                result.append(parent.children[index + 1].line)
-                            if param_second == '_' and parent.children[index + 1].node_type in ['WHILE', 'ASSIGN', 'IF',
-                                                                                                'CALL']:
-                                result.append(parent.children[index + 1].line)
+        for number in range(search_utils.find_last_line_number()):
+            result.extend(self.follows_table.get_child(number))
+        return result
 
-                return result
-        else:
-            if param_second.isdigit():
-                # p1 nie jest liczba, a p2 jest liczba
-                for parent in list_parents:
-                    for index in range(len(parent.children)):
-                        if parent.children[index].line == int(param_second):
-                            if index - 1 > -1:
-                                if parent.children[index - 1].node_type == param_first:
-                                    result.append(parent.children[index - 1].line)
-                                if param_first == '_' and parent.children[index - 1].node_type in ['WHILE', 'ASSIGN',
-                                                                                                   'IF', 'CALL']:
-                                    result.append(parent.children[index - 1].line)
+    def _wild_card_and_str_with_type(self, param_second):
+        result: List[int] = []
+        search_utils: SearchUtils = SearchUtils(self.ast_tree)
+        lines_numbers: List[int] = []
+        lines_numbers.extend(search_utils.find_node_line_number_by_type(param_second))
+        for number in lines_numbers:
+            result.extend(self.follows_table.get_follows(number))
+        return result
 
-                return result
+    def _two_str_with_types(self, param_first, param_second):
+        result: List[str] = []
+        search_utils: SearchUtils = SearchUtils(self.ast_tree)
+        p1_lines_numbers: List[int] = []
+        p1_lines_numbers.extend(search_utils.find_node_line_number_by_type(param_first))
+        p2_lines_numbers: List[int] = []
+        p2_lines_numbers.extend(search_utils.find_node_line_number_by_type(param_second))
+        for p1_number in p1_lines_numbers:
+            for p2_number in p2_lines_numbers:
+                if self.follows_table.is_follows(p1_number, p2_number):
+                    result.extend(p2_number)
+        return result
 
-            else:
-                # p1 i p2 nie sa liczbami
-                for parent in list_parents:
-                    for index in range(len(parent.children)):
-                        if parent.children[index].node_type == param_first:
-                            if len(parent.children) > index+1:
-                                if parent.children[index + 1].node_type == param_second:
-                                    result.append(parent.children[index].line)
-                                    result.append(parent.children[index + 1].line)
-                                if param_second == '_' and parent.children[index + 1].node_type in ['WHILE', 'ASSIGN', 'IF',
-                                                                                                    'CALL']:
-                                    result.append(parent.children[index].line)
-                                    result.append(parent.children[index + 1].line)
-                        elif param_first == '_' and parent.children[index].node_type in ['WHILE', 'ASSIGN', 'IF',
-                                                                                         'CALL']:
-                            if len(parent.children) > index+1:
-                                if parent.children[index + 1].node_type == param_second:
-                                    result.append(parent.children[index].line)
-                                    result.append(parent.children[index + 1].line)
-                                if param_second == '_' and parent.children[index + 1].node_type in ['WHILE', 'ASSIGN', 'IF',
-                                                                                                    'CALL']:
-                                    result.append(parent.children[index].line)
-                                    result.append(parent.children[index + 1].line)
+    def _str_with_type_and_wild_card(self, param_first):
+        result: List[int] = []
+        search_utils: SearchUtils = SearchUtils(self.ast_tree)
+        lines_numbers: List[int] = []
+        lines_numbers.extend(search_utils.find_node_line_number_by_type(param_first))
+        for number in lines_numbers:
+            result.extend(self.follows_table.get_child(number))
+        return result
 
-                return list(set(result))
-                # if p1 i p2 sa w tej samej stmt_lst
-                # if p1 i p2 maja odpowiedni rodzaj
-                # linia p1+1 = linia p2
-                pass
+    def _str_with_type_and_digit(self, param_first, param_second):
+        search_utils: SearchUtils = SearchUtils(self.ast_tree)
+        lines_numbers: List[int] = []
+        lines_numbers.extend(search_utils.find_node_line_number_by_type(param_first))
+        for number in lines_numbers:
+            if self.follows_table.is_follows(number, int(param_second)):
+                return [number]
+        return []
 
-    def followsT(self, param_first: str, param_second: str) -> List[int]:
-        if param_first.isdigit():
-            if param_second.isdigit():
-                pass
-                # p1 i p2 sa liczbami
-                # if p1 i p2 sa w tej samej stmt_lst
-                # if p1 < p2
-            else:
-                # p1 jest liczba, a p2 nie
-                # if p1+1 jest w tej samej stmt_lst and rodzaj p2 sie zgadza(czy jest to while, assign lub if)
-                # i linia p2 > p1
-                pass
-        else:
-            if param_second.isdigit():
-                pass
-                # p1 nie jest liczba, a p2 jest liczba
-                # if p2-1 jest w tej samej stmt_lst and rodzaj p1 sie zgadza(czy jest to while, assign lub if)
-                # i linia p1 < p2-1
-            else:
-                # p1 i p2 nie sa liczbami
-                # if p1 i p2 sa w tej samej stmt_lst
-                # if p1 i p2 maja odpowiedni rodzaj
-                # linia p1+1 < linia p2
-                pass
-
-
-if __name__ == '__main__':
-    rel: FollowsRelation = FollowsRelation()
+    def _digit_and_string_with_type(self, param_first, param_second):
+        search_utils: SearchUtils = SearchUtils(self.ast_tree)
+        lines_numbers: List[int] = search_utils.find_node_line_number_by_type(param_second)
+        for number in lines_numbers:
+            if self.follows_table.is_follows(int(param_first), number):
+                return True
+        return False
