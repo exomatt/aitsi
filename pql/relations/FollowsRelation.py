@@ -6,6 +6,8 @@ from pql.utils.SearchUtils import SearchUtils
 
 
 class FollowsRelation:
+    statements = ['WHILE', 'IF', 'CALL', 'ASSIGN']
+
     def __init__(self, ast_tree: Node, follows_table: FollowsTable) -> None:
         super().__init__()
         self.ast_tree: Node = ast_tree
@@ -54,14 +56,15 @@ class FollowsRelation:
     def _wild_card_and_str_with_type(self, param_second):
         result: List[int] = []
         search_utils: SearchUtils = SearchUtils(self.ast_tree)
-        lines_numbers: List[int] = []
-        lines_numbers.extend(search_utils.find_node_line_number_by_type(param_second))
+        lines_numbers: List[int] = search_utils.find_node_line_number_by_type(param_second)
         for number in lines_numbers:
-            result.extend(self.follows_table.get_follows(number))
+            parents: List[int] = self.follows_table.get_follows(number)
+            if len(parents) != 0:
+                result.append(number)
         return result
 
     def _two_str_with_types(self, param_first, param_second):
-        result: List[str] = []
+        result: List[int] = []
         search_utils: SearchUtils = SearchUtils(self.ast_tree)
         p1_lines_numbers: List[int] = []
         p1_lines_numbers.extend(search_utils.find_node_line_number_by_type(param_first))
@@ -70,7 +73,7 @@ class FollowsRelation:
         for p1_number in p1_lines_numbers:
             for p2_number in p2_lines_numbers:
                 if self.follows_table.is_follows(p1_number, p2_number):
-                    result.extend(p2_number)
+                    result.append(p2_number)
         return result
 
     def _str_with_type_and_wild_card(self, param_first):
@@ -85,6 +88,11 @@ class FollowsRelation:
     def _str_with_type_and_digit(self, param_first, param_second):
         search_utils: SearchUtils = SearchUtils(self.ast_tree)
         lines_numbers: List[int] = []
+        if param_first == 'STMT':
+            for stmt in self.statements:
+                lines_numbers.extend(search_utils.find_node_line_number_by_type(stmt))
+        else:
+            lines_numbers.extend(search_utils.find_node_line_number_by_type(param_first))
         lines_numbers.extend(search_utils.find_node_line_number_by_type(param_first))
         for number in lines_numbers:
             if self.follows_table.is_follows(number, int(param_second)):
