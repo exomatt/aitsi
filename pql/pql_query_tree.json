@@ -1,0 +1,92 @@
+{
+  "children": [
+    {
+      "children": [
+        {
+          "children": [
+            {
+              "children": [],
+              "line": 0,
+              "node_type": "SYNONYM",
+              "value": "w"
+            }
+          ],
+          "line": 0,
+          "node_type": "WHILE",
+          "value": ""
+        },
+        {
+          "children": [
+            {
+              "children": [],
+              "line": 0,
+              "node_type": "SYNONYM",
+              "value": "v"
+            }
+          ],
+          "line": 0,
+          "node_type": "VARIABLE",
+          "value": ""
+        },
+        {
+          "children": [
+            {
+              "children": [],
+              "line": 0,
+              "node_type": "SYNONYM",
+              "value": "s"
+            }
+          ],
+          "line": 0,
+          "node_type": "STMT",
+          "value": ""
+        }
+      ],
+      "line": 0,
+      "node_type": "DECLARATION",
+      "value": ""
+    },
+    {
+      "children": [
+        {
+          "children": [],
+          "line": 0,
+          "node_type": "IDENT",
+          "value": "v"
+        }
+      ],
+      "line": 0,
+      "node_type": "RESULT",
+      "value": ""
+    },
+    {
+      "children": [
+        {
+          "children": [
+            {
+              "children": [],
+              "line": 0,
+              "node_type": "IDENT",
+              "value": "w"
+            },
+            {
+              "children": [],
+              "line": 0,
+              "node_type": "EVERYTHING",
+              "value": "_"
+            }
+          ],
+          "line": 0,
+          "node_type": "PARENT",
+          "value": ""
+        }
+      ],
+      "line": 0,
+      "node_type": "SUCH_THAT",
+      "value": ""
+    }
+  ],
+  "line": 0,
+  "node_type": "QUERY",
+  "value": "query"
+}
