@@ -1,0 +1,12 @@
+instalajca pipenv zeby odpalac jego uzywac
+https://medium.com/@mahmudahsan/how-to-use-python-pipenv-in-mac-and-windows-1c6dc87b403e
+
+instalacja paczek po przez
+pipenv install nazwapaczki
+
+uruchamianie albo
+pipenv run python plik
+lub
+odpalanie virtualnego srodowiska po przez
+pipenv shell
+i teraz mozesz uzywac odrazu python nazwa_pliku
