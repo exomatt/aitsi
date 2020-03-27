@@ -36,7 +36,7 @@ if __name__ == '__main__':
     arg_parser.add_argument("--i", default="pql_query.txt", type=str, help="Input file with pql query")
     arg_parser.add_argument("--o", default="pql_query_tree.json", type=str, help="Output file for pql query tree ")
     arg_parser.add_argument("--ast", default="AST.json", type=str, help="Input file with AST tree")
-    arg_parser.add_argument("--p", default="database/test/code_short", required=True, type=str, help="Path to dir")
+    arg_parser.add_argument("--p", default="database/test/code_short", type=str, help="Path to dir")
 
     args: argparse.Namespace = arg_parser.parse_args()
     input_query_filename: str = args.i
@@ -46,16 +46,16 @@ if __name__ == '__main__':
 
     ast_node: Node = load_ast_from_file(input_ast_filename)
 
-    var_table: VarTable = VarTable(CsvReader.read_csv_from_file(tables_directory_path + "\\VarTable.csv"))
-    uses_table: UsesTable = UsesTable(CsvReader.read_csv_from_file(tables_directory_path + "\\UsesTable.csv", True))
+    var_table: VarTable = VarTable(CsvReader.read_csv_from_file(tables_directory_path + "/VarTable.csv"))
+    uses_table: UsesTable = UsesTable(CsvReader.read_csv_from_file(tables_directory_path + "/UsesTable.csv", True))
     parent_table: ParentTable = ParentTable(
-        CsvReader.read_csv_from_file(tables_directory_path + "\\ParentTable.csv", True))
+        CsvReader.read_csv_from_file(tables_directory_path + "/ParentTable.csv", True))
     modifies_table: ModifiesTable = ModifiesTable(
-        CsvReader.read_csv_from_file(tables_directory_path + "\\ModifiesTable.csv", True))
+        CsvReader.read_csv_from_file(tables_directory_path + "/ModifiesTable.csv", True))
     follows_table: FollowsTable = FollowsTable(
-        CsvReader.read_csv_from_file(tables_directory_path + "\\FollowsTable.csv", True))
+        CsvReader.read_csv_from_file(tables_directory_path + "/FollowsTable.csv", True))
     calls_table: CallsTable = CallsTable(
-        CsvReader.read_csv_from_file(tables_directory_path + "\\CallsTable.csv"))
+        CsvReader.read_csv_from_file(tables_directory_path + "/CallsTable.csv"))
 
     all_tables: Dict[str, object] = {'var': var_table, 'uses': uses_table, 'parent': parent_table,
                                      'modifies': modifies_table, 'follows': follows_table, 'calls': calls_table}
