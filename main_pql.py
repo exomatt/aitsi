@@ -6,6 +6,8 @@ from aitsi_parser.CallsTable import CallsTable
 from aitsi_parser.FollowsTable import FollowsTable
 from aitsi_parser.ModifiesTable import ModifiesTable
 from aitsi_parser.ParentTable import ParentTable
+from aitsi_parser.ProcTable import ProcTable
+from aitsi_parser.StatementTable import StatementTable
 from aitsi_parser.UsesTable import UsesTable
 from aitsi_parser.VarTable import VarTable
 from pql.Node import Node
@@ -47,18 +49,21 @@ if __name__ == '__main__':
     ast_node: Node = load_ast_from_file(input_ast_filename)
 
     var_table: VarTable = VarTable(CsvReader.read_csv_from_file(tables_directory_path + "\\VarTable.csv"))
-    uses_table: UsesTable = UsesTable(CsvReader.read_csv_from_file(tables_directory_path + "\\UsesTable.csv"))
-    parent_table: ParentTable = ParentTable(
-        CsvReader.read_csv_from_file(tables_directory_path + "\\ParentTable.csv", True))
-    modifies_table: ModifiesTable = ModifiesTable(
-        CsvReader.read_csv_from_file(tables_directory_path + "\\ModifiesTable.csv"))
-    follows_table: FollowsTable = FollowsTable(
-        CsvReader.read_csv_from_file(tables_directory_path + "\\FollowsTable.csv", True))
+    proc_table: ProcTable = ProcTable(CsvReader.read_csv_from_file(tables_directory_path + "\\ProcTable.csv"))
     calls_table: CallsTable = CallsTable(
         CsvReader.read_csv_from_file(tables_directory_path + "\\CallsTable.csv"))
-
-    all_tables: Dict[str, object] = {'var': var_table, 'uses': uses_table, 'parent': parent_table,
-                                     'modifies': modifies_table, 'follows': follows_table, 'calls': calls_table}
+    modifies_table: ModifiesTable = ModifiesTable(
+        CsvReader.read_csv_from_file(tables_directory_path + "\\ModifiesTable.csv"))
+    parent_table: ParentTable = ParentTable(
+        CsvReader.read_csv_from_file(tables_directory_path + "\\ParentTable.csv", True))
+    uses_table: UsesTable = UsesTable(CsvReader.read_csv_from_file(tables_directory_path + "\\UsesTable.csv"))
+    follows_table: FollowsTable = FollowsTable(
+        CsvReader.read_csv_from_file(tables_directory_path + "\\FollowsTable.csv", True))
+    statement_table: StatementTable = StatementTable(
+        CsvReader.read_csv_from_file(tables_directory_path + "\\StatementTable.csv"))
+    all_tables: Dict[str, object] = {'var': var_table, 'proc': proc_table, 'uses': uses_table, 'parent': parent_table,
+                                     'modifies': modifies_table, 'follows': follows_table, 'calls': calls_table,
+                                     'statement': statement_table}
 
     query: str = load_query_from_file(input_query_filename)
 
