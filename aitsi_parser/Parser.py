@@ -63,6 +63,15 @@ class Parser:
         self.next_token = self.get_token()
         while self.next_token[0] == "PROCEDURE":
             self.root.add_child(self.procedure())
+        for child in self.root.children:
+            called_procedures = self.calls_table.get_called_from(child.value)
+            for proc in called_procedures:
+                modified_vars = self.mod_table.get_modified(proc)
+                used_vars = self.uses_table.get_used(proc)
+                for var in modified_vars:
+                    self.mod_table.set_modifies(var, child.value)
+                for var in used_vars:
+                    self.uses_table.set_uses(var,child.value)
 
     def procedure(self) -> Node:
         self.match("PROCEDURE")
@@ -71,7 +80,9 @@ class Parser:
         self.proc_table.insert_proc(proc_node.value)
         self.call_procedure = proc_node.value
         self.match("OPEN_BRACKET")
+        self.proc_table.update_proc(proc_node.value, {'start': self.current_line + 1})
         proc_node.add_child(self.statement_list())
+        self.proc_table.update_proc(proc_node.value, {'finish': self.current_line})
         self.match("CLOSE_BRACKET")
         return proc_node
 
@@ -111,16 +122,19 @@ class Parser:
         self.match("NAME")
         while_node: Node = Node("WHILE", line=self.current_line)
         while_node.add_child(Node(self.prev_token[0], self.prev_token[1], self.current_line))
-        self.uses_table.set_uses(self.prev_token[1],self.current_line)
+        self.uses_table.set_uses(self.prev_token[1], str(self.current_line))
+        self.uses_table.set_uses(self.prev_token[1],self.call_procedure)
         self.match("OPEN_BRACKET")
         while_node.add_child(self.statement_list())
         for child in while_node.children[1].children:
             self.parent_table.set_parent(while_node.line, child.line)
             if child.node_type == 'ASSIGN' or child.node_type == 'WHILE' or child.node_type == 'IF':
-                for letter in self.mod_table.get_modified(child.line):
-                    self.mod_table.set_modifies(letter, while_node.line)
-                for letter in self.uses_table.get_used(child.line):
-                    self.uses_table.set_uses(letter, while_node.line)
+                for letter in self.mod_table.get_modified(str(child.line)):
+                    self.mod_table.set_modifies(letter, str(while_node.line))
+                    self.mod_table.set_modifies(letter, self.call_procedure)
+                for letter in self.uses_table.get_used(str(child.line)):
+                    self.uses_table.set_uses(letter, str(while_node.line))
+                    self.uses_table.set_uses(letter, self.call_procedure)
         self.match("CLOSE_BRACKET")
 
         return while_node
@@ -130,7 +144,8 @@ class Parser:
         self.match("NAME")
         assign_node.add_child(Node(self.prev_token[0], self.prev_token[1], self.current_line))
         self.var_table.insert_var(self.prev_token[1])
-        self.mod_table.set_modifies(self.prev_token[1], self.current_line)
+        self.mod_table.set_modifies(self.prev_token[1], str(self.current_line))
+        self.mod_table.set_modifies(self.prev_token[1], self.call_procedure)
         self.match("ASSIGN")
         assign_node.add_child(self.expression())
         self.match("SEMICOLON")
@@ -142,17 +157,21 @@ class Parser:
         self.match("IF")
         self.match("NAME")
         if_node.add_child(Node(self.prev_token[0], self.prev_token[1], self.current_line))
-        self.uses_table.set_uses(self.prev_token[1], self.current_line)
+        self.uses_table.set_uses(self.prev_token[1], str(self.current_line))
+        self.uses_table.set_uses(self.prev_token[1], self.call_procedure)
         self.match("THEN")
         self.match("OPEN_BRACKET")
         if_node.add_child(self.statement_list())
         for child in if_node.children[1].children:
             self.parent_table.set_parent(if_node.line, child.line)
             if child.node_type == 'ASSIGN' or child.node_type == 'WHILE' or child.node_type == 'IF':
-                for letter in self.mod_table.get_modified(child.line):
-                    self.mod_table.set_modifies(letter, if_node.line)
-                for letter in self.uses_table.get_used(child.line):
-                    self.uses_table.set_uses(letter, if_node.line)
+                for letter in self.mod_table.get_modified(str(child.line)):
+                    self.mod_table.set_modifies(letter, str(if_node.line))
+                    self.mod_table.set_modifies(letter, self.call_procedure)
+                for letter in self.uses_table.get_used(str(child.line)):
+                    self.uses_table.set_uses(letter, str(if_node.line))
+                    self.uses_table.set_uses(letter,self.call_procedure)
+
         self.match("CLOSE_BRACKET")
         self.match("ELSE")
         self.match("OPEN_BRACKET")
@@ -160,10 +179,12 @@ class Parser:
         for child in if_node.children[2].children:
             self.parent_table.set_parent(if_node.line, child.line)
             if child.node_type == 'ASSIGN' or child.node_type == 'WHILE' or child.node_type == 'IF':
-                for letter in self.mod_table.get_modified(child.line):
-                    self.mod_table.set_modifies(letter, if_node.line)
-                for letter in self.uses_table.get_used(child.line):
-                    self.uses_table.set_uses(letter, if_node.line)
+                for letter in self.mod_table.get_modified(str(child.line)):
+                    self.mod_table.set_modifies(letter, str(if_node.line))
+                    self.mod_table.set_modifies(letter, self.call_procedure)
+                for letter in self.uses_table.get_used(str(child.line)):
+                    self.uses_table.set_uses(letter, str(if_node.line))
+                    self.uses_table.set_uses(letter, self.call_procedure)
         self.match("CLOSE_BRACKET")
 
         return if_node
@@ -171,7 +192,8 @@ class Parser:
     def expression(self) -> Node:
         if self.next_token[0] == "NAME":
             self.match("NAME")
-            self.uses_table.set_uses(self.prev_token[1], self.current_line)
+            self.uses_table.set_uses(self.prev_token[1], str(self.current_line))
+            self.uses_table.set_uses(self.prev_token[1], self.call_procedure)
         elif self.next_token[0] == "INTEGER":
             self.match("INTEGER")
         left: Node = Node(self.prev_token[0], self.prev_token[1], self.current_line)

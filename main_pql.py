@@ -47,11 +47,11 @@ if __name__ == '__main__':
     ast_node: Node = load_ast_from_file(input_ast_filename)
 
     var_table: VarTable = VarTable(CsvReader.read_csv_from_file(tables_directory_path + "\\VarTable.csv"))
-    uses_table: UsesTable = UsesTable(CsvReader.read_csv_from_file(tables_directory_path + "\\UsesTable.csv", True))
+    uses_table: UsesTable = UsesTable(CsvReader.read_csv_from_file(tables_directory_path + "\\UsesTable.csv"))
     parent_table: ParentTable = ParentTable(
         CsvReader.read_csv_from_file(tables_directory_path + "\\ParentTable.csv", True))
     modifies_table: ModifiesTable = ModifiesTable(
-        CsvReader.read_csv_from_file(tables_directory_path + "\\ModifiesTable.csv", True))
+        CsvReader.read_csv_from_file(tables_directory_path + "\\ModifiesTable.csv"))
     follows_table: FollowsTable = FollowsTable(
         CsvReader.read_csv_from_file(tables_directory_path + "\\FollowsTable.csv", True))
     calls_table: CallsTable = CallsTable(
