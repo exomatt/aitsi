@@ -10,7 +10,7 @@ class ModifiesTable:
             table = pd.DataFrame()
         self.table: pd.DataFrame = table
 
-    def set_modifies(self, var_name: str, stmt: int) -> None:
+    def set_modifies(self, var_name: str, stmt: str) -> None:
         if var_name not in self.table.index[:]:
             indexes: List[str] = list(self.table.index[:])
             indexes.append(var_name)
@@ -21,9 +21,10 @@ class ModifiesTable:
             self.table = self.table.sort_index(axis=1)
             self.table = self.table.fillna(value=0)
         else:
+            self.table = self.table.fillna(value=0)
             self.table[stmt][var_name] = 1
 
-    def get_modified(self, stmt: int) -> List[str]:
+    def get_modified(self, stmt: str) -> List[str]:
         results: List[str] = []
         if stmt not in self.table.columns.values:
             return results
@@ -32,8 +33,8 @@ class ModifiesTable:
                 results.append(self.table[stmt].index[i])
         return results
 
-    def get_modifies(self, var_name: str) -> List[int]:
-        results: List[int] = []
+    def get_modifies(self, var_name: str) -> List[str]:
+        results: List[str] = []
         if var_name not in self.table.index[:]:
             return results
         for col in self.table.loc[var_name].index[:]:
