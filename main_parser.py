@@ -5,7 +5,6 @@ from typing import Dict
 
 from aitsi_parser.CsvBuilder import CsvBuilder
 from aitsi_parser.Parser import Parser
-from pql.relations.ParentRelation import ParentRelation
 
 
 def export_AST_to_file(json_ast: Dict[str, dict], filename: str = "AST.json") -> None:
@@ -48,19 +47,6 @@ if __name__ == '__main__':
     path: str = os.path.join(dirname, "database/", output_directory, os.path.basename(input_filename).split('.')[0],
                              "")
     os.makedirs(path, exist_ok=True)
-
-    print("---------------------")
-    parser.parent_table.to_string()
-    print("---------------------")
-    parent_rel: ParentRelation = ParentRelation(parser.root, parser.parent_table)
-    test_1 = parent_rel.parent("8", "10")
-    test_2 = parent_rel.parent("10", "11")
-    test_3 = parent_rel.parent("8", "_")
-    test_4 = parent_rel.parent("8", "CALL")
-    test_5 = parent_rel.parent("8", "STMT")
-    test_1T = parent_rel.parent_T("8", "11")
-    test_3T = parent_rel.parent_T("8", "_")
-
     CsvBuilder.save_table_to_csv_file(parser.mod_table.table, path + "ModifiesTable.csv")
     CsvBuilder.save_table_to_csv_file(parser.var_table.table, path + "VarTable.csv")
     CsvBuilder.save_table_to_csv_file(parser.proc_table.table, path + "ProcTable.csv")
