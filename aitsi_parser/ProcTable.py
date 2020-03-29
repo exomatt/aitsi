@@ -1,3 +1,5 @@
+import json
+
 import pandas as pd
 
 
@@ -6,6 +8,10 @@ class ProcTable:
     def __init__(self, table: pd.DataFrame = None) -> None:
         if table is None:
             table = pd.DataFrame(columns=['proc_name', 'other_info'])
+        else:
+            for i in range(len(table.other_info)):
+                json_data = table.other_info[i].replace("'", "\"")
+                table.other_info[i] = json.loads(json_data)
         self.table: pd.DataFrame = table
 
     def insert_proc(self, proc_name: str) -> int:
@@ -14,10 +20,14 @@ class ProcTable:
         return self.table.loc[self.table['proc_name'] == proc_name].index[0]
 
     def update_proc(self, proc_name: str, other_info: dict):
-        self.table.loc[self.table['proc_name'] == proc_name]['other_info'][self.get_proc_index(proc_name)].update(other_info)
+        self.table.loc[self.table['proc_name'] == proc_name]['other_info'][self.get_proc_index(proc_name)].update(
+            other_info)
 
     def get_proc_name(self, index: int) -> str:
         return self.table.loc[index].proc_name
+
+    def get_other_info(self, proc_name: str) -> dict:
+        return self.table.loc[self.table['proc_name'] == proc_name].other_info[0]
 
     def get_proc_index(self, proc_name: str) -> int:
         return self.table.loc[self.table['proc_name'] == proc_name].index[0]
