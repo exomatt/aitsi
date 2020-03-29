@@ -1,3 +1,4 @@
+import json
 from typing import Dict, List
 
 import pandas as pd
@@ -8,6 +9,10 @@ class StatementTable:
     def __init__(self, table: pd.DataFrame = None) -> None:
         if table is None:
             table = pd.DataFrame(columns=['statement_line', 'other_info'])
+        else:
+            for i in range(len(table.other_info)):
+                json_data = table.other_info[i].replace("'", "\"")
+                table.other_info[i] = json.loads(json_data)
         self.table: pd.DataFrame = table
 
     def insert_statement(self, statement_line: int, other_info=None) -> int:
@@ -22,7 +27,10 @@ class StatementTable:
             self.get_statement_index(statement_line)].update(other_info)
 
     def get_statement_line(self, index: int) -> int:
-        return self.table.loc[index].proc_name
+        return self.table.loc[index].statement_line
+
+    def get_other_info(self, statement_line: int) -> dict:
+        return self.table.loc[self.table['statement_line'] == statement_line].other_info[0]
 
     def get_statement_index(self, statement_line: int) -> int:
         return self.table.loc[self.table['statement_line'] == statement_line].index[0]
