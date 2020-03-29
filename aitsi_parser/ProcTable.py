@@ -1,5 +1,6 @@
-import json
+from typing import List
 
+import json
 import pandas as pd
 
 
@@ -34,6 +35,9 @@ class ProcTable:
 
     def get_size(self) -> int:
         return len(self.table)
+
+    def get_all_proc_name(self) -> List[str]:
+        return self.table['proc_name'].tolist()
 
     def is_in(self, proc_name: str) -> bool:
         names: pd.Series = self.table['proc_name'] == proc_name
