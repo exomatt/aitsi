@@ -1,3 +1,5 @@
+from typing import List
+
 import pandas as pd
 
 
@@ -14,7 +16,8 @@ class ProcTable:
         return self.table.loc[self.table['proc_name'] == proc_name].index[0]
 
     def update_proc(self, proc_name: str, other_info: dict):
-        self.table.loc[self.table['proc_name'] == proc_name]['other_info'][self.get_proc_index(proc_name)].update(other_info)
+        self.table.loc[self.table['proc_name'] == proc_name]['other_info'][self.get_proc_index(proc_name)].update(
+            other_info)
 
     def get_proc_name(self, index: int) -> str:
         return self.table.loc[index].proc_name
@@ -24,6 +27,9 @@ class ProcTable:
 
     def get_size(self) -> int:
         return len(self.table)
+
+    def get_all_proc_name(self) -> List[str]:
+        return self.table['proc_name'].tolist()
 
     def is_in(self, proc_name: str) -> bool:
         names: pd.Series = self.table['proc_name'] == proc_name

@@ -42,7 +42,7 @@ class ModifiesTable:
                 results.append(col)
         return results
 
-    def is_modified(self, var_name: str, stmt: int) -> bool:
+    def is_modified(self, var_name: str, stmt: str) -> bool:
         if stmt not in self.table.columns.values or var_name not in self.table.index[:]:
             return False
         return self.table.at[var_name, stmt] == 1
