@@ -38,7 +38,7 @@ if __name__ == '__main__':
     arg_parser.add_argument("--i", default="pql_query.txt", type=str, help="Input file with pql query")
     arg_parser.add_argument("--o", default="pql_query_tree.json", type=str, help="Output file for pql query tree ")
     arg_parser.add_argument("--ast", default="AST.json", type=str, help="Input file with AST tree")
-    arg_parser.add_argument("--p", default="database/test/code_short", required=True, type=str, help="Path to dir")
+    arg_parser.add_argument("--p", default="database/test/code_short", type=str, help="Path to dir")
 
     args: argparse.Namespace = arg_parser.parse_args()
     input_query_filename: str = args.i

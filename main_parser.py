@@ -44,10 +44,10 @@ if __name__ == '__main__':
     parser.statement_table.to_string()
     dirname, filename = os.path.split(os.path.abspath(__file__))
 
-    path: str = os.path.join(dirname, "database\\", output_directory, os.path.basename(input_filename).split('.')[0],
+    path: str = os.path.join(dirname, "database/", output_directory, os.path.basename(input_filename).split('.')[0],
                              "")
     os.makedirs(path, exist_ok=True)
-
+    CsvBuilder.save_table_to_csv_file(parser.mod_table.table, path + "ModifiesTable.csv")
     CsvBuilder.save_table_to_csv_file(parser.var_table.table, path + "VarTable.csv")
     CsvBuilder.save_table_to_csv_file(parser.proc_table.table, path + "ProcTable.csv")
     CsvBuilder.save_table_to_csv_file(parser.calls_table.table, path + "CallsTable.csv")
