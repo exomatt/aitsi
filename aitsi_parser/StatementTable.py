@@ -1,4 +1,5 @@
 import json
+from typing import Dict, List
 
 import pandas as pd
 
@@ -33,6 +34,17 @@ class StatementTable:
 
     def get_statement_index(self, statement_line: int) -> int:
         return self.table.loc[self.table['statement_line'] == statement_line].index[0]
+
+    def get_other_info(self, statement_line: int) -> Dict[str, str]:
+        return self.table['other_info'][self.table.loc[self.table['statement_line'] == statement_line].index[0]]
+
+    def get_statement_line_by_type_name(self, type_name: str) -> List[int]:
+        statements: List[int] = self.table['statement_line'].tolist()
+        result: List[int] = []
+        for statement in statements:
+            if self.get_other_info(statement)['name'] == type_name:
+                result.append(statement)
+        return result
 
     def get_size(self) -> int:
         return len(self.table)
