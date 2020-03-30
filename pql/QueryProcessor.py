@@ -82,7 +82,7 @@ class QueryProcessor:
         elif self.next_token[0] == "IDENT_QUOTE":
             self.match("IDENT_QUOTE")
 
-        return Node(self.prev_token[0].strip(), self.prev_token[1].strip())
+        return Node(self.prev_token[0].strip(), self.prev_token[1].strip().replace('"',''))
 
     def select_cl(self) -> None:
         self.root.add_child(self.design_entity())
@@ -202,7 +202,7 @@ class QueryProcessor:
 
     def ref(self) -> Node:
         self.match("EQUALS_SIGN")
-        ref_node: Node = Node(self.next_token[0], self.next_token[1])
+        ref_node: Node = Node(self.next_token[0], self.next_token[1].replace('"',''))
         if self.next_token[0] == "IDENT_QUOTE":
             self.match("IDENT_QUOTE")
         elif self.next_token[0] == "INTEGER":
