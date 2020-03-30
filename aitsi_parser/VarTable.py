@@ -11,7 +11,7 @@ class VarTable:
         else:
             for i in range(len(table.other_info)):
                 json_data = table.other_info[i].replace("'", "\"")
-                table.other_info[i] = json.loads(json_data)
+                table.at[i, 'other_info'] = json.loads(json_data)
         self.table: pd.DataFrame = table
 
     def insert_var(self, var_name: str) -> int:

@@ -11,8 +11,8 @@ class StatementTable:
         else:
             for i in range(len(table.other_info)):
                 json_data = table.other_info[i].replace("'", "\"")
-                table.other_info[i] = json.loads(json_data)
-        self.table: pd.DataFrame = table
+                table.at[i, 'other_info'] = json.loads(json_data)
+            self.table: pd.DataFrame = table
 
     def insert_statement(self, statement_line: int, other_info=None) -> int:
         if other_info is None:
