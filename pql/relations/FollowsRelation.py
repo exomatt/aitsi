@@ -105,30 +105,115 @@ class FollowsRelation:
         if param_first.isdigit():
             if param_second.isdigit():
                 # p1 i p2 sa liczbami
-                return int(param_second) in self.follows_table.get_child(int(param_first))
+                return self._follows_T_two_digits(param_first, param_second)
             elif param_second == '_':
                 # p1 jest liczba, a p2  "_"
-                return self.follows_table.get_child(int(param_first))
+                return self.get_all_lines_in_stmt_lst_after_line(param_first)
             else:
                 # p1 jest liczba, a p2 str np. "CALL"
-                return self._digit_and_string_with_type(param_first, param_second)
+                return self._follows_T_digit_str_type(param_first, param_second)
         elif param_first == '_':
             if param_second.isdigit():
                 # p1  "_"  p2 jest liczba
-                return self.follows_table.get_follows(int(param_second))
+                return self.get_all_lines_in_stmt_lst_before_line(param_second)
             elif param_second == '_':
                 # p1  "_", a p2  "_"
-                return self._two_wild_cards()
+                return self._follows_T_two_wildcards()
             else:
                 # p1  "_", a p2 str np. "CALL"
-                return self._wild_card_and_str_with_type(param_second)
+                return self._follows_T_wildcard_and_str_with_type(param_second)
         else:
             if param_second.isdigit():
                 # p1 str np. "IF"  p2 jest liczba
-                return self._str_with_type_and_digit(param_first, param_second)
+                return self._follows_T_str_with_type_and_digit(param_first, param_second)
             elif param_second == '_':
                 # p1 str np. "IF", a p2  "_"
-                return self._str_with_type_and_wild_card(param_first)
+                return self._follows_T_str_with_type_and_wildcard(param_first)
             else:
                 # p1 str np. "IF", a p2 str np. "CALL"
-                return self._two_str_with_types(param_first, param_second)
+                return self._follows_T_two_str_with_types(param_first, param_second)
+
+    def get_all_lines_in_stmt_lst_after_line(self, line_number: int) -> List[int]:
+        pom: List[int] = self.follows_table.get_child(int(line_number))
+        results: List[int] = []
+        while pom:
+            results.append(pom[0])
+            pom = self.follows_table.get_child(pom[0])
+        return results
+
+    def get_all_lines_in_stmt_lst_before_line(self, line_number: int) -> List[int]:
+        pom: List[int] = self.follows_table.get_follows(int(line_number))
+        results: List[int] = []
+        while pom:
+            results.append(pom[0])
+            pom = self.follows_table.get_follows(pom[0])
+        return results
+
+    def _follows_T_two_digits(self, param_first, param_second) -> bool:
+        pom: List[int] = self.get_all_lines_in_stmt_lst_after_line(int(param_first))
+        if int(param_second) in pom:
+            return True
+        else:
+            return False
+
+    def _follows_T_digit_str_type(self, param_first, param_second) -> List[int]:
+        pom: List[int] = []
+        if param_second == 'STMT':
+            for stmt in self.statements:
+                pom.extend(self.stmt_table.get_statement_line_by_type_name(stmt))
+        else:
+            pom = self.stmt_table.get_statement_line_by_type_name(param_second)
+        return list(set(self.get_all_lines_in_stmt_lst_after_line(param_first)).intersection(pom))
+
+    def _follows_T_two_wildcards(self) -> List[int]:
+        #todo do ustalenia jak to ma dzialac przy dwoch wildcardach
+        return [line for line in range(self.stmt_table.get_size())]
+
+    def _follows_T_wildcard_and_str_with_type(self, param_second) -> List[int]:
+        if param_second == 'STMT':
+            return self.get_all_lines_in_stmt_lst_before_line(param_second)
+        results: List[int] = []
+        for i in self.stmt_table.get_statement_line_by_type_name(param_second):
+            results.extend(self.get_all_lines_in_stmt_lst_before_line(i))
+        return list(set(results))
+
+    def _follows_T_str_with_type_and_digit(self, param_first, param_second) -> List[int]:
+        pom: List[int] = []
+        if param_first == 'STMT':
+            for stmt in self.statements:
+                pom.extend(self.stmt_table.get_statement_line_by_type_name(stmt))
+        else:
+            pom = self.stmt_table.get_statement_line_by_type_name(param_first)
+        return list(set(self.get_all_lines_in_stmt_lst_before_line(param_second)).intersection(pom))
+
+    def _follows_T_str_with_type_and_wildcard(self, param_first) -> List[int]:
+        pom: List[int] = []
+        if param_first == 'STMT':
+            for stmt in self.statements:
+                pom.extend(self.stmt_table.get_statement_line_by_type_name(stmt))
+        else:
+            pom = self.stmt_table.get_statement_line_by_type_name(param_first)
+        results: List[int] = []
+        for i in pom:
+            results.extend(self.get_all_lines_in_stmt_lst_after_line(i))
+        return list(set(results))
+
+    def _follows_T_two_str_with_types(self, param_first, param_second) -> List[int]:
+        pom_first: List[int] = []
+        if param_first == 'STMT':
+            for stmt in self.statements:
+                pom_first.extend(self.stmt_table.get_statement_line_by_type_name(stmt))
+        else:
+            pom_first = self.stmt_table.get_statement_line_by_type_name(param_first)
+        pom_second: List[int] = []
+        if param_second == 'STMT':
+            for stmt in self.statements:
+                pom_second.extend(self.stmt_table.get_statement_line_by_type_name(stmt))
+        else:
+            pom_second = self.stmt_table.get_statement_line_by_type_name(param_second)
+        results: List[int] = []
+        for i in pom_first:
+            for j in self.get_all_lines_in_stmt_lst_after_line(i):
+                if j in pom_second:
+                    results.append(j)
+        return list(set(results))
