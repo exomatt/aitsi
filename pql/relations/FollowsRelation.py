@@ -166,7 +166,6 @@ class FollowsRelation:
         return list(set(self.get_all_lines_in_stmt_lst_after_line(param_first)).intersection(pom))
 
     def _follows_T_two_wildcards(self) -> List[int]:
-        #todo do ustalenia jak to ma dzialac przy dwoch wildcardach
         return [line for line in range(self.stmt_table.get_size())]
 
     def _follows_T_wildcard_and_str_with_type(self, param_second) -> List[int]:
