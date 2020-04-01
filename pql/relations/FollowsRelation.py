@@ -45,13 +45,13 @@ class FollowsRelation:
                 # p1 str np. "IF", a p2 str np. "CALL"
                 return self._two_str_with_types(param_first, param_second)
 
-    def _two_wild_cards(self):
+    def _two_wild_cards(self) -> List[int]:
         result: List[int] = []
         for number in range(self.stmt_table.get_size()):
             result.extend(self.follows_table.get_child(number))
         return result
 
-    def _wild_card_and_str_with_type(self, param_second):
+    def _wild_card_and_str_with_type(self, param_second) -> List[int]:
         result: List[int] = []
         lines_numbers: List[int] = self.stmt_table.get_statement_line_by_type_name(param_second)
         for number in lines_numbers:
@@ -60,7 +60,7 @@ class FollowsRelation:
                 result.append(number)
         return result
 
-    def _two_str_with_types(self, param_first, param_second):
+    def _two_str_with_types(self, param_first, param_second) -> List[int]:
         result: List[int] = []
         p1_lines_numbers: List[int] = []
         p1_lines_numbers.extend(self.stmt_table.get_statement_line_by_type_name(param_first))
@@ -72,7 +72,7 @@ class FollowsRelation:
                     result.append(p2_number)
         return result
 
-    def _str_with_type_and_wild_card(self, param_first):
+    def _str_with_type_and_wild_card(self, param_first) -> List[int]:
         result: List[int] = []
         lines_numbers: List[int] = []
         lines_numbers.extend(self.stmt_table.get_statement_line_by_type_name(param_first))
@@ -80,7 +80,7 @@ class FollowsRelation:
             result.extend(self.follows_table.get_child(number))
         return result
 
-    def _str_with_type_and_digit(self, param_first, param_second):
+    def _str_with_type_and_digit(self, param_first, param_second) -> List[int]:
         lines_numbers: List[int] = []
         if param_first == 'STMT':
             for stmt in self.statements:
@@ -93,7 +93,7 @@ class FollowsRelation:
                 return [number]
         return []
 
-    def _digit_and_string_with_type(self, param_first, param_second):
+    def _digit_and_string_with_type(self, param_first, param_second) -> bool:
         lines_numbers: List[int] = self.stmt_table.get_statement_line_by_type_name(param_second)
         for number in lines_numbers:
             if self.follows_table.is_follows(int(param_first), number):
