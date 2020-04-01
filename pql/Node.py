@@ -25,6 +25,9 @@ class Node:
     def add_child(self, child) -> None:
         self.children.append(child)
 
+    def add_children(self, children_list) -> None:
+        self.children.extend(children_list)
+
     def to_string(self, i: int) -> None:
         print(str(i) + ": TYPE:" + self.node_type + "\t VALUE:" + self.value + "\t LINE:" + str(self.line))
         for x in self.children:
