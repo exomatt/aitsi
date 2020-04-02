@@ -157,8 +157,9 @@ class ParentRelation:
                     result.add(child)
             return list(result), None
 
-    def parent_T(self, param_first: str, param_second: str) -> Union[
-        Tuple[bool, None], Tuple[List[int], None], Tuple[list, list]]:
+    def parent_T(self, param_first: str, param_second: str) -> Union[Tuple[bool, None],
+                                                                     Tuple[List[int], None],
+                                                                     Tuple[list, list]]:
         if param_first.isdigit():
             if param_second.isdigit():
                 # p1 i p2 sa liczbami
@@ -189,7 +190,7 @@ class ParentRelation:
                 return self._parent_T_str_type_wild_card(param_first)
             else:
                 # p1 str np. "IF", a p2 str np. "CALL"
-                return self._parent_T_two_str_types(param_first, param_second)  # todo tu
+                return self._parent_T_two_str_types(param_first, param_second)
 
     def _parent_T_two_str_types(self, param_first, param_second) -> Tuple[List[int], List[int]]:
         result_left = self._result_left_parent_T_two_str(param_first, param_second)

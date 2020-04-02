@@ -1,6 +1,6 @@
+import json
 from typing import List
 
-import json
 import pandas as pd
 
 
@@ -28,7 +28,7 @@ class ProcTable:
         return self.table.loc[index].proc_name
 
     def get_other_info(self, proc_name: str) -> dict:
-        return self.table.loc[self.table['proc_name'] == proc_name].other_info[0]
+        return self.table['other_info'][self.table.loc[self.table['proc_name'] == proc_name].index[0]]
 
     def get_proc_index(self, proc_name: str) -> int:
         return self.table.loc[self.table['proc_name'] == proc_name].index[0]
