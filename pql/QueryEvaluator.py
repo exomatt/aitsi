@@ -81,10 +81,10 @@ class QueryEvaluator:
             result_relation = ParentRelation( self.all_tables['parent'],self.all_tables['statement']).parent_T(argument_first,
                                                                                                      argument_second)
         elif relation_type == 'FOLLOWS':
-            result_relation = FollowsRelation(self.code_ast_tree, self.all_tables['follows']).follows(argument_first,
+            result_relation = FollowsRelation(self.all_tables['follows'], self.all_tables['statement']).follows(argument_first,
                                                                                                       argument_second)
         elif relation_type == 'FOLLOWST':
-            result_relation = FollowsRelation(self.code_ast_tree, self.all_tables['follows']).follows_T(argument_first,
+            result_relation = FollowsRelation(self.all_tables['follows'], self.all_tables['statement']).follows_T(argument_first,
                                                                                                         argument_second)
 
         if self.and_flag:
