@@ -30,9 +30,6 @@ class QueryProcessor:
         self.next_token: Tuple[str, str] = ('', '')
         self.root: Node = Node("QUERY", "query")
         self.declaration_list: List[Tuple[str, str]] = []
-        self.such_that_leaf: Node = None
-        self.with_leaf: Node = None
-
     def match(self, token: str) -> None:
         if self.next_token[0] == token:
             self.prev_token = self.next_token
@@ -75,7 +72,7 @@ class QueryProcessor:
             if declaration_variable_type is None:
                 self.error("stmt_ref ")
             if declaration_variable_type not in ["STMT", "CONSTANT", "WHILE", "IF", "PROG_LINE", "ASSIGN",
-                                                 "CALL"]:  # TODO czy call też ?
+                                                 "CALL"]:
                 self.error("stmt_ref error - bad agrument - argument must be integer")
             return Node(declaration_variable_type, self.prev_token[1].strip())
         elif self.next_token[0] == "EVERYTHING":
@@ -201,6 +198,7 @@ class QueryProcessor:
         return node_list
 
     def attribute(self) -> Node:
+        attribute_node:Node = Node("ATTR")
         self.synonym()
         declaration_variable_type: str = self.get_declaration_type(self.prev_token[1].strip())
         if declaration_variable_type is None:
@@ -210,13 +208,13 @@ class QueryProcessor:
             self.error("attribute validate error")
         else:
             synonym_node.add_child(self.attr_name())
-        return synonym_node
+        attribute_node.add_child(synonym_node)
+        attribute_node.add_child(self.ref())
+        return attribute_node
 
     def attr_name(self) -> Node:
         self.match('ATTR_NAME')
-        attr_name_node: Node = Node(self.prev_token[0], self.prev_token[1].replace('.', ''))
-        attr_name_node.add_child(self.ref())
-        return attr_name_node
+        return Node(self.prev_token[0], self.prev_token[1].replace('.', ''))
 
     def attribute_value(self) -> Node:
         self.synonym()
@@ -224,7 +222,7 @@ class QueryProcessor:
         if declaration_variable_type is None:
             self.error("attribute_value ")
         synonym_node: Node = Node(declaration_variable_type, self.prev_token[1].strip())
-        if self.validate_attribute_name(declaration_variable_type) is False:
+        if not self.validate_attribute_name(declaration_variable_type):
             self.error("attribute_value validate error")
         else:
             synonym_node.add_child(self.attr_name_value())
@@ -246,11 +244,11 @@ class QueryProcessor:
             return self.attribute_value()
         return ref_node
 
-    def synonym(self):
+    def synonym(self) -> None:
         self.match("IDENT")
 
     def validate_attribute_name(self, variable_type: str) -> bool:
-        if variable_type == "STMT" and self.next_token[1].replace('.', '').strip() == "stmt#":
+        if variable_type in ["STMT", "WHILE", "IF", "ASSIGN", "CALL"] and self.next_token[1].replace('.', '').strip() == "stmt#":
             return True
         if variable_type == "CONSTANT" and self.next_token[1].replace('.', '').strip() == "value":
             return True
