@@ -1,6 +1,6 @@
 import json
 import re
-from typing import Tuple, Dict
+from typing import Tuple, Dict, List
 
 from pql.Node import Node
 
@@ -29,16 +29,16 @@ class QueryProcessor:
         self.prev_token: Tuple[str, str] = ('', '')
         self.next_token: Tuple[str, str] = ('', '')
         self.root: Node = Node("QUERY", "query")
-
+        self.declaration_list: List[Tuple[str, str]] = []
     def match(self, token: str) -> None:
         if self.next_token[0] == token:
             self.prev_token = self.next_token
             self.next_token = self.get_token()
         else:
-            self.error()
+            self.error(self.next_token[0] + "not equals " + token)
 
-    def error(self) -> None:
-        print("ERROR")
+    def error(self, info: str) -> None:
+        print("ERROR: " + info)
 
     def get_token(self) -> Tuple[str, str]:
         new_token: Tuple[str, str] = ('', '')
@@ -68,6 +68,13 @@ class QueryProcessor:
     def stmt_ref(self) -> Node:
         if self.next_token[0] == "IDENT":
             self.synonym()
+            declaration_variable_type: str = self.get_declaration_type(self.prev_token[1].strip())
+            if declaration_variable_type is None:
+                self.error("stmt_ref ")
+            if declaration_variable_type not in ["STMT", "CONSTANT", "WHILE", "IF", "PROG_LINE", "ASSIGN",
+                                                 "CALL"]:
+                self.error("stmt_ref error - bad agrument - argument must be integer")
+            return Node(declaration_variable_type, self.prev_token[1].strip())
         elif self.next_token[0] == "EVERYTHING":
             self.match("EVERYTHING")
         elif self.next_token[0] == "INTEGER":
@@ -77,52 +84,73 @@ class QueryProcessor:
     def ent_ref(self) -> Node:
         if self.next_token[0] == "IDENT":
             self.synonym()
+            declaration_variable_type: str = self.get_declaration_type(self.prev_token[1].strip())
+            if declaration_variable_type is None:
+                self.error("ent_ref ")
+            if declaration_variable_type not in ["PROCEDURE", "VARIABLE"]:
+                self.error("ent ref error - argument must be string ")
+            return Node(declaration_variable_type, self.prev_token[1].strip())
         elif self.next_token[0] == "EVERYTHING":
             self.match("EVERYTHING")
         elif self.next_token[0] == "IDENT_QUOTE":
             self.match("IDENT_QUOTE")
 
-        return Node(self.prev_token[0].strip(), self.prev_token[1].strip().replace('"',''))
+        return Node(self.prev_token[0].strip(), self.prev_token[1].strip().replace('"', ''))
 
     def select_cl(self) -> None:
-        self.root.add_child(self.design_entity())
+        self.design_entity()
         self.match("SELECT")
         result_node: Node = Node("RESULT")
         if self.next_token[0] == 'BOOLEAN':
             self.match('BOOLEAN')
         else:
             self.synonym()
-        result_node.add_child(Node(self.prev_token[0].strip(), self.prev_token[1].strip()))
+            declaration_variable_type: str = self.get_declaration_type(self.prev_token[1].strip())
+            if declaration_variable_type is None:
+                self.error("select_cl ")
+        result_node.add_child(Node(declaration_variable_type, self.prev_token[1].strip()))
         self.root.add_child(result_node)
-        if self.next_token[0] == "SUCH_THAT":
-            self.root.add_child(self.such_that_cl())
-        if self.next_token[0] == "WITH":
-            self.root.add_child(self.with_cl())
+        such_that_node: Node = Node("SUCH_THAT")
+        with_node: Node = Node("WITH")
+        while self.next_token[0] in ["SUCH_THAT", "WITH"]:
+            if self.next_token[0] == "SUCH_THAT":
+                self.match("SUCH_THAT")
+                such_that_node.add_children(self.such_that_cl())
+            if self.next_token[0] == "WITH":
+                self.match("WITH")
+                with_node.add_children(self.with_cl())
+        if such_that_node.children:
+            self.root.add_child(such_that_node)
+        if with_node.children:
+            self.root.add_child(with_node)
 
-    def declaration(self) -> Node:
-        declaration_list_node: Node = Node(self.prev_token[1].upper().strip())
+    def get_declaration_type(self, variable_name: str) -> str:
+        for element in self.declaration_list:
+            if element[1] == variable_name:
+                return element[0]
+        return None
+
+    def declaration(self) -> None:
+        variable_type: str = self.prev_token[1].upper().strip()
         while self.next_token[0] != "SEMICOLON":
+            self.declaration_list.append((variable_type, self.next_token[1].strip()))
             self.synonym()
-            declaration_list_node.add_child(Node("SYNONYM", self.prev_token[1].strip()))
             if self.next_token[0] == "COMMA":
                 self.match("COMMA")
         self.match("SEMICOLON")
 
-        return declaration_list_node
-
-    def design_entity(self) -> Node:
-        declaration_node: Node = Node("DECLARATION")
+    def design_entity(self) -> None:
         while self.next_token[0] != "SELECT":
             if self.next_token[0] == "DECLARATION":
                 self.match("DECLARATION")
-                declaration_node.add_child(self.declaration())
-        return declaration_node
+                self.declaration()
 
-    def such_that_cl(self) -> Node:
-        self.match("SUCH_THAT")
-        such_that_node: Node = Node("SUCH_THAT")
-        such_that_node.add_child(self.rel_ref())
-        return such_that_node
+    def such_that_cl(self) -> List[Node]:
+        node_list: List[Node] = [self.rel_ref()]
+        while self.next_token[0] == "AND":
+            self.match("AND")
+            node_list.append(self.rel_ref())
+        return node_list
 
     def rel_ref(self) -> Node:
         if self.next_token[0] == "MODIFIES":
@@ -150,9 +178,6 @@ class QueryProcessor:
         self.match("COMMA")
         relation_node.add_child(self.stmt_ref())
         self.match("CLOSE_PARENTHESIS")
-        if self.next_token[0] == "AND":
-            self.match("AND")
-            relation_node.add_child(self.rel_ref())
         return relation_node
 
     def relation_with_other_arguments(self, type_node: str) -> Node:
@@ -163,46 +188,54 @@ class QueryProcessor:
         self.match("COMMA")
         relation_node.add_child(self.ent_ref())
         self.match("CLOSE_PARENTHESIS")
-        if self.next_token[0] == "AND":
-            self.match("AND")
-            relation_node.add_child(self.rel_ref())
         return relation_node
 
-    def with_cl(self) -> Node:
-        self.match("WITH")
-        with_node: Node = Node("WITH")
-        with_node.add_child(self.attribute())
-        return with_node
+    def with_cl(self) -> List[Node]:
+        node_list: List[Node] = [self.attribute()]
+        while self.next_token[0] == "AND":
+            self.match("AND")
+            node_list.append(self.attribute())
+        return node_list
 
     def attribute(self) -> Node:
+        attribute_node:Node = Node("ATTR")
         self.synonym()
-        synonym_node: Node = Node(self.prev_token[0], self.prev_token[1].strip())
-        synonym_node.add_child(self.attr_name())
-        if self.next_token[0] == "AND":
-            self.match("AND")
-            synonym_node.add_child(self.attribute())
-        return synonym_node
+        declaration_variable_type: str = self.get_declaration_type(self.prev_token[1].strip())
+        if declaration_variable_type is None:
+            self.error("attribute ")
+        synonym_node: Node = Node(declaration_variable_type, self.prev_token[1].strip())
+        if self.validate_attribute_name(declaration_variable_type) is False:
+            self.error("attribute validate error")
+        else:
+            synonym_node.add_child(self.attr_name())
+        attribute_node.add_child(synonym_node)
+        attribute_node.add_child(self.ref())
+        return attribute_node
 
     def attr_name(self) -> Node:
         self.match('ATTR_NAME')
-        attr_name_node: Node = Node(self.prev_token[0], self.prev_token[1].replace('.', ''))
-        attr_name_node.add_child(self.ref())
-        return attr_name_node
+        return Node(self.prev_token[0], self.prev_token[1].replace('.', ''))
 
     def attribute_value(self) -> Node:
         self.synonym()
-        synonym_node: Node = Node(self.prev_token[0].strip(), self.prev_token[1].strip())
-        synonym_node.add_child(self.attr_name_value())
+        declaration_variable_type: str = self.get_declaration_type(self.prev_token[1].strip())
+        if declaration_variable_type is None:
+            self.error("attribute_value ")
+        synonym_node: Node = Node(declaration_variable_type, self.prev_token[1].strip())
+        if not self.validate_attribute_name(declaration_variable_type):
+            self.error("attribute_value validate error")
+        else:
+            synonym_node.add_child(self.attr_name_value())
         return synonym_node
 
     def attr_name_value(self) -> Node:
         self.match('ATTR_NAME')
-        attr_name_node: Node = Node(self.prev_token[0], self.prev_token[1].replace('.', '').split())
+        attr_name_node: Node = Node(self.prev_token[0], self.prev_token[1].replace('.', '').strip())
         return attr_name_node
 
     def ref(self) -> Node:
         self.match("EQUALS_SIGN")
-        ref_node: Node = Node(self.next_token[0], self.next_token[1].replace('"',''))
+        ref_node: Node = Node(self.next_token[0], self.next_token[1].replace('.', ''))
         if self.next_token[0] == "IDENT_QUOTE":
             self.match("IDENT_QUOTE")
         elif self.next_token[0] == "INTEGER":
@@ -211,8 +244,21 @@ class QueryProcessor:
             return self.attribute_value()
         return ref_node
 
-    def synonym(self):
+    def synonym(self) -> None:
         self.match("IDENT")
+
+    def validate_attribute_name(self, variable_type: str) -> bool:
+        if variable_type in ["STMT", "WHILE", "IF", "ASSIGN", "CALL"] and self.next_token[1].replace('.', '').strip() == "stmt#":
+            return True
+        if variable_type == "CONSTANT" and self.next_token[1].replace('.', '').strip() == "value":
+            return True
+        if variable_type == "PROCEDURE" and self.next_token[1].replace('.', '').strip() == "procName":
+            return True
+        if variable_type == "VARIABLE" and self.next_token[1].replace('.', '').strip() == "varName":
+            return True
+        if variable_type == "CALL" and self.next_token[1].replace('.', '').strip() == "procName":
+            return True
+        return False
 
     def get_node_json(self) -> Dict[str, dict]:
         json_str = Node.Schema().dumps(self.root)
