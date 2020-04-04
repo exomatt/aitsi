@@ -33,18 +33,12 @@ def export_query_tree_to_file(query_json_tree: Dict[str, dict], filename: str = 
         json.dump(query_json_tree, f, indent=4, sort_keys=True)
 
 
-if __name__ == '__main__':
-    arg_parser = argparse.ArgumentParser(description='PQL program!')
-    arg_parser.add_argument("--i", default="pql_query.txt", type=str, help="Input file with pql query")
-    arg_parser.add_argument("--o", default="pql_query_tree.json", type=str, help="Output file for pql query tree ")
-    arg_parser.add_argument("--ast", default="AST.json", type=str, help="Input file with AST tree")
-    arg_parser.add_argument("--p", default="database/test/code_short", type=str, help="Path to dir")
+def main():
 
-    args: argparse.Namespace = arg_parser.parse_args()
-    input_query_filename: str = args.i
-    input_ast_filename: str = args.ast
-    output_query_filename: str = args.o
-    tables_directory_path: str = args.p
+    input_query_filename: str = "pql_query.txt"
+    input_ast_filename: str = "pql_query_tree.json"
+    output_query_filename: str = "AST.json"
+    tables_directory_path: str = "database/test/code_short"
 
     ast_node: Node = load_ast_from_file(input_ast_filename)
 
