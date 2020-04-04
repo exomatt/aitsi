@@ -18,16 +18,16 @@ def read_program_from_file(filename: str = "code_short.txt") -> Parser:
         return _parser
 
 
-if __name__ == '__main__':
-    arg_parser = argparse.ArgumentParser(description='Aitsi parser!')
-    arg_parser.add_argument("--i", default="code_short.txt", type=str, help="Input file with program")
-    arg_parser.add_argument("--o", default="AST.json", type=str, help="Output file for AST json ")
-    arg_parser.add_argument("--d", required=True, type=str, help="Name of output directory")
-    args: argparse.Namespace = arg_parser.parse_args()
+def main(path):
+    # arg_parser = argparse.ArgumentParser(description='Aitsi parser!')
+    # arg_parser.add_argument("--i", default="code_short.txt", type=str, help="Input file with program")
+    # arg_parser.add_argument("--o", default="AST.json", type=str, help="Output file for AST json ")
+    # arg_parser.add_argument("--d", default="test", type=str, help="Name of output directory")
+    # args: argparse.Namespace = arg_parser.parse_args()
 
-    input_filename: str = args.i
-    output_filename: str = args.o
-    output_directory: str = args.d
+    input_filename: str = path
+    output_filename: str = "AST.json"
+    output_directory: str = "test"
     parser: Parser = read_program_from_file(input_filename)
     parser.program()
 
