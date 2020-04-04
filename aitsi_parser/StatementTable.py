@@ -46,6 +46,9 @@ class StatementTable:
                 result.append(statement)
         return result
 
+    def get_all_statement_lines(self) -> List[int]:
+        return self.table['statement_line'].tolist()
+
     def get_size(self) -> int:
         return len(self.table)
 
