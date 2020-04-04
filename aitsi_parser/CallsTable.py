@@ -23,6 +23,7 @@ class CallsTable:
             self.table = self.table.fillna(value=0)
         else:
             self.table[receiving_procedure][call_procedure] = 1
+            self.table = self.table.fillna(value=0)
 
     def get_calls(self, procedure: str) -> List[str]:
         results: List[str] = []
