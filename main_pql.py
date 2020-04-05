@@ -1,6 +1,6 @@
 import argparse
 import json
-from typing import Dict
+from typing import Dict, Union
 
 from aitsi_parser.CallsTable import CallsTable
 from aitsi_parser.FollowsTable import FollowsTable
@@ -61,9 +61,21 @@ if __name__ == '__main__':
         CsvReader.read_csv_from_file(tables_directory_path + "/FollowsTable.csv", True))
     statement_table: StatementTable = StatementTable(
         CsvReader.read_csv_from_file(tables_directory_path + "/StatementTable.csv"))
-    all_tables: Dict[str, object] = {'var': var_table, 'proc': proc_table, 'uses': uses_table, 'parent': parent_table,
-                                     'modifies': modifies_table, 'follows': follows_table, 'calls': calls_table,
-                                     'statement': statement_table}
+    all_tables: Dict[str, Union[VarTable,
+                                ProcTable,
+                                UsesTable,
+                                ParentTable,
+                                ModifiesTable,
+                                FollowsTable,
+                                CallsTable,
+                                StatementTable]] = {'var': var_table,
+                                                    'proc': proc_table,
+                                                    'uses': uses_table,
+                                                    'parent': parent_table,
+                                                    'modifies': modifies_table,
+                                                    'follows': follows_table,
+                                                    'calls': calls_table,
+                                                    'statement': statement_table}
 
     query: str = load_query_from_file(input_query_filename)
 

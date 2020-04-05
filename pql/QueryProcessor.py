@@ -163,21 +163,35 @@ class QueryProcessor:
         elif self.next_token[0] == "USEST":
             return self.relation_with_other_arguments("USEST")
         elif self.next_token[0] == "PARENT":
-            return self.relation_with_the_same_arguments("PARENT")
+            return self.relation_with_the_same_arguments_and_is_integer("PARENT")
         elif self.next_token[0] == "PARENTT":
-            return self.relation_with_the_same_arguments("PARENTT")
+            return self.relation_with_the_same_arguments_and_is_integer("PARENTT")
         elif self.next_token[0] == "FOLLOWS":
-            return self.relation_with_the_same_arguments("FOLLOWS")
+            return self.relation_with_the_same_arguments_and_is_integer("FOLLOWS")
         elif self.next_token[0] == "FOLLOWST":
-            return self.relation_with_the_same_arguments("FOLLOWST")
+            return self.relation_with_the_same_arguments_and_is_integer("FOLLOWST")
+        elif self.next_token[0] == "CALLS":
+            return self.relation_with_the_same_arguments_and_is_string("CALLS")
+        elif self.next_token[0] == "CALLST":
+            return self.relation_with_the_same_arguments_and_is_string("CALLST")
 
-    def relation_with_the_same_arguments(self, type_node: str) -> Node:
+    def relation_with_the_same_arguments_and_is_integer(self, type_node: str) -> Node:
         self.match(type_node)
         relation_node: Node = Node(type_node)
         self.match("OPEN_PARENTHESIS")
         relation_node.add_child(self.stmt_ref())
         self.match("COMMA")
         relation_node.add_child(self.stmt_ref())
+        self.match("CLOSE_PARENTHESIS")
+        return relation_node
+
+    def relation_with_the_same_arguments_and_is_string(self, type_node: str) -> Node:
+        self.match(type_node)
+        relation_node: Node = Node(type_node)
+        self.match("OPEN_PARENTHESIS")
+        relation_node.add_child(self.ent_ref())
+        self.match("COMMA")
+        relation_node.add_child(self.ent_ref())
         self.match("CLOSE_PARENTHESIS")
         return relation_node
 
