@@ -73,7 +73,7 @@ class QueryEvaluator:
                                                self.all_tables['statement'], self.all_tables['proc']).modifies(
                 argument_first, argument_second)
         elif relation_type == 'USES':
-            result_relation = UsesRelation(self.code_ast_tree, self.all_tables['uses'], self.all_tables['var'],
+            result_relation = UsesRelation(self.all_tables['uses'], self.all_tables['var'],
                                            self.all_tables['statement'], self.all_tables['proc']).uses(
                 argument_first,
                 argument_second)
