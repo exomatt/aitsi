@@ -44,8 +44,8 @@ class CallsRelation:
     def calls_T(self, param_first: str, param_second: str) -> Union[Tuple[bool, None],
                                                                     Tuple[List[str], None],
                                                                     Tuple[List[str], List[str]]]:
-        if param_first == 'PROCEDURE':
-            if param_second == 'PROCEDURE' or param_first == '_':
+        if param_first == 'PROCEDURE' or param_first == '_':
+            if param_second == 'PROCEDURE':
                 # p1 - procedura (p) lub '_' | p2 - procedura (p2)
                 return self.calls_table.table.index.tolist(), self.calls_table.table.columns.tolist()
             elif param_second == '_':
