@@ -29,7 +29,8 @@ class QueryProcessor:
         self.prev_token: Tuple[str, str] = ('', '')
         self.next_token: Tuple[str, str] = ('', '')
         self.root: Node = Node("QUERY", "query")
-        self.declaration_list: List[Tuple[str, str]] = []
+        self.declaration_dict: Dict[str, str] = {}
+
     def match(self, token: str) -> None:
         if self.next_token[0] == token:
             self.prev_token = self.next_token
@@ -125,15 +126,15 @@ class QueryProcessor:
             self.root.add_child(with_node)
 
     def get_declaration_type(self, variable_name: str) -> str:
-        for element in self.declaration_list:
-            if element[1] == variable_name:
-                return element[0]
-        return None
+        return self.declaration_dict.get(variable_name, "")
 
     def declaration(self) -> None:
         variable_type: str = self.prev_token[1].upper().strip()
         while self.next_token[0] != "SEMICOLON":
-            self.declaration_list.append((variable_type, self.next_token[1].strip()))
+            if self.next_token[1].strip() in self.declaration_dict:
+                self.error("Variable " + self.next_token[1].strip() + " already exist")
+            else:
+                self.declaration_dict.update({self.next_token[1].strip(): variable_type})
             self.synonym()
             if self.next_token[0] == "COMMA":
                 self.match("COMMA")
@@ -198,7 +199,7 @@ class QueryProcessor:
         return node_list
 
     def attribute(self) -> Node:
-        attribute_node:Node = Node("ATTR")
+        attribute_node: Node = Node("ATTR")
         self.synonym()
         declaration_variable_type: str = self.get_declaration_type(self.prev_token[1].strip())
         if declaration_variable_type is None:
@@ -248,7 +249,8 @@ class QueryProcessor:
         self.match("IDENT")
 
     def validate_attribute_name(self, variable_type: str) -> bool:
-        if variable_type in ["STMT", "WHILE", "IF", "ASSIGN", "CALL"] and self.next_token[1].replace('.', '').strip() == "stmt#":
+        if variable_type in ["STMT", "WHILE", "IF", "ASSIGN", "CALL"] and self.next_token[1].replace('.',
+                                                                                                     '').strip() == "stmt#":
             return True
         if variable_type == "CONSTANT" and self.next_token[1].replace('.', '').strip() == "value":
             return True
