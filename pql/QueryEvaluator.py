@@ -54,7 +54,7 @@ class QueryEvaluator:
                 self.node_analysis(root.children[index])
 
     def arguments_analysis(self, argument_relation: Node) -> str:
-        if argument_relation.node_type in ['INTEGER','EVERYTHING','IDENT_QUOTE']:
+        if argument_relation.node_type in ['INTEGER', 'EVERYTHING', 'IDENT_QUOTE']:
             return argument_relation.value
         elif argument_relation.node_type == 'IDENT':
             return self.variable_search(argument_relation.value)
@@ -70,22 +70,29 @@ class QueryEvaluator:
     def select_relation(self, relation_type: str, argument_first: str, argument_second: str):
         if relation_type == 'MODIFIES':
             result_relation = ModifiesRelation(self.all_tables['modifies'], self.all_tables['var'],
-                                               self.all_tables['statement'],self.all_tables['proc']).modifies(argument_first, argument_second)
-        elif relation_type == 'USES':
-            result_relation = UsesRelation(self.code_ast_tree, self.all_tables['uses'], self.all_tables['var']).uses(
+                                               self.all_tables['statement'], self.all_tables['proc']).modifies(
                 argument_first, argument_second)
+        elif relation_type == 'USES':
+            result_relation = UsesRelation(self.all_tables['uses'], self.all_tables['var'],
+                                           self.all_tables['statement'], self.all_tables['proc']).uses(
+                argument_first,
+                argument_second)
         elif relation_type == 'PARENT':
-            result_relation = ParentRelation( self.all_tables['parent'],self.all_tables['statement']).parent(argument_first,
-                                                                                                   argument_second)
+            result_relation = ParentRelation(self.all_tables['parent'], self.all_tables['statement']).parent(
+                argument_first,
+                argument_second)
         elif relation_type == 'PARENTT':
-            result_relation = ParentRelation( self.all_tables['parent'],self.all_tables['statement']).parent_T(argument_first,
-                                                                                                     argument_second)
+            result_relation = ParentRelation(self.all_tables['parent'], self.all_tables['statement']).parent_T(
+                argument_first,
+                argument_second)
         elif relation_type == 'FOLLOWS':
-            result_relation = FollowsRelation(self.all_tables['follows'], self.all_tables['statement']).follows(argument_first,
-                                                                                                      argument_second)
+            result_relation = FollowsRelation(self.all_tables['follows'], self.all_tables['statement']).follows(
+                argument_first,
+                argument_second)
         elif relation_type == 'FOLLOWST':
-            result_relation = FollowsRelation(self.all_tables['follows'], self.all_tables['statement']).follows_T(argument_first,
-                                                                                                        argument_second)
+            result_relation = FollowsRelation(self.all_tables['follows'], self.all_tables['statement']).follows_T(
+                argument_first,
+                argument_second)
 
         if self.and_flag:
             self.result = list(set(self.result).intersection(result_relation))
