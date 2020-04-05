@@ -68,13 +68,20 @@ class Parser:
         for child in self.root.children:
             called_procedures = self.calls_table.get_called_from(child.value)
             for proc in called_procedures:
-                modified_vars = self.mod_table.get_modified(proc)
-                used_vars = self.uses_table.get_used(proc)
+                modified_vars: List[str]  = self.mod_table.get_modified(proc)
+                used_vars: List[str] = self.uses_table.get_used(proc)
                 for var in modified_vars:
                     self.mod_table.set_modifies(var, child.value)
                 for var in used_vars:
                     self.uses_table.set_uses(var, child.value)
-
+        for statement in self.statement_table.table.values:
+            if statement[1]['name'] == 'CALL':
+                modified_vars: List[str]  = self.mod_table.get_modified(statement[1]['value'])
+                used_vars: List[str] = self.uses_table.get_used(statement[1]['value'])
+                for var in modified_vars:
+                    self.mod_table.set_modifies(var, str(statement[0]))
+                for var in used_vars:
+                    self.uses_table.set_uses(var, str(statement[0]))
     def procedure(self) -> Node:
         self.match("PROCEDURE")
         self.match("NAME")
