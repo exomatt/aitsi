@@ -29,7 +29,7 @@ class QueryProcessor:
         self.prev_token: Tuple[str, str] = ('', '')
         self.next_token: Tuple[str, str] = ('', '')
         self.root: Node = Node("QUERY", "query")
-        self.declaration_dict: Dict = {}
+        self.declaration_dict: Dict[str, str] = {}
 
     def match(self, token: str) -> None:
         if self.next_token[0] == token:
@@ -199,7 +199,7 @@ class QueryProcessor:
         return node_list
 
     def attribute(self) -> Node:
-        attribute_node:Node = Node("ATTR")
+        attribute_node: Node = Node("ATTR")
         self.synonym()
         declaration_variable_type: str = self.get_declaration_type(self.prev_token[1].strip())
         if declaration_variable_type is None:
@@ -249,7 +249,8 @@ class QueryProcessor:
         self.match("IDENT")
 
     def validate_attribute_name(self, variable_type: str) -> bool:
-        if variable_type in ["STMT", "WHILE", "IF", "ASSIGN", "CALL"] and self.next_token[1].replace('.', '').strip() == "stmt#":
+        if variable_type in ["STMT", "WHILE", "IF", "ASSIGN", "CALL"] and self.next_token[1].replace('.',
+                                                                                                     '').strip() == "stmt#":
             return True
         if variable_type == "CONSTANT" and self.next_token[1].replace('.', '').strip() == "value":
             return True
