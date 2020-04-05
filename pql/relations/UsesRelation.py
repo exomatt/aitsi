@@ -4,16 +4,14 @@ from aitsi_parser.ProcTable import ProcTable
 from aitsi_parser.StatementTable import StatementTable
 from aitsi_parser.UsesTable import UsesTable
 from aitsi_parser.VarTable import VarTable
-from pql.Node import Node
 
 
 class UsesRelation:
     statements = ['WHILE', 'IF', 'ASSIGN', 'CALL']
 
-    def __init__(self, ast_tree: Node, uses_table: UsesTable, var_table: VarTable, stmt_table: StatementTable,
+    def __init__(self, uses_table: UsesTable, var_table: VarTable, stmt_table: StatementTable,
                  proc_table: ProcTable) -> None:
         super().__init__()
-        self.ast_tree: Node = ast_tree
         self.uses_table: UsesTable = uses_table
         self.var_table: VarTable = var_table
         self.stmt_table: StatementTable = stmt_table
@@ -102,7 +100,7 @@ class UsesRelation:
 
         elif param_first == 'STMT':
             line_numbers: List[int] = self.stmt_table.get_all_statement_lines()
-            for line_number in lines_by_type_name:
+            for line_number in line_numbers:
                 if self.uses_table.is_used(param_second, str(line_number)):
                     result_left.add(line_number)
             return list(result_left), None
@@ -129,7 +127,7 @@ class UsesRelation:
         elif param_first == 'STMT':
             line_numbers: List[int] = self.stmt_table.get_all_statement_lines()
             variables: List[str] = self.var_table.table['variable_name'].tolist()
-            for line_number in lines_by_type_name:
+            for line_number in line_numbers:
                 for variable in variables:
                     if self.uses_table.is_used(variable, str(line_number)):
                         result_left.add(line_number)
