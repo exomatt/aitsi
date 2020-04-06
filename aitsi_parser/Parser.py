@@ -82,7 +82,6 @@ class Parser:
                     self.mod_table.set_modifies(var, str(statement[0]))
                 for var in used_vars:
                     self.uses_table.set_uses(var, str(statement[0]))
-        self.root.to_string(1)
 
     def procedure(self) -> Node:
         self.match("PROCEDURE")
