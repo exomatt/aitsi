@@ -1,1 +1,3 @@
-while w; variable v; stmt s; assign a; procedure p; Select p such that Calls(_,p)
+while w; variable v; stmt s; assign a; procedure p;
+Select p such that Calls(_,p)
+['Hexagon', 'Rectangle', 'Triangle']

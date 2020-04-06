@@ -64,7 +64,7 @@ class QueryProcessor:
         self.query = query.replace('\n', '')
         self.next_token = self.get_token()
         self.select_cl()
-        self.root.to_string(0)
+        # self.root.to_string(0) #todo można odkomentować żeby wypisac sobie dane cyk najlepiej zmienic na logi
 
     def stmt_ref(self) -> Node:
         if self.next_token[0] == "IDENT":
