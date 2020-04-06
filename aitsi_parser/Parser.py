@@ -214,7 +214,7 @@ class Parser:
             op_node: Node = Node(self.next_token[0], line=self.current_line)
             self.match(self.next_token[0])
             op_node.add_child(node)
-            op_node.add_child(self.term())
+            op_node.add_child(self.expression())
             node = op_node
         return node
 
@@ -224,7 +224,7 @@ class Parser:
             multiply_node: Node = Node(self.next_token[0], self.next_token[1], self.current_line)
             self.match("MULTIPLY")
             multiply_node.add_child(node)
-            multiply_node.add_child(self.factor())
+            multiply_node.add_child(self.term())
             node = multiply_node
         return node
 
