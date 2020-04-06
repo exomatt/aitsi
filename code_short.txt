@@ -1,7 +1,7 @@
 procedure Circle {
     t = 1;
     a = t + 10;
-    d = t * (a + 2);
+    d = t * a + 2;
     call Triangle;
     b = t + a;
     call Hexagon;
