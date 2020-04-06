@@ -7,9 +7,8 @@ import main_pql
 
 def main(argv):
     db_path = main_parser.main(argv[1])
+    print("Ready")
     while True:
-        # sys.stdout.write("Ready")
-        print("Ready")
         first_line = input()
         second_line = input()
         result: Union[bool, List[str], List[int]] = main_pql.main(first_line + " " + second_line, db_path)
