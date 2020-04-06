@@ -3,7 +3,6 @@ import re
 from typing import Tuple, Dict, List
 
 from aitsi_parser.CallsTable import CallsTable
-from aitsi_parser.Expressions import Expressions
 from aitsi_parser.FollowsTable import FollowsTable
 from aitsi_parser.ModifiesTable import ModifiesTable
 from aitsi_parser.Node import Node
@@ -166,9 +165,7 @@ class Parser:
         self.mod_table.set_modifies(self.prev_token[1], self.call_procedure)
         self.statement_table.insert_statement(self.current_line, {'name': 'ASSIGN', 'value': self.prev_token[1],
                                                                   'start': self.current_line, 'end': self.current_line})
-        expression: Expressions = Expressions(self.code[self.pos:].split(";")[0])
         self.match("ASSIGN")
-        expression.evaluate()
         assign_node.add_child(self.expression())
         self.match("SEMICOLON")
 
@@ -213,44 +210,24 @@ class Parser:
         return if_node
 
     def expression(self) -> Node:
-        # if self.next_token[0] == "NAME":
-        #     self.match("NAME")
-        #     self.uses_table.set_uses(self.prev_token[1], str(self.current_line))
-        #     self.uses_table.set_uses(self.prev_token[1], self.call_procedure)
-        # elif self.next_token[0] == "INTEGER":
-        #     self.match("INTEGER")
-        # left: Node = Node(self.next_token[0], self.next_token[1], self.current_line)
-        # self.match(self.next_token[0])
-        if self.next_token[0] in ["PLUS", "MINUS"]:
+        node: Node = self.term()
+        while self.next_token[0] in ["PLUS", "MINUS"]:
             op_node: Node = Node(self.next_token[0], line=self.current_line)
-            left: Node = self.expression()
-            right: Node = self.term()
-            op_node.add_child(left)
-            op_node.add_child(right)
-            if self.next_token[0] == "SEMICOLON":
-                self.match(self.next_token[0])
-                return op_node
-        else:
-            return self.term()
-        # if self.next_token[0] != "SEMICOLON":
-        #     op_node: Node = Node(self.next_token[0], line=self.current_line)
-        #     op_node.add_child(left)
-        #     self.match(self.next_token[0])
-        #     op_node.add_child(self.expression())
-        # else:
-        #     return left
-        # return op_node
+            self.match(self.next_token[0])
+            op_node.add_child(node)
+            op_node.add_child(self.term())
+            node = op_node
+        return node
 
     def term(self) -> Node:
-        if self.next_token[0] == "MULTIPLY":
-            left_node: Node = self.term()
+        node: Node = self.factor()
+        while self.next_token[0] == "MULTIPLY":
+            multiply_node: Node = Node(self.next_token[0], self.next_token[1], self.current_line)
             self.match("MULTIPLY")
-            multiply_node: Node = Node(self.prev_token[0], self.prev_token[1], self.current_line)
-            multiply_node.add_child(left_node)
+            multiply_node.add_child(node)
             multiply_node.add_child(self.factor())
-            return multiply_node
-        else:
-            return self.factor()
+            node = multiply_node
+        return node
 
     def factor(self) -> Node:
         if self.next_token[0] == "OPEN_PARENTHESIS":
