@@ -1,6 +1,6 @@
 import json
 import re
-from typing import Tuple, Dict
+from typing import Tuple, Dict, List
 
 from aitsi_parser.CallsTable import CallsTable
 from aitsi_parser.FollowsTable import FollowsTable
@@ -68,7 +68,7 @@ class Parser:
         for child in self.root.children:
             called_procedures = self.calls_table.get_called_from(child.value)
             for proc in called_procedures:
-                modified_vars: List[str]  = self.mod_table.get_modified(proc)
+                modified_vars: List[str] = self.mod_table.get_modified(proc)
                 used_vars: List[str] = self.uses_table.get_used(proc)
                 for var in modified_vars:
                     self.mod_table.set_modifies(var, child.value)
@@ -76,12 +76,13 @@ class Parser:
                     self.uses_table.set_uses(var, child.value)
         for statement in self.statement_table.table.values:
             if statement[1]['name'] == 'CALL':
-                modified_vars: List[str]  = self.mod_table.get_modified(statement[1]['value'])
+                modified_vars: List[str] = self.mod_table.get_modified(statement[1]['value'])
                 used_vars: List[str] = self.uses_table.get_used(statement[1]['value'])
                 for var in modified_vars:
                     self.mod_table.set_modifies(var, str(statement[0]))
                 for var in used_vars:
                     self.uses_table.set_uses(var, str(statement[0]))
+
     def procedure(self) -> Node:
         self.match("PROCEDURE")
         self.match("NAME")
@@ -190,7 +191,6 @@ class Parser:
                 for letter in self.uses_table.get_used(str(child.line)):
                     self.uses_table.set_uses(letter, str(if_node.line))
                     self.uses_table.set_uses(letter, self.call_procedure)
-
         self.match("CLOSE_BRACKET")
         self.match("ELSE")
         self.match("OPEN_BRACKET")
@@ -209,21 +209,39 @@ class Parser:
         return if_node
 
     def expression(self) -> Node:
-        if self.next_token[0] == "NAME":
+        node: Node = self.term()
+        while self.next_token[0] in ["PLUS", "MINUS"]:
+            op_node: Node = Node(self.next_token[0], line=self.current_line)
+            self.match(self.next_token[0])
+            op_node.add_child(node)
+            op_node.add_child(self.term())
+            node = op_node
+        return node
+
+    def term(self) -> Node:
+        node: Node = self.factor()
+        while self.next_token[0] == "MULTIPLY":
+            multiply_node: Node = Node(self.next_token[0], self.next_token[1], self.current_line)
+            self.match("MULTIPLY")
+            multiply_node.add_child(node)
+            multiply_node.add_child(self.factor())
+            node = multiply_node
+        return node
+
+    def factor(self) -> Node:
+        if self.next_token[0] == "OPEN_PARENTHESIS":
+            self.match("OPEN_PARENTHESIS")
+            factor_node: Node = self.expression()
+            self.match("CLOSE_PARENTHESIS")
+            return factor_node
+        elif self.next_token[0] == "INTEGER":
+            self.match("INTEGER")
+            return Node(self.prev_token[0], self.prev_token[1], self.current_line)
+        elif self.next_token[0] == "NAME":
             self.match("NAME")
             self.uses_table.set_uses(self.prev_token[1], str(self.current_line))
             self.uses_table.set_uses(self.prev_token[1], self.call_procedure)
-        elif self.next_token[0] == "INTEGER":
-            self.match("INTEGER")
-        left: Node = Node(self.prev_token[0], self.prev_token[1], self.current_line)
-        if self.next_token[0] != "SEMICOLON":
-            op_node: Node = Node(self.next_token[0], line=self.current_line)
-            op_node.add_child(left)
-            self.match(self.next_token[0])
-            op_node.add_child(self.expression())
-        else:
-            return left
-        return op_node
+            return Node(self.prev_token[0], self.prev_token[1], self.current_line)
 
     def get_node_json(self) -> Dict[str, dict]:
         json_str = Node.Schema().dumps(self.root)
