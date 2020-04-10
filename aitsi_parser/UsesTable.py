@@ -50,3 +50,6 @@ class UsesTable:
     def to_string(self) -> None:
         print("UsesTable:")
         print(self.table.to_string())
+
+    def to_log(self) -> str:
+        return "UsesTable: \n" + self.table.to_string()

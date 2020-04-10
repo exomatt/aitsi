@@ -1,3 +1,4 @@
+import logging
 from typing import List, Union, Dict, Tuple
 
 from aitsi_parser.CallsTable import CallsTable
@@ -14,6 +15,8 @@ from pql.relations.FollowsRelation import FollowsRelation
 from pql.relations.ModifiesRelation import ModifiesRelation
 from pql.relations.ParentRelation import ParentRelation
 from pql.relations.UsesRelation import UsesRelation
+
+log = logging.getLogger(__name__)
 
 
 class QueryEvaluator:

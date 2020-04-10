@@ -1,5 +1,7 @@
 import argparse
 import json
+import logging
+import logging.config as conf
 from typing import Dict, Union, List
 
 from aitsi_parser.CallsTable import CallsTable
@@ -14,6 +16,8 @@ from pql.Node import Node
 from pql.QueryEvaluator import QueryEvaluator
 from pql.QueryProcessor import QueryProcessor
 from pql.utils.CsvReader import CsvReader
+
+log = logging.getLogger(__name__)
 
 
 def load_ast_from_file(filename: str) -> Node:
@@ -77,6 +81,7 @@ def main(query: str, tables_directory_path: str = "database/test/code_short", in
 
 
 if __name__ == '__main__':
+    conf.fileConfig("logging.conf", disable_existing_loggers=False)
     arg_parser = argparse.ArgumentParser(description='PQL program!')
     arg_parser.add_argument("--i", default="pql_query.txt", type=str, help="Input file with pql query")
     arg_parser.add_argument("--o", default="pql_query_tree.json", type=str, help="Output file for pql query tree ")
@@ -91,4 +96,4 @@ if __name__ == '__main__':
     _query: str = load_query_from_file(_input_query_filename)
     result: Union[bool, List[str], List[int]] = main(_query, _tables_directory_path, _input_ast_filename,
                                                      _output_query_filename)
-    # print(result)
+    log.debug(result)
