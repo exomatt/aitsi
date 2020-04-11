@@ -49,3 +49,6 @@ class ParentTable:
     def to_string(self) -> None:
         print("ParentTable:")
         print(self.table.to_string())
+
+    def to_log(self) -> str:
+        return "ParentTable: \n" + self.table.to_string()

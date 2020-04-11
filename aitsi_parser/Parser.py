@@ -1,4 +1,5 @@
 import json
+import logging
 import re
 from typing import Tuple, Dict, List
 
@@ -11,6 +12,8 @@ from aitsi_parser.ProcTable import ProcTable
 from aitsi_parser.StatementTable import StatementTable
 from aitsi_parser.UsesTable import UsesTable
 from aitsi_parser.VarTable import VarTable
+
+log = logging.getLogger(__name__)
 
 
 class Parser:
@@ -43,7 +46,7 @@ class Parser:
             self.prev_token = self.next_token
             self.next_token = self.get_token()
         else:
-            self.error()
+            self.error(self.next_token[0] + "not equals " + token)
 
     def get_token(self) -> Tuple[str, str]:
         new_token: Tuple[str, str] = ('', '')
@@ -58,8 +61,8 @@ class Parser:
                     break
         return new_token
 
-    def error(self) -> None:
-        print("ERROR")
+    def error(self, info: str) -> None:
+        log.error("ERROR" + info)
 
     def program(self) -> None:
         self.next_token = self.get_token()

@@ -49,3 +49,6 @@ class ProcTable:
     def to_string(self) -> None:
         print("ProcTable:")
         print(self.table.to_string())
+
+    def to_log(self) -> str:
+        return "ProcTable: \n" + self.table.to_string()

@@ -62,3 +62,6 @@ class StatementTable:
     def to_string(self) -> None:
         print("StatementTable:")
         print(self.table.to_string())
+
+    def to_log(self) -> str:
+        return "StatementTable: \n" + self.table.to_string()
