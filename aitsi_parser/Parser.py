@@ -46,7 +46,7 @@ class Parser:
             self.prev_token = self.next_token
             self.next_token = self.get_token()
         else:
-            self.error()
+            self.error(self.next_token[0] + "not equals " + token)
 
     def get_token(self) -> Tuple[str, str]:
         new_token: Tuple[str, str] = ('', '')
@@ -61,8 +61,8 @@ class Parser:
                     break
         return new_token
 
-    def error(self) -> None:
-        log.error("ERROR")
+    def error(self, info: str) -> None:
+        log.error("ERROR" + info)
 
     def program(self) -> None:
         self.next_token = self.get_token()
