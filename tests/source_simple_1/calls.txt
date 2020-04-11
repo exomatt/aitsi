@@ -1,0 +1,6 @@
+procedure p;
+Select p such that Calls (p, "Init")
+ABC,Second
+procedure p;
+Select p such that Calls (p, "Init")
+ABC,Second
