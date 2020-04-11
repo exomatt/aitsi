@@ -67,25 +67,25 @@ none
 while w;
 Select w such that Parent* (w,21)
 18
-stm s; 
+stmt s;
 Select s such that Follows (s,1)
 none
-stm s; 
+stmt s;
 Select s such that Follows (s,8)
 7
-stm s; 
+stmt s;
 Select s such that Follows (s,9)
 none
-stm s; 
+stmt s;
 Select s such that Follows (s,10)
 9
-stm s; 
+stmt s;
 Select s such that Follows (s,12)
 11
-stm s; 
+stmt s;
 Select s such that Follows (s,13)
 10
-stm s; 
+stmt s;
 Select s such that Follows (s,23)
 none
 assign a;
