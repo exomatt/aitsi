@@ -64,8 +64,6 @@ class FollowsRelation:
             parents: List[int] = self.follows_table.get_follows(number)
             if len(parents) != 0:
                 result.append(number)
-                # check
-                # dla wildcarda zwracamy linie przed stmt, a dla stmt linie jesli jest cos przed nia
                 result_second.append(parents[0])
         return result_second, result
 
@@ -90,8 +88,6 @@ class FollowsRelation:
         lines_numbers.extend(self.stmt_table.get_statement_line_by_type_name(param_first))
         for number in lines_numbers:
             result.extend(self.follows_table.get_child(number))
-            #check
-            #podobnie jak tam wyzej tylko ze odwrotnie
             if len(self.follows_table.get_child(number)) != 0:
                 result_second.append(number)
         return result_second, result
@@ -129,14 +125,14 @@ class FollowsRelation:
                 return self._follows_T_two_digits(param_first, param_second)
             elif param_second == '_':
                 # p1 jest liczba, a p2  "_"
-                return self.get_all_lines_in_stmt_lst_after_line(param_first)
+                return self.get_all_lines_in_stmt_lst_after_line(int(param_first)), None
             else:
                 # p1 jest liczba, a p2 str np. "CALL"
                 return self._follows_T_digit_str_type(param_first, param_second)
         elif param_first == '_':
             if param_second.isdigit():
                 # p1  "_"  p2 jest liczba
-                return self.get_all_lines_in_stmt_lst_before_line(param_second), None
+                return self.get_all_lines_in_stmt_lst_before_line(int(param_second)), None
             elif param_second == '_':
                 # p1  "_", a p2  "_"
                 return self._follows_T_two_wildcards()
@@ -154,13 +150,13 @@ class FollowsRelation:
                 # p1 str np. "IF", a p2 str np. "CALL"
                 return self._follows_T_two_str_with_types(param_first, param_second)
 
-    def get_all_lines_in_stmt_lst_after_line(self, line_number: int) -> Tuple[List[int], None]:
+    def get_all_lines_in_stmt_lst_after_line(self, line_number: int) -> List[int]:
         pom: List[int] = self.follows_table.get_child(int(line_number))
         results: List[int] = []
         while pom:
             results.append(pom[0])
             pom = self.follows_table.get_child(pom[0])
-        return results, None
+        return results
 
     def get_all_lines_in_stmt_lst_before_line(self, line_number: int) -> List[int]:
         pom: List[int] = self.follows_table.get_follows(int(line_number))
@@ -184,7 +180,6 @@ class FollowsRelation:
                 pom.extend(self.stmt_table.get_statement_line_by_type_name(stmt))
         else:
             pom = self.stmt_table.get_statement_line_by_type_name(param_second)
-        # optional
         return list(set(self.get_all_lines_in_stmt_lst_after_line(param_first)).intersection(pom)), None
 
     def _follows_T_two_wildcards(self) -> Tuple[List[int], List[int]]:
@@ -192,16 +187,13 @@ class FollowsRelation:
         return result, result
 
     def _follows_T_wildcard_and_str_with_type(self, param_second) -> Tuple[List[int], List[int]]:
-        # check
-        #czy to tylko tyle?
+        pom: List[int] = self.stmt_table.get_statement_line_by_type_name(param_second)
         if param_second == 'STMT':
-            return self.get_all_lines_in_stmt_lst_before_line(param_second), \
-                   self.stmt_table.get_statement_line_by_type_name(param_second)
+            return self.get_all_lines_in_stmt_lst_before_line(param_second), pom
         results: List[int] = []
-        for i in self.stmt_table.get_statement_line_by_type_name(param_second):
+        for i in pom:
             results.extend(self.get_all_lines_in_stmt_lst_before_line(i))
-        # i tu
-        return list(set(results)), self.stmt_table.get_statement_line_by_type_name(param_second)
+        return list(set(results)), pom
 
     def _follows_T_str_with_type_and_digit(self, param_first, param_second) -> Tuple[List[int], None]:
         pom: List[int] = []
@@ -213,8 +205,6 @@ class FollowsRelation:
         return list(set(self.get_all_lines_in_stmt_lst_before_line(param_second)).intersection(pom)), None
 
     def _follows_T_str_with_type_and_wildcard(self, param_first) -> Tuple[List[int], List[int]]:
-        # check
-        # podobnie jak w tamtym przypadku wyzej
         pom: List[int] = []
         if param_first == 'STMT':
             for stmt in self.statements:
@@ -227,8 +217,6 @@ class FollowsRelation:
         return self.stmt_table.get_statement_line_by_type_name(param_first), list(set(results))
 
     def _follows_T_two_str_with_types(self, param_first, param_second) -> Tuple[List[int], List[int]]:
-        # mazak
-        # tu nie wiem jak zrobic
         pom_first: List[int] = []
         if param_first == 'STMT':
             for stmt in self.statements:
@@ -241,11 +229,14 @@ class FollowsRelation:
                 pom_second.extend(self.stmt_table.get_statement_line_by_type_name(stmt))
         else:
             pom_second = self.stmt_table.get_statement_line_by_type_name(param_second)
-        results: List[int] = []
+        results_second: List[int] = []
         results_first: List[int] = []
         for i in pom_first:
             for j in self.get_all_lines_in_stmt_lst_after_line(i):
                 if j in pom_second:
-                    results.append(j)
                     results_first.append(i)
-        return list(set(results_first)), list(set(results))
+        for k in pom_second:
+            for m in self.get_all_lines_in_stmt_lst_before_line(k):
+                if m in pom_first:
+                    results_second.append(k)
+        return list(set(results_first)), list(set(results_second))
