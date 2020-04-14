@@ -1,10 +1,14 @@
 import argparse
 import json
+import logging
+import logging.config as conf
 import os
 from typing import Dict
 
 from aitsi_parser.CsvBuilder import CsvBuilder
 from aitsi_parser.Parser import Parser
+
+log = logging.getLogger(__name__)
 
 
 def export_AST_to_file(json_ast: Dict[str, dict], filename: str = "AST.json") -> None:
@@ -24,15 +28,15 @@ def main(simple_file_path: str = "code_short.txt", tree_output: str = "AST.json"
     parser.program()
     json_tree: Dict[str, dict] = parser.get_node_json()
     ##todo można odkomentować żeby wypisac sobie dane cyk najlepiej zmienic na logi
-    # print(json_tree)
-    # parser.var_table.to_string()
-    # parser.proc_table.to_string()
-    # parser.calls_table.to_string()
-    # parser.mod_table.to_string()
-    # parser.parent_table.to_string()
-    # parser.uses_table.to_string()
-    # parser.follows_table.to_string()
-    # parser.statement_table.to_string()
+    log.debug(json_tree)
+    log.debug(parser.var_table.to_log())
+    log.debug(parser.proc_table.to_log())
+    log.debug(parser.calls_table.to_log())
+    log.debug(parser.mod_table.to_log())
+    log.debug(parser.parent_table.to_log())
+    log.debug(parser.uses_table.to_log())
+    log.debug(parser.follows_table.to_log())
+    log.debug(parser.statement_table.to_log())
     dirname, filename = os.path.split(os.path.abspath(__file__))
     path: str = os.path.join(dirname, "database/", output_directory, os.path.basename(simple_file_path).split('.')[0],
                              "")
@@ -50,7 +54,9 @@ def main(simple_file_path: str = "code_short.txt", tree_output: str = "AST.json"
     # todo - dodać resztę tabelek jak będą :*
     return path
 
+
 if __name__ == '__main__':
+    conf.fileConfig("logging.conf", disable_existing_loggers=False)
     arg_parser = argparse.ArgumentParser(description='Aitsi parser!')
     arg_parser.add_argument("--i", default="code_short.txt", type=str, help="Input file with program")
     arg_parser.add_argument("--o", default="AST.json", type=str, help="Output file for AST json ")

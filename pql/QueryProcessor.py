@@ -1,8 +1,11 @@
 import json
+import logging
 import re
 from typing import Tuple, Dict, List
 
 from pql.Node import Node
+
+log = logging.getLogger(__name__)
 
 
 class QueryProcessor:
@@ -39,7 +42,7 @@ class QueryProcessor:
             self.error(self.next_token[0] + "not equals " + token)
 
     def error(self, info: str) -> None:
-        print("ERROR: " + info)
+        log.error("ERROR: " + info)
 
     def get_token(self) -> Tuple[str, str]:
         new_token: Tuple[str, str] = ('', '')
@@ -64,7 +67,7 @@ class QueryProcessor:
         self.query = query.replace('\n', '')
         self.next_token = self.get_token()
         self.select_cl()
-        # self.root.to_string(0) #todo można odkomentować żeby wypisac sobie dane cyk najlepiej zmienic na logi
+        self.root.to_log(0)
 
     def stmt_ref(self) -> Node:
         if self.next_token[0] == "IDENT":
