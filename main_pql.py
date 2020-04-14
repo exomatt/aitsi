@@ -1,6 +1,6 @@
 import argparse
 import json
-from typing import Dict, Union, List
+from typing import Dict, Union
 
 from aitsi_parser.CallsTable import CallsTable
 from aitsi_parser.FollowsTable import FollowsTable
@@ -35,7 +35,7 @@ def export_query_tree_to_file(query_json_tree: Dict[str, dict], filename: str = 
 
 def main(query: str, tables_directory_path: str = "database/test/code_short", input_ast_filename: str = "AST.json",
          output_query_filename: str = "pql_query_tree.json",
-         save_to_file: bool = False) -> Union[bool, List[str], List[int]]:
+         save_to_file: bool = False) -> str:
     ast_node: Node = load_ast_from_file(tables_directory_path + "/" + input_ast_filename)
     var_table: VarTable = VarTable(CsvReader.read_csv_from_file(tables_directory_path + "/VarTable.csv"))
     proc_table: ProcTable = ProcTable(CsvReader.read_csv_from_file(tables_directory_path + "/ProcTable.csv"))
@@ -70,7 +70,7 @@ def main(query: str, tables_directory_path: str = "database/test/code_short", in
     query_processor.generate_query_tree(query)
     query_tree: Dict[str, dict] = query_processor.get_node_json()
     query_evaluator: QueryEvaluator = QueryEvaluator(ast_node, all_tables)
-    response = query_evaluator.evaluate_query(query_processor.root)
+    response: str = query_evaluator.evaluate_query(query_processor.root)
     if save_to_file:
         export_query_tree_to_file(query_tree, output_query_filename)
     return response
@@ -89,6 +89,6 @@ if __name__ == '__main__':
     _output_query_filename: str = args.o
     _tables_directory_path: str = args.p
     _query: str = load_query_from_file(_input_query_filename)
-    result: Union[bool, List[str], List[int]] = main(_query, _tables_directory_path, _input_ast_filename,
-                                                     _output_query_filename)
-    # print(result)
+    result: str = main(_query, _tables_directory_path, _input_ast_filename,
+                       _output_query_filename)
+    print(result)

@@ -126,7 +126,7 @@ class QueryProcessor:
             self.root.add_child(with_node)
 
     def get_declaration_type(self, variable_name: str) -> str:
-        return self.declaration_dict.get(variable_name, "")
+        return self.declaration_dict.get(variable_name, None)
 
     def declaration(self) -> None:
         variable_type: str = self.prev_token[1].upper().strip()
