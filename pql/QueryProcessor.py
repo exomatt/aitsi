@@ -253,7 +253,7 @@ class QueryProcessor:
 
     def ref(self) -> Node:
         self.match("EQUALS_SIGN")
-        ref_node: Node = Node(self.next_token[0], self.next_token[1].replace('.', ''))
+        ref_node: Node = Node(self.next_token[0], self.next_token[1].replace('.', '').replace('"', ''))
         if self.next_token[0] == "IDENT_QUOTE":
             self.match("IDENT_QUOTE")
         elif self.next_token[0] == "INTEGER":

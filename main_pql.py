@@ -73,7 +73,7 @@ def main(query: str, tables_directory_path: str = "database/test/code_short", in
     query_processor: QueryProcessor = QueryProcessor()
     query_processor.generate_query_tree(query)
     query_tree: Dict[str, dict] = query_processor.get_node_json()
-    query_evaluator: QueryEvaluator = QueryEvaluator(ast_node, all_tables)
+    query_evaluator: QueryEvaluator = QueryEvaluator(all_tables)
     response = query_evaluator.evaluate_query(query_processor.root)
     if save_to_file:
         export_query_tree_to_file(query_tree, output_query_filename)

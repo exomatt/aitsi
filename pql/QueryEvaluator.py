@@ -18,16 +18,15 @@ from pql.relations.UsesRelation import UsesRelation
 
 class QueryEvaluator:
 
-    def __init__(self, code_ast_tree: Node, all_tables: Dict[str,
-                                                             Union[VarTable,
-                                                                   ProcTable,
-                                                                   UsesTable,
-                                                                   ParentTable,
-                                                                   ModifiesTable,
-                                                                   FollowsTable,
-                                                                   CallsTable,
-                                                                   StatementTable]]) -> None:
-        self.code_ast_tree: Node = code_ast_tree
+    def __init__(self, all_tables: Dict[str,
+                                        Union[VarTable,
+                                              ProcTable,
+                                              UsesTable,
+                                              ParentTable,
+                                              ModifiesTable,
+                                              FollowsTable,
+                                              CallsTable,
+                                              StatementTable]]) -> None:
         self.all_tables: Dict[str, Union[VarTable,
                                          ProcTable,
                                          UsesTable,
@@ -38,13 +37,13 @@ class QueryEvaluator:
                                          StatementTable]] = all_tables
         self.results: Dict[str, Union[bool, Set[str], Set[int]]] = {}
         self.select: Tuple[str, str] = ('', '')
-        self.parameters_with: Dict[str, Tuple[str, Dict[str, str]]] = {}
-        self.and_flag = False
         self.relation_stack: List[Tuple[str, Tuple[str, str], Tuple[str, str]]] = []
 
     def evaluate_query(self, pql_ast_tree: Node) -> str:
         for node in pql_ast_tree.children:
             self.distribution_of_tasks(node)
+        if not self.results[self.select[1]]:
+            return 'none'
         return ', '.join([str(element) for element in self.results[self.select[1]]])
 
     def distribution_of_tasks(self, root: Node) -> None:
@@ -190,14 +189,23 @@ class QueryEvaluator:
                 .calls_T(first_argument, second_argument)
 
     def attr_analysis(self, attr_node: Node) -> None:
-        if attr_node.children[1].node_type == 'INTEGER':
-            self.results[attr_node.children[0].value] = set([int(attr_node.children[1].value)])
+        if attr_node.children[1].node_type in ['INTEGER', 'IDENT_QUOTE']:
+            self.results[attr_node.children[0].value] = set([attr_node.children[1].value])
+        elif attr_node.children[1].node_type == 'CONSTANT':
+            pass
+            # TODO trzeba zrobic tabele dopiero bedzie stale
         else:
-            self.parameters_with[attr_node.children[0].value] = (
-                (attr_node.children[0].node_type, self.right_side(attr_node.children[1])))
+            if attr_node.children[0].node_type in ['CALL', 'PROCEDURE']:
+                left: Set[str] = set(self.all_tables['proc'].get_all_proc_name())
+            else:
+                left: Set[str] = set(self.all_tables['var'].get_all_var_name())
 
-    def right_side(self, right_node: Node) -> Dict[str, str]:
-        return {'type': right_node.node_type, 'variable_name': right_node.value}
+            if attr_node.children[1].node_type in ['CALL', 'PROCEDURE']:
+                right: Set[str] = set(self.all_tables['proc'].get_all_proc_name())
+            else:
+                right: Set[str] = set(self.all_tables['var'].get_all_var_name())
+
+            self.results[attr_node.children[0].value] = left.intersection(right)
 
     def check_stack_on_return(self):
         while len(self.relation_stack) != 0:

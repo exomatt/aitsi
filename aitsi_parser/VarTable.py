@@ -1,4 +1,5 @@
 import json
+from typing import List
 
 import pandas as pd
 
@@ -24,6 +25,9 @@ class VarTable:
 
     def get_other_info(self, var_name: str) -> dict:
         return self.table.loc[self.table['variable_name'] == var_name].other_info[0]
+
+    def get_all_var_name(self) -> List[str]:
+        return self.table['variable_name'].tolist()
 
     def get_var_index(self, var_name: str) -> int:
         return self.table.loc[self.table['variable_name'] == var_name].index[0]
