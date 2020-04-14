@@ -23,7 +23,7 @@ class VarTable:
         return self.table.loc[index].variable_name
 
     def get_other_info(self, var_name: str) -> dict:
-        return self.table.loc[self.table['variable_name'] == var_name].other_info[0]
+        return self.table.loc[self.table['variable_name'] == var_name].other_info[self.get_var_index(var_name)]
 
     def get_var_index(self, var_name: str) -> int:
         return self.table.loc[self.table['variable_name'] == var_name].index[0]

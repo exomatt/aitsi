@@ -37,6 +37,7 @@ def main(simple_file_path: str = "code_short.txt", tree_output: str = "AST.json"
     log.debug(parser.uses_table.to_log())
     log.debug(parser.follows_table.to_log())
     log.debug(parser.statement_table.to_log())
+    log.debug(parser.const_table.to_log())
     dirname, filename = os.path.split(os.path.abspath(__file__))
     path: str = os.path.join(dirname, "database/", output_directory, os.path.basename(simple_file_path).split('.')[0],
                              "")
@@ -51,6 +52,7 @@ def main(simple_file_path: str = "code_short.txt", tree_output: str = "AST.json"
     CsvBuilder.save_table_to_csv_file(parser.uses_table.table, path + "UsesTable.csv")
     CsvBuilder.save_table_to_csv_file(parser.follows_table.table, path + "FollowsTable.csv")
     CsvBuilder.save_table_to_csv_file(parser.statement_table.table, path + "StatementTable.csv")
+    CsvBuilder.save_table_to_csv_file(parser.const_table.table, path + "ConstTable.csv")
     # todo - dodać resztę tabelek jak będą :*
     return path
 
