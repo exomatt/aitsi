@@ -1,9 +1,12 @@
+import logging
 from typing import List
 
 import dataclasses
 from dataclasses import dataclass
 from marshmallow.schema import BaseSchema
 from marshmallow_dataclass import add_schema
+
+log = logging.getLogger(__name__)
 
 
 @dataclass
@@ -25,10 +28,18 @@ class Node:
     def add_child(self, child) -> None:
         self.children.append(child)
 
+    def add_children(self, children_list) -> None:
+        self.children.extend(children_list)
+
     def to_string(self, i: int) -> None:
         print(str(i) + ": TYPE:" + self.node_type + "\t VALUE:" + self.value + "\t LINE:" + str(self.line))
         for x in self.children:
             x.to_string(i + 1)
+
+    def to_log(self, i: int) -> None:
+        log.debug(str(i) + ": TYPE:" + self.node_type + "\t VALUE:" + self.value + "\t LINE:" + str(self.line))
+        for x in self.children:
+            x.to_log(i + 1)
 
     def __repr__(self) -> str:
         return "TYPE:" + self.node_type + "\t VALUE:" + self.value

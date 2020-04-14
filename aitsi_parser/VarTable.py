@@ -41,3 +41,6 @@ class VarTable:
     def to_string(self) -> None:
         print("VarTable:")
         print(self.table.to_string())
+
+    def to_log(self) -> str:
+        return "VarTable: \n" + self.table.to_string()

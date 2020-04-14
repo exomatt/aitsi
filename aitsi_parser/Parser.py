@@ -1,6 +1,7 @@
 import json
+import logging
 import re
-from typing import Tuple, Dict
+from typing import Tuple, Dict, List
 
 from aitsi_parser.CallsTable import CallsTable
 from aitsi_parser.FollowsTable import FollowsTable
@@ -12,14 +13,19 @@ from aitsi_parser.StatementTable import StatementTable
 from aitsi_parser.UsesTable import UsesTable
 from aitsi_parser.VarTable import VarTable
 
+log = logging.getLogger(__name__)
+
 
 class Parser:
-    token_expressions = [(r"\s*procedure", 'PROCEDURE'), (r"\s*{", "OPEN_BRACKET"), (r"\s*}", "CLOSE_BRACKET"),
-                         (r"\s*;", "SEMICOLON"), (r"\s*\+", "PLUS"), (r"\s*\-", "MINUS"), (r"\s*call", "CALL"),
-                         (r"\s*while", "WHILE"), (r"\s*\*", "MULTIPLY"), (r"\s*if", "IF"), (r"\s*then", "THEN"),
-                         (r"\s*else", "ELSE"), (r"\s*=", "ASSIGN"), (r"\s*\(", "OPEN_PARENTHESIS"),
-                         (r"\s*\)", "CLOSE_PARENTHESIS"), (r"\s*[A-Za-z]+[A-Za-z0-9]*", 'NAME'),
-                         (r"\s*[0-9]+", 'INTEGER')]
+    token_expressions = [(r"\s*procedure", 'PROCEDURE', 'procedure'), (r"\s*{", "OPEN_BRACKET", '{'),
+                         (r"\s*}", "CLOSE_BRACKET", '}'),
+                         (r"\s*;", "SEMICOLON", ';'), (r"\s*\+", "PLUS", '+'), (r"\s*\-", "MINUS", '-'),
+                         (r"\s*call", "CALL", 'call'),
+                         (r"\s*while", "WHILE", 'while'), (r"\s*\*", "MULTIPLY", '*'), (r"\s*if", "IF", 'if'),
+                         (r"\s*then", "THEN", 'then'),
+                         (r"\s*else", "ELSE", 'else'), (r"\s*=", "ASSIGN", '='), (r"\s*\(", "OPEN_PARENTHESIS", '('),
+                         (r"\s*\)", "CLOSE_PARENTHESIS", ')'), (r"\s*[A-Za-z]+[A-Za-z0-9]*", 'NAME', 'name'),
+                         (r"\s*[0-9]+", 'INTEGER', 'integer')]
 
     def __init__(self, code: str, filename: str) -> None:
         self.calls_table: CallsTable = CallsTable()
@@ -39,27 +45,45 @@ class Parser:
         self.uses_table: UsesTable = UsesTable()
 
     def match(self, token: str) -> None:
-        if self.next_token[0] == token:
-            self.prev_token = self.next_token
-            self.next_token = self.get_token()
-        else:
-            self.error()
+        try:
+            if self.next_token[0] == token:
+                self.prev_token = self.next_token
+                self.next_token = self.get_token()
+            else:
+                self.throw_exception(token)
+                raise Exception
+        except:
+            log.exception("SyntaxWhileParsingError")
+            raise Exception("Check logs for more info")
 
-    def get_token(self) -> Tuple[str, str]:
-        new_token: Tuple[str, str] = ('', '')
+    def throw_exception(self, token):
+        for x in self.token_expressions:
+            if x[1] == token and (self.next_token[0] == 'NAME' or self.next_token[0] == 'INTEGER'):
+                raise Exception(
+                    f"Line {self.current_line}: Expected '{x[2]}' but received '{self.next_token[1]}' instead.")
+            elif x[1] == token and (
+                    self.prev_token[0] == 'IF' or self.prev_token[0] == 'WHILE' or self.next_token[0] == 'ASSIGN'):
+                raise Exception(
+                    f"Line {self.current_line}: Expected a variable name but received '{self.next_token[2]}' instead.")
+            elif x[1] == token:
+                raise Exception(
+                    f"Line {self.current_line}: Expected '{x[2]}' but received '{self.next_token[2]}' instead.")
+
+    def get_token(self) -> Tuple[str, str, str]:
+        new_token: Tuple[str, str, str] = ('', '', '')
         code: str = self.code
-        for exp, token in self.token_expressions:
+        for exp, token, error in self.token_expressions:
             regex = re.compile(exp)
             match = regex.match(code, self.pos)
             if match is not None:
                 if match.group(0):
-                    new_token = (token, match.group(0).strip())
+                    new_token = (token, match.group(0).strip(), error)
                     self.pos += len(match.group(0))
                     break
         return new_token
 
-    def error(self) -> None:
-        print("ERROR")
+    def error(self, info: str) -> None:
+        log.error("ERROR: " + info)
 
     def program(self) -> None:
         self.next_token = self.get_token()
@@ -68,12 +92,20 @@ class Parser:
         for child in self.root.children:
             called_procedures = self.calls_table.get_called_from(child.value)
             for proc in called_procedures:
-                modified_vars = self.mod_table.get_modified(proc)
-                used_vars = self.uses_table.get_used(proc)
+                modified_vars: List[str] = self.mod_table.get_modified(proc)
+                used_vars: List[str] = self.uses_table.get_used(proc)
                 for var in modified_vars:
                     self.mod_table.set_modifies(var, child.value)
                 for var in used_vars:
                     self.uses_table.set_uses(var, child.value)
+        for statement in self.statement_table.table.values:
+            if statement[1]['name'] == 'CALL':
+                modified_vars: List[str] = self.mod_table.get_modified(statement[1]['value'])
+                used_vars: List[str] = self.uses_table.get_used(statement[1]['value'])
+                for var in modified_vars:
+                    self.mod_table.set_modifies(var, str(statement[0]))
+                for var in used_vars:
+                    self.uses_table.set_uses(var, str(statement[0]))
 
     def procedure(self) -> Node:
         self.match("PROCEDURE")
@@ -183,7 +215,6 @@ class Parser:
                 for letter in self.uses_table.get_used(str(child.line)):
                     self.uses_table.set_uses(letter, str(if_node.line))
                     self.uses_table.set_uses(letter, self.call_procedure)
-
         self.match("CLOSE_BRACKET")
         self.match("ELSE")
         self.match("OPEN_BRACKET")
@@ -202,21 +233,46 @@ class Parser:
         return if_node
 
     def expression(self) -> Node:
-        if self.next_token[0] == "NAME":
-            self.match("NAME")
-            self.uses_table.set_uses(self.prev_token[1], str(self.current_line))
-            self.uses_table.set_uses(self.prev_token[1], self.call_procedure)
-        elif self.next_token[0] == "INTEGER":
-            self.match("INTEGER")
-        left: Node = Node(self.prev_token[0], self.prev_token[1], self.current_line)
-        if self.next_token[0] != "SEMICOLON":
+        node: Node = self.term()
+        while self.next_token[0] in ["PLUS", "MINUS"]:
             op_node: Node = Node(self.next_token[0], line=self.current_line)
-            op_node.add_child(left)
             self.match(self.next_token[0])
+            op_node.add_child(node)
             op_node.add_child(self.expression())
-        else:
-            return left
-        return op_node
+            node = op_node
+        return node
+
+    def term(self) -> Node:
+        node: Node = self.factor()
+        while self.next_token[0] == "MULTIPLY":
+            multiply_node: Node = Node(self.next_token[0], self.next_token[1], self.current_line)
+            self.match("MULTIPLY")
+            multiply_node.add_child(node)
+            multiply_node.add_child(self.term())
+            node = multiply_node
+        return node
+
+    def factor(self) -> Node:
+        try:
+            if self.next_token[0] == "OPEN_PARENTHESIS":
+                self.match("OPEN_PARENTHESIS")
+                factor_node: Node = self.expression()
+                self.match("CLOSE_PARENTHESIS")
+                return factor_node
+            elif self.next_token[0] == "INTEGER":
+                self.match("INTEGER")
+                return Node(self.prev_token[0], self.prev_token[1], self.current_line)
+            elif self.next_token[0] == "NAME":
+                self.match("NAME")
+                self.uses_table.set_uses(self.prev_token[1], str(self.current_line))
+                self.uses_table.set_uses(self.prev_token[1], self.call_procedure)
+                return Node(self.prev_token[0], self.prev_token[1], self.current_line)
+            else:
+                raise Exception(
+                    f"Line {self.current_line}: Expected a variable or integer but received '{self.next_token[2]}'.")
+        except Exception:
+            log.exception("SyntaxError")
+            raise Exception("Check logs for more info")
 
     def get_node_json(self) -> Dict[str, dict]:
         json_str = Node.Schema().dumps(self.root)

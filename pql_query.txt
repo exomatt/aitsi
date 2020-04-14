@@ -1,1 +1,6 @@
-while w; variable v; stmt s, s1; assign a; procedure p; Select s such that Parent(s, s1) with s1.stmt#=20
+while w; variable v; stmt s; assign a; procedure p;
+Select p such that Calls(_,p)
+25
+while w; variable v; stmt s; assign a; procedure p;
+Select p such that Calls(_,a)
+18,20

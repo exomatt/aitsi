@@ -50,3 +50,6 @@ class ModifiesTable:
     def to_string(self) -> None:
         print("ModifiesTable:")
         print(self.table.to_string())
+
+    def to_log(self) -> str:
+        return "ModifiesTable: \n" + self.table.to_string()
