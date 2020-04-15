@@ -4,6 +4,7 @@ import re
 from typing import Tuple, Dict, List
 
 from aitsi_parser.CallsTable import CallsTable
+from aitsi_parser.ConstTable import ConstTable
 from aitsi_parser.FollowsTable import FollowsTable
 from aitsi_parser.ModifiesTable import ModifiesTable
 from aitsi_parser.Node import Node
@@ -31,6 +32,7 @@ class Parser:
         self.calls_table: CallsTable = CallsTable()
         self.call_procedure = None
         self.code: str = code.replace('\n', '')
+        self.const_table: ConstTable = ConstTable()
         self.current_line: int = 0
         self.mod_table: ModifiesTable = ModifiesTable()
         self.next_token: Tuple[str, str] = ('', '')  # np.("NAME","x")
@@ -261,6 +263,14 @@ class Parser:
                 return factor_node
             elif self.next_token[0] == "INTEGER":
                 self.match("INTEGER")
+                if self.const_table.is_in(int(self.prev_token[1])):
+                    const_lines: List[int] = self.const_table.get_other_info(int(self.prev_token[1]))['lines']
+                    const_lines.append(self.current_line)
+                    self.const_table.update_const(int(self.prev_token[1]), {'lines': const_lines})
+                else:
+                    self.const_table.insert_const(int(self.prev_token[1]))
+                    self.const_table.update_const(int(self.prev_token[1]), {'lines': [self.current_line]})
+
                 return Node(self.prev_token[0], self.prev_token[1], self.current_line)
             elif self.next_token[0] == "NAME":
                 self.match("NAME")
