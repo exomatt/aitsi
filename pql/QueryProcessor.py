@@ -123,13 +123,13 @@ class QueryProcessor:
             if self.next_token[0] == "WITH":
                 self.match("WITH")
                 with_node.add_children(self.with_cl())
-        if such_that_node.children:
-            self.root.add_child(such_that_node)
         if with_node.children:
             self.root.add_child(with_node)
+        if such_that_node.children:
+            self.root.add_child(such_that_node)
 
     def get_declaration_type(self, variable_name: str) -> str:
-        return self.declaration_dict.get(variable_name, "")
+        return self.declaration_dict.get(variable_name, None)
 
     def declaration(self) -> None:
         variable_type: str = self.prev_token[1].upper().strip()
@@ -253,7 +253,7 @@ class QueryProcessor:
 
     def ref(self) -> Node:
         self.match("EQUALS_SIGN")
-        ref_node: Node = Node(self.next_token[0], self.next_token[1].replace('.', ''))
+        ref_node: Node = Node(self.next_token[0], self.next_token[1].replace('.', '').replace('"', ''))
         if self.next_token[0] == "IDENT_QUOTE":
             self.match("IDENT_QUOTE")
         elif self.next_token[0] == "INTEGER":

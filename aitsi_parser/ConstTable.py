@@ -1,4 +1,5 @@
 import json
+from typing import List
 
 import pandas as pd
 
@@ -25,6 +26,9 @@ class ConstTable:
 
     def get_constant(self, index: int) -> int:
         return self.table.loc[index].constant
+
+    def get_all_constant(self) -> List[str]:
+        return self.table['constant'].tolist()
 
     def get_other_info(self, constant: int) -> dict:
         return self.table.loc[self.table['constant'] == constant].other_info[self.get_constant_index(constant)]
