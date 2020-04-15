@@ -12,12 +12,14 @@ class FollowsRelation:
         self.stmt_table: StatementTable = stmt_table
         self.follows_table: FollowsTable = follows_table
 
-    def follows(self, param_first: str, param_second: str) -> Union[Tuple[bool, None],
+    def follows(self, param_first: str, param_second: str) -> Union[Tuple[None, bool],
                                                                     Tuple[List[int], List[str]],
                                                                     Tuple[List[str], None],
                                                                     Tuple[List[int], None],
                                                                     Tuple[List[str], List[str]],
-                                                                    Tuple[List[int], List[int]]]:
+                                                                    Tuple[List[int], List[int]],
+                                                                    Tuple[bool, List[int]],
+                                                                    Tuple[List[int], bool]]:
 
         if param_first.isdigit():
             if param_second.isdigit():
@@ -25,14 +27,14 @@ class FollowsRelation:
                 return self.follows_table.is_follows(int(param_first), int(param_second))
             elif param_second == '_':
                 # p1 jest liczba, a p2  "_"
-                return self.follows_table.get_child(int(param_first))
+                return self._digit_and_wild_card(int(param_first))
             else:
                 # p1 jest liczba, a p2 str np. "CALL"
                 return self._digit_and_string_with_type(param_first, param_second)
         elif param_first == '_':
             if param_second.isdigit():
                 # p1  "_"  p2 jest liczba
-                return self.follows_table.get_follows(int(param_second))
+                return self._wild_card_and_digit(int(param_second))
             elif param_second == '_':
                 # p1  "_", a p2  "_"
                 return self._two_wild_cards()
@@ -66,6 +68,20 @@ class FollowsRelation:
                 result.append(number)
                 result_second.append(parents[0])
         return result_second, result
+
+    def _digit_and_wild_card(self, param_first) -> Tuple[bool, List[int]]:
+        result: List[int] = self.follows_table.get_child(int(param_first))
+        is_follows: bool = False
+        if len(result) > 0:
+            is_follows = True
+        return is_follows, result
+
+    def _wild_card_and_digit(self, param_second) -> Tuple[List[int], bool]:
+        result: List[int] = self.follows_table.get_follows(int(param_second))
+        is_follows: bool = False
+        if len(result) > 0:
+            is_follows = True
+        return result, is_follows
 
     def _two_str_with_types(self, param_first, param_second) -> Tuple[List[int], List[int]]:
         result_param_second: List[int] = []
@@ -105,19 +121,22 @@ class FollowsRelation:
                 return [number], None
         return [], None
 
-    def _digit_and_string_with_type(self, param_first, param_second) -> Tuple[bool, None]:
+    def _digit_and_string_with_type(self, param_first, param_second) -> Tuple[None, bool]:
         lines_numbers: List[int] = self.stmt_table.get_statement_line_by_type_name(param_second)
         for number in lines_numbers:
             if self.follows_table.is_follows(int(param_first), number):
-                return True, None
-        return False, None
+                return None, True
+        return None, False
 
-    def follows_T(self, param_first: str, param_second: str) -> Union[Tuple[bool, None],
+    def follows_T(self, param_first: str, param_second: str) -> Union[Tuple[bool, bool],
                                                                       Tuple[List[int], List[str]],
                                                                       Tuple[List[str], None],
                                                                       Tuple[List[int], None],
+                                                                      Tuple[bool, List[int]],
+                                                                      Tuple[None, List[int]],
                                                                       Tuple[List[str], List[str]],
-                                                                      Tuple[List[int], List[int]]]:
+                                                                      Tuple[List[int], List[int]],
+                                                                      Tuple[List[int], bool]]:
 
         if param_first.isdigit():
             if param_second.isdigit():
@@ -125,14 +144,14 @@ class FollowsRelation:
                 return self._follows_T_two_digits(param_first, param_second)
             elif param_second == '_':
                 # p1 jest liczba, a p2  "_"
-                return self.get_all_lines_in_stmt_lst_after_line(int(param_first)), None
+                return self._follows_T_digit_and_wild_card(int(param_first))
             else:
                 # p1 jest liczba, a p2 str np. "CALL"
                 return self._follows_T_digit_str_type(param_first, param_second)
         elif param_first == '_':
             if param_second.isdigit():
                 # p1  "_"  p2 jest liczba
-                return self.get_all_lines_in_stmt_lst_before_line(int(param_second)), None
+                return self._follows_T_wild_card_and_digit(int(param_second))
             elif param_second == '_':
                 # p1  "_", a p2  "_"
                 return self._follows_T_two_wildcards()
@@ -166,21 +185,35 @@ class FollowsRelation:
             pom = self.follows_table.get_follows(pom[0])
         return results
 
-    def _follows_T_two_digits(self, param_first, param_second) -> Tuple[bool, None]:
+    def _follows_T_two_digits(self, param_first, param_second) -> Tuple[bool, bool]:
         pom: List[int] = self.get_all_lines_in_stmt_lst_after_line(int(param_first))
         if int(param_second) in pom:
-            return True, None
+            return True, True
         else:
-            return False, None
+            return False, False
 
-    def _follows_T_digit_str_type(self, param_first, param_second) -> Tuple[List[int], None]:
+    def _follows_T_digit_and_wild_card(self, param_first) -> Tuple[bool, List[int]]:
+        result: List[int] = self.get_all_lines_in_stmt_lst_after_line(int(param_first))
+        is_follows: bool = False
+        if len(result) > 0:
+            is_follows = True
+        return is_follows, result
+
+    def _follows_T_wild_card_and_digit(self, param_second) -> Tuple[List[int], bool]:
+        result: List[int] = self.get_all_lines_in_stmt_lst_before_line(int(param_second))
+        is_follows: bool = False
+        if len(result) > 0:
+            is_follows = True
+        return result, is_follows
+
+    def _follows_T_digit_str_type(self, param_first, param_second) -> Tuple[None, List[int]]:
         pom: List[int] = []
         if param_second == 'STMT':
             for stmt in self.statements:
                 pom.extend(self.stmt_table.get_statement_line_by_type_name(stmt))
         else:
             pom = self.stmt_table.get_statement_line_by_type_name(param_second)
-        return list(set(self.get_all_lines_in_stmt_lst_after_line(param_first)).intersection(pom)), None
+        return None, list(set(self.get_all_lines_in_stmt_lst_after_line(param_first)).intersection(pom))
 
     def _follows_T_two_wildcards(self) -> Tuple[List[int], List[int]]:
         result: List[int] = [line for line in range(self.stmt_table.get_size())]
