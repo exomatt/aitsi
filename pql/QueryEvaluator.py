@@ -1,6 +1,7 @@
 from typing import List, Union, Dict, Tuple, Set
 
 from aitsi_parser.CallsTable import CallsTable
+from aitsi_parser.ConstTable import ConstTable
 from aitsi_parser.FollowsTable import FollowsTable
 from aitsi_parser.ModifiesTable import ModifiesTable
 from aitsi_parser.ParentTable import ParentTable
@@ -26,7 +27,8 @@ class QueryEvaluator:
                                               ModifiesTable,
                                               FollowsTable,
                                               CallsTable,
-                                              StatementTable]]) -> None:
+                                              StatementTable,
+                                              ConstTable]]) -> None:
         self.all_tables: Dict[str, Union[VarTable,
                                          ProcTable,
                                          UsesTable,
@@ -34,7 +36,8 @@ class QueryEvaluator:
                                          ModifiesTable,
                                          FollowsTable,
                                          CallsTable,
-                                         StatementTable]] = all_tables
+                                         StatementTable,
+                                         ConstTable]] = all_tables
         self.results: Dict[str, Union[bool, Set[str], Set[int]]] = {}
         self.select: Tuple[str, str] = ('', '')
         self.relation_stack: List[Tuple[str, Tuple[str, str], Tuple[str, str]]] = []
@@ -192,8 +195,7 @@ class QueryEvaluator:
         if attr_node.children[1].node_type in ['INTEGER', 'IDENT_QUOTE']:
             self.results[attr_node.children[0].value] = set([attr_node.children[1].value])
         elif attr_node.children[1].node_type == 'CONSTANT':
-            pass
-            # TODO trzeba zrobic tabele dopiero bedzie stale
+            self.results[attr_node.children[0].value] = set(self.all_tables['const'].get_all_constant())
         else:
             if attr_node.children[0].node_type in ['CALL', 'PROCEDURE']:
                 left: Set[str] = set(self.all_tables['proc'].get_all_proc_name())
