@@ -30,13 +30,11 @@ class StatementTable:
         return self.table.loc[index].statement_line
 
     def get_other_info(self, statement_line: int) -> dict:
-        return self.table.loc[self.table['statement_line'] == statement_line].other_info[0]
+        return self.table.loc[self.table['statement_line'] == statement_line].other_info[
+            self.get_statement_index(statement_line)]
 
     def get_statement_index(self, statement_line: int) -> int:
         return self.table.loc[self.table['statement_line'] == statement_line].index[0]
-
-    def get_other_info(self, statement_line: int) -> Dict[str, str]:
-        return self.table['other_info'][self.table.loc[self.table['statement_line'] == statement_line].index[0]]
 
     def get_statement_line_by_type_name(self, type_name: str) -> List[int]:
         statements: List[int] = self.table['statement_line'].tolist()
