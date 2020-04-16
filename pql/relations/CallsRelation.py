@@ -84,5 +84,5 @@ class CallsRelation:
             if procedure == param_second:
                 return True
             else:
-                return self._procedure_name_and_procedure_name(procedure)
+                return self._procedure_name_and_procedure_name(param_first, procedure)
         return False
