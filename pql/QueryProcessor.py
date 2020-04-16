@@ -26,13 +26,16 @@ class QueryProcessor:
                          (r'\s*"[A-Za-z]+[A-Za-z0-9#]*"', 'IDENT_QUOTE'), (r'\s*[A-Za-z]+[A-Za-z0-9\#]*', 'IDENT'),
                          (r'\s*[0-9]+', 'INTEGER'), (r'\s*,', 'COMMA'), (r'\s*\.', 'DOT')]
 
-    def __init__(self) -> None:
+    def __init__(self, proc_names: List[str], var_names: List[str], max_line_in_code: int) -> None:
         self.pos: int = 0
         self.query: str = None
         self.prev_token: Tuple[str, str] = ('', '')
         self.next_token: Tuple[str, str] = ('', '')
         self.root: Node = Node("QUERY", "query")
         self.declaration_dict: Dict[str, str] = {}
+        self.proc_names: List[str] = proc_names
+        self.var_names: List[str] = var_names
+        self.max_line_in_code: int = max_line_in_code
 
     def match(self, token: str) -> None:
         if self.next_token[0] == token:
@@ -82,6 +85,8 @@ class QueryProcessor:
         elif self.next_token[0] == "EVERYTHING":
             self.match("EVERYTHING")
         elif self.next_token[0] == "INTEGER":
+            if not self.if_line_is_in_code(int(self.next_token[1].strip())):
+                self.error("line " + self.next_token[1].strip() + " is out of bound")
             self.match("INTEGER")
         return Node(self.prev_token[0].strip(), self.prev_token[1].strip())
 
@@ -91,12 +96,68 @@ class QueryProcessor:
             declaration_variable_type: str = self.get_declaration_type(self.prev_token[1].strip())
             if declaration_variable_type is None:
                 self.error("ent_ref ")
-            if declaration_variable_type not in ["PROCEDURE", "VARIABLE"]:
-                self.error("ent ref error - argument must be string ")
             return Node(declaration_variable_type, self.prev_token[1].strip())
         elif self.next_token[0] == "EVERYTHING":
             self.match("EVERYTHING")
         elif self.next_token[0] == "IDENT_QUOTE":
+            self.match("IDENT_QUOTE")
+        elif self.next_token[0] == "INTEGER":
+            if not self.if_line_is_in_code(int(self.next_token[1].strip())):
+                self.error("line" + self.next_token[1].strip() + "is out of bound")
+            self.match("INTEGER")
+
+        return Node(self.prev_token[0].strip(), self.prev_token[1].strip().replace('"', ''))
+
+    def line_ref(self) -> Node:
+        if self.next_token[0] == "IDENT":
+            self.synonym()
+            declaration_variable_type: str = self.get_declaration_type(self.prev_token[1].strip())
+            if declaration_variable_type is None:
+                self.error("stmt_ref ")
+            if declaration_variable_type not in ["STMT", "CONSTANT", "WHILE", "IF", "PROG_LINE", "ASSIGN",
+                                                 "CALL"]:
+                self.error("stmt_ref error - bad agrument - argument must be integer")
+            return Node(declaration_variable_type, self.prev_token[1].strip())
+        elif self.next_token[0] == "EVERYTHING":
+            self.match("EVERYTHING")
+        elif self.next_token[0] == "INTEGER":
+            if not self.if_line_is_in_code(int(self.next_token[1].strip())):
+                self.error("line " + self.next_token[1].strip() + " is out of bound")
+            self.match("INTEGER")
+        return Node(self.prev_token[0].strip(), self.prev_token[1].strip())
+
+    def proc_ref(self) -> Node:
+        if self.next_token[0] == "IDENT":
+            self.synonym()
+            declaration_variable_type: str = self.get_declaration_type(self.prev_token[1].strip())
+            if declaration_variable_type is None:
+                self.error("ent_ref ")
+            if declaration_variable_type not in ["PROCEDURE"]:
+                self.error("proc ref error - argument must be procedure ")
+            return Node(declaration_variable_type, self.prev_token[1].strip())
+        elif self.next_token[0] == "EVERYTHING":
+            self.match("EVERYTHING")
+        elif self.next_token[0] == "IDENT_QUOTE":
+            if self.next_token[1].strip().replace('"', '') not in self.proc_names:
+                self.error(self.next_token[1].strip().replace('"', '') + " procedure not exist")
+            self.match("IDENT_QUOTE")
+
+        return Node(self.prev_token[0].strip(), self.prev_token[1].strip().replace('"', ''))
+
+    def var_ref(self) -> Node:
+        if self.next_token[0] == "IDENT":
+            self.synonym()
+            declaration_variable_type: str = self.get_declaration_type(self.prev_token[1].strip())
+            if declaration_variable_type is None:
+                self.error("ent_ref ")
+            if declaration_variable_type not in ["VARIABLE"]:
+                self.error("var ref error - argument must be variable ")
+            return Node(declaration_variable_type, self.prev_token[1].strip())
+        elif self.next_token[0] == "EVERYTHING":
+            self.match("EVERYTHING")
+        elif self.next_token[0] == "IDENT_QUOTE":
+            if self.next_token[1].strip().replace('"', '') not in self.var_names:
+                self.error(self.next_token[1].strip().replace('"', '') + " variable not exist")
             self.match("IDENT_QUOTE")
 
         return Node(self.prev_token[0].strip(), self.prev_token[1].strip().replace('"', ''))
@@ -123,13 +184,13 @@ class QueryProcessor:
             if self.next_token[0] == "WITH":
                 self.match("WITH")
                 with_node.add_children(self.with_cl())
-        if with_node.children:
-            self.root.add_child(with_node)
         if such_that_node.children:
             self.root.add_child(such_that_node)
+        if with_node.children:
+            self.root.add_child(with_node)
 
     def get_declaration_type(self, variable_name: str) -> str:
-        return self.declaration_dict.get(variable_name, None)
+        return self.declaration_dict.get(variable_name, "")
 
     def declaration(self) -> None:
         variable_type: str = self.prev_token[1].upper().strip()
@@ -166,46 +227,71 @@ class QueryProcessor:
         elif self.next_token[0] == "USEST":
             return self.relation_with_other_arguments("USEST")
         elif self.next_token[0] == "PARENT":
-            return self.relation_with_the_same_arguments_and_is_integer("PARENT")
+            return self.relation_with_the_same_arguments("PARENT")
         elif self.next_token[0] == "PARENTT":
-            return self.relation_with_the_same_arguments_and_is_integer("PARENTT")
+            return self.relation_with_the_same_arguments("PARENTT")
         elif self.next_token[0] == "FOLLOWS":
-            return self.relation_with_the_same_arguments_and_is_integer("FOLLOWS")
+            return self.relation_with_the_same_arguments("FOLLOWS")
         elif self.next_token[0] == "FOLLOWST":
-            return self.relation_with_the_same_arguments_and_is_integer("FOLLOWST")
+            return self.relation_with_the_same_arguments("FOLLOWST")
         elif self.next_token[0] == "CALLS":
-            return self.relation_with_the_same_arguments_and_is_string("CALLS")
+            return self.relation_with_the_same_arguments("CALLS")
         elif self.next_token[0] == "CALLST":
-            return self.relation_with_the_same_arguments_and_is_string("CALLST")
+            return self.relation_with_the_same_arguments("CALLST")
 
-    def relation_with_the_same_arguments_and_is_integer(self, type_node: str) -> Node:
+    def relation_with_the_same_arguments(self, type_node: str) -> Node:
         self.match(type_node)
         relation_node: Node = Node(type_node)
         self.match("OPEN_PARENTHESIS")
-        relation_node.add_child(self.stmt_ref())
-        self.match("COMMA")
-        relation_node.add_child(self.stmt_ref())
+        # relation_node.add_child(self.stmt_ref())
+        # self.match("COMMA")
+        # relation_node.add_child(self.stmt_ref())
+        argument1_node: Node
+        argument2_node: Node
+        if type_node in ["PARENT", "PARENTT", "FOLLOWS", "FOLLOWST"]:
+            argument1_node = self.stmt_ref()
+            relation_node.add_child(argument1_node)
+            self.match("COMMA")
+            argument2_node: Node = self.stmt_ref()
+            relation_node.add_child(argument2_node)
+        elif type_node in ["CALLS", "CALLST"]:
+            argument1_node = self.proc_ref()
+            relation_node.add_child(argument1_node)
+            self.match("COMMA")
+            argument2_node: Node = self.proc_ref()
+            relation_node.add_child(argument2_node)
         self.match("CLOSE_PARENTHESIS")
-        return relation_node
-
-    def relation_with_the_same_arguments_and_is_string(self, type_node: str) -> Node:
-        self.match(type_node)
-        relation_node: Node = Node(type_node)
-        self.match("OPEN_PARENTHESIS")
-        relation_node.add_child(self.ent_ref())
-        self.match("COMMA")
-        relation_node.add_child(self.ent_ref())
-        self.match("CLOSE_PARENTHESIS")
+        if argument1_node.node_type == "EVERYTHING" and argument2_node.node_type == "EVERYTHING":
+            self.error("Error - relation with both arguments '_' is invalid")
         return relation_node
 
     def relation_with_other_arguments(self, type_node: str) -> Node:
         self.match(type_node)
         relation_node: Node = Node(type_node)
         self.match("OPEN_PARENTHESIS")
-        relation_node.add_child(self.stmt_ref())
-        self.match("COMMA")
-        relation_node.add_child(self.ent_ref())
+        # relation_node.add_child(self.stmt_ref())
+        # self.match("COMMA")
+        # relation_node.add_child(self.ent_ref())
+        argument1_node: Node
+        argument2_node: Node
+        if type_node in ["MODIFIES", "MODIFIEST", "USES", "USEST"]:
+            if self.next_token[0] == "IDENT":
+                declaration_variable_type: str = self.get_declaration_type(self.next_token[1].strip())
+                if declaration_variable_type == "PROCEDURE":
+                    argument1_node = self.proc_ref()
+                else:
+                    argument1_node = self.stmt_ref()
+            elif self.next_token[0] == "INTEGER":
+                argument1_node = self.stmt_ref()
+            else:
+                argument1_node = self.proc_ref()
+            relation_node.add_child(argument1_node)
+            self.match("COMMA")
+            argument2_node: Node = self.var_ref()
+            relation_node.add_child(argument2_node)
         self.match("CLOSE_PARENTHESIS")
+        if argument1_node.node_type == "EVERYTHING":
+            self.error("Error - in this relation _ as first argument is invalid")
         return relation_node
 
     def with_cl(self) -> List[Node]:
@@ -228,6 +314,16 @@ class QueryProcessor:
             synonym_node.add_child(self.attr_name())
         attribute_node.add_child(synonym_node)
         attribute_node.add_child(self.ref())
+        if attribute_node.children[1].node_type == "IDENT_QUOTE":
+            if synonym_node.node_type in ["PROCEDURE", "CALL"]:
+                if attribute_node.children[1].value not in self.proc_names:
+                    self.error(attribute_node.children[1].value + " procedure not exist")
+            elif synonym_node.node_type == "VARIABLE":
+                if attribute_node.children[1].value not in self.var_names:
+                    self.error(attribute_node.children[1].value + " variable not exist")
+        elif attribute_node.children[1].node_type == "INTEGER":
+            if not self.if_line_is_in_code(int(attribute_node.children[1].value)):
+                self.error("line " + attribute_node.children[1].value + " is out of bound")
         return attribute_node
 
     def attr_name(self) -> Node:
@@ -254,6 +350,7 @@ class QueryProcessor:
     def ref(self) -> Node:
         self.match("EQUALS_SIGN")
         ref_node: Node = Node(self.next_token[0], self.next_token[1].replace('.', '').replace('"', ''))
+        # if ref_node.value not in
         if self.next_token[0] == "IDENT_QUOTE":
             self.match("IDENT_QUOTE")
         elif self.next_token[0] == "INTEGER":
@@ -283,3 +380,8 @@ class QueryProcessor:
         json_str = Node.Schema().dumps(self.root)
         json_dict: Dict[str, dict] = json.loads(json_str)
         return json_dict
+
+    def if_line_is_in_code(self, line_number: int) -> bool:
+        if line_number > self.max_line_in_code:
+            return False
+        return True
