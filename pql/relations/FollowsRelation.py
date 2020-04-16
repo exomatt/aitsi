@@ -24,7 +24,7 @@ class FollowsRelation:
         if param_first.isdigit():
             if param_second.isdigit():
                 # p1 i p2 sa liczbami
-                return self.follows_table.is_follows(int(param_first), int(param_second))
+                return self.follows_table.is_follows(int(param_first), int(param_second)), None
             elif param_second == '_':
                 # p1 jest liczba, a p2  "_"
                 return self._digit_and_wild_card(int(param_first))
