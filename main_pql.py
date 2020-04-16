@@ -75,7 +75,7 @@ def main(query: str, tables_directory_path: str = "database/test/code_short", in
                                                 'statement': statement_table,
                                                 'const': const_table}
 
-    query_processor: QueryProcessor = QueryProcessor()
+    query_processor: QueryProcessor = QueryProcessor(proc_table.get_all_proc_name(), var_table.get_all_var_name(), statement_table.get_size())
     query_processor.generate_query_tree(query)
     query_tree: Dict[str, dict] = query_processor.get_node_json()
     query_evaluator: QueryEvaluator = QueryEvaluator(all_tables)
