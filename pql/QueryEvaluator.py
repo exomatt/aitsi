@@ -52,6 +52,7 @@ class QueryEvaluator:
     def distribution_of_tasks(self, root: Node) -> None:
         if root.node_type == 'RESULT':
             self.select = root.children[0].node_type, root.children[0].value
+            self.results[self.select[1]] = set()
         elif root.node_type == 'WITH':
             for node in root.children:
                 self.attr_analysis(node)
@@ -77,11 +78,17 @@ class QueryEvaluator:
         self.execution_of_relation(relation.node_type, first_argument_value, second_argument_value)
 
     def choosing_an_argument(self, relation_argument: Tuple[str, str]) -> Union[
-        str, Tuple[str, List[int]], Tuple[str, str]]:
+        str, Tuple[str, Set[int]], Tuple[str, str]]:
         if relation_argument[0] in ['INTEGER', 'EVERYTHING', 'IDENT_QUOTE']:
             return relation_argument[1]
         else:
-            return relation_argument[1], self.results.get(relation_argument[1], relation_argument[0])
+            if self.results.get(relation_argument[1], None) is None:
+                return relation_argument[1], relation_argument[0]
+            else:
+                if not self.results[relation_argument[1]]:
+                    return relation_argument[1], relation_argument[0]
+                else:
+                    return relation_argument[1], self.results[relation_argument[1]]
 
     def execution_of_relation(self, node_type: str,
                               first_argument_value: Union[str, Tuple[str, List[int]]],
