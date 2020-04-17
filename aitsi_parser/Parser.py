@@ -7,6 +7,7 @@ from aitsi_parser.CallsTable import CallsTable
 from aitsi_parser.ConstTable import ConstTable
 from aitsi_parser.FollowsTable import FollowsTable
 from aitsi_parser.ModifiesTable import ModifiesTable
+from aitsi_parser.NextTable import NextTable
 from aitsi_parser.Node import Node
 from aitsi_parser.ParentTable import ParentTable
 from aitsi_parser.ProcTable import ProcTable
@@ -36,6 +37,7 @@ class Parser:
         self.current_line: int = 0
         self.mod_table: ModifiesTable = ModifiesTable()
         self.next_token: Tuple[str, str] = ('', '')  # np.("NAME","x")
+        self.next_table: NextTable = NextTable()
         self.parent_table: ParentTable = ParentTable()
         self.follows_table: FollowsTable = FollowsTable()
         self.pos: int = 0
@@ -118,6 +120,7 @@ class Parser:
         self.match("OPEN_BRACKET")
         self.proc_table.update_proc(proc_node.value, {'start': self.current_line + 1})
         proc_node.add_child(self.statement_list())
+        self.next_table.remove_next(self.current_line)
         self.proc_table.update_proc(proc_node.value, {'finish': self.current_line})
         self.match("CLOSE_BRACKET")
         return proc_node
@@ -154,6 +157,7 @@ class Parser:
                                               {'name': 'CALL', 'value': call_node.value, 'start': self.current_line,
                                                'end': self.current_line})
         self.match("SEMICOLON")
+        self.next_table.set_next(call_node.line, self.current_line + 1)
         return call_node
 
     def while_statement(self) -> Node:
@@ -166,7 +170,10 @@ class Parser:
         self.statement_table.insert_statement(self.current_line, {'name': 'WHILE', 'value': self.prev_token[1],
                                                                   'start': self.current_line})
         self.match("OPEN_BRACKET")
+        self.next_table.set_next(while_node.line, self.current_line + 1)
         while_node.add_child(self.statement_list())
+        self.next_table.set_next(self.current_line, while_node.line)
+        self.next_table.set_next(while_node.line, self.current_line + 1)
         self.statement_table.update_statement(while_node.line, {'end': self.current_line})
         for child in while_node.children[1].children:
             self.parent_table.set_parent(while_node.line, child.line)
@@ -193,7 +200,7 @@ class Parser:
         self.match("ASSIGN")
         assign_node.add_child(self.expression())
         self.match("SEMICOLON")
-
+        self.next_table.set_next(self.current_line, self.current_line + 1)
         return assign_node
 
     def if_statement(self) -> Node:
@@ -205,9 +212,11 @@ class Parser:
                                               {'name': 'IF', 'value': self.prev_token[1], 'start': self.current_line})
         self.uses_table.set_uses(self.prev_token[1], str(self.current_line))
         self.uses_table.set_uses(self.prev_token[1], self.call_procedure)
+        self.next_table.set_next(if_node.line, self.current_line + 1)
         self.match("THEN")
         self.match("OPEN_BRACKET")
         if_node.add_child(self.statement_list())
+        last_if_line: int = if_node.children[1].children[-1].line
         for child in if_node.children[1].children:
             self.parent_table.set_parent(if_node.line, child.line)
             if child.node_type == 'ASSIGN' or child.node_type == 'WHILE' or child.node_type == 'IF':
@@ -220,7 +229,9 @@ class Parser:
         self.match("CLOSE_BRACKET")
         self.match("ELSE")
         self.match("OPEN_BRACKET")
+        self.next_table.set_next(if_node.line, self.current_line + 1)
         if_node.add_child(self.statement_list())
+        last_else_line: int = if_node.children[2].children[-1].line
         for child in if_node.children[2].children:
             self.parent_table.set_parent(if_node.line, child.line)
             if child.node_type == 'ASSIGN' or child.node_type == 'WHILE' or child.node_type == 'IF':
@@ -232,6 +243,10 @@ class Parser:
                     self.uses_table.set_uses(letter, self.call_procedure)
         self.match("CLOSE_BRACKET")
         self.statement_table.update_statement(if_node.line, {'end': self.current_line})
+        self.next_table.remove_next(last_else_line)
+        self.next_table.remove_next(last_if_line)
+        self.next_table.set_next(last_else_line, self.current_line + 1)
+        self.next_table.set_next(last_if_line, self.current_line + 1)
         return if_node
 
     def expression(self) -> Node:
