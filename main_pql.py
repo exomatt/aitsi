@@ -8,6 +8,7 @@ from aitsi_parser.CallsTable import CallsTable
 from aitsi_parser.ConstTable import ConstTable
 from aitsi_parser.FollowsTable import FollowsTable
 from aitsi_parser.ModifiesTable import ModifiesTable
+from aitsi_parser.NextTable import NextTable
 from aitsi_parser.ParentTable import ParentTable
 from aitsi_parser.ProcTable import ProcTable
 from aitsi_parser.StatementTable import StatementTable
@@ -57,6 +58,8 @@ def main(query: str, tables_directory_path: str = "database/test/code_short", in
         CsvReader.read_csv_from_file(tables_directory_path + "/StatementTable.csv"))
     const_table: ConstTable = ConstTable(
         CsvReader.read_csv_from_file(tables_directory_path + "/ConstTable.csv"))
+    next_table: NextTable = NextTable(
+        CsvReader.read_csv_from_file(tables_directory_path + "/NextTable.csv", True))
     all_tables: Dict[str, Union[VarTable,
                                 ProcTable,
                                 UsesTable,
@@ -65,17 +68,20 @@ def main(query: str, tables_directory_path: str = "database/test/code_short", in
                                 FollowsTable,
                                 CallsTable,
                                 StatementTable,
-                                ConstTable]] = {'var': var_table,
-                                                'proc': proc_table,
-                                                'uses': uses_table,
-                                                'parent': parent_table,
-                                                'modifies': modifies_table,
-                                                'follows': follows_table,
-                                                'calls': calls_table,
-                                                'statement': statement_table,
-                                                'const': const_table}
+                                ConstTable,
+                                NextTable]] = {'var': var_table,
+                                               'proc': proc_table,
+                                               'uses': uses_table,
+                                               'parent': parent_table,
+                                               'modifies': modifies_table,
+                                               'follows': follows_table,
+                                               'calls': calls_table,
+                                               'statement': statement_table,
+                                               'const': const_table,
+                                               'next': next_table}
 
-    query_processor: QueryProcessor = QueryProcessor(proc_table.get_all_proc_name(), var_table.get_all_var_name(), statement_table.get_size())
+    query_processor: QueryProcessor = QueryProcessor(proc_table.get_all_proc_name(), var_table.get_all_var_name(),
+                                                     statement_table.get_size())
     query_processor.generate_query_tree(query)
     query_tree: Dict[str, dict] = query_processor.get_node_json()
     query_evaluator: QueryEvaluator = QueryEvaluator(all_tables)
