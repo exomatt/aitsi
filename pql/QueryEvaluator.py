@@ -52,6 +52,7 @@ class QueryEvaluator:
     def distribution_of_tasks(self, root: Node) -> None:
         if root.node_type == 'RESULT':
             self.select = root.children[0].node_type, root.children[0].value
+            self.results[self.select[1]] = set()
         elif root.node_type == 'WITH':
             for node in root.children:
                 self.attr_analysis(node)

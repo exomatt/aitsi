@@ -13,10 +13,13 @@ Select s such that Parent (s,s1) with s1.stmt#=20
 stmt s;
 Select s such that Parent (s,2)
 none
+stmt s;
 Select s such that Parent (s,10)
 8
+stmt s;
 Select s such that Parent (s,11)
 10
+stmt s;
 Select s such that Parent (s,20)
 18
 stmt s;
@@ -415,9 +418,3 @@ Select a2 such that Affects* (25,a2)
 assign a2;
 Select a2 such that Affects* (28,a2)
 none
-
-
-
-
-
-
