@@ -110,6 +110,18 @@ class Parser:
                     self.mod_table.set_modifies(var, str(statement[0]))
                 for var in used_vars:
                     self.uses_table.set_uses(var, str(statement[0]))
+        for statement in self.statement_table.table.values:
+            if statement[1]['name'] == 'WHILE' or statement[1]['name'] == 'IF':
+                statements_inside_statement: List = [self.statement_table.table.values[i] for i in
+                                                     range(statement[1]['start'], statement[1]['end'])]
+                for stmt in statements_inside_statement:
+                    if stmt[1]['name'] == 'CALL':
+                        modified_vars: List[str] = self.mod_table.get_modified(stmt[1]['value'])
+                        used_vars: List[str] = self.uses_table.get_used(stmt[1]['value'])
+                        for var in modified_vars:
+                            self.mod_table.set_modifies(var, str(statement[0]))
+                        for var in used_vars:
+                            self.uses_table.set_uses(var, str(statement[0]))
 
     def procedure(self) -> Node:
         self.match("PROCEDURE")
