@@ -19,8 +19,9 @@ class QueryProcessor:
                          (r"\s*=", "EQUALS_SIGN"),
                          (r'\s*_', 'EVERYTHING'),
                          (r'.stmt#|.value|.procName|.varName', 'ATTR_NAME'),
-                         (r'\s*while|\s*assign|\s*stmt|\s*variable|\s*constant|\s*procedure|\s*prog_line|\s*call|\s*if',
-                          'DECLARATION'),
+                         (
+                         r'\s*while\s|\s*assign\s|\s*stmt\s|\s*variable\s|\s*constant\s|\s*procedure\s|\s*prog_line\s|\s*call\s|\s*if\s',
+                         'DECLARATION'),
                          (r'\s*BOOLEAN', 'BOOLEAN'),
                          (r'\s*with', 'WITH'), (r'\s*and', 'AND'),
                          (r'\s*"[A-Za-z]+[A-Za-z0-9#]*"', 'IDENT_QUOTE'), (r'\s*[A-Za-z]+[A-Za-z0-9\#]*', 'IDENT'),
