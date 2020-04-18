@@ -2,7 +2,7 @@ import argparse
 import json
 import logging
 import logging.config as conf
-from typing import Dict, Union, List
+from typing import Dict, Union
 
 from aitsi_parser.CallsTable import CallsTable
 from aitsi_parser.ConstTable import ConstTable
@@ -39,56 +39,57 @@ def export_query_tree_to_file(query_json_tree: Dict[str, dict], filename: str = 
         json.dump(query_json_tree, f, indent=4, sort_keys=True)
 
 
-def main(query: str, tables_directory_path: str = "database/test/code_short", input_ast_filename: str = "AST.json",
-         output_query_filename: str = "pql_query_tree.json",
-         save_to_file: bool = False) -> Union[bool, List[str], List[int]]:
-    ast_node: Node = load_ast_from_file(tables_directory_path + "/" + input_ast_filename)
-    var_table: VarTable = VarTable(CsvReader.read_csv_from_file(tables_directory_path + "/VarTable.csv"))
-    proc_table: ProcTable = ProcTable(CsvReader.read_csv_from_file(tables_directory_path + "/ProcTable.csv"))
-    calls_table: CallsTable = CallsTable(
-        CsvReader.read_csv_from_file(tables_directory_path + "/CallsTable.csv"))
-    modifies_table: ModifiesTable = ModifiesTable(
-        CsvReader.read_csv_from_file(tables_directory_path + "/ModifiesTable.csv"))
-    parent_table: ParentTable = ParentTable(
-        CsvReader.read_csv_from_file(tables_directory_path + "/ParentTable.csv", True))
-    uses_table: UsesTable = UsesTable(CsvReader.read_csv_from_file(tables_directory_path + "/UsesTable.csv"))
-    follows_table: FollowsTable = FollowsTable(
-        CsvReader.read_csv_from_file(tables_directory_path + "/FollowsTable.csv", True))
-    statement_table: StatementTable = StatementTable(
-        CsvReader.read_csv_from_file(tables_directory_path + "/StatementTable.csv"))
-    const_table: ConstTable = ConstTable(
-        CsvReader.read_csv_from_file(tables_directory_path + "/ConstTable.csv"))
-    next_table: NextTable = NextTable(
-        CsvReader.read_csv_from_file(tables_directory_path + "/NextTable.csv", True))
-    all_tables: Dict[str, Union[VarTable,
-                                ProcTable,
-                                UsesTable,
-                                ParentTable,
-                                ModifiesTable,
-                                FollowsTable,
-                                CallsTable,
-                                StatementTable,
-                                ConstTable,
-                                NextTable]] = {'var': var_table,
-                                               'proc': proc_table,
-                                               'uses': uses_table,
-                                               'parent': parent_table,
-                                               'modifies': modifies_table,
-                                               'follows': follows_table,
-                                               'calls': calls_table,
-                                               'statement': statement_table,
-                                               'const': const_table,
-                                               'next': next_table}
+class PQL:
+    def __init__(self, tables_directory_path: str = "database/test/code_short", input_ast_filename: str = "AST.json"):
+        ast_node: Node = load_ast_from_file(tables_directory_path + "/" + input_ast_filename)
+        var_table: VarTable = VarTable(CsvReader.read_csv_from_file(tables_directory_path + "/VarTable.csv"))
+        proc_table: ProcTable = ProcTable(CsvReader.read_csv_from_file(tables_directory_path + "/ProcTable.csv"))
+        calls_table: CallsTable = CallsTable(
+            CsvReader.read_csv_from_file(tables_directory_path + "/CallsTable.csv"))
+        modifies_table: ModifiesTable = ModifiesTable(
+            CsvReader.read_csv_from_file(tables_directory_path + "/ModifiesTable.csv"))
+        parent_table: ParentTable = ParentTable(
+            CsvReader.read_csv_from_file(tables_directory_path + "/ParentTable.csv", True))
+        uses_table: UsesTable = UsesTable(CsvReader.read_csv_from_file(tables_directory_path + "/UsesTable.csv"))
+        follows_table: FollowsTable = FollowsTable(
+            CsvReader.read_csv_from_file(tables_directory_path + "/FollowsTable.csv", True))
+        statement_table: StatementTable = StatementTable(
+            CsvReader.read_csv_from_file(tables_directory_path + "/StatementTable.csv"))
+        const_table: ConstTable = ConstTable(
+            CsvReader.read_csv_from_file(tables_directory_path + "/ConstTable.csv"))
+        next_table: NextTable = NextTable(
+            CsvReader.read_csv_from_file(tables_directory_path + "/NextTable.csv", True))
+        self.all_tables: Dict[str, Union[VarTable,
+                                         ProcTable,
+                                         UsesTable,
+                                         ParentTable,
+                                         ModifiesTable,
+                                         FollowsTable,
+                                         CallsTable,
+                                         StatementTable,
+                                         ConstTable,
+                                         NextTable]] = {'var': var_table,
+                                                        'proc': proc_table,
+                                                        'uses': uses_table,
+                                                        'parent': parent_table,
+                                                        'modifies': modifies_table,
+                                                        'follows': follows_table,
+                                                        'calls': calls_table,
+                                                        'statement': statement_table,
+                                                        'const': const_table,
+                                                        'next': next_table}
 
-    query_processor: QueryProcessor = QueryProcessor(proc_table.get_all_proc_name(), var_table.get_all_var_name(),
-                                                     statement_table.get_size())
-    query_processor.generate_query_tree(query)
-    query_tree: Dict[str, dict] = query_processor.get_node_json()
-    query_evaluator: QueryEvaluator = QueryEvaluator(all_tables)
-    response = query_evaluator.evaluate_query(query_processor.root)
-    if save_to_file:
-        export_query_tree_to_file(query_tree, output_query_filename)
-    return response
+    def main(self, query: str, output_query_filename: str = "pql_query_tree.json", save_to_file: bool = False) -> str:
+        query_processor: QueryProcessor = QueryProcessor(self.all_tables['proc'].get_all_proc_name(),
+                                                         self.all_tables['var'].get_all_var_name(),
+                                                         self.all_tables['statement'].get_size())
+        query_processor.generate_query_tree(query)
+        query_tree: Dict[str, dict] = query_processor.get_node_json()
+        query_evaluator: QueryEvaluator = QueryEvaluator(self.all_tables)
+        response = query_evaluator.evaluate_query(query_processor.root)
+        if save_to_file:
+            export_query_tree_to_file(query_tree, output_query_filename)
+        return response
 
 
 if __name__ == '__main__':
@@ -105,6 +106,6 @@ if __name__ == '__main__':
     _output_query_filename: str = args.o
     _tables_directory_path: str = args.p
     _query: str = load_query_from_file(_input_query_filename)
-    result: Union[bool, List[str], List[int]] = main(_query, _tables_directory_path, _input_ast_filename,
-                                                     _output_query_filename)
+    pql = PQL(_tables_directory_path)
+    result: str = pql.main(_query)
     log.debug(result)

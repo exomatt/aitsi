@@ -1,6 +1,5 @@
 import logging
 import sys
-from typing import Union, List
 
 import main_parser
 import main_pql
@@ -11,10 +10,11 @@ log = logging.getLogger(__name__)
 def main(argv):
     db_path = main_parser.main(argv[1])
     print("Ready")
+    pql = main_pql.PQL(db_path)
     while True:
         first_line = input()
         second_line = input()
-        result: Union[bool, List[str], List[int]] = main_pql.main(first_line + " " + second_line, db_path)
+        result: str = pql.main(first_line + " " + second_line)
         print(result)
 
 
