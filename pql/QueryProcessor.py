@@ -169,12 +169,13 @@ class QueryProcessor:
         result_node: Node = Node("RESULT")
         if self.next_token[0] == 'BOOLEAN':
             self.match('BOOLEAN')
+            result_node.add_child(Node('BOOLEAN', 'BOOLEAN'))
         else:
             self.synonym()
             declaration_variable_type: str = self.get_declaration_type(self.prev_token[1].strip())
             if declaration_variable_type is None:
                 self.error("select_cl ")
-        result_node.add_child(Node(declaration_variable_type, self.prev_token[1].strip()))
+            result_node.add_child(Node(declaration_variable_type, self.prev_token[1].strip()))
         self.root.add_child(result_node)
         such_that_node: Node = Node("SUCH_THAT")
         with_node: Node = Node("WITH")
