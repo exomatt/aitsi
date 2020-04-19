@@ -12,16 +12,16 @@ class QueryProcessor:
     # znacznik * jest przekształcony na litere T(np. Follows* == FOLLOWST)
     token_expressions = [(r'\s*Select', 'SELECT'), (r'\s*such that', 'SUCH_THAT'),
                          (r'\s*Follows\*', 'FOLLOWST'), (r'\s*Parent\*', 'PARENTT'), (r'\s*Modifies\*', 'MODIFIEST'),
-                         (r'\s*Uses\*', 'USEST'), (r'\s*Calls\*', 'CALLST'),
+                         (r'\s*Uses\*', 'USEST'), (r'\s*Calls\*', 'CALLST'), (r'\s*Next\*', 'NEXTT'),
                          (r"\s*Follows", 'FOLLOWS'), (r'\s*Parent', 'PARENT'), (r'\s*Modifies', 'MODIFIES'),
-                         (r'\s*Uses', 'USES'), (r'\s*Calls', 'CALLS'),
+                         (r'\s*Uses', 'USES'), (r'\s*Calls', 'CALLS'), (r'\s*Next', 'NEXT'),
                          (r'\s*\(', 'OPEN_PARENTHESIS'), (r'\s*\)', 'CLOSE_PARENTHESIS'), (r'\s*;', 'SEMICOLON'),
                          (r"\s*=", "EQUALS_SIGN"),
                          (r'\s*_', 'EVERYTHING'),
                          (r'.stmt#|.value|.procName|.varName', 'ATTR_NAME'),
                          (
-                         r'\s*while\s|\s*assign\s|\s*stmt\s|\s*variable\s|\s*constant\s|\s*procedure\s|\s*prog_line\s|\s*call\s|\s*if\s',
-                         'DECLARATION'),
+                             r'\s*while\s|\s*assign\s|\s*stmt\s|\s*variable\s|\s*constant\s|\s*procedure\s|\s*prog_line\s|\s*call\s|\s*if\s',
+                             'DECLARATION'),
                          (r'\s*BOOLEAN', 'BOOLEAN'),
                          (r'\s*with', 'WITH'), (r'\s*and', 'AND'),
                          (r'\s*"[A-Za-z]+[A-Za-z0-9#]*"', 'IDENT_QUOTE'), (r'\s*[A-Za-z]+[A-Za-z0-9\#]*', 'IDENT'),
@@ -239,6 +239,10 @@ class QueryProcessor:
             return self.relation_with_the_same_arguments("CALLS")
         elif self.next_token[0] == "CALLST":
             return self.relation_with_the_same_arguments("CALLST")
+        elif self.next_token[0] == "NEXT":
+            return self.relation_with_the_same_arguments("NEXT")
+        elif self.next_token[0] == "NEXTT":
+            return self.relation_with_the_same_arguments("NEXTT")
 
     def relation_with_the_same_arguments(self, type_node: str) -> Node:
         self.match(type_node)
@@ -260,6 +264,12 @@ class QueryProcessor:
             relation_node.add_child(argument1_node)
             self.match("COMMA")
             argument2_node: Node = self.proc_ref()
+            relation_node.add_child(argument2_node)
+        elif type_node in ["NEXT", "NEXTT"]:
+            argument1_node = self.line_ref()
+            relation_node.add_child(argument1_node)
+            self.match("COMMA")
+            argument2_node: Node = self.line_ref()
             relation_node.add_child(argument2_node)
         self.match("CLOSE_PARENTHESIS")
         if argument1_node.node_type == "EVERYTHING" and argument2_node.node_type == "EVERYTHING":
