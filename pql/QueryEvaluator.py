@@ -4,6 +4,7 @@ from aitsi_parser.CallsTable import CallsTable
 from aitsi_parser.ConstTable import ConstTable
 from aitsi_parser.FollowsTable import FollowsTable
 from aitsi_parser.ModifiesTable import ModifiesTable
+from aitsi_parser.NextTable import NextTable
 from aitsi_parser.ParentTable import ParentTable
 from aitsi_parser.ProcTable import ProcTable
 from aitsi_parser.StatementTable import StatementTable
@@ -13,6 +14,7 @@ from pql.Node import Node
 from pql.relations.CallsRelation import CallsRelation
 from pql.relations.FollowsRelation import FollowsRelation
 from pql.relations.ModifiesRelation import ModifiesRelation
+from pql.relations.NextRelation import NextRelation
 from pql.relations.ParentRelation import ParentRelation
 from pql.relations.UsesRelation import UsesRelation
 
@@ -28,7 +30,8 @@ class QueryEvaluator:
                                               FollowsTable,
                                               CallsTable,
                                               StatementTable,
-                                              ConstTable]]) -> None:
+                                              ConstTable,
+                                              NextTable]]) -> None:
         self.all_tables: Dict[str, Union[VarTable,
                                          ProcTable,
                                          UsesTable,
@@ -37,8 +40,9 @@ class QueryEvaluator:
                                          FollowsTable,
                                          CallsTable,
                                          StatementTable,
-                                         ConstTable]] = all_tables
-        self.results: Dict[str, Union[bool, Set[str], Set[int], bool]] = {}
+                                         ConstTable,
+                                         NextTable]] = all_tables
+        self.results: Dict[str, Union[bool, Set[str], Set[int]]] = {}
         self.select: Tuple[str, str] = ('', '')
         self.relation_stack: List[Tuple[str, Tuple[str, str], Tuple[str, str]]] = []
 
@@ -242,6 +246,12 @@ class QueryEvaluator:
             return CallsRelation(self.all_tables['calls'], self.all_tables['var'], self.all_tables['statement'],
                                  self.all_tables['proc']) \
                 .calls_T(first_argument, second_argument)
+        elif relation_type == 'NEXT':
+            return NextRelation(self.all_tables['next'], self.all_tables['statement']) \
+                .next(first_argument, second_argument)
+        elif relation_type == 'NEXTT':
+            return NextRelation(self.all_tables['next'], self.all_tables['statement']) \
+                .next_T(first_argument, second_argument)
 
     def attr_analysis(self, attr_node: Node) -> None:
         if attr_node.children[1].node_type in ['INTEGER', 'IDENT_QUOTE']:
