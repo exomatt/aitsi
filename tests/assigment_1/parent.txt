@@ -1,0 +1,183 @@
+stmt s, s1;
+Select s such that Parent (s,s1)
+8, 10, 18, 23, 24
+stmt s, s1;
+Select s such that Parent (s1,s)
+9, 10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 24, 25, 26
+stmt s; while w;
+Select s such that Parent (s,w)
+8
+stmt s; while w;
+Select s such that Parent (w,s)
+11, 12, 19, 20, 21, 24
+stmt s; if i;
+Select i such that Parent (s,i)
+24
+stmt s; if i;
+Select s such that Parent (i,s)
+9, 10, 13, 14, 15, 16, 25, 26
+while w; if i;
+Select i such that Parent (w,i)
+24
+while w; if i;
+Select w such that Parent (i,w)
+10
+stmt s;
+Select s such that Parent (1,s)
+none
+stmt s;
+Select s such that Parent (4,s)
+none
+stmt s;
+Select s such that Parent (17,s)
+none
+stmt s;
+Select s such that Parent (8,s)
+9, 10, 13, 14, 15, 16
+stmt s;
+Select s such that Parent (10,s)
+11, 12
+stmt s;
+Select s such that Parent (11,s)
+none
+stmt s;
+Select s such that Parent (s,4)
+none
+stmt s;
+Select s such that Parent (s,2)
+none
+stmt s;
+Select s such that Parent (s,12)
+10
+stmt s;
+Select s such that Parent (s,10)
+8
+stmt s;
+Select s such that Parent (s,8)
+none
+stmt s;
+Select s such that Parent (s,9)
+8
+stmt s;
+Select s such that Parent (s,18)
+none
+stmt s;
+Select s such that Parent (18,s)
+19, 20, 21
+while w;
+Select w such that Parent (w,24)
+23
+while w;
+Select w such that Parent (w,23)
+none
+while w;
+Select w such that Parent (w,25)
+none
+while w;
+Select w such that Parent (25,w)
+none
+while w;
+Select w such that Parent (w,24)
+23
+while w;
+Select w such that Parent (w,23)
+none
+while w;
+Select w such that Parent (w,1)
+none
+if i;
+Select i such that Parent (i,1)
+none
+if i;
+Select i such that Parent (i,26)
+24
+if i;
+Select i such that Parent (i,10)
+8
+if i;
+Select i such that Parent (i,15)
+8
+if i;
+Select i such that Parent (i,11)
+none
+if i;
+Select i such that Parent (8,i)
+none
+if i;
+Select i such that Parent (6,i)
+none
+if i;
+Select i such that Parent (23,i)
+24
+if i;
+Select i such that Parent (25,i)
+none
+if i;
+Select i such that Parent (26,i)
+none
+if i;
+Select i such that Parent (10,i)
+none
+assign a;
+Select a such that Parent (8,a)
+9, 13, 14, 16
+assign a;
+Select a such that Parent (10,a)
+11, 12
+assign a; while w;
+Select a such that Parent (w,a)
+11, 12, 19, 21
+assign a; if i;
+Select a such that Parent (i,a)
+9, 13, 14, 16, 25, 26
+call c;
+Select c such that Parent (8,c)
+15
+call c;
+Select c such that Parent (10,c)
+none
+call c; while w;
+Select c such that Parent (w,c)
+20
+call c; if i;
+Select c such that Parent (i,c)
+15
+stmt s;
+Select s such that Parent (s,_)
+8, 10, 18, 23, 24
+stmt s;
+Select s such that Parent (_,s)
+9, 10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 24, 25, 26
+stmt s;
+Select s such that Parent (_,_)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28
+stmt s;
+Select s such that Parent (1,_)
+none
+stmt s;
+Select s such that Parent (8,_)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28
+stmt s;
+Select s such that Parent (10,_)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28
+stmt s;
+Select s such that Parent (23,_)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28
+stmt s;
+Select s such that Parent (24,_)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28
+stmt s;
+Select s such that Parent (_,3)
+none
+stmt s;
+Select s such that Parent (_,8)
+none
+stmt s;
+Select s such that Parent (_,10)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28
+stmt s;
+Select s such that Parent (_,23)
+none
+stmt s;
+Select s such that Parent (_,24)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28

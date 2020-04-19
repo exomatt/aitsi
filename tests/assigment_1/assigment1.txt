@@ -42,7 +42,7 @@ Select s such that Parent* (s,10)
 8
 stmt s;
 Select s such that Parent* (s,11)
-10,8
+10, 8
 stmt s;
 Select s such that Parent* (s,20)
 18
