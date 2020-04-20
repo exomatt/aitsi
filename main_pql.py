@@ -41,7 +41,7 @@ def export_query_tree_to_file(query_json_tree: Dict[str, dict], filename: str = 
 
 class PQL:
     def __init__(self, tables_directory_path: str = "database/test/code_short", input_ast_filename: str = "AST.json"):
-        ast_node: Node = load_ast_from_file(tables_directory_path + "/" + input_ast_filename)
+        self.ast_node: Node = load_ast_from_file(tables_directory_path + "/" + input_ast_filename)
         var_table: VarTable = VarTable(CsvReader.read_csv_from_file(tables_directory_path + "/VarTable.csv"))
         proc_table: ProcTable = ProcTable(CsvReader.read_csv_from_file(tables_directory_path + "/ProcTable.csv"))
         calls_table: CallsTable = CallsTable(
@@ -85,7 +85,7 @@ class PQL:
                                                          self.all_tables['statement'].get_size())
         query_processor.generate_query_tree(query)
         query_tree: Dict[str, dict] = query_processor.get_node_json()
-        query_evaluator: QueryEvaluator = QueryEvaluator(self.all_tables)
+        query_evaluator: QueryEvaluator = QueryEvaluator(self.all_tables, self.ast_node)
         response = query_evaluator.evaluate_query(query_processor.root)
         if save_to_file:
             export_query_tree_to_file(query_tree, output_query_filename)

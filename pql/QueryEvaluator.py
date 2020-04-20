@@ -31,7 +31,9 @@ class QueryEvaluator:
                                               CallsTable,
                                               StatementTable,
                                               ConstTable,
-                                              NextTable]]) -> None:
+                                              NextTable]],
+                 ast_code: Node) -> None:
+        self.ast_code = ast_code
         self.all_tables: Dict[str, Union[VarTable,
                                          ProcTable,
                                          UsesTable,
@@ -70,10 +72,56 @@ class QueryEvaluator:
         elif root.node_type == 'WITH':
             for node in root.children:
                 self.attr_analysis(node)
+        elif root.node_type == 'PATTERN':
+            for node in root.children:
+                self.pattern_analysis(node)
         elif root.node_type == 'SUCH_THAT':
             for node in root.children:
                 self.relation_preparation(node)
             self.check_stack_on_return()
+
+    def pattern_analysis(self, pattern_node: Node) -> None:
+        if pattern_node.node_type in ['PATTERN_WHILE', 'PATTERN_IF']:
+            self.pattern_while_or_if(pattern_node)
+        else:
+            self.pattern_assign(pattern_node)
+
+    def pattern_while_or_if(self, node: Node) -> None:
+        if node.children[1].node_type in ['VARIABLE', 'EVERYTHING']:
+            self.results[node.children[0].value] = self.all_tables['statement'] \
+                .get_statement_line_by_type_name(node.children[0].node_type)
+        else:
+            self.results[node.children[0].value] = self.all_tables['statement'] \
+                .get_statement_line_by_type_name_and_value(node.children[0].node_type, node.children[1].value)
+
+        if self.results[node.children[0].value] and self.results.get('BOOLEAN', True) is True:
+            self.results['BOOLEAN'] = True
+        else:
+            self.results['BOOLEAN'] = False
+
+    def pattern_assign(self, node: Node) -> None:
+        if node.children[1].node_type in ['VARIABLE', 'EVERYTHING']:
+            self.results[node.children[0].value] = self.all_tables['statement'] \
+                .get_statement_line_by_type_name(node.children[0].node_type)
+        else:
+            self.results[node.children[0].value] = self.all_tables['statement'] \
+                .get_statement_line_by_type_name_and_value(node.children[0].node_type, node.children[1].value)
+
+        if self.results[node.children[0].value] and node.children[2].node_type == "EVERYTHING":
+            self.pattern_wild_card(node.children[0].value, node.children[2])
+        else:
+            self.pattern_after_equals(node.children[0].value, node.children[2])
+
+        if self.results[node.children[0].value] and self.results.get('BOOLEAN', True) is True:
+            self.results['BOOLEAN'] = True
+        else:
+            self.results['BOOLEAN'] = False
+
+    def pattern_wild_card(self, attr_name: str, node_expr: Node) -> None:
+        if node_expr.children:
+
+    def pattern_after_equals(self, attr_name: str, node_expr: Node) -> None:
+        pass
 
     def relation_preparation(self, relation: Node) -> None:
         # tworzenie tupli dwróch argumentów danej relacji
@@ -271,7 +319,7 @@ class QueryEvaluator:
 
             self.results[attr_node.children[0].value] = left.intersection(right)
 
-    def check_stack_on_return(self):
+    def check_stack_on_return(self) -> None:
         while len(self.relation_stack) != 0:
             relation: Tuple[str, Tuple[str, str], Tuple[str, str]] = self.relation_stack.pop()
             self.execution_of_relation(relation[0],

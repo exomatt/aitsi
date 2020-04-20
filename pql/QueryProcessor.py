@@ -195,10 +195,10 @@ class QueryProcessor:
                 pattern_node.add_children(self.pattern_cl())
         if with_node.children:
             self.root.add_child(with_node)
-        if such_that_node.children:
-            self.root.add_child(such_that_node)
         if pattern_node.children:
             self.root.add_child(pattern_node)
+        if such_that_node.children:
+            self.root.add_child(such_that_node)
 
     def get_declaration_type(self, variable_name: str) -> str:
         return self.declaration_dict.get(variable_name, "")
@@ -254,6 +254,7 @@ class QueryProcessor:
 
     def assign_cond(self) -> Node:
         pattern_assign_node = Node("PATTERN_ASSIGN")
+        pattern_assign_node.add_child(Node('ASSIGN', self.prev_token[1].strip()))
         argument1_node: Node
         argument2_node: Node
         self.match("OPEN_PARENTHESIS")
@@ -320,6 +321,7 @@ class QueryProcessor:
 
     def if_cond(self) -> Node:
         pattern_if_node = Node("PATTERN_IF")
+        pattern_if_node.add_child(Node('IF', self.prev_token[1].strip()))
         argument1_node: Node
         argument2_node: Node
         argument3_node: Node
@@ -345,6 +347,7 @@ class QueryProcessor:
 
     def while_cond(self) -> Node:
         pattern_while_node = Node("PATTERN_WHILE")
+        pattern_while_node.add_child(Node('WHILE', self.prev_token[1].strip()))
         argument1_node: Node
         argument2_node: Node
         self.match("OPEN_PARENTHESIS")
