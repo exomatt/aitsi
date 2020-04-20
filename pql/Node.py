@@ -36,6 +36,9 @@ class Node:
         for x in self.children:
             x.to_string(i + 1)
 
+    def equals(self, other: 'Node') -> bool:
+        return self.node_type == other.node_type and self.value == other.value
+
     def to_log(self, i: int) -> None:
         log.debug(str(i) + ": TYPE:" + self.node_type + "\t VALUE:" + self.value + "\t LINE:" + str(self.line))
         for x in self.children:

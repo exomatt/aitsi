@@ -17,6 +17,7 @@ from pql.relations.ModifiesRelation import ModifiesRelation
 from pql.relations.NextRelation import NextRelation
 from pql.relations.ParentRelation import ParentRelation
 from pql.relations.UsesRelation import UsesRelation
+from pql.utils.SearchUtils import SearchUtils
 
 
 class QueryEvaluator:
@@ -32,8 +33,8 @@ class QueryEvaluator:
                                               StatementTable,
                                               ConstTable,
                                               NextTable]],
-                 ast_code: Node) -> None:
-        self.ast_code = ast_code
+                 ast_node: Node) -> None:
+        self.ast_node = ast_node
         self.all_tables: Dict[str, Union[VarTable,
                                          ProcTable,
                                          UsesTable,
@@ -103,14 +104,15 @@ class QueryEvaluator:
         if node.children[1].node_type in ['VARIABLE', 'EVERYTHING']:
             self.results[node.children[0].value] = self.all_tables['statement'] \
                 .get_statement_line_by_type_name(node.children[0].node_type)
-        else:
+        else:  # pobranie wszystkich lini gdy po lewej stronie rownania jest dana wartosć np. "t"
             self.results[node.children[0].value] = self.all_tables['statement'] \
                 .get_statement_line_by_type_name_and_value(node.children[0].node_type, node.children[1].value)
 
         if self.results[node.children[0].value] and node.children[2].node_type == "EVERYTHING":
             self.pattern_wild_card(node.children[0].value, node.children[2])
-        else:
-            self.pattern_after_equals(node.children[0].value, node.children[2])
+        elif self.results[node.children[0].value]:
+            # self.pattern_after_equals(node.children[0].value, node.children[2])
+            pass
 
         if self.results[node.children[0].value] and self.results.get('BOOLEAN', True) is True:
             self.results['BOOLEAN'] = True
@@ -119,9 +121,40 @@ class QueryEvaluator:
 
     def pattern_wild_card(self, attr_name: str, node_expr: Node) -> None:
         if node_expr.children:
+            search: SearchUtils = SearchUtils(self.ast_node)
+            result: Set[int] = set()
+            for line in self.results[attr_name]:
+                search_node: Node = search.find_node_by_line_and_type_and_value(line, node_expr.children[0].node_type,
+                                                                                node_expr.children[0].value)
+                if search_node is not None:
+                    if self.pattern_after_equals(search_node, node_expr.children[0])[0]:
+                        result.add(int(line))
+            self.results[attr_name] = result
 
-    def pattern_after_equals(self, attr_name: str, node_expr: Node) -> None:
-        pass
+    def pattern_after_equals(self, ast: Node, comparing_node: Node, parent: Node = Node()) -> Tuple[bool, bool]:
+        """
+
+        :param ast:
+        :param comparing_node:
+        :return: pierwszy bool oznacza czy jest identyczne wyrazenie a drugi czy jest to tylko czesc
+        """
+        if len(comparing_node.children) > len(ast.children):
+            return False, False
+        for index, child in enumerate(ast.children):
+            if index < len(comparing_node.children):
+                if ast.equals(comparing_node):
+                    if not self.pattern_after_equals(child, comparing_node.children[index], ast)[0]:
+                        return False, False
+                else:
+                    return False, False
+            else:
+                return False, False
+        if ast.equals(comparing_node):
+            if len(parent.children) == 2:
+                return True, True
+            return True, False
+        else:
+            return False, False
 
     def relation_preparation(self, relation: Node) -> None:
         # tworzenie tupli dwróch argumentów danej relacji

@@ -37,6 +37,20 @@ class SearchUtils:
                     s_list.extend(node.children)
         return None
 
+    def find_node_by_line_and_type_and_value(self, line_number: int, node_type: str, value: str) -> Optional[Node]:
+        s_list: List[Node] = []
+        if self.ast_tree.line == line_number and self.ast_tree.node_type == node_type and self.ast_tree.value == value:
+            return self.ast_tree
+        else:
+            s_list.extend(self.ast_tree.children)
+            while s_list:
+                node: Node = s_list.pop()
+                if node.line == line_number and node.node_type == node_type and node.value == value:
+                    return node
+                else:
+                    s_list.extend(node.children)
+        return None
+
     def find_node_by_type(self, node_type: str) -> List[Node]:
         results: List[Node] = []
         s_list: List[Node] = []
