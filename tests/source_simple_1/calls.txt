@@ -1,0 +1,45 @@
+procedure p;
+Select p such that Calls (p, "Init")
+ABC,Second
+procedure p;
+Select p such that Calls (p, "Second")
+ABC
+procedure p;
+Select p such that Calls (p, "ABC")
+none
+procedure p;
+Select p such that Calls* (p, "ABC")
+none
+procedure p;
+Select p such that Calls* (p, "Init")
+ABC,Second
+procedure p;
+Select p such that Calls* ("ABC", p)
+Init,Second
+procedure p;
+Select p such that Calls ("ABC", p)
+Init,Second
+procedure p;
+Select p such that Calls ("Init", p)
+none
+procedure p;
+Select p such that Calls ("Second", p)
+Init
+procedure p,q;
+Select p such that Calls (p, q) with p.procName = "Init"
+none
+procedure p,q;
+Select p such that Calls (p, q) with p.procName = "ABC"
+Init,Second
+procedure p,q;
+Select p such that Calls (p, q) with p.procName = "Second"
+Init
+procedure p,q;
+Select p such that Calls (p, q) with q.procName = "Second"
+ABC
+procedure p,q;
+Select p such that Calls (p, q) with q.procName = "ABC"
+none
+procedure p,q;
+Select p such that Calls (p, q) with q.procName = "Init"
+ABC,Second
