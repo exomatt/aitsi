@@ -286,10 +286,10 @@ class QueryProcessor:
     def expression(self) -> Node:
         node: Node = self.term()
         while self.next_token[0] in ["PLUS", "MINUS"]:
-            op_node: Node = Node(self.next_token[0])
+            op_node: Node = Node(self.next_token[0], self.next_token[1].strip())
             self.match(self.next_token[0])
             op_node.add_child(node)
-            op_node.add_child(self.expression())
+            op_node.add_child(self.term())
             node = op_node
         return node
 
@@ -299,7 +299,7 @@ class QueryProcessor:
             multiply_node: Node = Node(self.next_token[0], self.next_token[1])
             self.match("MULTIPLY")
             multiply_node.add_child(node)
-            multiply_node.add_child(self.term())
+            multiply_node.add_child(self.factor())
             node = multiply_node
         return node
 

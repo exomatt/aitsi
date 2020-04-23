@@ -102,59 +102,63 @@ class QueryEvaluator:
 
     def pattern_assign(self, node: Node) -> None:
         if node.children[1].node_type in ['VARIABLE', 'EVERYTHING']:
-            self.results[node.children[0].value] = self.all_tables['statement'] \
-                .get_statement_line_by_type_name(node.children[0].node_type)
+            self.results[node.children[0].value] = set(self.all_tables['statement'] \
+                                                       .get_statement_line_by_type_name(node.children[0].node_type))
         else:  # pobranie wszystkich lini gdy po lewej stronie rownania jest dana wartosć np. "t"
-            self.results[node.children[0].value] = self.all_tables['statement'] \
-                .get_statement_line_by_type_name_and_value(node.children[0].node_type, node.children[1].value)
+            self.results[node.children[0].value] = set(self.all_tables['statement'] \
+                                                       .get_statement_line_by_type_name_and_value(
+                node.children[0].node_type, node.children[1].value))
 
         if self.results[node.children[0].value] and node.children[2].node_type == "EVERYTHING":
-            self.pattern_wild_card(node.children[0].value, node.children[2])
+            self.pattern_assign_check(node.children[0].value, node.children[2], True)
         elif self.results[node.children[0].value]:
-            # self.pattern_after_equals(node.children[0].value, node.children[2])
-            pass
+            self.pattern_assign_check(node.children[0].value, node.children[2], False)
 
         if self.results[node.children[0].value] and self.results.get('BOOLEAN', True) is True:
             self.results['BOOLEAN'] = True
         else:
             self.results['BOOLEAN'] = False
 
-    def pattern_wild_card(self, attr_name: str, node_expr: Node) -> None:
+    def pattern_assign_check(self, attr_name: str, node_expr: Node, wild_card: bool) -> None:
         if node_expr.children:
             search: SearchUtils = SearchUtils(self.ast_node)
             result: Set[int] = set()
-            for line in self.results[attr_name]:
-                search_node: Node = search.find_node_by_line_and_type_and_value(line, node_expr.children[0].node_type,
-                                                                                node_expr.children[0].value)
-                if search_node is not None:
-                    if self.pattern_after_equals(search_node, node_expr.children[0])[0]:
-                        result.add(int(line))
+            if wild_card:
+                for line in self.results[attr_name]:
+                    search_node: Node = search.find_node_by_line(line).children[1]
+                    if search_node is not None:
+                        if self.expression_part_is_identical(search_node, node_expr.children[0]):
+                            result.add(int(line))
+            else:
+                for line in self.results[attr_name]:
+                    search_node: Node = search.find_node_by_line(line).children[1]
+                    if search_node is not None:
+                        if self.expression_is_identical(search_node, node_expr):
+                            result.add(int(line))
             self.results[attr_name] = result
 
-    def pattern_after_equals(self, ast: Node, comparing_node: Node, parent: Node = Node()) -> Tuple[bool, bool]:
-        """
-
-        :param ast:
-        :param comparing_node:
-        :return: pierwszy bool oznacza czy jest identyczne wyrazenie a drugi czy jest to tylko czesc
-        """
-        if len(comparing_node.children) > len(ast.children):
-            return False, False
-        for index, child in enumerate(ast.children):
-            if index < len(comparing_node.children):
-                if ast.equals(comparing_node):
-                    if not self.pattern_after_equals(child, comparing_node.children[index], ast)[0]:
-                        return False, False
-                else:
-                    return False, False
-            else:
-                return False, False
-        if ast.equals(comparing_node):
-            if len(parent.children) == 2:
-                return True, True
-            return True, False
+    def expression_part_is_identical(self, ast: Node, comparing_node: Node) -> bool:
+        if comparing_node.equals_expression(ast):
+            for index, child in enumerate(ast.children):
+                if not self.expression_part_is_identical(child, comparing_node.children[index]):
+                    return False
+            return True
         else:
-            return False, False
+            for child in ast.children:
+                if self.expression_part_is_identical(child, comparing_node):
+                    if len(child.children) == 2:
+                        return True
+                    return True
+            return False
+
+    def expression_is_identical(self, ast: Node, comparing_node: Node) -> bool:
+        if comparing_node.equals_expression(ast):
+            for index, child in enumerate(ast.children):
+                if not self.expression_is_identical(child, comparing_node.children[index]):
+                    return False
+            return True
+        else:
+            return False
 
     def relation_preparation(self, relation: Node) -> None:
         # tworzenie tupli dwróch argumentów danej relacji
