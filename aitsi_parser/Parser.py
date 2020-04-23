@@ -264,7 +264,7 @@ class Parser:
     def expression(self) -> Node:
         node: Node = self.term()
         while self.next_token[0] in ["PLUS", "MINUS"]:
-            op_node: Node = Node(self.next_token[0], line=self.current_line)
+            op_node: Node = Node(self.next_token[0], self.next_token[1].strip(), line=self.current_line)
             self.match(self.next_token[0])
             op_node.add_child(node)
             op_node.add_child(self.term())

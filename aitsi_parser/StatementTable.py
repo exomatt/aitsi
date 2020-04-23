@@ -1,5 +1,5 @@
 import json
-from typing import Dict, List
+from typing import List
 
 import pandas as pd
 
@@ -41,6 +41,14 @@ class StatementTable:
         result: List[int] = []
         for statement in statements:
             if self.get_other_info(statement)['name'] == type_name:
+                result.append(statement)
+        return result
+
+    def get_statement_line_by_type_name_and_value(self, type_name: str, value: str):
+        statements: List[int] = self.table['statement_line'].tolist()
+        result: List[int] = []
+        for statement in statements:
+            if self.get_other_info(statement)['name'] == type_name and self.get_other_info(statement)['value'] == value:
                 result.append(statement)
         return result
 
