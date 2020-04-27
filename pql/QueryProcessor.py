@@ -11,6 +11,8 @@ log = logging.getLogger(__name__)
 class QueryProcessor:
     # znacznik * jest przekształcony na litere T(np. Follows* == FOLLOWST)
     token_expressions = [(r'\s*Select', 'SELECT'), (r'\s*such that', 'SUCH_THAT'),
+                         (r'\s*pattern', 'PATTERN'), (r"\s*\+", "PLUS"), (r"\s*\-", "MINUS"),
+                         (r"\s*\*", "MULTIPLY"),
                          (r'\s*Follows\*', 'FOLLOWST'), (r'\s*Parent\*', 'PARENTT'), (r'\s*Modifies\*', 'MODIFIEST'),
                          (r'\s*Uses\*', 'USEST'), (r'\s*Calls\*', 'CALLST'), (r'\s*Next\*', 'NEXTT'),
                          (r"\s*Follows", 'FOLLOWS'), (r'\s*Parent', 'PARENT'), (r'\s*Modifies', 'MODIFIES'),
@@ -24,7 +26,8 @@ class QueryProcessor:
                              'DECLARATION'),
                          (r'\s*BOOLEAN', 'BOOLEAN'),
                          (r'\s*with', 'WITH'), (r'\s*and', 'AND'),
-                         (r'\s*"[A-Za-z]+[A-Za-z0-9#]*"', 'IDENT_QUOTE'), (r'\s*[A-Za-z]+[A-Za-z0-9\#]*', 'IDENT'),
+                         (r'\s*"[A-Za-z]+[A-Za-z0-9#]*"', 'IDENT_QUOTE'), (r'\s*\"', "QUOTE"),
+                         (r'\s*[A-Za-z]+[A-Za-z0-9\#]*', 'IDENT'),
                          (r'\s*[0-9]+', 'INTEGER'), (r'\s*,', 'COMMA'), (r'\s*\.', 'DOT')]
 
     def __init__(self, proc_names: List[str], var_names: List[str], max_line_in_code: int) -> None:
@@ -179,15 +182,21 @@ class QueryProcessor:
         self.root.add_child(result_node)
         such_that_node: Node = Node("SUCH_THAT")
         with_node: Node = Node("WITH")
-        while self.next_token[0] in ["SUCH_THAT", "WITH"]:
+        pattern_node: Node = Node("PATTERN")
+        while self.next_token[0] in ["SUCH_THAT", "WITH", "PATTERN"]:
             if self.next_token[0] == "SUCH_THAT":
                 self.match("SUCH_THAT")
                 such_that_node.add_children(self.such_that_cl())
             if self.next_token[0] == "WITH":
                 self.match("WITH")
                 with_node.add_children(self.with_cl())
+            if self.next_token[0] == "PATTERN":
+                self.match("PATTERN")
+                pattern_node.add_children(self.pattern_cl())
         if with_node.children:
             self.root.add_child(with_node)
+        if pattern_node.children:
+            self.root.add_child(pattern_node)
         if such_that_node.children:
             self.root.add_child(such_that_node)
 
@@ -218,6 +227,141 @@ class QueryProcessor:
             self.match("AND")
             node_list.append(self.rel_ref())
         return node_list
+
+    def pattern_cl(self) -> List[Node]:
+        node_list: List[Node] = [self.pattern_cond()]
+        while self.next_token[0] == "AND":
+            self.match("AND")
+            node_list.append(self.pattern_cond())
+        return node_list
+
+    def pattern_cond(self) -> Node:
+        if self.next_token[0] == "IDENT":
+            self.synonym()
+            declaration_variable_type: str = self.get_declaration_type(self.prev_token[1].strip())
+            if declaration_variable_type is None:
+                self.error("pattern_cond error - variable " + self.prev_token[1].strip() + " not declared")
+            if declaration_variable_type == "ASSIGN":
+                return self.assign_cond()
+            elif declaration_variable_type == "IF":
+                return self.if_cond()
+            elif declaration_variable_type == "WHILE":
+                return self.while_cond()
+            else:
+                self.error("Pattern syntax error - " + self.prev_token[1].strip() + " must be ASSIG IF or WHILE")
+        else:
+            self.error("pattern_cond error - token must be a synonym")
+
+    def assign_cond(self) -> Node:
+        pattern_assign_node = Node("PATTERN_ASSIGN")
+        pattern_assign_node.add_child(Node('ASSIGN', self.prev_token[1].strip()))
+        argument1_node: Node
+        argument2_node: Node
+        self.match("OPEN_PARENTHESIS")
+        argument1_node = self.var_ref()
+        self.match("COMMA")
+        if self.next_token[0] == "EVERYTHING":
+            self.match("EVERYTHING")
+            argument2_node = Node(self.prev_token[0].strip(), self.prev_token[1].strip())
+            if self.next_token[0] is "IDENT_QUOTE":
+                argument2_node.add_child(self.expression())
+                self.match("EVERYTHING")
+            elif self.next_token[0] is "QUOTE":
+                self.match("QUOTE")
+                argument2_node.add_child(self.expression())
+                self.match("QUOTE")
+                self.match("EVERYTHING")
+        else:
+            if self.next_token[0] is "IDENT_QUOTE":
+                argument2_node = self.expression()
+            else:
+                self.match("QUOTE")
+                argument2_node = self.expression()
+                self.match("QUOTE")
+        self.match("CLOSE_PARENTHESIS")
+        pattern_assign_node.add_child(argument1_node)
+        pattern_assign_node.add_child(argument2_node)
+        return pattern_assign_node
+
+    def expression(self) -> Node:
+        node: Node = self.term()
+        while self.next_token[0] in ["PLUS", "MINUS"]:
+            op_node: Node = Node(self.next_token[0], self.next_token[1].strip())
+            self.match(self.next_token[0])
+            op_node.add_child(node)
+            op_node.add_child(self.term())
+            node = op_node
+        return node
+
+    def term(self) -> Node:
+        node: Node = self.factor()
+        while self.next_token[0] == "MULTIPLY":
+            multiply_node: Node = Node(self.next_token[0], self.next_token[1])
+            self.match("MULTIPLY")
+            multiply_node.add_child(node)
+            multiply_node.add_child(self.factor())
+            node = multiply_node
+        return node
+
+    def factor(self) -> Node:
+        if self.next_token[0] == "OPEN_PARENTHESIS":
+            self.match("OPEN_PARENTHESIS")
+            factor_node: Node = self.expression()
+            self.match("CLOSE_PARENTHESIS")
+            return factor_node
+        elif self.next_token[0] == "INTEGER":
+            self.match("INTEGER")
+            return Node(self.prev_token[0], self.prev_token[1])
+        elif self.next_token[0] == "IDENT":
+            self.match("IDENT")
+            return Node("NAME", self.prev_token[1])
+        elif self.next_token[0] == "IDENT_QUOTE":
+            self.match("IDENT_QUOTE")
+            return Node("NAME", self.prev_token[1].replace('"', '').strip())
+
+    def if_cond(self) -> Node:
+        pattern_if_node = Node("PATTERN_IF")
+        pattern_if_node.add_child(Node('IF', self.prev_token[1].strip()))
+        argument1_node: Node
+        argument2_node: Node
+        argument3_node: Node
+        self.match("OPEN_PARENTHESIS")
+        argument1_node = self.var_ref()
+        self.match("COMMA")
+        if self.next_token[0] == "EVERYTHING":
+            self.match("EVERYTHING")
+            argument2_node = Node(self.prev_token[0].strip(), self.prev_token[1].strip())
+            self.match("COMMA")
+        else:
+            self.error("Second argument must be _")
+        if self.next_token[0] == "EVERYTHING":
+            self.match("EVERYTHING")
+            argument3_node = Node(self.prev_token[0].strip(), self.prev_token[1].strip())
+        else:
+            self.error("Third argument must be _")
+        self.match("CLOSE_PARENTHESIS")
+        pattern_if_node.add_child(argument1_node)
+        pattern_if_node.add_child(argument2_node)
+        pattern_if_node.add_child(argument3_node)
+        return pattern_if_node
+
+    def while_cond(self) -> Node:
+        pattern_while_node = Node("PATTERN_WHILE")
+        pattern_while_node.add_child(Node('WHILE', self.prev_token[1].strip()))
+        argument1_node: Node
+        argument2_node: Node
+        self.match("OPEN_PARENTHESIS")
+        argument1_node = self.var_ref()
+        self.match("COMMA")
+        if self.next_token[0] == "EVERYTHING":
+            self.match("EVERYTHING")
+            argument2_node = Node(self.prev_token[0].strip(), self.prev_token[1].strip().replace('"', ''))
+        else:
+            self.error("Second argument must be _")
+        self.match("CLOSE_PARENTHESIS")
+        pattern_while_node.add_child(argument1_node)
+        pattern_while_node.add_child(argument2_node)
+        return pattern_while_node
 
     def rel_ref(self) -> Node:
         if self.next_token[0] == "MODIFIES":

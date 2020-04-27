@@ -17,6 +17,7 @@ from pql.relations.ModifiesRelation import ModifiesRelation
 from pql.relations.NextRelation import NextRelation
 from pql.relations.ParentRelation import ParentRelation
 from pql.relations.UsesRelation import UsesRelation
+from pql.utils.SearchUtils import SearchUtils
 
 
 class QueryEvaluator:
@@ -31,7 +32,9 @@ class QueryEvaluator:
                                               CallsTable,
                                               StatementTable,
                                               ConstTable,
-                                              NextTable]]) -> None:
+                                              NextTable]],
+                 ast_node: Node) -> None:
+        self.ast_node = ast_node
         self.all_tables: Dict[str, Union[VarTable,
                                          ProcTable,
                                          UsesTable,
@@ -70,10 +73,92 @@ class QueryEvaluator:
         elif root.node_type == 'WITH':
             for node in root.children:
                 self.attr_analysis(node)
+        elif root.node_type == 'PATTERN':
+            for node in root.children:
+                self.pattern_analysis(node)
         elif root.node_type == 'SUCH_THAT':
             for node in root.children:
                 self.relation_preparation(node)
             self.check_stack_on_return()
+
+    def pattern_analysis(self, pattern_node: Node) -> None:
+        if pattern_node.node_type in ['PATTERN_WHILE', 'PATTERN_IF']:
+            self.pattern_while_or_if(pattern_node)
+        else:
+            self.pattern_assign(pattern_node)
+
+    def pattern_while_or_if(self, node: Node) -> None:
+        if node.children[1].node_type in ['VARIABLE', 'EVERYTHING']:
+            self.results[node.children[0].value] = self.all_tables['statement'] \
+                .get_statement_line_by_type_name(node.children[0].node_type)
+        else:
+            self.results[node.children[0].value] = self.all_tables['statement'] \
+                .get_statement_line_by_type_name_and_value(node.children[0].node_type, node.children[1].value)
+
+        if self.results[node.children[0].value] and self.results.get('BOOLEAN', True) is True:
+            self.results['BOOLEAN'] = True
+        else:
+            self.results['BOOLEAN'] = False
+
+    def pattern_assign(self, node: Node) -> None:
+        if node.children[1].node_type in ['VARIABLE', 'EVERYTHING']:
+            self.results[node.children[0].value] = set(self.all_tables['statement'] \
+                                                       .get_statement_line_by_type_name(node.children[0].node_type))
+        else:  # pobranie wszystkich lini gdy po lewej stronie rownania jest dana wartosć np. "t"
+            self.results[node.children[0].value] = set(self.all_tables['statement'] \
+                                                       .get_statement_line_by_type_name_and_value(
+                node.children[0].node_type, node.children[1].value))
+
+        if self.results[node.children[0].value] and node.children[2].node_type == "EVERYTHING":
+            self.pattern_assign_check(node.children[0].value, node.children[2], True)
+        elif self.results[node.children[0].value]:
+            self.pattern_assign_check(node.children[0].value, node.children[2], False)
+
+        if self.results[node.children[0].value] and self.results.get('BOOLEAN', True) is True:
+            self.results['BOOLEAN'] = True
+        else:
+            self.results['BOOLEAN'] = False
+
+    def pattern_assign_check(self, attr_name: str, node_expr: Node, wild_card: bool) -> None:
+        if node_expr.children:
+            search: SearchUtils = SearchUtils(self.ast_node)
+            result: Set[int] = set()
+            if wild_card:
+                for line in self.results[attr_name]:
+                    search_node: Node = search.find_node_by_line(line).children[1]
+                    if search_node is not None:
+                        if self.expression_part_is_identical(search_node, node_expr.children[0]):
+                            result.add(int(line))
+            else:
+                for line in self.results[attr_name]:
+                    search_node: Node = search.find_node_by_line(line).children[1]
+                    if search_node is not None:
+                        if self.expression_is_identical(search_node, node_expr):
+                            result.add(int(line))
+            self.results[attr_name] = result
+
+    def expression_part_is_identical(self, ast: Node, comparing_node: Node) -> bool:
+        if comparing_node.equals_expression(ast):
+            for index, child in enumerate(ast.children):
+                if not self.expression_part_is_identical(child, comparing_node.children[index]):
+                    return False
+            return True
+        else:
+            for child in ast.children:
+                if self.expression_part_is_identical(child, comparing_node):
+                    if len(child.children) == 2:
+                        return True
+                    return True
+            return False
+
+    def expression_is_identical(self, ast: Node, comparing_node: Node) -> bool:
+        if comparing_node.equals_expression(ast):
+            for index, child in enumerate(ast.children):
+                if not self.expression_is_identical(child, comparing_node.children[index]):
+                    return False
+            return True
+        else:
+            return False
 
     def relation_preparation(self, relation: Node) -> None:
         # tworzenie tupli dwróch argumentów danej relacji
@@ -271,7 +356,7 @@ class QueryEvaluator:
 
             self.results[attr_node.children[0].value] = left.intersection(right)
 
-    def check_stack_on_return(self):
+    def check_stack_on_return(self) -> None:
         while len(self.relation_stack) != 0:
             relation: Tuple[str, Tuple[str, str], Tuple[str, str]] = self.relation_stack.pop()
             self.execution_of_relation(relation[0],
