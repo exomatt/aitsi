@@ -2,6 +2,7 @@ import json
 import logging
 import re
 from typing import Tuple, Dict, List
+import sys
 
 from pql.Node import Node
 
@@ -50,6 +51,7 @@ class QueryProcessor:
 
     def error(self, info: str) -> None:
         log.error("ERROR: " + info)
+        sys.exit("#ERROR " + info)
 
     def get_token(self) -> Tuple[str, str]:
         new_token: Tuple[str, str] = ('', '')
@@ -81,10 +83,10 @@ class QueryProcessor:
             self.synonym()
             declaration_variable_type: str = self.get_declaration_type(self.prev_token[1].strip())
             if declaration_variable_type is None:
-                self.error("stmt_ref ")
+                self.error("stmt_ref " + self.prev_token[1].strip() + " not exist")
             if declaration_variable_type not in ["STMT", "CONSTANT", "WHILE", "IF", "PROG_LINE", "ASSIGN",
                                                  "CALL"]:
-                self.error("stmt_ref error - bad agrument - argument must be integer")
+                self.error("stmt_ref error - bad argument - argument must be integer")
             return Node(declaration_variable_type, self.prev_token[1].strip())
         elif self.next_token[0] == "EVERYTHING":
             self.match("EVERYTHING")
@@ -99,7 +101,7 @@ class QueryProcessor:
             self.synonym()
             declaration_variable_type: str = self.get_declaration_type(self.prev_token[1].strip())
             if declaration_variable_type is None:
-                self.error("ent_ref ")
+                self.error("ent_ref " + self.prev_token[1].strip() + " not exist")
             return Node(declaration_variable_type, self.prev_token[1].strip())
         elif self.next_token[0] == "EVERYTHING":
             self.match("EVERYTHING")
@@ -117,10 +119,10 @@ class QueryProcessor:
             self.synonym()
             declaration_variable_type: str = self.get_declaration_type(self.prev_token[1].strip())
             if declaration_variable_type is None:
-                self.error("stmt_ref ")
+                self.error("stmt_ref " + self.prev_token[1].strip() + " not exist")
             if declaration_variable_type not in ["STMT", "CONSTANT", "WHILE", "IF", "PROG_LINE", "ASSIGN",
                                                  "CALL"]:
-                self.error("stmt_ref error - bad agrument - argument must be integer")
+                self.error("stmt_ref error - bad argument - argument must be integer")
             return Node(declaration_variable_type, self.prev_token[1].strip())
         elif self.next_token[0] == "EVERYTHING":
             self.match("EVERYTHING")
@@ -135,7 +137,7 @@ class QueryProcessor:
             self.synonym()
             declaration_variable_type: str = self.get_declaration_type(self.prev_token[1].strip())
             if declaration_variable_type is None:
-                self.error("ent_ref ")
+                self.error("ent_ref " + self.prev_token[1].strip() + " not exist")
             if declaration_variable_type not in ["PROCEDURE"]:
                 self.error("proc ref error - argument must be procedure ")
             return Node(declaration_variable_type, self.prev_token[1].strip())
@@ -153,7 +155,7 @@ class QueryProcessor:
             self.synonym()
             declaration_variable_type: str = self.get_declaration_type(self.prev_token[1].strip())
             if declaration_variable_type is None:
-                self.error("ent_ref ")
+                self.error("ent_ref " + self.prev_token[1].strip() + " not exist")
             if declaration_variable_type not in ["VARIABLE"]:
                 self.error("var ref error - argument must be variable ")
             return Node(declaration_variable_type, self.prev_token[1].strip())
@@ -177,7 +179,7 @@ class QueryProcessor:
             self.synonym()
             declaration_variable_type: str = self.get_declaration_type(self.prev_token[1].strip())
             if declaration_variable_type is None:
-                self.error("select_cl ")
+                self.error("select_cl " + self.prev_token[1].strip() + " not exist")
             result_node.add_child(Node(declaration_variable_type, self.prev_token[1].strip()))
         self.root.add_child(result_node)
         such_that_node: Node = Node("SUCH_THAT")
@@ -248,7 +250,7 @@ class QueryProcessor:
             elif declaration_variable_type == "WHILE":
                 return self.while_cond()
             else:
-                self.error("Pattern syntax error - " + self.prev_token[1].strip() + " must be ASSIG IF or WHILE")
+                self.error("Pattern syntax error - " + self.prev_token[1].strip() + " must be ASSIGN IF or WHILE")
         else:
             self.error("pattern_cond error - token must be a synonym")
 
@@ -462,7 +464,7 @@ class QueryProcessor:
         self.synonym()
         declaration_variable_type: str = self.get_declaration_type(self.prev_token[1].strip())
         if declaration_variable_type is None:
-            self.error("attribute ")
+            self.error("attribute " + self.prev_token[1].strip() + " not exist")
         synonym_node: Node = Node(declaration_variable_type, self.prev_token[1].strip())
         if self.validate_attribute_name(declaration_variable_type) is False:
             self.error("attribute validate error")
