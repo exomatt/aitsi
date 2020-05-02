@@ -1,0 +1,138 @@
+variable v;
+Select v such that Uses (10,v)
+c,d,t
+variable v;
+Select v such that Uses (18,v)
+a,b,c,d,k,t
+variable v;
+Select v such that Uses (23,v)
+a,b,d,k,t
+assign a; variable v;
+Select v such that Uses (a,v)
+a,b,c,d,k,t
+procedure p; variable v;
+Select p such that Uses (p, v)
+Circle, Rectangle, Triangle, Hexagon
+procedure p;
+Select p such that Uses (p, "a")
+Circle, Rectangle, Triangle, Hexagon
+procedure p;
+Select p such that Uses (p, "b")
+Circle, Rectangle, Triangle
+procedure p;
+Select p such that Uses (p, "c")
+Circle, Rectangle
+procedure p;
+Select p such that Uses (p, "d")
+Circle, Rectangle, Triangle
+procedure p;
+Select p such that Uses (p, "k")
+Circle, Rectangle, Triangle
+procedure p;
+Select p such that Uses (p, "t")
+Circle, Rectangle, Triangle, Hexagon
+procedure p; variable v;
+Select p such that Uses (p, v) with v.varName="a"
+Circle, Rectangle, Triangle, Hexagon
+procedure p; variable v;
+Select p such that Uses (p, v) with v.varName="b"
+Circle, Rectangle, Triangle
+procedure p; variable v;
+Select p such that Uses (p, v) with v.varName="c"
+Circle, Rectangle
+procedure p; variable v;
+Select p such that Uses (p, v) with v.varName="d"
+Circle, Rectangle, Triangle
+procedure p; variable v;
+Select p such that Uses (p, v) with v.varName="k"
+Circle, Rectangle, Triangle
+procedure p; variable v;
+Select p such that Uses (p, v) with v.varName="t"
+Circle, Rectangle, Triangle, Hexagon
+stmt s; variable v;
+Select s such that Uses (s, v)
+2, 3, 4, 5, 6, 7, 8, 10, 11, 13, 14, 15, 17, 18, 20, 22, 23, 24, 25, 26, 27, 28, 9, 19, 12, 16, 21
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="a"
+3, 4, 5, 6, 7, 8, 9, 15, 17, 18, 19, 20, 23, 24, 26, 28
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="b"
+4, 17, 18, 20, 23, 24, 26
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="c"
+8, 10, 16, 17, 18, 19, 21
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="d"
+4, 8, 9, 10, 11, 12, 13, 14, 17, 18, 19, 20, 23, 24, 26, 27
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="k"
+4, 17, 18, 20, 23, 24, 26, 27
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="t"
+2, 3, 4, 5, 6, 7, 8, 10, 11, 13, 14, 15, 17, 18, 20, 22, 23, 24, 25, 26, 27, 28
+assign a;
+Select a such that Uses (a, "a")
+3, 5, 7, 9, 19, 26, 28
+assign a;
+Select a such that Uses (a, "b")
+26
+assign a;
+Select a such that Uses (a, "c")
+16, 19, 21
+assign a;
+Select a such that Uses (a, "d")
+9, 11, 12, 13, 14, 19, 26, 27
+assign a;
+Select a such that Uses (a, "k")
+26, 27
+assign a;
+Select a such that Uses (a, "t")
+2, 3, 5, 7, 11, 13, 14, 22, 25, 26, 27, 28
+while w;
+Select w such that Uses (w, "a")
+18, 23
+while w;
+Select w such that Uses (w, "b")
+18, 23
+while w;
+Select w such that Uses (w, "c")
+10, 18
+while w;
+Select w such that Uses (w, "d")
+10, 18, 23
+while w;
+Select w such that Uses (w, "k")
+18, 23
+while w;
+Select w such that Uses (w, "t")
+10, 18, 23
+if ifstat;
+Select ifstat such that Uses (ifstat, "a")
+8, 24
+if ifstat;
+Select ifstat such that Uses (ifstat, "b")
+24
+if ifstat;
+Select ifstat such that Uses (ifstat, "c")
+8
+if ifstat;
+Select ifstat such that Uses (ifstat, "d")
+8, 24
+if ifstat;
+Select ifstat such that Uses (ifstat, "k")
+24
+if ifstat;
+Select ifstat such that Uses (ifstat, "t")
+8, 24
+variable v;
+Select v such that Uses ("Circle", v)
+t, a, d, b, k, c
+variable v;
+Select v such that Uses ("Rectangle", v)
+t, a, d, b, k, c
+variable v;
+Select v such that Uses ("Triangle", v)
+t, a, d, b, k
+variable v;
+Select v such that Uses ("Hexagon", v)
+t, a
