@@ -205,6 +205,8 @@ class QueryProcessor:
 
     def declaration(self) -> None:
         variable_type: str = self.prev_token[1].upper().strip()
+        if variable_type.upper() == "PROG_LINE":
+            variable_type = "STMT"
         while self.next_token[0] != "SEMICOLON":
             if self.next_token[1].strip() in self.declaration_dict:
                 self.error("Variable " + self.next_token[1].strip() + " already exist")
