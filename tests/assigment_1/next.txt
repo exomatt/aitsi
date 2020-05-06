@@ -1,0 +1,111 @@
+prog_line n;
+Select n such that Next (n,7)
+6
+prog_line n;
+Select n such that Next (n,1)
+none
+prog_line n;
+Select n such that Next (n,8)
+7
+prog_line n;
+Select n such that Next (n,5)
+4
+prog_line n;
+Select n such that Next (n,9)
+8
+prog_line n;
+Select n such that Next (n,14)
+8
+prog_line n;
+Select n such that Next (n,15)
+14
+prog_line n;
+Select n such that Next (n,17)
+13, 16
+prog_line n;
+Select n such that Next (n,12)
+11
+prog_line n;
+Select n such that Next (n,10)
+9, 12
+prog_line n;
+Select n such that Next (n,13)
+10
+prog_line n;
+Select n such that Next (n,18)
+21
+prog_line n;
+Select n such that Next (n,22)
+18
+prog_line n;
+Select n such that Next (n,20)
+19
+prog_line n;
+Select n such that Next (n,24)
+23
+prog_line n;
+Select n such that Next (n,25)
+24
+prog_line n;
+Select n such that Next (n,26)
+24
+prog_line n;
+Select n such that Next (n,27)
+23
+prog_line n;
+Select n such that Next (8,n)
+9, 14
+prog_line n;
+Select n such that Next (1,n)
+2
+prog_line n;
+Select n such that Next (4,n)
+5
+prog_line n;
+Select n such that Next (9,n)
+10
+prog_line n;
+Select n such that Next (10,n)
+11, 13
+prog_line n;
+Select n such that Next (14,n)
+15
+prog_line n;
+Select n such that Next (16,n)
+17
+prog_line n;
+Select n such that Next (15,n)
+16
+prog_line n;
+Select n such that Next (12,n)
+10
+prog_line n;
+Select n such that Next (2,n)
+3
+prog_line n;
+Select n such that Next (17,n)
+none
+prog_line n;
+Select n such that Next (18,n)
+19, 22
+prog_line n;
+Select n such that Next (22,n)
+none
+prog_line n;
+Select n such that Next (20,n)
+21
+prog_line n;
+Select n such that Next (24,n)
+25, 26
+prog_line n;
+Select n such that Next (25,n)
+23
+prog_line n;
+Select n such that Next (26,n)
+23
+prog_line n;
+Select n such that Next (27,n)
+none
+prog_line n;
+Select n such that Next (23,n)
+24, 27

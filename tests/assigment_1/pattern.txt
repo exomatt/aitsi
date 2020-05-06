@@ -1,0 +1,63 @@
+assign a;
+Select a pattern a(_, "d+1")
+12
+assign a;
+Select a pattern a(_, "d*5+3")
+none
+assign a;
+Select a pattern a(_, _"d+k*b"_)
+none
+assign a;
+Select a pattern a(_, _"d+t"_)
+11,13,14
+assign a;
+Select a pattern a(_, _"k+d"_)
+none
+assign a;
+Select a pattern a(_, _"d+3"_)
+none
+assign a;
+Select a pattern a(_, _"d+3*a"_)
+19
+assign a;
+Select a pattern a(_, _"3*a"_)
+19
+assign a;
+Select a pattern a(_, _"5+3"_)
+none
+assign a;
+Select a pattern a(_, _"d+1"_)
+12
+assign a;
+Select a pattern a("b", "t+a")
+5, 7
+assign a;
+Select a pattern a("b", "t+a"_)
+none
+assign a;
+Select a pattern a("b", _"t+a")
+none
+assign a;
+Select a pattern a("b", _"t+a"_)
+5, 7
+assign a;
+Select a pattern a(_, _"t+a"_)
+5, 7
+assign a;
+Select a pattern a(_, _"(t+a)"_)
+5, 7
+assign a;
+Select a pattern a("b", "(t+a)")
+5, 7
+assign a;
+Select a pattern a("b", "(t+a)"_)
+none
+assign a;
+Select a pattern a("b", _"(t+a)")
+none
+assign a;
+Select a pattern a("b", _"(t+a)"_)
+5, 7
+assign a;
+Select a pattern a(_, _"(t+a)"_)
+5, 7
