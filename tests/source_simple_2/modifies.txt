@@ -1,0 +1,198 @@
+
+Select BOOLEAN such that Modifies (3,"x")
+false
+variable v;
+Select v such that Modifies (4,v)
+v
+variable v; stmt s;
+Select v such that Modifies (s,v)
+y, x, z, v, t, idx
+variable v; stmt s;
+Select BOOLEAN such that Modifies (s,v)
+true
+variable v; stmt s;
+Select s such that Modifies (s,v)
+1, 5, 7, 9, 11, 15, 18, 19, 20, 21, 24, 25, 27, 28, 30, 2, 14, 17, 26, 29, 3, 12, 23, 4, 6, 8, 10, 13, 16, 22
+stmt s;
+Select s such that Modifies (s,"x")
+2, 5, 7, 9, 11, 14, 15, 17, 18, 19, 21, 26, 27, 28, 29
+stmt s;
+Select BOOLEAN such that Modifies (s,"x")
+true
+variable v;
+Select v such that Modifies (24,v)
+y
+variable v;
+Select BOOLEAN such that Modifies (24,v)
+true
+variable v;
+Select v such that Modifies (28,v)
+y, x
+while w;
+Select w such that Modifies (w,"d")
+none
+while w;
+Select BOOLEAN such that Modifies (w,"d")
+false
+while w;
+Select w such that Modifies (w,"c")
+none
+while w;variable v;
+Select w such that Modifies (w,v)
+9, 19, 24, 27
+while w; variable v;
+Select BOOLEAN such that Modifies (w,v)
+true
+while w; variable v;
+Select w such that Modifies (w,v)
+9, 19, 24, 27
+assign a;
+Select a such that Modifies (a,"c")
+none
+assign a;
+Select a such that Modifies (a,"d")
+none
+assign a; variable v;
+Select a such that Modifies (a,v)
+1, 20, 25, 30, 2, 14, 17, 26, 29, 3, 12, 23, 4, 6, 8, 10, 13, 16, 22
+assign a; variable v;
+Select BOOLEAN such that Modifies (a,v)
+true
+if ifstat;
+Select ifstat such that Modifies (ifstat,"c")
+none
+if ifstat;
+Select ifstat such that Modifies (ifstat,"d")
+none
+if ifstat; variable v;
+Select v such that Modifies (ifstat,v)
+y, x, z, idx
+if ifstat; variable v;
+Select BOOLEAN such that Modifies (ifstat,v)
+true
+if ifstat; variable v;
+Select ifstat such that Modifies (ifstat,v)
+11, 28
+if ifstat;
+Select ifstat such that Modifies (ifstat,"c")
+none
+if ifstat;
+Select ifstat such that Modifies (ifstat,"d")
+none
+if ifstat; variable v;
+Select v such that Modifies (ifstat,v)
+y, x, z, idx
+if ifstat; variable v;
+Select BOOLEAN such that Modifies (ifstat,v)
+true
+if ifstat; variable v;
+Select ifstat such that Modifies (ifstat,v)
+11, 28
+call c; variable v;
+Select v such that Modifies (c,v)
+y, x, z, idx
+call c; variable v;
+Select BOOLEAN such that Modifies (c,v)
+true
+call c; variable v;
+Select c such that Modifies (c,v)
+5, 7, 15, 18, 21
+call c;
+Select c such that Modifies (c,"c")
+none
+call c;
+Select c such that Modifies (c,"d")
+none
+call c; variable v;
+Select v such that Modifies (c,v)
+y, x, z, idx
+call c; variable v;
+Select BOOLEAN such that Modifies (c,v)
+true
+call c; variable v;
+Select c such that Modifies (c,v)
+5, 7, 15, 18, 21
+call c;
+Select c such that Modifies (c,_)
+5, 7, 15, 18, 21
+call c;
+Select BOOLEAN such that Modifies (c,_)
+true
+variable v;
+Select v such that Modifies (_,_)
+y, x, z, v, t, idx
+if ifstat;
+Select ifstat such that Modifies (_,_)
+11, 28
+assign a;
+Select a such that Modifies (_,_)
+1, 2, 3, 4, 6, 8, 10, 12, 13, 14, 16, 17, 20, 22, 23, 25, 26, 29, 30
+stmt s;
+Select s such that Modifies (_,_)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30
+procedure p;
+Select p such that Modifies (_,_)
+Fern, Orchid, Lily, Tulip
+
+Select BOOLEAN such that Modifies (_,_)
+true
+variable v;
+Select v such that Modifies (_,v)
+y, x, z, v, t, idx
+variable v;
+Select BOOLEAN such that Modifies (_,v)
+true
+stmt s;
+Select s such that Modifies (s,_)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30
+stmt s;
+Select BOOLEAN such that Modifies (s,_)
+true
+procedure p;
+Select BOOLEAN such that Modifies (p,"x")
+true
+procedure p;
+Select p such that Modifies (p,"x")
+Fern, Orchid, Lily, Tulip
+variable v;procedure p;
+Select v such that Modifies (p,v)
+y, x, z, v, t, idx
+variable v;procedure p;
+Select p such that Modifies (p,v)
+Fern, Orchid, Lily, Tulip
+procedure p;
+Select BOOLEAN such that Modifies (p,_)
+true
+procedure p;
+Select p such that Modifies (p,_)
+Fern, Orchid, Lily, Tulip
+variable v;
+Select v such that Modifies ("Second",v)
+none
+variable v;
+Select BOOLEAN such that Modifies ("Second",v)
+false
+
+Select BOOLEAN such that Modifies ("Second",_)
+false
+
+Select BOOLEAN such that Modifies ("Second","x")
+false
+
+Select BOOLEAN such that Modifies ("Second","b")
+false
+variable v;
+Select v such that Modifies ("Gola",v)
+none
+variable v;
+Select BOOLEAN such that Modifies ("Gola",v)
+false
+
+Select BOOLEAN such that Modifies ("Gola",_)
+false
+
+Select BOOLEAN such that Modifies ("Gola","x")
+false
+
+Select BOOLEAN such that Modifies ("Gola","b")
+false

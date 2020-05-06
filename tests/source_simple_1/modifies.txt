@@ -1,0 +1,198 @@
+
+Select BOOLEAN such that Modifies (3,"x")
+false
+variable v;
+Select v such that Modifies (4,v)
+b, c, oSCar, x, Romeo, Y1, x1
+variable v; stmt s;
+Select v such that Modifies (s,v)
+i, b, c, oSCar, x, Romeo, Y1, x1
+variable v; stmt s;
+Select BOOLEAN such that Modifies (s,v)
+true
+variable v; stmt s;
+Select s such that Modifies (s,v)
+1, 2, 4, 9, 11, 12, 13, 15, 23, 25, 27, 29, 3, 16, 17, 19, 30, 31, 33, 5, 6, 7, 8, 10, 20, 34, 14, 28, 24, 18, 21, 22, 26, 32, 35, 36, 37
+stmt s;
+Select s such that Modifies (s,"x")
+4, 9, 10, 11, 12, 13, 20, 23, 25, 27, 34
+stmt s;
+Select BOOLEAN such that Modifies (s,"x")
+true
+variable v;
+Select v such that Modifies (24,v)
+Y1
+variable v;
+Select BOOLEAN such that Modifies (24,v)
+true
+variable v;
+Select v such that Modifies (28,v)
+Romeo
+while w;
+Select w such that Modifies (w,"d")
+none
+while w;
+Select BOOLEAN such that Modifies (w,"d")
+false
+while w;
+Select w such that Modifies (w,"c")
+9, 17, 31
+while w;variable v;
+Select w such that Modifies (w,v)
+9, 17, 31, 5, 7, 36
+while w; variable v;
+Select BOOLEAN such that Modifies (w,v)
+true
+while w; variable v;
+Select w such that Modifies (w,v)
+9, 17, 31, 5, 7, 36
+assign a;
+Select a such that Modifies (a,"c")
+3, 16, 19, 30, 33
+assign a;
+Select a such that Modifies (a,"d")
+none
+assign a; variable v;
+Select a such that Modifies (a,v)
+1, 2, 15, 29, 3, 16, 19, 30, 33, 6, 8, 10, 20, 34, 14, 28, 24, 37
+assign a; variable v;
+Select BOOLEAN such that Modifies (a,v)
+true
+if ifstat;
+Select ifstat such that Modifies (ifstat,"c")
+4, 11, 13, 23, 25, 27
+if ifstat;
+Select ifstat such that Modifies (ifstat,"d")
+none
+if ifstat; variable v;
+Select v such that Modifies (ifstat,v)
+b, c, oSCar, x, Romeo, Y1, x1
+if ifstat; variable v;
+Select BOOLEAN such that Modifies (ifstat,v)
+true
+if ifstat; variable v;
+Select ifstat such that Modifies (ifstat,v)
+4, 11, 13, 23, 25, 27
+if ifstat;
+Select ifstat such that Modifies (ifstat,"c")
+4, 11, 13, 23, 25, 27
+if ifstat;
+Select ifstat such that Modifies (ifstat,"d")
+none
+if ifstat; variable v;
+Select v such that Modifies (ifstat,v)
+b, c, oSCar, x, Romeo, Y1, x1
+if ifstat; variable v;
+Select BOOLEAN such that Modifies (ifstat,v)
+true
+if ifstat; variable v;
+Select ifstat such that Modifies (ifstat,v)
+4, 11, 13, 23, 25, 27
+call c; variable v;
+Select v such that Modifies (c,v)
+b, c, x, Romeo, Y1, x1
+call c; variable v;
+Select BOOLEAN such that Modifies (c,v)
+true
+call c; variable v;
+Select c such that Modifies (c,v)
+12, 18, 21, 22, 26, 32, 35
+call c;
+Select c such that Modifies (c,"c")
+12
+call c;
+Select c such that Modifies (c,"d")
+none
+call c; variable v;
+Select v such that Modifies (c,v)
+b, c, x, Romeo, Y1, x1
+call c; variable v;
+Select BOOLEAN such that Modifies (c,v)
+true
+call c; variable v;
+Select c such that Modifies (c,v)
+12, 18, 21, 22, 26, 32, 35
+call c;
+Select c such that Modifies (c,_)
+12, 18, 21, 22, 26, 32, 35
+call c;
+Select BOOLEAN such that Modifies (c,_)
+true
+variable v;
+Select v such that Modifies (_,_)
+i, b, c, a, beta, oSCar, tmp, I, k, j1k, chArlie, x, left, right, Romeo, delta, l, width, Y1, x1
+if ifstat;
+Select ifstat such that Modifies (_,_)
+4, 11, 13, 23, 25, 27
+assign a;
+Select a such that Modifies (_,_)
+1, 2, 3, 6, 8, 10, 14, 15, 16, 19, 20, 24, 28, 29, 30, 33, 34, 37
+stmt s;
+Select s such that Modifies (_,_)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37
+procedure p;
+Select p such that Modifies (_,_)
+ABC, Second, Init
+
+Select BOOLEAN such that Modifies (_,_)
+true
+variable v;
+Select v such that Modifies (_,v)
+i, b, c, oSCar, x, Romeo, Y1, x1
+variable v;
+Select BOOLEAN such that Modifies (_,v)
+true
+stmt s;
+Select s such that Modifies (s,_)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37
+stmt s;
+Select BOOLEAN such that Modifies (s,_)
+true
+procedure p;
+Select BOOLEAN such that Modifies (p,"x")
+true
+procedure p;
+Select p such that Modifies (p,"x")
+ABC, Second
+variable v;procedure p;
+Select v such that Modifies (p,v)
+i, b, c, oSCar, x, Romeo, Y1, x1
+variable v;procedure p;
+Select p such that Modifies (p,v)
+ABC, Second, Init
+procedure p;
+Select BOOLEAN such that Modifies (p,_)
+true
+procedure p;
+Select p such that Modifies (p,_)
+ABC, Second, Init
+variable v;
+Select v such that Modifies ("Second",v)
+b, c, x, Romeo, Y1, x1
+variable v;
+Select BOOLEAN such that Modifies ("Second",v)
+true
+
+Select BOOLEAN such that Modifies ("Second",_)
+true
+
+Select BOOLEAN such that Modifies ("Second","x")
+true
+
+Select BOOLEAN such that Modifies ("Second","b")
+true
+variable v;
+Select v such that Modifies ("Gola",v)
+none
+variable v;
+Select BOOLEAN such that Modifies ("Gola",v)
+false
+
+Select BOOLEAN such that Modifies ("Gola",_)
+false
+
+Select BOOLEAN such that Modifies ("Gola","x")
+false
+
+Select BOOLEAN such that Modifies ("Gola","b")
+false

@@ -1,0 +1,231 @@
+stmt s;
+Select s such that Parent* (s,2)
+none
+stmt s;
+Select s such that Parent* (s,10)
+8
+while w;
+Select w such that Parent* (w,2)
+none
+while w;
+Select w such that Parent* (w,10)
+none
+if ifstat;
+Select ifstat such that Parent* (ifstat,2)
+none
+if ifstat;
+Select ifstat such that Parent* (ifstat,10)
+8
+stmt s;
+Select BOOLEAN such that Parent* (s,2)
+false
+stmt s;
+Select BOOLEAN such that Parent* (s,10)
+true
+while w;
+Select BOOLEAN such that Parent* (w,2)
+false
+while w;
+Select BOOLEAN such that Parent* (w,10)
+false
+if ifstat;
+Select BOOLEAN such that Parent* (ifstat,2)
+false
+if ifstat;
+Select BOOLEAN such that Parent* (ifstat,10)
+true
+stmt s;
+Select s such that Parent* (s,_)
+8, 10, 18, 23, 24
+while w;
+Select w such that Parent* (w,_)
+10, 18, 23
+if ifstat;
+Select ifstat such that Parent* (ifstat,_)
+8, 24
+stmt s;
+Select BOOLEAN such that Parent* (s,_)
+true
+while w;
+Select BOOLEAN such that Parent* (w,_)
+true
+if ifstat;
+Select BOOLEAN such that Parent* (ifstat,_)
+true
+stmt s; assign a;
+Select s such that Parent* (s,a)
+8, 10, 18, 23, 24
+stmt s; call c;
+Select s such that Parent* (s,c)
+8, 18
+stmt s; while w;
+Select s such that Parent* (s,w)
+8
+stmt s, s1;
+Select s such that Parent* (s,s1)
+8, 10, 18, 23, 24
+stmt s; if ifstat;
+Select s such that Parent* (s,ifstat)
+23
+stmt s; assign a;
+Select BOOLEAN such that Parent* (s,a)
+true
+stmt s; call c;
+Select BOOLEAN such that Parent* (s,c)
+true
+stmt s; while w;
+Select BOOLEAN such that Parent* (s,w)
+true
+stmt s, s1;
+Select BOOLEAN such that Parent* (s,s1)
+true
+stmt s; if ifstat;
+Select BOOLEAN such that Parent* (s,ifstat)
+true
+stmt s; assign a;
+Select a such that Parent* (s,a)
+9, 11, 12, 13, 14, 16, 19, 21, 25, 26
+stmt s; call c;
+Select c such that Parent* (s,c)
+15, 20
+stmt s; while w;
+Select w such that Parent* (s,w)
+10
+stmt s, s1;
+Select s1 such that Parent* (s,s1)
+9, 10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 24, 25, 26
+stmt s; if ifstat;
+Select ifstat such that Parent* (s,ifstat)
+24
+assign a;
+Select BOOLEAN such that Parent* (_,a)
+true
+call c;
+Select BOOLEAN such that Parent* (_,c)
+true
+while w;
+Select BOOLEAN such that Parent* (_,w)
+true
+stmt s1;
+Select BOOLEAN such that Parent* (_,s1)
+true
+if ifstat;
+Select BOOLEAN such that Parent* (_,ifstat)
+true
+
+Select BOOLEAN such that Parent* (_,_)
+true
+
+Select BOOLEAN such that Parent* (8,10)
+true
+
+Select BOOLEAN such that Parent* (8,14)
+true
+
+Select BOOLEAN such that Parent* (9,10)
+false
+assign a;
+Select a such that Parent* (_,a)
+9, 11, 12, 13, 14, 16, 19, 21, 25, 26
+call c;
+Select c such that Parent* (_,c)
+15, 20
+while w;
+Select w such that Parent* (_,w)
+10
+stmt s1;
+Select s1 such that Parent* (_,s1)
+9, 10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 24, 25, 26
+if ifstat;
+Select ifstat such that Parent* (_,ifstat)
+24
+while w; assign a;
+Select BOOLEAN such that Parent* (w,a)
+true
+while w; call c;
+Select BOOLEAN such that Parent* (w,c)
+true
+while w, w1;
+Select BOOLEAN such that Parent* (w,w1)
+false
+while w; stmt s1;
+Select BOOLEAN such that Parent* (w,s1)
+true
+while w; if ifstat;
+Select BOOLEAN such that Parent* (w,ifstat)
+true
+while w; assign a;
+Select a such that Parent* (w,a)
+11, 12, 19, 21, 25, 26
+while w; call c;
+Select c such that Parent* (w,c)
+20
+while w, w1;
+Select w such that Parent* (w,w1)
+none
+while w; stmt s1;
+Select s1 such that Parent* (w,s1)
+11, 12, 19, 20, 21, 24, 25, 26
+while w; if ifstat;
+Select ifstat such that Parent* (w,ifstat)
+24
+while w; assign a;
+Select w such that Parent* (w,a)
+10, 18, 23
+while w; call c;
+Select w such that Parent* (w,c)
+18
+while w, w1;
+Select w1 such that Parent* (w,w1)
+none
+while w; stmt s1;
+Select w such that Parent* (w,s1)
+10, 18, 23
+while w; if ifstat;
+Select w such that Parent* (w,ifstat)
+23
+if ifstat; assign a;
+Select BOOLEAN such that Parent* (ifstat,a)
+true
+if ifstat; call c;
+Select BOOLEAN such that Parent* (ifstat,c)
+true
+if ifstat; while w1;
+Select BOOLEAN such that Parent* (ifstat,w1)
+true
+if ifstat; stmt s1;
+Select BOOLEAN such that Parent* (ifstat,s1)
+true
+if ifstat, ifstat1;
+Select BOOLEAN such that Parent* (ifstat,ifstat1)
+false
+if ifstat; assign a;
+Select a such that Parent* (ifstat,a)
+9, 11, 12, 13, 14, 16, 25, 26
+if ifstat; call c;
+Select c such that Parent* (ifstat,c)
+15
+if ifstat;while w1;
+Select ifstat such that Parent* (ifstat,w1)
+8
+if ifstat; stmt s1;
+Select ifstat such that Parent* (ifstat,s1)
+8, 24
+if ifstat, ifstat1;
+Select ifstat such that Parent* (ifstat,ifstat1)
+none
+if ifstat; assign a;
+Select ifstat such that Parent* (ifstat,a)
+8, 24
+if ifstat; call c;
+Select ifstat such that Parent* (ifstat,c)
+8
+if ifstat; while w1;
+Select ifstat such that Parent* (ifstat,w1)
+8
+if ifstat; stmt s1;
+Select ifstat such that Parent* (ifstat,s1)
+8, 24
+if ifstat, ifstat1;
+Select ifstat such that Parent* (ifstat,ifstat1)
+none

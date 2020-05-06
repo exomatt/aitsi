@@ -1,0 +1,230 @@
+stmt s;
+Select s such that Parent* (s,2)
+
+stmt s;
+Select s such that Parent* (s,10)
+
+while w;
+Select w such that Parent* (w,2)
+
+while w;
+Select w such that Parent* (w,10)
+
+if ifstat;
+Select ifstat such that Parent* (ifstat,2)
+
+if ifstat;
+Select ifstat such that Parent* (ifstat,10)
+
+stmt s;
+Select BOOLEAN such that Parent* (s,2)
+
+stmt s;
+Select BOOLEAN such that Parent* (s,10)
+
+while w;
+Select BOOLEAN such that Parent* (w,2)
+
+while w;
+Select BOOLEAN such that Parent* (w,10)
+
+if ifstat;
+Select BOOLEAN such that Parent* (ifstat,2)
+
+if ifstat;
+Select BOOLEAN such that Parent* (ifstat,10)
+
+stmt s;
+Select s such that Parent* (s,_)
+
+while w;
+Select w such that Parent* (w,_)
+
+if ifstat;
+Select ifstat such that Parent* (ifstat,_)
+
+stmt s;
+Select BOOLEAN such that Parent* (s,_)
+
+while w;
+Select BOOLEAN such that Parent* (w,_)
+
+if ifstat;
+Select BOOLEAN such that Parent* (ifstat,_)
+
+stmt s; assign a;
+Select s such that Parent* (s,a)
+
+stmt s; call c;
+Select s such that Parent* (s,c)
+
+stmt s; while w;
+Select s such that Parent* (s,w)
+
+stmt s, s1;
+Select s such that Parent* (s,s1)
+
+stmt s; if ifstat;
+Select s such that Parent* (s,ifstat)
+
+stmt s; assign a;
+Select BOOLEAN such that Parent* (s,a)
+
+stmt s; call c;
+Select BOOLEAN such that Parent* (s,c)
+
+stmt s; while w;
+Select BOOLEAN such that Parent* (s,w)
+
+stmt s, s1;
+Select BOOLEAN such that Parent* (s,s1)
+
+stmt s; if ifstat;
+Select BOOLEAN such that Parent* (s,ifstat)
+
+stmt s; assign a;
+Select a such that Parent* (s,a)
+
+stmt s; call c;
+Select c such that Parent* (s,c)
+
+stmt s; while w;
+Select w such that Parent* (s,w)
+
+stmt s, s1;
+Select s1 such that Parent* (s,s1)
+
+stmt s; if ifstat;
+Select ifstat such that Parent* (s,ifstat)
+
+assign a;
+Select BOOLEAN such that Parent* (_,a)
+
+call c;
+Select BOOLEAN such that Parent* (_,c)
+
+while w;
+Select BOOLEAN such that Parent* (_,w)
+
+stmt s1;
+Select BOOLEAN such that Parent* (_,s1)
+
+if ifstat;
+Select BOOLEAN such that Parent* (_,ifstat)
+
+
+Select BOOLEAN such that Parent* (_,_)
+
+
+Select BOOLEAN such that Parent* (8,10)
+
+
+Select BOOLEAN such that Parent* (8,14)
+
+
+Select BOOLEAN such that Parent* (9,10)
+
+assign a;
+Select a such that Parent* (_,a)
+
+call c;
+Select c such that Parent* (_,c)
+
+while w;
+Select w such that Parent* (_,w)
+
+stmt s1;
+Select s1 such that Parent* (_,s1)
+
+if ifstat;
+Select ifstat such that Parent* (_,ifstat)
+
+while w; assign a;
+Select BOOLEAN such that Parent* (w,a)
+
+while w; call c;
+Select BOOLEAN such that Parent* (w,c)
+
+while w, w1;
+Select BOOLEAN such that Parent* (w,w1)
+
+while w; stmt s1;
+Select BOOLEAN such that Parent* (w,s1)
+
+while w; if ifstat;
+Select BOOLEAN such that Parent* (w,ifstat)
+
+while w; assign a;
+Select a such that Parent* (w,a)
+
+while w; call c;
+Select c such that Parent* (w,c)
+
+while w, w1;
+Select w such that Parent* (w,w1)
+
+while w; stmt s1;
+Select s1 such that Parent* (w,s1)
+
+while w; if ifstat;
+Select ifstat such that Parent* (w,ifstat)
+
+while w; assign a;
+Select w such that Parent* (w,a)
+
+while w; call c;
+Select w such that Parent* (w,c)
+
+while w, w1;
+Select w1 such that Parent* (w,w1)
+
+while w; stmt s1;
+Select w such that Parent* (w,s1)
+
+while w; if ifstat;
+Select w such that Parent* (w,ifstat)
+
+if ifstat; assign a;
+Select BOOLEAN such that Parent* (ifstat,a)
+
+if ifstat; call c;
+Select BOOLEAN such that Parent* (ifstat,c)
+
+if ifstat; while w1;
+Select BOOLEAN such that Parent* (ifstat,w1)
+
+if ifstat; stmt s1;
+Select BOOLEAN such that Parent* (ifstat,s1)
+
+if ifstat, ifstat1;
+Select BOOLEAN such that Parent* (ifstat,ifstat1)
+
+if ifstat; assign a;
+Select a such that Parent* (ifstat,a)
+
+if ifstat; call c;
+Select c such that Parent* (ifstat,c)
+
+if ifstat;while w1;
+Select ifstat such that Parent* (ifstat,w1)
+
+if ifstat; stmt s1;
+Select ifstat such that Parent* (ifstat,s1)
+
+if ifstat, ifstat1;
+Select ifstat such that Parent* (ifstat,ifstat1)
+
+if ifstat; assign a;
+Select ifstat such that Parent* (ifstat,a)
+
+if ifstat; call c;
+Select ifstat such that Parent* (ifstat,c)
+
+if ifstat; while w1;
+Select ifstat such that Parent* (ifstat,w1)
+
+if ifstat; stmt s1;
+Select ifstat such that Parent* (ifstat,s1)
+
+if ifstat, ifstat1;
+Select ifstat such that Parent* (ifstat,ifstat1)
