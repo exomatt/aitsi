@@ -1,230 +1,231 @@
 stmt s;
 Select s such that Parent* (s,2)
-
+none
 stmt s;
 Select s such that Parent* (s,10)
-
+9
 while w;
 Select w such that Parent* (w,2)
-
+none
 while w;
 Select w such that Parent* (w,10)
-
+9
 if ifstat;
 Select ifstat such that Parent* (ifstat,2)
-
+none
 if ifstat;
 Select ifstat such that Parent* (ifstat,10)
-
+none
 stmt s;
 Select BOOLEAN such that Parent* (s,2)
-
+false
 stmt s;
 Select BOOLEAN such that Parent* (s,10)
-
+true
 while w;
 Select BOOLEAN such that Parent* (w,2)
-
+false
 while w;
 Select BOOLEAN such that Parent* (w,10)
-
+true
 if ifstat;
 Select BOOLEAN such that Parent* (ifstat,2)
-
+false
 if ifstat;
 Select BOOLEAN such that Parent* (ifstat,10)
-
+false
 stmt s;
 Select s such that Parent* (s,_)
-
+9, 11, 19, 24, 27, 28
 while w;
 Select w such that Parent* (w,_)
-
+9, 19, 24, 27
 if ifstat;
 Select ifstat such that Parent* (ifstat,_)
-
+11, 28
 stmt s;
 Select BOOLEAN such that Parent* (s,_)
-
+true
 while w;
 Select BOOLEAN such that Parent* (w,_)
-
+true
 if ifstat;
 Select BOOLEAN such that Parent* (ifstat,_)
-
+true
 stmt s; assign a;
 Select s such that Parent* (s,a)
-
+9, 11, 19, 24, 27, 28
 stmt s; call c;
 Select s such that Parent* (s,c)
-
+9, 11, 19
 stmt s; while w;
 Select s such that Parent* (s,w)
-
+none
 stmt s, s1;
 Select s such that Parent* (s,s1)
-
+9, 11, 19, 24, 27, 28
 stmt s; if ifstat;
 Select s such that Parent* (s,ifstat)
-
+9, 27
 stmt s; assign a;
 Select BOOLEAN such that Parent* (s,a)
-
+true
 stmt s; call c;
 Select BOOLEAN such that Parent* (s,c)
-
+true
 stmt s; while w;
 Select BOOLEAN such that Parent* (s,w)
-
+false
 stmt s, s1;
 Select BOOLEAN such that Parent* (s,s1)
-
+true
 stmt s; if ifstat;
 Select BOOLEAN such that Parent* (s,ifstat)
-
+true
 stmt s; assign a;
 Select a such that Parent* (s,a)
-
+10, 12, 13, 14, 16, 17, 20, 22, 25, 29, 30
 stmt s; call c;
 Select c such that Parent* (s,c)
-
+15, 21
 stmt s; while w;
 Select w such that Parent* (s,w)
-
+none
 stmt s, s1;
 Select s1 such that Parent* (s,s1)
-
+10, 11, 12, 13, 14, 15, 16, 17, 20, 21, 22, 25, 28, 29, 30
 stmt s; if ifstat;
 Select ifstat such that Parent* (s,ifstat)
-
+11, 28
 assign a;
 Select BOOLEAN such that Parent* (_,a)
-
+true
 call c;
 Select BOOLEAN such that Parent* (_,c)
-
+true
 while w;
 Select BOOLEAN such that Parent* (_,w)
-
+false
 stmt s1;
 Select BOOLEAN such that Parent* (_,s1)
-
+true
 if ifstat;
 Select BOOLEAN such that Parent* (_,ifstat)
-
+true
 
 Select BOOLEAN such that Parent* (_,_)
-
+true
 
 Select BOOLEAN such that Parent* (8,10)
-
+false
 
 Select BOOLEAN such that Parent* (8,14)
-
+false
 
 Select BOOLEAN such that Parent* (9,10)
-
+true
 assign a;
 Select a such that Parent* (_,a)
-
+10, 12, 13, 14, 16, 17, 20, 22, 25, 29, 30
 call c;
 Select c such that Parent* (_,c)
-
+15, 21
 while w;
 Select w such that Parent* (_,w)
-
+none
 stmt s1;
 Select s1 such that Parent* (_,s1)
-
+10, 11, 12, 13, 14, 15, 16, 17, 20, 21, 22, 25, 28, 29, 30
 if ifstat;
 Select ifstat such that Parent* (_,ifstat)
-
+11, 28
 while w; assign a;
 Select BOOLEAN such that Parent* (w,a)
-
+true
 while w; call c;
 Select BOOLEAN such that Parent* (w,c)
-
+true
 while w, w1;
 Select BOOLEAN such that Parent* (w,w1)
-
+false
 while w; stmt s1;
 Select BOOLEAN such that Parent* (w,s1)
-
+true
 while w; if ifstat;
 Select BOOLEAN such that Parent* (w,ifstat)
-
+true
 while w; assign a;
 Select a such that Parent* (w,a)
-
+10, 12, 13, 14, 16, 17, 20, 22, 25, 29, 30
 while w; call c;
 Select c such that Parent* (w,c)
-
+15, 21
 while w, w1;
 Select w such that Parent* (w,w1)
-
+none
 while w; stmt s1;
 Select s1 such that Parent* (w,s1)
-
+10, 11, 12, 13, 14, 15, 16, 17, 20, 21, 22, 25, 28, 29, 30
 while w; if ifstat;
 Select ifstat such that Parent* (w,ifstat)
-
+11, 28
 while w; assign a;
 Select w such that Parent* (w,a)
-
+9, 19, 24, 27
 while w; call c;
 Select w such that Parent* (w,c)
-
+9, 19
 while w, w1;
 Select w1 such that Parent* (w,w1)
-
+none
 while w; stmt s1;
 Select w such that Parent* (w,s1)
-
+9, 19, 24, 27
 while w; if ifstat;
 Select w such that Parent* (w,ifstat)
-
+9, 27
 if ifstat; assign a;
 Select BOOLEAN such that Parent* (ifstat,a)
-
+true
 if ifstat; call c;
 Select BOOLEAN such that Parent* (ifstat,c)
-
+true
 if ifstat; while w1;
 Select BOOLEAN such that Parent* (ifstat,w1)
-
+false
 if ifstat; stmt s1;
 Select BOOLEAN such that Parent* (ifstat,s1)
-
+true
 if ifstat, ifstat1;
 Select BOOLEAN such that Parent* (ifstat,ifstat1)
-
+false
 if ifstat; assign a;
 Select a such that Parent* (ifstat,a)
-
+12, 13, 14, 16, 29, 30
 if ifstat; call c;
 Select c such that Parent* (ifstat,c)
-
+15
 if ifstat;while w1;
 Select ifstat such that Parent* (ifstat,w1)
-
+none
 if ifstat; stmt s1;
 Select ifstat such that Parent* (ifstat,s1)
-
+11, 28
 if ifstat, ifstat1;
 Select ifstat such that Parent* (ifstat,ifstat1)
-
+none
 if ifstat; assign a;
 Select ifstat such that Parent* (ifstat,a)
-
+11, 28
 if ifstat; call c;
 Select ifstat such that Parent* (ifstat,c)
-
+11
 if ifstat; while w1;
 Select ifstat such that Parent* (ifstat,w1)
-
+none
 if ifstat; stmt s1;
 Select ifstat such that Parent* (ifstat,s1)
-
+11, 28
 if ifstat, ifstat1;
 Select ifstat such that Parent* (ifstat,ifstat1)
+none
