@@ -108,17 +108,9 @@ class ModifiesRelation:
                     if self.modifies_table.is_modified(variable, other_info['value']):
                         result_left.add(line)
         elif param_first == 'STMT':
-            for stmt in self.statements:
-                lines_by_type_name.extend(self.stmt_table.get_statement_line_by_type_name(stmt))
-            for line in lines_by_type_name:
-                result_right.update(self.modifies_table.get_modified(str(line)))
-            lines_by_type_name.extend(self.stmt_table.get_statement_line_by_type_name('CALL'))
             variables: List[str] = self.var_table.table['variable_name'].tolist()
-            for line in lines_by_type_name:
-                other_info: Dict[str][str] = self.stmt_table.get_other_info(line)
-                for variable in variables:
-                    if self.modifies_table.is_modified(variable, other_info['value']):
-                        result_left.add(line)
+            for variable in variables:
+                result_left.update([line for line in self.modifies_table.get_modifies(variable) if line.isdigit()])
         elif param_first in self.statements:
             lines_by_type_name.extend(self.stmt_table.get_statement_line_by_type_name(param_first))
             for line in lines_by_type_name:
@@ -135,7 +127,6 @@ class ModifiesRelation:
                         if self.modifies_table.is_modified(variable, proc_name):
                             result_left.add(proc_name)
                             break
-
             else:
                 # nazwa procedury
                 variables: List[str] = self.var_table.table['variable_name'].tolist()
