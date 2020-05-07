@@ -1,0 +1,378 @@
+variable v;
+Select v such that Uses (10,v)
+x
+variable v;
+Select v such that Uses (18,v)
+a
+variable v;
+Select v such that Uses (23,v)
+c, a, x, left, right, Romeo, delta, l, width
+assign a; variable v;
+Select v such that Uses (a,v)
+c, a, beta, tmp, I, k, j1k, chArlie, x, Romeo, delta, l, width
+procedure p; variable v;
+Select p such that Uses (p, v)
+ABC, Second, Init
+procedure p;
+Select p such that Uses (p, "a")
+ABC, Second, Init
+procedure p;
+Select p such that Uses (p, "b")
+none
+procedure p;
+Select p such that Uses (p, "c")
+ABC, Second
+procedure p;
+Select p such that Uses (p, "beta")
+ABC
+procedure p;
+Select p such that Uses (p, "tmp")
+ABC
+procedure p;
+Select p such that Uses (p, "k")
+ABC
+procedure p;
+Select p such that Uses (p, "I")
+ABC
+procedure p;
+Select p such that Uses (p, "j1k")
+ABC
+procedure p;
+Select p such that Uses (p, "oSCar")
+none
+procedure p;
+Select p such that Uses (p, "chArlie")
+ABC
+procedure p;
+Select p such that Uses (p, "x")
+ABC, Second
+procedure p;
+Select p such that Uses (p, "x1")
+none
+procedure p;
+Select p such that Uses (p, "left")
+ABC, Second
+procedure p;
+Select p such that Uses (p, "right")
+ABC, Second
+procedure p;
+Select p such that Uses (p, "Romeo")
+ABC, Second
+procedure p;
+Select p such that Uses (p, "delta")
+ABC, Second
+procedure p;
+Select p such that Uses (p, "width")
+ABC, Second
+procedure p;
+Select p such that Uses (p, "Y1")
+none
+assign a;
+Select a such that Uses (a, "a")
+3
+assign a;
+Select a such that Uses (a, "b")
+none
+assign a;
+Select a such that Uses (a, "c")
+19, 33
+assign a;
+Select a such that Uses (a, "beta")
+6
+assign a;
+Select a such that Uses (a, "k")
+8
+assign a;
+Select a such that Uses (a, "tmp")
+6
+assign a;
+Select a such that Uses (a, "oSCar")
+none
+assign a;
+Select a such that Uses (a, "I")
+8
+assign a;
+Select a such that Uses (a, "j1k")
+8
+assign a;
+Select a such that Uses (a, "chArlie")
+8
+assign a;
+Select a such that Uses (a, "x")
+10, 20, 34
+assign a;
+Select a such that Uses (a, "x1")
+none
+assign a;
+Select a such that Uses (a, "left")
+none
+assign a;
+Select a such that Uses (a, "right")
+none
+assign a;
+Select a such that Uses (a, "Romeo")
+14, 16, 28, 30
+assign a;
+Select a such that Uses (a, "relta")
+none
+assign a;
+Select a such that Uses (a, "width")
+16, 30
+assign a;
+Select a such that Uses (a, "Y1")
+none
+variable v;
+Select v such that Uses ("ABC", v)
+c, a, beta, tmp, I, k, j1k, chArlie, x, left, right, Romeo, delta, l, width
+variable v;
+Select v such that Uses ("Second", v)
+c, a, x, left, right, Romeo, delta, l, width
+variable v;
+Select v such that Uses ("Init", v)
+a
+stmt s;
+Select s such that Uses (s, "a")
+3, 4, 9, 11, 12, 13, 17, 18, 21, 22, 23, 25, 26, 27, 31, 32, 35, 36
+stmt s;
+Select s such that Uses (s, "b")
+none
+stmt s;
+Select s such that Uses (s, "c")
+4, 9, 11, 12, 13, 17, 19, 23, 25, 27, 31, 33
+stmt s;
+Select s such that Uses (s, "beta")
+4, 5, 6
+stmt s;
+Select s such that Uses (s, "k")
+4, 5, 7,8
+stmt s;
+Select s such that Uses (s, "tmp")
+4, 5, 6, 7
+stmt s;
+Select s such that Uses (s, "oSCar")
+none
+stmt s;
+Select s such that Uses (s, "I")
+4, 5, 7, 8
+stmt s;
+Select s such that Uses (s, "j1k")
+4, 5, 7, 8
+stmt s;
+Select s such that Uses (s, "chArlie")
+4, 5, 7, 8
+stmt s;
+Select s such that Uses (s, "x")
+4, 9, 10, 11, 12, 13, 20, 23, 25, 27, 34
+stmt s;
+Select s such that Uses (s, "x1")
+none
+stmt s;
+Select s such that Uses (s, "left")
+4, 9, 11, 12, 23, 25
+stmt s;
+Select s such that Uses (s, "right")
+4, 9, 11, 12, 13, 23, 25, 27
+stmt s;
+Select s such that Uses (s, "Romeo")
+4, 9, 11, 12, 13, 14, 16, 23, 25, 27, 28, 30
+stmt s;
+Select s such that Uses (s, "relta")
+none
+stmt s;
+Select s such that Uses (s, "width")
+4, 9, 11, 12, 13, 16, 23, 25, 27, 30
+stmt s;
+Select s such that Uses (s, "Y1")
+none
+while w;
+Select w such that Uses (w, "a")
+9, 17, 31, 36
+while w;
+Select w such that Uses (w, "b")
+none
+while w;
+Select w such that Uses (w, "c")
+9, 17, 31
+while w;
+Select w such that Uses (w, "beta")
+5
+while w;
+Select w such that Uses (w, "k")
+5, 7
+while w;
+Select w such that Uses (w, "tmp")
+5, 7
+while w;
+Select w such that Uses (w, "oSCar")
+none
+while w;
+Select w such that Uses (w, "I")
+5, 7
+while w;
+Select w such that Uses (w, "j1k")
+5, 7
+while w;
+Select w such that Uses (w, "chArlie")
+5, 7
+while w;
+Select w such that Uses (w, "x")
+9
+while w;
+Select w such that Uses (w, "x1")
+none
+while w;
+Select w such that Uses (w, "left")
+9
+while w;
+Select w such that Uses (w, "right")
+9
+while w;
+Select w such that Uses (w, "Romeo")
+9
+while w;
+Select w such that Uses (w, "delta")
+9
+while w;
+Select w such that Uses (w, "width")
+9
+while w;
+Select w such that Uses (w, "Y1")
+none
+if ifstat;
+Select ifstat such that Uses (ifstat, "a")
+4, 11, 13, 23, 25, 27
+if ifstat;
+Select ifstat such that Uses (ifstat, "b")
+none
+if ifstat;
+Select ifstat such that Uses (ifstat, "c")
+4, 11, 13, 23, 25, 27
+if ifstat;
+Select ifstat such that Uses (ifstat, "beta")
+4
+if ifstat;
+Select ifstat such that Uses (ifstat, "k")
+4
+if ifstat;
+Select ifstat such that Uses (ifstat, "tmp")
+4
+if ifstat;
+Select ifstat such that Uses (ifstat, "oSCar")
+none
+if ifstat;
+Select ifstat such that Uses (ifstat, "I")
+4
+if ifstat;
+Select ifstat such that Uses (ifstat, "j1k")
+4
+if ifstat;
+Select ifstat such that Uses (ifstat, "chArlie")
+4
+if ifstat;
+Select ifstat such that Uses (ifstat, "x")
+4, 11, 13, 23, 25, 27
+if ifstat;
+Select ifstat such that Uses (ifstat, "x1")
+none
+if ifstat;
+Select ifstat such that Uses (ifstat, "left")
+4, 11, 23, 25
+if ifstat;
+Select ifstat such that Uses (ifstat, "right")
+4, 11, 13, 23, 25, 27
+if ifstat;
+Select ifstat such that Uses (ifstat, "Romeo")
+4, 11, 13, 23, 25, 27
+if ifstat;
+Select ifstat such that Uses (ifstat, "relta")
+none
+if ifstat;
+Select ifstat such that Uses (ifstat, "width")
+4, 11, 13, 23, 25, 27
+if ifstat;
+Select ifstat such that Uses (ifstat, "Y1")
+none
+stmt s; variable v;
+Select v such that Uses (s, _)
+i, b, c, a, beta, oSCar, tmp, I, k, j1k, chArlie, x, left, right, Romeo, delta, l, width, Y1, x1
+stmt s; variable v;
+Select v such that Uses (s, v) with s.stmt#=10
+x
+stmt s; variable v;
+Select v such that Uses (s, v) with s.stmt#=11
+c, a, x, left, right, Romeo, delta, l, width
+stmt s; variable v;
+Select v such that Uses (s, v) with s.stmt#=13
+c, a, x, right, Romeo, delta, l, width
+stmt s; variable v;
+Select v such that Uses (s, v) with s.stmt#=14
+Romeo
+stmt s; variable v;
+Select v such that Uses (s, v) with s.stmt#=20
+x
+stmt s; variable v;
+Select v such that Uses (s, v) with s.stmt#=22
+a
+stmt s; variable v;
+Select v such that Uses (s, v) with s.stmt#=25
+c, a, x, left, right, Romeo, delta, l, width
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="a"
+3, 4, 9, 11, 12, 13, 17, 18, 21, 22, 23, 25, 26, 27, 31, 32, 35, 36
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="b"
+none
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="c"
+4, 9, 11, 12, 13, 17, 19, 23, 25, 27, 31, 33
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="tmp"
+4, 5, 6, 7
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="k"
+4, 5, 7, 8
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="oSCar"
+none
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="I"
+4, 5, 7, 8
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="j1k"
+4, 5, 7, 8
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="chArlie"
+4, 5, 7, 8
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="x"
+4, 9, 10, 11, 12, 13, 20, 23, 25, 27, 34
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="x1"
+none
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="Romeo"
+4, 9, 11, 12, 13, 14, 16, 23, 25, 27, 28, 30
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="left"
+4, 9, 11, 12, 23, 25
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="right"
+4, 9, 11, 12, 13, 23, 25, 27
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="delta"
+4, 9, 11, 12, 13, 16, 23, 25, 27, 30
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="width"
+4, 9, 11, 12, 13, 16, 23, 25, 27, 30
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="Y1"
+none
+procedure p; variable v;
+Select v such that Uses (p, v) with p.procName="ABC"
+c, a, beta, tmp, I, k, j1k, chArlie, x, left, right, Romeo, delta, l, width
+procedure p; variable v;
+Select v such that Uses (p, v) with p.procName="Init"
+a
+procedure p; variable v;
+Select v such that Uses (p, v) with p.procName="Second"
+c, a, x, left, right, Romeo, delta, l, width

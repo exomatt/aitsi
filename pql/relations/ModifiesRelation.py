@@ -94,7 +94,8 @@ class ModifiesRelation:
                     result_left.add(param_first)
         return list(result_left), None
 
-    def _str_type_wildcard(self, param_first) -> Union[Tuple[List[int], List[str]], Tuple[List[str], List[str]]]:
+    def _str_type_wildcard(self, param_first) -> Union[
+        Tuple[List[int], None], Tuple[List[str], None], Tuple[bool, None]]:
         lines_by_type_name: List[int] = []
         result_right: Set[str] = set()
         result_left: Set[int] = set()
@@ -105,21 +106,11 @@ class ModifiesRelation:
                 other_info: Dict[str][str] = self.stmt_table.get_other_info(line)
                 for variable in variables:
                     if self.modifies_table.is_modified(variable, other_info['value']):
-                        result_right.add(variable)
                         result_left.add(line)
         elif param_first == 'STMT':
-            for stmt in self.statements:
-                lines_by_type_name.extend(self.stmt_table.get_statement_line_by_type_name(stmt))
-            for line in lines_by_type_name:
-                result_right.update(self.modifies_table.get_modified(str(line)))
-            lines_by_type_name.extend(self.stmt_table.get_statement_line_by_type_name('CALL'))
             variables: List[str] = self.var_table.table['variable_name'].tolist()
-            for line in lines_by_type_name:
-                other_info: Dict[str][str] = self.stmt_table.get_other_info(line)
-                for variable in variables:
-                    if self.modifies_table.is_modified(variable, other_info['value']):
-                        result_right.add(variable)
-                        result_left.add(line)
+            for variable in variables:
+                result_left.update([line for line in self.modifies_table.get_modifies(variable) if line.isdigit()])
         elif param_first in self.statements:
             lines_by_type_name.extend(self.stmt_table.get_statement_line_by_type_name(param_first))
             for line in lines_by_type_name:
@@ -131,23 +122,20 @@ class ModifiesRelation:
                 result_left: Set[str] = set()
                 proc_names: List[str] = self.proc_table.get_all_proc_name()
                 variables: List[str] = self.var_table.table['variable_name'].tolist()
-                for variable in variables:
-                    for proc_name in proc_names:
+                for proc_name in proc_names:
+                    for variable in variables:
                         if self.modifies_table.is_modified(variable, proc_name):
-                            result_right.add(variable)
                             result_left.add(proc_name)
-
+                            break
             else:
                 # nazwa procedury
                 variables: List[str] = self.var_table.table['variable_name'].tolist()
+                info: Dict[str, int] = self.proc_table.get_other_info(param_first)
                 for variable in variables:
                     if self.modifies_table.is_modified(variable, param_first):
-                        result_right.add(variable)
-                info: Dict[str, int] = self.proc_table.get_other_info(param_first)
-                for number in range(info['start'], info['finish']):
-                    if self.modifies_table.get_modified(str(number)):
-                        result_left.add(number)
-        return list(result_left), list(result_right)
+                        return True, None
+                return False, None
+        return list(result_left), None
 
     def _str_type_variable(self, param_first) -> Union[Tuple[List[int], List[str]], Tuple[List[str], List[str]]]:
         lines_by_type_name: List[int] = []

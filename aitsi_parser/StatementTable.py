@@ -44,7 +44,7 @@ class StatementTable:
                 result.append(statement)
         return result
 
-    def get_statement_line_by_type_name_and_value(self, type_name: str, value: str):
+    def get_statement_line_by_type_name_and_value(self, type_name: str, value: str) -> List[int]:
         statements: List[int] = self.table['statement_line'].tolist()
         result: List[int] = []
         for statement in statements:

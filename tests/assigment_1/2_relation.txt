@@ -1,0 +1,666 @@
+procedure p, p1, p2;
+Select p such that Calls(p,p1) and Calls(p1,p2)
+Circle
+procedure p, p1, p2;
+Select p1 such that Calls(p,p1) and Calls(p1,p2)
+Rectangle
+procedure p, p1, p2;
+Select p2 such that Calls(p,p1) and Calls(p1,p2)
+Triangle
+procedure p, p1, p2;
+Select BOOLEAN such that Calls(p,p1) and Calls(p1,p2)
+true
+procedure p1, p2;
+Select p2 such that Calls("Second",p1) and Calls(p1,p2)
+none
+procedure p1, p2;
+Select p2 such that Calls(p1,"Second") and Calls(p1,p2)
+none
+procedure p1, p2;
+Select p2 such that Calls(p1,p2) and Calls("Second",p2)
+none
+procedure p1, p2;
+Select p2 such that Calls(p1,p2) and Calls(p2,"Second")
+none
+procedure p, p1, p2;
+Select p such that Calls(p,p1) and Calls*(p1,p2)
+Circle
+procedure p, p1, p2;
+Select p1 such that Calls(p,p1) and Calls*(p1,p2)
+Rectangle
+procedure p, p1, p2;
+Select BOOLEAN such that Calls(p,p1) and Calls*(p1,p2)
+true
+procedure p, p1, p2;
+Select p2 such that Calls(p,p1) and Calls*(p1,p2)
+Triangle
+procedure p1, p2;
+Select p2 such that Calls("Second",p1) and Calls*(p1,p2)
+none
+procedure p1, p2;
+Select p2 such that Calls(p1,"Second") and Calls*(p1,p2)
+none
+procedure p1, p2;
+Select BOOLEAN such that Calls(p1,"Second") and Calls*(p1,p2)
+false
+procedure p1, p2;
+Select p2 such that Calls(p1,p2) and Calls*("Second",p2)
+none
+procedure p1, p2;
+Select p2 such that Calls(p1,p2) and Calls*(p2,"Second")
+none
+procedure p, p1; variable v;
+Select p such that Calls(p,p1) and Modifies(p1,v)
+Circle, Rectangle
+procedure p, p1; variable v;
+Select BOOLEAN such that Calls(p,p1) and Modifies(p1,v)
+true
+procedure p, p1; variable v;
+Select p1 such that Calls(p,p1) and Modifies(p1,v)
+Rectangle, Triangle, Hexagon
+procedure p, p1; variable v;
+Select v such that Calls(p,p1) and Modifies(p1,v)
+t, a, d, c
+procedure p1; variable v;
+Select p1 such that Calls("Second",p1) and Modifies(p1,v)
+none
+procedure p, p1; variable v;
+Select p1 such that Calls(p1,"Second") and Modifies(p1,v)
+none
+procedure p, p1; variable v;
+Select p1 such that Calls(p,p1) and Modifies(p1,"x")
+none
+procedure p1; variable v;
+Select p1 such that Calls("Second",p1) and Modifies(p1,"x")
+none
+procedure p, p1; variable v;
+Select p1 such that Calls(p1,"Second") and Modifies(p1,"x")
+none
+procedure p, p1; variable v;
+Select p such that Calls(p,p1) and Uses(p1,v)
+Circle, Rectangle
+procedure p, p1; variable v;
+Select p1 such that Calls(p,p1) and Uses(p1,v)
+Rectangle, Triangle, Hexagon
+procedure p, p1; variable v;
+Select v such that Calls(p,p1) and Uses(p1,v)
+t, a, d, b, k, c
+procedure p, p1; variable v;
+Select BOOLEAN such that Calls(p,p1) and Uses(p1,v)
+true
+procedure p1; variable v;
+Select p1 such that Calls("Second",p1) and Uses(p1,v)
+none
+procedure p, p1; variable v;
+Select p1 such that Calls(p1,"Second") and Uses(p1,v)
+none
+procedure p, p1; variable v;
+Select p1 such that Calls(p,p1) and Uses(p1,"x")
+none
+procedure p1; variable v;
+Select p1 such that Calls("Second",p1) and Uses(p1,"x")
+none
+procedure p, p1; variable v;
+Select p1 such that Calls(p1,"Second") and Uses(p1,"x")
+none
+procedure p, p1; variable v;
+Select BOOLEAN such that Calls(p1,"Second") and Uses(p1,"x")
+false
+procedure p, p1, p2;
+Select p such that Calls*(p,p1) and Calls*(p1,p2)
+Circle
+procedure p, p1, p2;
+Select p1 such that Calls*(p,p1) and Calls*(p1,p2)
+Rectangle
+procedure p, p1, p2;
+Select p2 such that Calls*(p,p1) and Calls*(p1,p2)
+Triangle
+procedure p1, p2;
+Select p2 such that Calls*("Second",p1) and Calls*(p1,p2)
+none
+procedure p1, p2;
+Select p2 such that Calls*(p1,"Second") and Calls*(p1,p2)
+none
+procedure p1, p2;
+Select p2 such that Calls*(p1,p2) and Calls*("Second",p2)
+none
+procedure p1, p2;
+Select p2 such that Calls*(p1,p2) and Calls*(p2,"Second")
+none
+procedure p, p1; variable v;
+Select p such that Calls*(p,p1) and Modifies(p1,v)
+Circle, Rectangle
+procedure p, p1; variable v;
+Select p1 such that Calls*(p,p1) and Modifies(p1,v)
+Rectangle, Triangle, Hexagon
+procedure p, p1; variable v;
+Select v such that Calls*(p,p1) and Modifies(p1,v)
+t, a, d, c
+procedure p1; variable v;
+Select p1 such that Calls*("Second",p1) and Modifies(p1,v)
+none
+procedure p, p1; variable v;
+Select p1 such that Calls*(p1,"Second") and Modifies(p1,v)
+none
+procedure p, p1; variable v;
+Select p1 such that Calls*(p,p1) and Modifies(p1,"x")
+none
+procedure p1; variable v;
+Select p1 such that Calls*("Second",p1) and Modifies(p1,"x")
+none
+procedure p, p1; variable v;
+Select p1 such that Calls*(p1,"Second") and Modifies(p1,"x")
+none
+procedure p, p1; variable v;
+Select p such that Calls*(p,p1) and Uses(p1,v)
+Circle, Rectangle
+procedure p, p1; variable v;
+Select p1 such that Calls*(p,p1) and Uses(p1,v)
+Rectangle, Triangle, Hexagon
+procedure p, p1; variable v;
+Select BOOLEAN such that Calls*(p,p1) and Uses(p1,v)
+true
+procedure p, p1; variable v;
+Select v such that Calls*(p,p1) and Uses(p1,v)
+t, a, d, b, k, c
+procedure p1; variable v;
+Select p1 such that Calls*("Second",p1) and Uses(p1,v)
+none
+procedure p, p1; variable v;
+Select p1 such that Calls*(p1,"Second") and Uses(p1,v)
+none
+procedure p, p1; variable v;
+Select BOOLEAN such that Calls*(p1,"Second") and Uses(p1,v)
+false
+procedure p, p1; variable v;
+Select p1 such that Calls*(p,p1) and Uses(p1,"x")
+none
+procedure p1; variable v;
+Select p1 such that Calls*("Second",p1) and Uses(p1,"x")
+none
+procedure p, p1; variable v;
+Select p1 such that Calls*(p1,"SecondIncorrect") and Uses(p1,"x")
+none
+procedure p, p1; variable v;
+Select BOOLEAN such that Calls*(p1,"SecondIncorrect") and Uses(p1,"x")
+false
+stmt s, s1, s2;
+Select s such that Follows(s, s1) and Follows(s1,s2)
+1, 2, 3, 4, 5, 6, 7, 9, 14, 19
+stmt s, s1, s2;
+Select s such that Follows(s, s1) and Follows(s1,8)
+6
+stmt s, s1, s2;
+Select s1 such that Follows(s, s1) and Follows(s1,s2)
+2, 3, 4, 5, 6, 7, 8, 10, 15, 20
+stmt s, s1, s2;
+Select s2 such that Follows(s, s1) and Follows(s1,s2)
+3, 4, 5, 6, 7, 8, 17, 13, 16, 21
+stmt s, s1; while w;
+Select w such that Follows(s, s1) and Follows(s1,w)
+none
+stmt s, s1; while w;
+Select w such that Follows(s, w) and Follows(w,s1)
+10
+stmt s, s1; while w;
+Select w such that Follows(w, s) and Follows(s,s1)
+none
+stmt s; while w; if ifstat;
+Select ifstat such that Follows(w, s) and Follows(s,ifstat)
+none
+stmt s; while w; if ifstat; assign a;
+Select a such that Follows(w, a) and Follows(a,ifstat)
+none
+stmt s; while w; if ifstat; assign a;
+Select BOOLEAN such that Follows(w, a) and Follows(a,ifstat)
+false
+stmt s; while w; assign a;
+Select BOOLEAN such that Follows(w, a) and Follows(a,12)
+false
+stmt s, s1; while w; assign a;
+Select a such that Follows(a, w) and Follows(w,s1)
+9
+stmt s, s1, s2;
+Select s such that Follows(s, s1) and Follows*(s1,s2)
+1, 2, 3, 4, 5, 6, 7, 9, 14, 19
+stmt s, s1, s2;
+Select s1 such that Follows(s, s1) and Follows*(s1,s2)
+2, 3, 4, 5, 6, 7, 8, 10, 15, 20
+stmt s, s1, s2;
+Select s2 such that Follows(s, s1) and Follows*(s1,s2)
+3, 4, 5, 6, 7, 8, 17, 13, 16, 21
+stmt s, s1; while w;
+Select w such that Follows(s, s1) and Follows*(s1,w)
+none
+stmt s, s1; while w;
+Select w such that Follows(s, w) and Follows*(w,s1)
+10
+stmt s, s1; while w;
+Select w such that Follows(w, s) and Follows*(s,s1)
+none
+stmt s; while w; if ifstat;
+Select ifstat such that Follows(w, s) and Follows*(s,ifstat)
+none
+stmt s; while w; if ifstat; assign a;
+Select a such that Follows(w, a) and Follows*(a,ifstat)
+none
+stmt s; while w; if ifstat; assign a;
+Select BOOLEAN such that Follows(w, a) and Follows*(a,ifstat)
+false
+stmt s1; while w; assign a;
+Select a such that Follows(a, w) and Follows*(w,s1)
+9
+while w; assign a; variable v;
+Select a such that Follows(a, w) and Modifies(w,v)
+9
+stmt s; assign a; variable v;
+Select BOOLEAN such that Follows(a, s) and Modifies(s,v)
+true
+stmt s, s1; variable v;
+Select v such that Follows(s, s1) and Modifies(s1,v)
+a, d, c, b, t, k
+stmt s, s1;
+Select s1 such that Follows(s, s1) and Modifies(s1,"x")
+none
+stmt s, s1;
+Select BOOLEAN such that Follows(s, s1) and Modifies(s1,"x")
+false
+stmt s, s1; while w;
+Select s1 such that Follows(s, s1) and Parent(w,s)
+12, 20, 21
+stmt s, s1; while w;
+Select w such that Follows(s, s1) and Parent(w,s)
+10, 18
+stmt s, s1; while w;
+Select s such that Follows(s, 12) and Parent(w,s)
+11
+stmt s, s1; while w; assign a;
+Select w such that Follows(s, a) and Parent(w,s)
+10, 18
+stmt s, s1; assign a; if i;
+Select s1 such that Follows(s, 12) and Parent(i,a)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28
+stmt s, s1; while w; if i; assign a;
+Select w such that Follows(s, a) and Parent(i,w)
+10
+stmt s, s1; while w; if i; assign a;
+Select BOOLEAN such that Follows(s, a) and Parent(i,w)
+true
+stmt s, s1; while w;
+Select s1 such that Follows(s, s1) and Parent*(w,s)
+12, 20, 21
+stmt s, s1; while w;
+Select w such that Follows(s, s1) and Parent*(w,s)
+10, 18
+stmt s, s1; while w;
+Select s such that Follows(s, 12) and Parent*(w,s)
+11
+stmt s, s1; while w; assign a;
+Select w such that Follows(s, a) and Parent*(w,s)
+10, 18
+stmt s, s1; assign a; if i;
+Select s1 such that Follows(s, 12) and Parent*(i,a)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28
+stmt s, s1; while w; if i; assign a;
+Select w such that Follows(s, a) and Parent*(i,w)
+10
+stmt s, s1; while w; if i; assign a;
+Select BOOLEAN such that Follows(s, a) and Parent*(i,w)
+true
+while w; assign a; variable v;
+Select a such that Follows(a, w) and Uses(w,v)
+9
+stmt s; assign a; variable v;
+Select BOOLEAN such that Follows(a, s) and Uses(s,v)
+true
+stmt s, s1; variable v;
+Select v such that Follows(s, s1) and Uses(s1,v)
+t, a, d, b, k, c
+stmt s, s1;
+Select s1 such that Follows(s, s1) and Uses(s1,"x")
+none
+stmt s, s1;
+Select BOOLEAN such that Follows(s, s1) and Uses(s1,"x")
+false
+stmt s, s1, s2;
+Select s such that Follows*(s, s1) and Follows*(s1,s2)
+1, 2, 3, 4, 5, 6, 7, 9, 14, 19
+stmt s, s1, s2;
+Select s1 such that Follows*(s, s1) and Follows*(s1,s2)
+2, 3, 4, 5, 6, 7, 8, 10, 15, 20
+stmt s, s1, s2;
+Select s2 such that Follows*(s, s1) and Follows*(s1,s2)
+3, 4, 5, 6, 7, 8, 17, 13, 16, 21
+stmt s, s1; while w;
+Select w such that Follows*(s, s1) and Follows*(s1,w)
+none
+stmt s, s1; while w;
+Select w such that Follows*(s, w) and Follows*(w,s1)
+10
+stmt s, s1; while w;
+Select w such that Follows*(w, s) and Follows*(s,s1)
+none
+stmt s; while w; if ifstat;
+Select ifstat such that Follows*(w, s) and Follows*(s,ifstat)
+none
+stmt s; while w; if ifstat; assign a;
+Select a such that Follows*(w, a) and Follows*(a,ifstat)
+none
+stmt s; while w; if ifstat; assign a;
+Select BOOLEAN such that Follows*(w, a) and Follows*(a,ifstat)
+false
+stmt s1; while w; assign a;
+Select a such that Follows*(a, w) and Follows*(w,s1)
+9
+while w; assign a; variable v;
+Select a such that Follows*(a, w) and Modifies(w,v)
+9
+stmt s; assign a; variable v;
+Select BOOLEAN such that Follows*(a, s) and Modifies(s,v)
+true
+stmt s, s1; variable v;
+Select v such that Follows*(s, s1) and Modifies(s1,v)
+a, d, c, b, t, k
+stmt s, s1;
+Select s1 such that Follows*(s, s1) and Modifies(s1,"x")
+none
+stmt s, s1;
+Select BOOLEAN such that Follows*(s, s1) and Modifies(s1,"x")
+false
+stmt s, s1; while w;
+Select s1 such that Follows*(s, s1) and Parent(w,s)
+12, 20, 21
+stmt s, s1; while w;
+Select w such that Follows*(s, s1) and Parent(w,s)
+10, 18
+stmt s, s1; while w;
+Select s such that Follows*(s, 12) and Parent(w,s)
+11
+stmt s, s1; while w; assign a;
+Select w such that Follows*(s, a) and Parent(w,s)
+10, 18
+stmt s, s1; assign a; if i;
+Select s1 such that Follows*(s, 12) and Parent(i,a)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28
+stmt s, s1; while w; if i; assign a;
+Select w such that Follows*(s, a) and Parent(i,w)
+10
+stmt s, s1; while w;
+Select s1 such that Follows*(s, s1) and Parent*(w,s)
+12, 20, 21
+stmt s, s1; while w;
+Select w such that Follows*(s, s1) and Parent*(w,s)
+10, 18
+stmt s, s1; while w;
+Select s such that Follows*(s, 12) and Parent*(w,s)
+11
+stmt s, s1; while w; assign a;
+Select w such that Follows*(s, a) and Parent*(w,s)
+10, 18
+stmt s, s1; assign a; if i;
+Select s1 such that Follows*(s, 12) and Parent*(i,a)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28
+stmt s, s1; while w; if i; assign a;
+Select w such that Follows*(s, a) and Parent*(i,w)
+10
+stmt s, s1; while w; if i; assign a;
+Select BOOLEAN such that Follows*(s, a) and Parent(i,w)
+true
+stmt s, s1; while w; if i; assign a;
+Select BOOLEAN such that Follows*(s, a) and Parent*(i,w)
+true
+while w; assign a; variable v;
+Select a such that Follows*(a, w) and Uses(w,v)
+9
+stmt s; assign a; variable v;
+Select BOOLEAN such that Follows*(a, s) and Uses(s,v)
+true
+stmt s, s1; variable v;
+Select v such that Follows*(s, s1) and Uses(s1,v)
+t, a, d, b, k, c
+stmt s, s1;
+Select s1 such that Follows*(s, s1) and Uses(s1,"x")
+none
+stmt s, s1;
+Select BOOLEAN such that Follows*(s, s1) and Uses(s1,"x")
+false
+stmt s; variable v;
+Select BOOLEAN such that Modifies(s, "k") and Modifies(s,"x")
+false
+stmt s; variable v;
+Select v such that Modifies(s, v) and Modifies(s,"x")
+none
+stmt s; variable v;
+Select s such that Modifies(s, v) and Modifies(s,"x")
+none
+stmt s; variable v, v1;
+Select v1 such that Modifies(s, v) and Modifies(s,v1)
+t, a, d, k, c, b
+stmt s,s1; variable v;
+Select s1 such that Modifies(s, v) and Modifies(s1,v)
+1, 6, 8, 15, 17, 18, 19, 28, 2, 4, 13, 14, 20, 23, 24, 26, 3, 10, 11, 22, 25, 5, 7, 9, 12, 16, 21, 27
+stmt s,s1; variable v;
+Select s1 such that Modifies(s, v) and Parent(s,s1)
+9, 10, 13, 14, 15, 16, 19, 20, 21, 24, 25, 26, 11, 12
+stmt s, s1; while w; variable v;
+Select s1 such that Modifies(s, v) and Parent(w,s)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28
+stmt s, s1; while w; variable v;
+Select w such that Modifies(s, v) and Parent(w,s)
+18, 23, 10
+stmt s, s1; while w; variable v;
+Select s such that Modifies(s, v) and Parent(w,s)
+19, 20, 24, 11, 12, 21
+stmt s, s1; while w; assign a;
+Select BOOLEAN such that Modifies(s, "x") and Parent(w,s)
+false
+assign a; if i; variable v;
+Select i such that Modifies(a, v) and Parent(i,a)
+8, 24
+while w; if i;variable v;
+Select w such that Modifies(w, v) and Parent(i,w)
+10
+stmt s,s1; variable v;
+Select s1 such that Modifies(s, v) and Parent*(s,s1)
+9, 10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 24, 25, 26
+stmt s, s1; while w; variable v;
+Select s1 such that Modifies(s, v) and Parent*(w,s)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28
+stmt s, s1; while w; variable v;
+Select w such that Modifies(s, v) and Parent*(w,s)
+18, 23, 10
+stmt s, s1; while w; variable v;
+Select s such that Modifies(s, v) and Parent*(w,s)
+19, 20, 24, 26, 11, 25, 12, 21
+stmt s, s1; while w; assign a;
+Select w such that Modifies(s, "x") and Parent*(w,s)
+none
+assign a; if i; variable v;
+Select BOOLEAN such that Modifies(a, v) and Parent*(i,a)
+true
+while w; if i;variable v;
+Select w such that Modifies(w, v) and Parent*(i,w)
+10
+stmt s; variable v;
+Select BOOLEAN such that Modifies(s, "k") and Uses(s,"x")
+false
+stmt s; variable v;
+Select v such that Modifies(s, v) and Uses(s,"x")
+none
+stmt s; variable v;
+Select s such that Modifies(s, v) and Uses(s,"x")
+none
+stmt s; variable v, v1;
+Select v1 such that Modifies(s, v) and Uses(s,v1)
+t, a, d, c, b, k
+stmt s,s1; variable v;
+Select s1 such that Modifies(s, v) and Uses(s1,v)
+2, 3, 4, 5, 6, 7, 8, 10, 11, 13, 14, 15, 17, 18, 20, 22, 23, 24, 25, 26, 27, 28, 9, 19, 12, 16, 21
+prog_line p,p1,p2;
+Select p such that Next(p, p1) and Next(p1,p2)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 10, 11, 14, 15, 21, 18, 19, 20, 25, 26, 23, 24
+prog_line p,p1,p2;
+Select p1 such that Next(p, p1) and Next(p1,p2)
+2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21, 23, 24, 25, 26
+prog_line p,p1,p2;
+Select p2 such that Next(p, p1) and Next(p1,p2)
+3, 4, 5, 6, 7, 8, 9, 14, 10, 11, 13, 12, 17, 15, 16, 19, 22, 20, 21, 18, 24, 27, 25, 26, 23
+prog_line p,p1,p2;
+Select BOOLEAN such that Next(p, p1) and Next(p1,p2)
+true
+
+Select BOOLEAN such that Next(6, 7) and Next(7,8)
+true
+prog_line p,p1,p2;
+Select p such that Next(p, p1) and Next*(p1,p2)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 10, 11, 14, 15, 21, 18, 19, 20, 25, 26, 23, 24
+prog_line p,p1,p2;
+Select p1 such that Next(p, p1) and Next*(p1,p2)
+2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21, 23, 24, 25, 26
+prog_line p,p1,p2;
+Select p2 such that Next(p, p1) and Next*(p1,p2)
+3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27
+prog_line p,p1,p2;
+Select BOOLEAN such that Next(p, p1) and Next*(p1,p2)
+true
+
+Select BOOLEAN such that Next(6, 7) and Next*(7,18)
+false
+prog_line p,p1,p2;
+Select p such that Next*(p, p1) and Next*(p1,p2)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 18, 19, 20, 21, 23, 24, 25, 26
+prog_line p,p1,p2;
+Select p1 such that Next*(p, p1) and Next*(p1,p2)
+2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 19, 20, 21, 23, 24, 25, 26
+prog_line p,p1,p2;
+Select p2 such that Next*(p, p1) and Next*(p1,p2)
+3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27
+prog_line p,p1,p2;
+Select BOOLEAN such that Next*(p, p1) and Next*(p1,p2)
+true
+
+Select BOOLEAN such that Next*(6, 7) and Next*(7,18)
+false
+stmt s,s1,s2;
+Select s such that Parent(s, s1) and Parent(s1,s2)
+8, 23
+stmt s,s1,s2;
+Select s1 such that Parent(s, s1) and Parent(s1,s2)
+10, 24
+stmt s,s1,s2;
+Select s2 such that Parent(s, s1) and Parent(s1,s2)
+11, 12, 25, 26
+stmt s,s1,s2;
+Select BOOLEAN such that Parent(s, s1) and Parent(s1,s2)
+true
+stmt s,s1,s2; assign a;
+Select a such that Parent(s, s1) and Parent(s1,a)
+11, 12, 25, 26
+stmt s,s1,s2; assign a; if i;
+Select i such that Parent(i, s1) and Parent(s1,a)
+8
+stmt s,s1,s2;
+Select s such that Parent(s, s1) and Parent*(s1,s2)
+8, 23
+stmt s,s1,s2;
+Select s1 such that Parent(s, s1) and Parent*(s1,s2)
+10, 24
+stmt s,s1,s2;
+Select s2 such that Parent(s, s1) and Parent*(s1,s2)
+11, 12, 25, 26
+stmt s,s1,s2;
+Select BOOLEAN such that Parent(s, s1) and Parent*(s1,s2)
+true
+stmt s,s1,s2; assign a;
+Select a such that Parent(s, s1) and Parent*(s1,a)
+11, 12, 25, 26
+stmt s,s1,s2; assign a; if i;
+Select i such that Parent(i, s1) and Parent*(s1,a)
+8
+stmt s,s1,s2;if i; variable v;
+Select i such that Parent(i, s1) and Uses(s1,v)
+8, 24
+stmt s,s1,s2;while w; variable v;
+Select w such that Parent(w, s1) and Uses(s1,v)
+10, 18, 23
+stmt s,s1,s2;
+Select s such that Parent*(s, s1) and Parent(s1,s2)
+8, 23
+stmt s,s1,s2;
+Select s1 such that Parent*(s, s1) and Parent(s1,s2)
+10, 24
+stmt s,s1,s2;
+Select s2 such that Parent*(s, s1) and Parent(s1,s2)
+11, 12, 25, 26
+stmt s,s1,s2;
+Select BOOLEAN such that Parent*(s, s1) and Parent(s1,s2)
+true
+stmt s,s1,s2; assign a;
+Select a such that Parent*(s, s1) and Parent(s1,a)
+11, 12, 25, 26
+stmt s,s1,s2; assign a; if i;
+Select i such that Parent*(i, s1) and Parent(s1,a)
+8
+stmt s,s1,s2;
+Select s such that Parent*(s, s1) and Parent*(s1,s2)
+8, 23
+stmt s,s1,s2;
+Select s1 such that Parent*(s, s1) and Parent*(s1,s2)
+10, 24
+stmt s,s1,s2;
+Select s2 such that Parent*(s, s1) and Parent*(s1,s2)
+11, 12, 25, 26
+stmt s,s1,s2;
+Select BOOLEAN such that Parent*(s, s1) and Parent*(s1,s2)
+true
+stmt s,s1,s2; assign a;
+Select a such that Parent*(s, s1) and Parent*(s1,a)
+11, 12, 25, 26
+stmt s,s1,s2; assign a; if i;
+Select i such that Parent*(i, s1) and Parent*(s1,a)
+8
+stmt s,s1,s2;if i; variable v;
+Select i such that Parent*(i, s1) and Uses(s1,v)
+8, 24
+stmt s,s1,s2;while w; variable v;
+Select w such that Parent*(w, s1) and Uses(s1,v)
+10, 18, 23
+stmt s,s1,s2;while w; variable v;
+Select w such that Parent*(w, s1) and Uses(s1,"x")
+none
+stmt s,s1,s2;while w; variable v;
+Select w such that Parent(w, s1) and Uses(s1,"x")
+none
+stmt s,s1,s2;if i; variable v;
+Select i such that Uses(i, v) and Uses(s1,v)
+8, 24
+stmt s,s1,s2;if i; variable v;
+Select BOOLEAN such that Uses(i, v) and Uses(s1,v)
+true
+stmt s,s1,s2;while w; variable v;
+Select w such that Uses(w, v) and Uses(s1,v)
+10, 18, 23
+stmt s,s1,s2;while w; variable v;
+Select v such that Uses(w, v) and Uses(s1,v)
+t, a, d, b, k, c
+stmt s,s1,s2;if i; variable v,v1;
+Select s1 such that Uses(s1, v) and Uses(s1,v1)
+2, 3, 4, 5, 6, 7, 8, 10, 11, 13, 14, 15, 17, 18, 20, 22, 23, 24, 25, 26, 27, 28, 9, 19, 12, 16, 21
+stmt s,s1,s2;while w; variable v;
+Select w such that Uses(w, v) and Uses(w,"x")
+none
+stmt s,s1,s2;procedure p,p1; variable v;
+Select v such that Uses(p, v) and Uses(p1,v)
+t, a, d, b, k, c
+stmt s,s1,s2;procedure p,p1; variable v;
+Select p such that Uses(p, v) and Uses(p1,v)
+Circle, Rectangle, Triangle, Hexagon
+stmt s,s1,s2;procedure p,p1; variable v;
+Select p1 such that Uses(p, v) and Uses(p1,v)
+Circle, Rectangle, Triangle, Hexagon
+stmt s,s1,s2;procedure p,p1; variable v;
+Select BOOLEAN such that Uses(p, v) and Uses(p1,v)
+true
+stmt s,s1,s2;while w; variable v;
+Select BOOLEAN such that Uses(w, v) and Uses(w,"x")
+false
