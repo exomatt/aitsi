@@ -292,3 +292,87 @@ Select ifstat such that Uses (ifstat, "width")
 if ifstat;
 Select ifstat such that Uses (ifstat, "Y1")
 none
+stmt s; variable v;
+Select v such that Uses (s, _)
+i, b, c, a, beta, oSCar, tmp, I, k, j1k, chArlie, x, left, right, Romeo, delta, l, width, Y1, x1
+stmt s; variable v;
+Select v such that Uses (s, v) with s.stmt#=10
+x
+stmt s; variable v;
+Select v such that Uses (s, v) with s.stmt#=11
+c, a, x, left, right, Romeo, delta, l, width
+stmt s; variable v;
+Select v such that Uses (s, v) with s.stmt#=13
+c, a, x, right, Romeo, delta, l, width
+stmt s; variable v;
+Select v such that Uses (s, v) with s.stmt#=14
+Romeo
+stmt s; variable v;
+Select v such that Uses (s, v) with s.stmt#=20
+x
+stmt s; variable v;
+Select v such that Uses (s, v) with s.stmt#=22
+a
+stmt s; variable v;
+Select v such that Uses (s, v) with s.stmt#=25
+c, a, x, left, right, Romeo, delta, l, width
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="a"
+3, 4, 9, 11, 12, 13, 17, 18, 21, 22, 23, 25, 26, 27, 31, 32, 35, 36
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="b"
+none
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="c"
+4, 9, 11, 12, 13, 17, 19, 23, 25, 27, 31, 33
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="tmp"
+4, 5, 6, 7
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="k"
+4, 5, 7, 8
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="oSCar"
+none
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="I"
+4, 5, 7, 8
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="j1k"
+4, 5, 7, 8
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="chArlie"
+4, 5, 7, 8
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="x"
+4, 9, 10, 11, 12, 13, 20, 23, 25, 27, 34
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="x1"
+none
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="Romeo"
+4, 9, 11, 12, 13, 14, 16, 23, 25, 27, 28, 30
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="left"
+4, 9, 11, 12, 23, 25
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="right"
+4, 9, 11, 12, 13, 23, 25, 27
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="delta"
+4, 9, 11, 12, 13, 16, 23, 25, 27, 30
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="width"
+4, 9, 11, 12, 13, 16, 23, 25, 27, 30
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="Y1"
+none
+procedure p; variable v;
+Select v such that Uses (p, v) with p.procName="ABC"
+c, a, beta, tmp, I, k, j1k, chArlie, x, left, right, Romeo, delta, l, width
+procedure p; variable v;
+Select v such that Uses (p, v) with p.procName="Init"
+a
+procedure p; variable v;
+Select v such that Uses (p, v) with p.procName="Second"
+c, a, x, left, right, Romeo, delta, l, width
