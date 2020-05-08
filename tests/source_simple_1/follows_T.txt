@@ -220,3 +220,87 @@ Select c such that Follows* (c,_)
 call c;
 Select c such that Follows* (_,c)
 none
+stmt s,s1;
+Select s such that Follows* (s,s1) with s1.stmt#=15
+14
+stmt s,s1;
+Select s such that Follows* (s,s1) with s1.stmt#=19
+18
+stmt s,s1;
+Select s such that Follows* (s,s1) with s1.stmt#=21
+none
+stmt s,s1;
+Select s such that Follows* (s,s1) with s1.stmt#=22
+none
+stmt s,s1;
+Select s such that Follows* (s,s1) with s1.stmt#=23
+none
+assign a; stmt s;
+Select a such that Follows* (a,s) with s.stmt#=1
+none
+assign a; stmt s;
+Select a such that Follows* (a,s) with s.stmt#=8
+none
+call c; stmt s;
+Select c such that Follows* (c,s) with s.stmt#=6
+none
+call c; stmt s;
+Select c such that Follows* (c,s) with s.stmt#=19
+18
+call c; stmt s;
+Select c such that Follows* (c,s) with s.stmt#=7
+none
+call c; stmt s;
+Select c such that Follows* (c,s) with s.stmt#=16
+none
+call c; stmt s;
+Select c such that Follows* (c,s) with s.stmt#=23
+none
+while v; stmt s;
+Select v such that Follows* (v,s) with s.stmt#=18
+none
+while v; stmt s;
+Select v such that Follows* (v,s) with s.stmt#=23
+none
+while v; stmt s;
+Select v such that Follows* (v,s) with s.stmt#=20
+17
+while v; stmt s;
+Select v such that Follows* (v,s) with s.stmt#=26
+none
+while v; stmt s;
+Select v such that Follows* (v,s) with s.stmt#=25
+none
+prog_line n2; stmt s;
+Select BOOLEAN such that Follows* (11,s) with s.stmt#=12
+false
+prog_line n2; stmt s;
+Select BOOLEAN such that Follows* (12,s) with s.stmt#=13
+true
+prog_line n2; stmt s;
+Select BOOLEAN such that Follows* (s,14) with s.stmt#=13
+false
+prog_line n2; stmt s;
+Select BOOLEAN such that Follows* (s,17) with s.stmt#=16
+false
+stmt s,s1;
+Select s such that Follows* (s1,s) with s1.stmt#=1
+2, 3, 4
+stmt s,s1;
+Select s such that Follows* (s1,s) with s1.stmt#=4
+none
+stmt s,s1;
+Select s such that Follows* (s1,s) with s1.stmt#=8
+none
+stmt s,s1;
+Select s such that Follows* (s1,s) with s1.stmt#=9
+none
+stmt s,s1;
+Select s such that Follows* (s1,s) with s1.stmt#=10
+11
+stmt s,s1;
+Select s such that Follows* (s1,s) with s1.stmt#=12
+13
+stmt s,s1;
+Select s such that Follows* (s1,s) with s1.stmt#=13
+none
