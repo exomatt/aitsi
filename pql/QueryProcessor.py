@@ -47,11 +47,11 @@ class QueryProcessor:
             self.prev_token = self.next_token
             self.next_token = self.get_token()
         else:
-            self.error(self.next_token[0] + "not equals " + token)
+            self.error(self.next_token[0] + " not equals " + token)
 
     def error(self, info: str) -> None:
         log.error("ERROR: " + info)
-        sys.exit("#ERROR " + info)
+        raise Exception(info)
 
     def get_token(self) -> Tuple[str, str]:
         new_token: Tuple[str, str] = ('', '')
