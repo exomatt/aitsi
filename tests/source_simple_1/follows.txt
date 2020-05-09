@@ -220,3 +220,96 @@ Select c such that Follows (c,_)
 call c;
 Select c such that Follows (_,c)
 none
+stmt s, s1;
+Select s such that Follows (s,s1) with s.stmt#=2
+2
+stmt s, s1;
+Select s such that Follows (s,s1) with s1.stmt#=2
+1
+stmt s, s1;
+Select s such that Follows (s,s1) with s1.stmt#=3
+2
+stmt s, s1;
+Select s such that Follows (s,s1) with s1.stmt#=5
+none
+stmt s, s1;
+Select s such that Follows (s,s1) with s1.stmt#=9
+5
+stmt s, s1;
+Select s such that Follows (s,s1) with s1.stmt#=10
+none
+stmt s, s1;
+Select s such that Follows (s,s1) with s1.stmt#=11
+10
+stmt s, s1;
+Select s such that Follows (s,s1) with s1.stmt#=12
+none
+stmt s, s2;
+Select s such that Follows (s2,s) with s2.stmt#=1
+2
+stmt s, s2;
+Select s such that Follows (s2,s) with s2.stmt#=4
+none
+stmt s, s2;
+Select s such that Follows (s2,s) with s2.stmt#=8
+none
+stmt s, s2;
+Select s such that Follows (s2,s) with s2.stmt#=9
+none
+stmt s, s2;
+Select s such that Follows (s2,s) with s2.stmt#=10
+11
+stmt s, s2;
+Select s such that Follows (s2,s) with s2.stmt#=12
+13
+stmt s, s2;
+Select s such that Follows (s2,s) with s2.stmt#=13
+none
+call c; stmt s;
+Select c such that Follows (c,s) with s.stmt#=23
+none
+while v; stmt s;
+Select v such that Follows (v,s) with s.stmt#=18
+none
+while v; stmt s;
+Select v such that Follows (v,s) with s.stmt#=23
+none
+while v; stmt s;
+Select v such that Follows (v,s) with s.stmt#=20
+17
+while v; stmt s;
+Select v such that Follows (v,s) with s.stmt#=26
+none
+while v; stmt s;
+Select v such that Follows (v,s) with s.stmt#=25
+none
+if ifstat;  stmt s;
+Select ifstat such that Follows (ifstat,s) with s.stmt#=30
+none
+if ifstat;  stmt s;
+Select ifstat such that Follows (ifstat,s) with s.stmt#=29
+none
+if ifstat;  stmt s;
+Select ifstat such that Follows (s,ifstat) with s.stmt#=28
+none
+if ifstat;  stmt s;
+Select ifstat such that Follows (s,ifstat) with s.stmt#=10
+11
+if ifstat;  stmt s;
+Select ifstat such that Follows (s,ifstat) with s.stmt#=27
+none
+while v;  stmt s;
+Select v such that Follows (s,v) with s.stmt#=26
+none
+while v;  stmt s;
+Select v such that Follows (s,v) with s.stmt#=26
+none
+while v;  stmt s;
+Select v such that Follows (s,v) with s.stmt#=25
+none
+while v;  stmt s;
+Select v such that Follows (s,v) with s.stmt#=6
+7
+while v; stmt s;
+Select v such that Follows (s,v) with s.stmt#=18
+none
