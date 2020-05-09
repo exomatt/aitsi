@@ -14,6 +14,7 @@ from aitsi_parser.ProcTable import ProcTable
 from aitsi_parser.StatementTable import StatementTable
 from aitsi_parser.UsesTable import UsesTable
 from aitsi_parser.VarTable import VarTable
+from pql.utils.SearchUtils import SearchUtils
 
 log = logging.getLogger(__name__)
 
@@ -132,7 +133,6 @@ class Parser:
         self.match("OPEN_BRACKET")
         self.proc_table.update_proc(proc_node.value, {'start': self.current_line + 1})
         proc_node.add_child(self.statement_list())
-        self.next_table.remove_next(self.current_line)
         self.proc_table.update_proc(proc_node.value, {'finish': self.current_line})
         self.match("CLOSE_BRACKET")
         return proc_node
@@ -140,13 +140,18 @@ class Parser:
     def statement_list(self) -> Node:
         stmt_list_node: Node = Node("STMT_LIST", self.prev_token[1])
         prev_node: Node = None
+        # TODO Każda lista kończy się na początku poprzedniej listy wyrażeń
         while self.next_token[0] != "CLOSE_BRACKET":
+            if self.current_line == 4:
+                print("Cos")
             stmt_node = self.statement()
             if prev_node is not None:
+                self.next_table.set_next(prev_node.line, stmt_node.line)
                 self.follows_table.set_follows(prev_node.line, stmt_node.line)
             stmt_list_node.add_child(stmt_node)
             prev_node = stmt_node
-
+        if (prev_node.node_type == 'CALL' or prev_node.node_type == 'ASSIGN') and self.next_table.get_next(prev_node.line):
+            self.next_table.remove_next(prev_node.line)
         return stmt_list_node
 
     def statement(self) -> Node:
@@ -169,7 +174,6 @@ class Parser:
                                               {'name': 'CALL', 'value': call_node.value, 'start': self.current_line,
                                                'end': self.current_line})
         self.match("SEMICOLON")
-        self.next_table.set_next(call_node.line, self.current_line + 1)
         return call_node
 
     def while_statement(self) -> Node:
@@ -184,8 +188,13 @@ class Parser:
         self.match("OPEN_BRACKET")
         self.next_table.set_next(while_node.line, self.current_line + 1)
         while_node.add_child(self.statement_list())
-        self.next_table.set_next(self.current_line, while_node.line)
-        self.next_table.set_next(while_node.line, self.current_line + 1)
+        # if not self.next_table.get_next(self.current_line):
+        #     self.next_table.set_next(self.current_line, while_node.line)
+        # elif self.next_table.get_next(self.current_line)[0] > self.current_line:
+        #     self.next_table.remove_next(self.current_line)
+        #     self.next_table.set_next(self.current_line, while_node.line)
+        # self.next_table.remove_next(while_node.children[1].children[-1].line)
+        self.next_table.set_next(while_node.children[1].children[-1].line, while_node.line)
         self.statement_table.update_statement(while_node.line, {'end': self.current_line})
         for child in while_node.children[1].children:
             self.parent_table.set_parent(while_node.line, child.line)
@@ -212,10 +221,11 @@ class Parser:
         self.match("ASSIGN")
         assign_node.add_child(self.expression())
         self.match("SEMICOLON")
-        self.next_table.set_next(self.current_line, self.current_line + 1)
         return assign_node
 
     def if_statement(self) -> Node:
+        if self.current_line == 27:
+            print("Stop right here, criminal scum, you have violated the law!")
         if_node: Node = Node("IF", line=self.current_line)
         self.match("IF")
         self.match("NAME")
@@ -228,7 +238,7 @@ class Parser:
         self.match("THEN")
         self.match("OPEN_BRACKET")
         if_node.add_child(self.statement_list())
-        last_if_line: int = if_node.children[1].children[-1].line
+        last_if_line = self.find_last_child_line_number(if_node.children[1])
         for child in if_node.children[1].children:
             self.parent_table.set_parent(if_node.line, child.line)
             if child.node_type == 'ASSIGN' or child.node_type == 'WHILE' or child.node_type == 'IF':
@@ -243,7 +253,7 @@ class Parser:
         self.match("OPEN_BRACKET")
         self.next_table.set_next(if_node.line, self.current_line + 1)
         if_node.add_child(self.statement_list())
-        last_else_line: int = if_node.children[2].children[-1].line
+        last_else_line = self.find_last_child_line_number(if_node.children[2])
         for child in if_node.children[2].children:
             self.parent_table.set_parent(if_node.line, child.line)
             if child.node_type == 'ASSIGN' or child.node_type == 'WHILE' or child.node_type == 'IF':
@@ -254,12 +264,20 @@ class Parser:
                     self.uses_table.set_uses(letter, str(if_node.line))
                     self.uses_table.set_uses(letter, self.call_procedure)
         self.match("CLOSE_BRACKET")
-        self.statement_table.update_statement(if_node.line, {'end': self.current_line})
-        self.next_table.remove_next(last_else_line)
-        self.next_table.remove_next(last_if_line)
-        self.next_table.set_next(last_else_line, self.current_line + 1)
-        self.next_table.set_next(last_if_line, self.current_line + 1)
+        self.statement_table.update_statement(if_node.line, {'end': self.current_line, 'last_else_line': last_else_line,
+                                                             'last_if_line': last_if_line})
+        # self.next_table.remove_next(last_if_line)
+        # self.next_table.set_next(last_if_line, last_else_line + 1)
         return if_node
+
+    def find_last_child_line_number(self, node: Node):
+        last_line: int = node.line
+        if not node.children:
+            return last_line
+        else:
+            children_lines = [self.find_last_child_line_number(child) for child in node.children]
+            value = max(children_lines)
+            return value
 
     def expression(self) -> Node:
         node: Node = self.term()
