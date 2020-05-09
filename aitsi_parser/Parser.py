@@ -204,7 +204,6 @@ class Parser:
         assign_node: Node = Node("ASSIGN", line=self.current_line)
         self.match("NAME")
         assign_node.add_child(Node(self.prev_token[0], self.prev_token[1], self.current_line))
-        self.var_table.insert_var(self.prev_token[1])
         self.mod_table.set_modifies(self.prev_token[1], str(self.current_line))
         self.mod_table.set_modifies(self.prev_token[1], self.call_procedure)
         self.statement_table.insert_statement(self.current_line, {'name': 'ASSIGN', 'value': self.prev_token[1],
@@ -303,6 +302,8 @@ class Parser:
                 self.match("NAME")
                 self.uses_table.set_uses(self.prev_token[1], str(self.current_line))
                 self.uses_table.set_uses(self.prev_token[1], self.call_procedure)
+                self.var_table.insert_var(self.prev_token[1])
+
                 return Node(self.prev_token[0], self.prev_token[1], self.current_line)
             else:
                 raise Exception(
