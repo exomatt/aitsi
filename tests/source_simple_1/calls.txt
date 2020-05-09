@@ -109,3 +109,9 @@ none
 procedure p,q;
 Select p such that Calls* (_, q) with q.procName = "Init"
 ABC, Second, Init
+procedure p, p2;
+Select p such that Calls*(p2 ,p)
+Second, Init
+procedure p, p2;
+Select p such that Calls(p2 ,p)
+Second, Init
