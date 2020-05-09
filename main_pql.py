@@ -86,7 +86,7 @@ class PQL:
         try:
             query_processor.generate_query_tree(query)
         except Exception as e:
-            return '#ERROR ' + str(e)
+            return str(e)
         query_tree: Dict[str, dict] = query_processor.get_node_json()
         query_evaluator: QueryEvaluator = QueryEvaluator(self.all_tables, self.ast_node)
         response = query_evaluator.evaluate_query(query_processor.root)

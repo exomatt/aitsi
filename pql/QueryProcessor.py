@@ -50,7 +50,10 @@ class QueryProcessor:
 
     def error(self, info: str) -> None:
         log.error("ERROR: " + info)
-        raise Exception(info)
+        raise Exception("#ERROR " + info)
+
+    def return_none(self):
+        raise Exception("none")
 
     def get_token(self) -> Tuple[str, str]:
         new_token: Tuple[str, str] = ('', '')
@@ -162,7 +165,7 @@ class QueryProcessor:
             self.match("EVERYTHING")
         elif self.next_token[0] == "IDENT_QUOTE":
             if self.next_token[1].strip().replace('"', '') not in self.var_names:
-                self.error(self.next_token[1].strip().replace('"', '') + " variable not exist")
+                self.return_none()
             self.match("IDENT_QUOTE")
 
         return Node(self.prev_token[0].strip(), self.prev_token[1].strip().replace('"', ''))
@@ -479,7 +482,7 @@ class QueryProcessor:
                     self.error(attribute_node.children[1].value + " procedure not exist")
             elif synonym_node.node_type == "VARIABLE":
                 if attribute_node.children[1].value not in self.var_names:
-                    self.error(attribute_node.children[1].value + " variable not exist")
+                    self.return_none()
         elif attribute_node.children[1].node_type == "INTEGER":
             if not self.if_line_is_in_code(int(attribute_node.children[1].value)):
                 self.error("line " + attribute_node.children[1].value + " is out of bound")
