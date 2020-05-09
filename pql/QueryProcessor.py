@@ -2,7 +2,6 @@ import json
 import logging
 import re
 from typing import Tuple, Dict, List
-import sys
 
 from pql.Node import Node
 
@@ -476,7 +475,7 @@ class QueryProcessor:
         attribute_node.add_child(self.ref())
         if attribute_node.children[1].node_type == "IDENT_QUOTE":
             if synonym_node.node_type in ["PROCEDURE", "CALL"]:
-                if attribute_node.children[1].value not in self.proc_names:
+                if attribute_node.children[1].value.strip() not in self.proc_names:
                     self.error(attribute_node.children[1].value + " procedure not exist")
             elif synonym_node.node_type == "VARIABLE":
                 if attribute_node.children[1].value not in self.var_names:
@@ -509,7 +508,7 @@ class QueryProcessor:
 
     def ref(self) -> Node:
         self.match("EQUALS_SIGN")
-        ref_node: Node = Node(self.next_token[0], self.next_token[1].replace('.', '').replace('"', ''))
+        ref_node: Node = Node(self.next_token[0].strip(), self.next_token[1].replace('.', '').replace('"', '').strip())
         # if ref_node.value not in
         if self.next_token[0] == "IDENT_QUOTE":
             self.match("IDENT_QUOTE")

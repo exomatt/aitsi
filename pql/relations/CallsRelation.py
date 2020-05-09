@@ -23,7 +23,7 @@ class CallsRelation:
         if param_first == 'PROCEDURE' or param_first == '_':
             if param_second == 'PROCEDURE':
                 # p1 - procedura (p) lub '_' | p2 - procedura (p2)
-                return self.calls_table.table.index.tolist(), self.calls_table.table.columns.tolist()
+                return self.calls_table.table.columns.tolist(), self.calls_table.table.index.tolist()
             elif param_second == '_':
                 # p1 - procedura (p) lub '_' | p2 - '_' czyli dowolna procedura
                 return self.calls_table.table.index.tolist(), self.calls_table.table.columns.tolist()
@@ -47,7 +47,7 @@ class CallsRelation:
         if param_first == 'PROCEDURE' or param_first == '_':
             if param_second == 'PROCEDURE':
                 # p1 - procedura (p) lub '_' | p2 - procedura (p2)
-                return self.calls_table.table.index.tolist(), self.calls_table.table.columns.tolist()
+                return self.calls_table.table.columns.tolist(), self.calls_table.table.index.tolist()
             elif param_second == '_':
                 # p1 - procedura (p) lub '_' | p2 - '_' czyli dowolna procedura
                 return self.calls_table.table.index.tolist(), self.calls_table.table.columns.tolist()
