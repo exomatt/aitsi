@@ -47,6 +47,12 @@ class ModifiesTable:
             return False
         return self.table.at[var_name, stmt] == 1
 
+    def get_all_variables(self) -> List[str]:
+        return self.table.index.tolist()
+
+    def get_all_lines(self) -> List[int]:
+        return [int(x) for x in self.table.columns.tolist() if x.isdigit()]
+
     def to_string(self) -> None:
         print("ModifiesTable:")
         print(self.table.to_string())

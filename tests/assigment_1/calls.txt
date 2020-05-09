@@ -1,0 +1,156 @@
+procedure p;
+Select p such that Calls (p, "Circle")
+none
+procedure p;
+Select p such that Calls (p, "Rectangle")
+Circle
+procedure p;
+Select p such that Calls (p, "Triangle")
+Circle,Rectangle
+procedure p;
+Select p such that Calls (p, "Hexagon")
+Circle
+procedure p;
+Select p such that Calls* (p, "Circle")
+none
+procedure p;
+Select p such that Calls* (p, "Rectangle")
+Circle
+procedure p;
+Select p such that Calls* (p, "Triangle")
+Circle,Rectangle
+procedure p;
+Select p such that Calls* (p, "Hexagon")
+Circle
+procedure p;
+Select p such that Calls ("Circle", p)
+Triangle,Hexagon,Rectangle
+procedure p;
+Select p such that Calls ("Rectangle", p)
+Triangle
+procedure p;
+Select p such that Calls ("Triangle", p)
+none
+procedure p;
+Select p such that Calls ("Hexagon", p)
+none
+procedure p;
+Select p such that Calls* ("Circle", p)
+Triangle,Hexagon,Rectangle
+procedure p;
+Select p such that Calls* ("Rectangle", p)
+Triangle
+procedure p;
+Select p such that Calls* ("Triangle", p)
+none
+procedure p;
+Select p such that Calls* ("Hexagon", p)
+none
+procedure p;
+Select p such that Calls (_, p)
+Rectangle, Triangle, Hexagon
+procedure p;
+Select p such that Calls (p,_)
+Circle, Rectangle
+procedure p;
+Select p such that Calls* (_, p)
+Rectangle, Triangle, Hexagon
+procedure p;
+Select p such that Calls* (p,_)
+Circle, Rectangle
+procedure p,q;
+Select p such that Calls (p, q) with p.procName = "Circle"
+Circle
+procedure p,q;
+Select p such that Calls (p, q) with p.procName = "Rectangle"
+Rectangle
+procedure p,q;
+Select p such that Calls (p, q) with p.procName = "Triangle"
+none
+procedure p,q;
+Select p such that Calls (p, q) with p.procName = "Hexagon"
+none
+procedure p,q;
+Select p such that Calls (p, q) with q.procName = "Circle"
+none
+procedure p,q;
+Select p such that Calls (p, q) with q.procName = "Rectangle"
+Circle
+procedure p,q;
+Select p such that Calls (p, q) with q.procName = "Triangle"
+Circle, Rectangle
+procedure p,q;
+Select p such that Calls (p, q) with q.procName = "Hexagon"
+Circle
+procedure p,q;
+Select p such that Calls* (p, q) with p.procName = "Circle"
+Circle
+procedure p,q;
+Select p such that Calls* (p, q) with p.procName = "Rectangle"
+Rectangle
+procedure p,q;
+Select p such that Calls* (p, q) with p.procName = "Triangle"
+none
+procedure p,q;
+Select p such that Calls* (p, q) with p.procName = "Hexagon"
+none
+procedure p,q;
+Select p such that Calls* (p, q) with q.procName = "Circle"
+none
+procedure p,q;
+Select p such that Calls* (p, q) with q.procName = "Rectangle"
+Circle
+procedure p,q;
+Select p such that Calls* (p, q) with q.procName = "Triangle"
+Circle, Rectangle
+procedure p,q;
+Select p such that Calls* (p, q) with q.procName = "Hexagon"
+Circle
+procedure p,q;
+Select p such that Calls (p, _) with p.procName = "Circle"
+Circle
+procedure p,q;
+Select p such that Calls (p, _) with p.procName = "Rectangle"
+Rectangle
+procedure p,q;
+Select p such that Calls (p, _) with p.procName = "Triangle"
+none
+procedure p,q;
+Select p such that Calls (p, _) with p.procName = "Hexagon"
+none
+procedure p,q;
+Select p such that Calls (_, q) with q.procName = "Circle"
+none
+procedure p,q;
+Select p such that Calls (_, q) with q.procName = "Rectangle"
+Circle, Rectangle, Triangle, Hexagon
+procedure p,q;
+Select p such that Calls (_, q) with q.procName = "Triangle"
+Circle, Rectangle, Triangle, Hexagon
+procedure p,q;
+Select p such that Calls (_, q) with q.procName = "Hexagon"
+Circle, Rectangle, Triangle, Hexagon
+procedure p,q;
+Select p such that Calls* (p, _) with p.procName = "Circle"
+Circle
+procedure p,q;
+Select p such that Calls* (p, _) with p.procName = "Rectangle"
+Rectangle
+procedure p,q;
+Select p such that Calls* (p, _) with p.procName = "Triangle"
+none
+procedure p,q;
+Select p such that Calls* (p, _) with p.procName = "Hexagon"
+none
+procedure p,q;
+Select p such that Calls* (_, q) with q.procName = "Circle"
+none
+procedure p,q;
+Select p such that Calls* (_, q) with q.procName = "Rectangle"
+Circle, Rectangle, Triangle, Hexagon
+procedure p,q;
+Select p such that Calls* (_, q) with q.procName = "Triangle"
+Circle, Rectangle, Triangle, Hexagon
+procedure p,q;
+Select p such that Calls* (_, q) with q.procName = "Hexagon"
+Circle, Rectangle, Triangle, Hexagon
