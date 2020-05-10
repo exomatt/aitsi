@@ -20,15 +20,25 @@ class CallsRelation:
     def calls(self, param_first: str, param_second: str) -> Union[Tuple[bool, None],
                                                                   Tuple[List[str], None],
                                                                   Tuple[List[str], List[str]]]:
-        if param_first == 'PROCEDURE' or param_first == '_':
+        if param_first == 'PROCEDURE':
             if param_second == 'PROCEDURE':
-                # p1 - procedura (p) lub '_' | p2 - procedura (p2)
-                return self.calls_table.table.columns.tolist(), self.calls_table.table.index.tolist()
+                # p1 - procedura (p) | p2 - procedura (p2)
+                return self.calls_table.table.index.tolist(), self.calls_table.table.columns.tolist()
             elif param_second == '_':
-                # p1 - procedura (p) lub '_' | p2 - '_' czyli dowolna procedura
+                # p1 - procedura (p) | p2 - '_' czyli dowolna procedura
                 return self.calls_table.table.index.tolist(), self.calls_table.table.columns.tolist()
             else:
-                # p1 - procedura (p) lub '_' | p2 - np. "First" czyli konkretna procedura
+                # p1 - procedura (p) | p2 - np. "First" czyli konkretna procedura
+                return self.calls_table.get_calls(param_second), None
+        elif param_first == '_':
+            if param_second == 'PROCEDURE':
+                # p1 - lub '_' | p2 - procedura (p2)
+                return self.calls_table.table.columns.tolist(), self.calls_table.table.index.tolist()
+            elif param_second == '_':
+                # p1 - '_' | p2 - '_' czyli dowolna procedura
+                return self.calls_table.table.index.tolist(), self.calls_table.table.columns.tolist()
+            else:
+                # p1 - '_' | p2 - np. "First" czyli konkretna procedura
                 return self.calls_table.get_calls(param_second), None
         else:
             if param_second == 'PROCEDURE':
@@ -44,15 +54,25 @@ class CallsRelation:
     def calls_T(self, param_first: str, param_second: str) -> Union[Tuple[bool, None],
                                                                     Tuple[List[str], None],
                                                                     Tuple[List[str], List[str]]]:
-        if param_first == 'PROCEDURE' or param_first == '_':
+        if param_first == 'PROCEDURE':
             if param_second == 'PROCEDURE':
-                # p1 - procedura (p) lub '_' | p2 - procedura (p2)
-                return self.calls_table.table.columns.tolist(), self.calls_table.table.index.tolist()
+                # p1 - procedura (p) | p2 - procedura (p2)
+                return self.calls_table.table.index.tolist(), self.calls_table.table.columns.tolist()
             elif param_second == '_':
-                # p1 - procedura (p) lub '_' | p2 - '_' czyli dowolna procedura
+                # p1 - procedura (p) | p2 - '_' czyli dowolna procedura
                 return self.calls_table.table.index.tolist(), self.calls_table.table.columns.tolist()
             else:
-                # p1 - procedura (p) lub '_' | p2 - np. "First" czyli konkretna procedura
+                # p1 - procedura (p) | p2 - np. "First" czyli konkretna procedura
+                return self._wildcard_and_procedure_name(param_second), None
+        elif param_first == '_':
+            if param_second == 'PROCEDURE':
+                # p1 - '_' | p2 - procedura (p2)
+                return self.calls_table.table.columns.tolist(), self.calls_table.table.index.tolist()
+            elif param_second == '_':
+                # p1 - '_' | p2 - '_' czyli dowolna procedura
+                return self.calls_table.table.index.tolist(), self.calls_table.table.columns.tolist()
+            else:
+                # p1 - '_' | p2 - np. "First" czyli konkretna procedura
                 return self._wildcard_and_procedure_name(param_second), None
         else:
             if param_second == 'PROCEDURE':
