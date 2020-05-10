@@ -113,8 +113,8 @@ assign a;
 Select a such that Uses (a, "Romeo")
 14, 16, 28, 30
 assign a;
-Select a such that Uses (a, "relta")
-none
+Select a such that Uses (a, "delta")
+16, 30
 assign a;
 Select a such that Uses (a, "width")
 16, 30
@@ -176,8 +176,8 @@ stmt s;
 Select s such that Uses (s, "Romeo")
 4, 9, 11, 12, 13, 14, 16, 23, 25, 27, 28, 30
 stmt s;
-Select s such that Uses (s, "relta")
-none
+Select s such that Uses (s, "delta")
+4, 9, 11, 12, 13, 16, 23, 25, 27, 30
 stmt s;
 Select s such that Uses (s, "width")
 4, 9, 11, 12, 13, 16, 23, 25, 27, 30
@@ -284,8 +284,8 @@ if ifstat;
 Select ifstat such that Uses (ifstat, "Romeo")
 4, 11, 13, 23, 25, 27
 if ifstat;
-Select ifstat such that Uses (ifstat, "relta")
-none
+Select ifstat such that Uses (ifstat, "delta")
+4, 11, 13, 23, 25, 27
 if ifstat;
 Select ifstat such that Uses (ifstat, "width")
 4, 11, 13, 23, 25, 27
