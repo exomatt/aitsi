@@ -100,9 +100,14 @@ class CallsRelation:
         return list(set(result))
 
     def _procedure_name_and_procedure_name(self, param_first: str, param_second: str) -> bool:
+        return_value = False
+        if param_first == param_second:
+            return False
         for procedure in self.calls_table.get_called_from(param_first):
             if procedure == param_second:
                 return True
             else:
-                return self._procedure_name_and_procedure_name(param_first, procedure)
+                return_value = self._procedure_name_and_procedure_name(procedure, param_second)
+                if return_value == True:
+                    return True
         return False
