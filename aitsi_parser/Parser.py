@@ -177,6 +177,7 @@ class Parser:
         self.match("NAME")
         while_node: Node = Node("WHILE", line=self.current_line)
         while_node.add_child(Node(self.prev_token[0], self.prev_token[1], self.current_line))
+        self.var_table.insert_var(self.prev_token[1])
         self.uses_table.set_uses(self.prev_token[1], str(self.current_line))
         self.uses_table.set_uses(self.prev_token[1], self.call_procedure)
         self.statement_table.insert_statement(self.current_line, {'name': 'WHILE', 'value': self.prev_token[1],
@@ -225,6 +226,7 @@ class Parser:
         self.uses_table.set_uses(self.prev_token[1], str(self.current_line))
         self.uses_table.set_uses(self.prev_token[1], self.call_procedure)
         self.next_table.set_next(if_node.line, self.current_line + 1)
+        self.var_table.insert_var(self.prev_token[1])
         self.match("THEN")
         self.match("OPEN_BRACKET")
         if_node.add_child(self.statement_list())
@@ -303,6 +305,7 @@ class Parser:
                 self.match("NAME")
                 self.uses_table.set_uses(self.prev_token[1], str(self.current_line))
                 self.uses_table.set_uses(self.prev_token[1], self.call_procedure)
+                self.var_table.insert_var(self.prev_token[1])
                 return Node(self.prev_token[0], self.prev_token[1], self.current_line)
             else:
                 raise Exception(
