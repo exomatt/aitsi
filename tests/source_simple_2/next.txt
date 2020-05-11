@@ -142,3 +142,147 @@ Select n such that Next(n,4)
 prog_line n;
 Select n such that Next(n,26)
 24
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,n2) with n2=26
+24
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,n2) with n2=14
+11
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,n2) with n2=5
+4
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,n2) with n2=19
+22
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,n2) with n2=12
+11
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,n2) with n2=30
+28
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,n2) with n2=24
+25
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,n2) with n2=18
+9
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,n2) with n2=3
+2
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,n2) with n2=6
+5
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,n2) with n2=11
+10
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,n2) with n2=27
+29,30
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,n2) with n2=25
+24
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,n2) with n2=22
+21
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,n2) with n2=28
+27
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,n2) with n2=15
+14
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,n2) with n2=7
+6
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,n2) with n2=4
+3
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,n2) with n2=20
+19
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,n2) with n2=23
+19
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,n2) with n2=8
+7
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,n2) with n2=29
+28
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,n2) with n2=17
+13,16
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,n2) with n2=2
+1
+prog_line n1; prog_line n2;
+Select n2 such that Next(n1,n2) with n1=9
+10,18
+prog_line n1; prog_line n2;
+Select n2 such that Next(n1,n2) with n1=6
+7
+prog_line n1; prog_line n2;
+Select n2 such that Next(n1,n2) with n1=3
+4
+prog_line n1; prog_line n2;
+Select n2 such that Next(n1,n2) with n1=5
+6
+prog_line n1; prog_line n2;
+Select n2 such that Next(n1,n2) with n1=13
+17
+prog_line n1; prog_line n2;
+Select n2 such that Next(n1,n2) with n1=8
+9
+prog_line n1; prog_line n2;
+Select n2 such that Next(n1,n2) with n1=16
+17
+prog_line n1; prog_line n2;
+Select n2 such that Next(n1,n2) with n1=29
+27
+prog_line n1; prog_line n2;
+Select n2 such that Next(n1,n2) with n1=26
+none
+prog_line n1; prog_line n2;
+Select n2 such that Next(n1,n2) with n1=22
+19
+prog_line n1; prog_line n2;
+Select n2 such that Next(n1,n2) with n1=28
+29,30
+prog_line n1; prog_line n2;
+Select n2 such that Next(n1,n2) with n1=7
+8
+prog_line n1; prog_line n2;
+Select n2 such that Next(n1,n2) with n1=2
+3
+prog_line n1; prog_line n2;
+Select n2 such that Next(n1,n2) with n1=1
+2
+prog_line n1; prog_line n2;
+Select n2 such that Next(n1,n2) with n1=15
+16
+prog_line n1; prog_line n2;
+Select n2 such that Next(n1,n2) with n1=17
+9
+prog_line n1; prog_line n2;
+Select n2 such that Next(n1,n2) with n1=4
+5
+prog_line n1; prog_line n2;
+Select n2 such that Next(n1,n2) with n1=25
+24
+prog_line n1; prog_line n2;
+Select n2 such that Next(n1,n2) with n1=24
+26,25
+prog_line n1; prog_line n2;
+Select n2 such that Next(n1,n2) with n1=10
+11
+prog_line n1; prog_line n2;
+Select n2 such that Next(n1,n2) with n1=30
+27
+prog_line n1; prog_line n2;
+Select n2 such that Next(n1,n2) with n1=18
+none
+prog_line n1; prog_line n2;
+Select n2 such that Next(n1,n2) with n1=11
+12,14
+prog_line n1; prog_line n2;
+Select n2 such that Next(n1,n2) with n1=19
+20,23
