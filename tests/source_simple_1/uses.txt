@@ -376,3 +376,12 @@ a
 procedure p; variable v;
 Select v such that Uses (p, v) with p.procName="Second"
 c, a, x, left, right, Romeo, delta, l, width
+procedure p; variable v;
+Select v such that Uses (p2, v)
+c, a, x, left, right, Romeo, delta, l, width
+procedure p; variable v;
+Select v such that Uses (p, v) with p.procName="Second2"
+none
+procedure p; variable v;
+Select v such that Uses ("p", v)
+none
