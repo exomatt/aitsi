@@ -1,0 +1,216 @@
+procedure p, p2;
+Select p such that Uses (p, "a") such that Calls(p ,p2)
+ABC, Second
+procedure p, p2;
+Select p such that Uses (p, "b")  such that Calls(p ,p2)
+none
+procedure p, p2;
+Select p such that Uses (p, "c") such that Calls(p ,p2)
+ABC, Second
+procedure p, p2;
+Select p such that Uses (p, "beta") such that Calls(p ,p2)
+ABC
+procedure p, p2;
+Select p such that Uses (p, "tmp") such that Calls(p ,p2)
+ABC
+procedure p, p2;
+Select p such that Uses (p, "k") such that Calls(p ,p2)
+ABC
+procedure p, p2;
+Select p such that Uses (p, "I") such that Calls(p ,p2)
+ABC
+procedure p, p2;
+Select p such that Uses (p, "j1k") such that Calls(p ,p2)
+ABC
+procedure p, p2;
+Select p such that Uses (p, "oSCar") such that Calls(p ,p2)
+none
+procedure p, p2;
+Select p such that Uses (p, "chArlie") such that Calls(p ,p2)
+ABC
+procedure p, p2;
+Select p such that Uses (p, "x") such that Calls(p ,p2)
+ABC, Second
+procedure p, p2;
+Select p such that Uses (p, "x1") such that Calls(p ,p2)
+none
+procedure p, p2;
+Select p such that Uses (p, "left") such that Calls(p ,p2)
+ABC, Second
+procedure p, p2;
+Select p such that Uses (p, "right") such that Calls(p ,p2)
+ABC, Second
+procedure p, p2;
+Select p such that Uses (p, "Romeo") such that Calls(p ,p2)
+ABC, Second
+procedure p, p2;
+Select p such that Uses (p, "delta") such that Calls(p ,p2)
+ABC, Second
+procedure p, p2;
+Select p such that Uses (p, "width") such that Calls(p ,p2)
+ABC, Second
+procedure p, p2;
+Select p such that Uses (p, "Y1") such that Calls(p ,p2)
+none
+procedure p, p2;
+Select p such that Uses (p, "a") such that Calls(p2 ,p)
+Second, Init
+procedure p, p2;
+Select p such that Uses (p, "b")  such that Calls(p2 ,p)
+none
+procedure p, p2;
+Select p such that Uses (p, "c") such that Calls(p2 ,p)
+Second
+procedure p, p2;
+Select p such that Uses (p, "beta") such that Calls(p2 ,p)
+none
+procedure p, p2;
+Select p such that Uses (p, "tmp") such that Calls(p2 ,p)
+none
+procedure p, p2;
+Select p such that Uses (p, "k") such that Calls(p2 ,p)
+none
+procedure p, p2;
+Select p such that Uses (p, "I") such that Calls(p2 ,p)
+none
+procedure p, p2;
+Select p such that Uses (p, "j1k") such that Calls(p2 ,p)
+none
+procedure p, p2;
+Select p such that Uses (p, "oSCar") such that Calls(p2 ,p)
+none
+procedure p, p2;
+Select p such that Uses (p, "chArlie") such that Calls(p2 ,p)
+none
+procedure p, p2;
+Select p such that Uses (p, "x") such that Calls(p2 ,p)
+Second
+procedure p, p2;
+Select p such that Uses (p, "x1") such that Calls(p2 ,p)
+none
+procedure p, p2;
+Select p such that Uses (p, "left") such that Calls(p2 ,p)
+Second
+procedure p, p2;
+Select p such that Uses (p, "right") such that Calls(p2 ,p)
+Second
+procedure p, p2;
+Select p such that Uses (p, "Romeo") such that Calls(p2 ,p)
+Second
+procedure p, p2;
+Select p such that Uses (p, "delta") such that Calls(p2 ,p)
+Second
+procedure p, p2;
+Select p such that Uses (p, "width") such that Calls(p2 ,p)
+Second
+procedure p, p2;
+Select p such that Uses (p, "Y1") such that Calls(p2 ,p)
+none
+procedure p, p2;
+Select p such that Uses (p, "a") such that Calls*(p ,p2)
+ABC, Second
+procedure p, p2;
+Select p such that Uses (p, "b")  such that Calls*(p ,p2)
+none
+procedure p, p2;
+Select p such that Uses (p, "c") such that Calls*(p ,p2)
+ABC, Second
+procedure p, p2;
+Select p such that Uses (p, "beta") such that Calls*(p ,p2)
+ABC
+procedure p, p2;
+Select p such that Uses (p, "tmp") such that Calls*(p ,p2)
+ABC
+procedure p, p2;
+Select p such that Uses (p, "k") such that Calls*(p ,p2)
+ABC
+procedure p, p2;
+Select p such that Uses (p, "I") such that Calls*(p ,p2)
+ABC
+procedure p, p2;
+Select p such that Uses (p, "j1k") such that Calls*(p ,p2)
+ABC
+procedure p, p2;
+Select p such that Uses (p, "oSCar") such that Calls*(p ,p2)
+none
+procedure p, p2;
+Select p such that Uses (p, "chArlie") such that Calls*(p ,p2)
+ABC
+procedure p, p2;
+Select p such that Uses (p, "x") such that Calls*(p ,p2)
+ABC, Second
+procedure p, p2;
+Select p such that Uses (p, "x1") such that Calls*(p ,p2)
+none
+procedure p, p2;
+Select p such that Uses (p, "left") such that Calls*(p ,p2)
+ABC, Second
+procedure p, p2;
+Select p such that Uses (p, "right") such that Calls*(p ,p2)
+ABC, Second
+procedure p, p2;
+Select p such that Uses (p, "Romeo") such that Calls*(p ,p2)
+ABC, Second
+procedure p, p2;
+Select p such that Uses (p, "delta") such that Calls*(p ,p2)
+ABC, Second
+procedure p, p2;
+Select p such that Uses (p, "width") such that Calls*(p ,p2)
+ABC, Second
+procedure p, p2;
+Select p such that Uses (p, "Y1") such that Calls*(p ,p2)
+none
+procedure p, p2;
+Select p such that Uses (p, "a") such that Calls*(p2 ,p)
+Second, Init
+procedure p, p2;
+Select p such that Uses (p, "b")  such that Calls*(p2 ,p)
+none
+procedure p, p2;
+Select p such that Uses (p, "c") such that Calls*(p2 ,p)
+Second
+procedure p, p2;
+Select p such that Uses (p, "beta") such that Calls*(p2 ,p)
+none
+procedure p, p2;
+Select p such that Uses (p, "tmp") such that Calls*(p2 ,p)
+none
+procedure p, p2;
+Select p such that Uses (p, "k") such that Calls*(p2 ,p)
+none
+procedure p, p2;
+Select p such that Uses (p, "I") such that Calls*(p2 ,p)
+none
+procedure p, p2;
+Select p such that Uses (p, "j1k") such that Calls*(p2 ,p)
+none
+procedure p, p2;
+Select p such that Uses (p, "oSCar") such that Calls*(p2 ,p)
+none
+procedure p, p2;
+Select p such that Uses (p, "chArlie") such that Calls*(p2 ,p)
+none
+procedure p, p2;
+Select p such that Uses (p, "x") such that Calls*(p2 ,p)
+Second
+procedure p, p2;
+Select p such that Uses (p, "x1") such that Calls*(p2 ,p)
+none
+procedure p, p2;
+Select p such that Uses (p, "left") such that Calls*(p2 ,p)
+Second
+procedure p, p2;
+Select p such that Uses (p, "right") such that Calls*(p2 ,p)
+Second
+procedure p, p2;
+Select p such that Uses (p, "Romeo") such that Calls*(p2 ,p)
+Second
+procedure p, p2;
+Select p such that Uses (p, "delta") such that Calls*(p2 ,p)
+Second
+procedure p, p2;
+Select p such that Uses (p, "width") such that Calls*(p2 ,p)
+Second
+procedure p, p2;
+Select p such that Uses (p, "Y1") such that Calls*(p2 ,p)
+none

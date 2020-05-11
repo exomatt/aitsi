@@ -25,6 +25,18 @@ none
 procedure p;
 Select p such that Calls ("Second", p)
 Init
+procedure p;
+Select p such that Calls (_, p)
+Second, Init
+procedure p;
+Select p such that Calls (p,_)
+ABC, Second
+procedure p;
+Select p such that Calls* (_, p)
+Second, Init
+procedure p;
+Select p such that Calls* (p,_)
+ABC, Second
 procedure p,q;
 Select p such that Calls (p, q) with p.procName = "Init"
 none
@@ -43,3 +55,63 @@ none
 procedure p,q;
 Select p such that Calls (p, q) with q.procName = "Init"
 ABC,Second
+procedure p,q;
+Select p such that Calls* (p, q) with p.procName = "Init"
+none
+procedure p,q;
+Select p such that Calls* (p, q) with p.procName = "ABC"
+ABC
+procedure p,q;
+Select p such that Calls* (p, q) with p.procName = "Second"
+Second
+procedure p,q;
+Select p such that Calls* (p, q) with q.procName = "Second"
+ABC
+procedure p,q;
+Select p such that Calls* (p, q) with q.procName = "ABC"
+none
+procedure p,q;
+Select p such that Calls* (p, q) with q.procName = "Init"
+ABC,Second
+procedure p,q;
+Select p such that Calls (p, _) with p.procName = "Init"
+none
+procedure p,q;
+Select p such that Calls (p, _) with p.procName = "ABC"
+ABC
+procedure p,q;
+Select p such that Calls (p, _) with p.procName = "Second"
+Second
+procedure p,q;
+Select p such that Calls (_, q) with q.procName = "Second"
+ABC, Second, Init
+procedure p,q;
+Select p such that Calls (_, q) with q.procName = "ABC"
+none
+procedure p,q;
+Select p such that Calls (_, q) with q.procName = "Init"
+ABC, Second, Init
+procedure p,q;
+Select p such that Calls* (p, _) with p.procName = "Init"
+none
+procedure p,q;
+Select p such that Calls* (p, _) with p.procName = "ABC"
+ABC
+procedure p,q;
+Select p such that Calls* (p, _) with p.procName = "Second"
+Second
+procedure p,q;
+Select p such that Calls* (_, q) with q.procName = "Second"
+ABC, Second, Init
+procedure p,q;
+Select p such that Calls* (_, q) with q.procName = "ABC"
+none
+procedure p,q;
+Select p such that Calls* (_, q) with q.procName = "Init"
+ABC, Second, Init
+procedure p, p2;
+Select p such that Calls*(p2 ,p)
+Second, Init
+procedure p, p2;
+Select p such that Calls(p2 ,p)
+Second, Init

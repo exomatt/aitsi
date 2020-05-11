@@ -52,8 +52,24 @@ class QueryEvaluator:
     def evaluate_query(self, pql_ast_tree: Node) -> str:
         for node in pql_ast_tree.children:
             self.distribution_of_tasks(node)
+
         if self.select[0] == 'BOOLEAN':
-            return str(self.results.get('BOOLEAN', False)).lower()
+            return str(self.results['BOOLEAN']).lower()
+        if self.results['BOOLEAN']:
+            if self.results.get(self.select[1], None) is None:
+                if self.select[0] == 'STMT':
+                    return ', '.join(map(str, self.all_tables['statement'].get_all_statement_lines()))
+                elif self.select[0] == 'PROCEDURE':
+                    return ', '.join(self.all_tables['proc'].get_all_proc_name())
+                elif self.select[0] == 'VARIABLE':
+                    return ', '.join(self.all_tables['var'].get_all_var_name())
+                else:
+                    return ', '.join(
+                        map(str, self.all_tables['statement'].get_statement_line_by_type_name(self.select[0])))
+                return ', '.join([str(element) for element in self.results[self.select[1]]])
+        else:
+            return 'none'
+
         if self.results.get(self.select[1], None) is None:
             if bool([value for value in self.results.values() if not value]):
                 return 'none'
