@@ -48,3 +48,6 @@ class FollowsTable:
     def to_string(self) -> None:
         print("followsTable:")
         print(self.table.to_string())
+
+    def to_log(self) -> str:
+        return "FollowsTable: \n" + self.table.to_string()

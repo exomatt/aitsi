@@ -1,0 +1,132 @@
+procedure p;
+Select p such that Calls (p, "Orchid")
+Fern
+procedure p;
+Select p such that Calls (p, "Lily")
+Fern
+procedure p;
+Select p such that Calls (p, "Tulip")
+Fern,Orchid
+procedure p;
+Select p such that Calls (p, "Fern")
+none
+procedure p;
+Select p such that Calls* (p, "Fern")
+none
+procedure p;
+Select p such that Calls* (p, "Tulip")
+Fern,Orchid
+procedure p;
+Select p such that Calls* (p, "Lily")
+Fern
+procedure p;
+Select p such that Calls* (p, "Tulip")
+Fern,Orchid
+procedure p;
+Select p such that Calls* ("Fern", p)
+Orchid,Lily,Tulip
+procedure p;
+Select p such that Calls ("Fern", p)
+Orchid,Lily,Tulip
+procedure p;
+Select p such that Calls ("Orchid", p)
+Tulip
+procedure p;
+Select p such that Calls ("Tulip", p)
+none
+procedure p;
+Select p such that Calls ("Lily", p)
+none
+procedure p;
+Select p such that Calls (_, p)
+Orchid, Lily, Tulip
+procedure p;
+Select p such that Calls (p,_)
+Fern, Orchid
+procedure p;
+Select p such that Calls* (_, p)
+Orchid, Lily, Tulip
+procedure p;
+Select p such that Calls* (p,_)
+Fern, Orchid
+procedure p,q;
+Select p such that Calls (p, q) with p.procName = "Lily"
+none
+procedure p,q;
+Select p such that Calls (p, q) with p.procName = "Tulip"
+none
+procedure p,q;
+Select p such that Calls (p, q) with p.procName = "Fern"
+Fern
+procedure p,q;
+Select p such that Calls* (p, q) with p.procName = "Fern"
+Fern
+procedure p,q;
+Select p such that Calls (p, q) with p.procName = "Orchid"
+Orchid
+procedure p,q;
+Select p such that Calls* (p, q) with p.procName = "Orchid"
+Orchid
+procedure p,q;
+Select p such that Calls (p, q) with q.procName = "Orchid"
+Fern
+procedure p,q;
+Select p such that Calls (p, q) with q.procName = "Lily"
+Fern
+procedure p,q;
+Select p such that Calls (p, q) with q.procName = "Tulip"
+Fern,Orchid
+procedure p,q;
+Select p such that Calls* (p, q) with q.procName = "Tulip"
+Fern,Orchid
+procedure p,q;
+Select p such that Calls (p, q) with q.procName = "Fern"
+none
+procedure p,q;
+Select p such that Calls (p, _) with p.procName = "Fern"
+Fern
+procedure p,q;
+Select p such that Calls (p, _) with p.procName = "Orchid"
+Orchid
+procedure p,q;
+Select p such that Calls (p, _) with p.procName = "Lily"
+none
+procedure p,q;
+Select p such that Calls (p, _) with p.procName = "Tulip"
+none
+procedure p,q;
+Select p such that Calls (_, q) with p.procName = "Fern"
+Fern
+procedure p,q;
+Select p such that Calls (_, q) with p.procName = "Orchid"
+Orchid
+procedure p,q;
+Select p such that Calls (_, q) with p.procName = "Lily"
+Lily
+procedure p,q;
+Select p such that Calls (_, q) with p.procName = "Tulip"
+Tulip
+procedure p,q;
+Select p such that Calls* (p, _) with p.procName = "Fern"
+Fern
+procedure p,q;
+Select p such that Calls* (p, _) with p.procName = "Orchid"
+Orchid
+procedure p,q;
+Select p such that Calls* (p, _) with p.procName = "Lily"
+none
+procedure p,q;
+Select p such that Calls* (p, _) with p.procName = "Tulip"
+none
+procedure p,q;
+Select p such that Calls* (_, q) with p.procName = "Fern"
+Fern
+procedure p,q;
+Select p such that Calls* (_, q) with p.procName = "Orchid"
+Orchid
+procedure p,q;
+Select p such that Calls* (_, q) with p.procName = "Lily"
+Lily
+procedure p,q;
+Select p such that Calls* (_, q) with p.procName = "Tulip"
+Tulip

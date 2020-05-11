@@ -1,112 +1,380 @@
-from typing import List, Union, Dict, Tuple
+from typing import List, Union, Dict, Tuple, Set
 
+from aitsi_parser.CallsTable import CallsTable
+from aitsi_parser.ConstTable import ConstTable
+from aitsi_parser.FollowsTable import FollowsTable
+from aitsi_parser.ModifiesTable import ModifiesTable
+from aitsi_parser.NextTable import NextTable
+from aitsi_parser.ParentTable import ParentTable
+from aitsi_parser.ProcTable import ProcTable
+from aitsi_parser.StatementTable import StatementTable
+from aitsi_parser.UsesTable import UsesTable
+from aitsi_parser.VarTable import VarTable
 from pql.Node import Node
+from pql.relations.CallsRelation import CallsRelation
 from pql.relations.FollowsRelation import FollowsRelation
 from pql.relations.ModifiesRelation import ModifiesRelation
+from pql.relations.NextRelation import NextRelation
 from pql.relations.ParentRelation import ParentRelation
 from pql.relations.UsesRelation import UsesRelation
 from pql.utils.SearchUtils import SearchUtils
 
 
 class QueryEvaluator:
-    relation = ['FOLLOWST', 'PARENTT', 'FOLLOWS', 'PARENT', 'MODIFIES', 'USES', 'CALLST', 'CALLS']
-    argument = ['EVERYTHING', 'INTEGER', 'IDENT_QUOTE', 'IDENT']
 
-    def __init__(self, code_ast_tree: Node, all_tables: Dict[str, object]) -> None:
-        self.variables: Node = None
-        self.code_ast_tree: Node = code_ast_tree
-        self.all_tables: Dict[str, object] = all_tables
-        self.result: Union[bool, List[str], List[int]] = None
-        self.select: str = None
-        self.parameter_with: Tuple[str, str] = ['', '']
-        self.and_flag = False
+    def __init__(self, all_tables: Dict[str,
+                                        Union[VarTable,
+                                              ProcTable,
+                                              UsesTable,
+                                              ParentTable,
+                                              ModifiesTable,
+                                              FollowsTable,
+                                              CallsTable,
+                                              StatementTable,
+                                              ConstTable,
+                                              NextTable]],
+                 ast_node: Node) -> None:
+        self.ast_node = ast_node
+        self.all_tables: Dict[str, Union[VarTable,
+                                         ProcTable,
+                                         UsesTable,
+                                         ParentTable,
+                                         ModifiesTable,
+                                         FollowsTable,
+                                         CallsTable,
+                                         StatementTable,
+                                         ConstTable,
+                                         NextTable]] = all_tables
+        self.results: Dict[str, Union[bool, Set[str], Set[int]]] = {}
+        self.select: Tuple[str, str] = ('', '')
+        self.relation_stack: List[Tuple[str, Tuple[str, str], Tuple[str, str]]] = []
 
-    def evaluate_query(self, pql_ast_tree: Node) -> Union[bool, List[str], List[int]]:
-        self.node_analysis(pql_ast_tree)
-        self.find_line_of_select_variable()
-        return self.result
+    def evaluate_query(self, pql_ast_tree: Node) -> str:
+        for node in pql_ast_tree.children:
+            self.distribution_of_tasks(node)
 
-    def find_line_of_select_variable(self) -> None:
-        if self.select != 'STMT' and type(self.result) != bool and self.select != 'VARIABLE':
-            search_node: List[int] = SearchUtils(self.code_ast_tree).find_node_line_number_by_type(self.select)
-            self.result = list(set(self.result).intersection(search_node))
+        if self.select[0] == 'BOOLEAN':
+            return str(self.results['BOOLEAN']).lower()
+        if self.results['BOOLEAN']:
+            if self.results.get(self.select[1], None) is None:
+                if self.select[0] == 'STMT':
+                    return ', '.join(map(str, self.all_tables['statement'].get_all_statement_lines()))
+                elif self.select[0] == 'PROCEDURE':
+                    return ', '.join(self.all_tables['proc'].get_all_proc_name())
+                elif self.select[0] == 'VARIABLE':
+                    return ', '.join(self.all_tables['var'].get_all_var_name())
+                else:
+                    return ', '.join(
+                        map(str, self.all_tables['statement'].get_statement_line_by_type_name(self.select[0])))
+                return ', '.join([str(element) for element in self.results[self.select[1]]])
+        else:
+            return 'none'
 
-    def node_analysis(self, root: Node) -> None:
-        if root.node_type in self.relation:
-            self.select_relation(root.node_type,
-                                 self.arguments_analysis(root.children[0]), self.arguments_analysis(root.children[1]))
-            if len(root.children) == 3:
-                self.and_flag = True
-                self.node_analysis(root.children[2])
-        elif root.node_type == 'DECLARATION':
-            self.variables = root
-        elif root.node_type == 'RESULT':
-            if root.children[0].node_type == 'BOOLEAN':
-                self.select = root.children[0].node_type
+        if self.results.get(self.select[1], None) is None:
+            if bool([value for value in self.results.values() if not value]):
+                return 'none'
+            if self.select[0] == 'STMT':
+                return ', '.join(map(str, self.all_tables['statement'].get_all_statement_lines()))
+            elif self.select[0] == 'PROCEDURE':
+                return ', '.join(self.all_tables['proc'].get_all_proc_name())
             else:
-                self.select = self.variable_search(root.children[0].value)
-        elif root.node_type == 'WITH' and self.parameter_with[0] == '':
-            self.with_analysis(root)
+                return ', '.join(map(str, self.all_tables['statement'].get_statement_line_by_type_name(self.select[0])))
+        if len(self.results[self.select[1]]) == 0:
+            return 'none'
+        return ', '.join([str(element) for element in self.results[self.select[1]]])
+
+    def distribution_of_tasks(self, root: Node) -> None:
+        if root.node_type == 'RESULT':
+            self.select = root.children[0].node_type, root.children[0].value
+        elif root.node_type == 'WITH':
+            for node in root.children:
+                self.attr_analysis(node)
+        elif root.node_type == 'PATTERN':
+            for node in root.children:
+                self.pattern_analysis(node)
+        elif root.node_type == 'SUCH_THAT':
+            for node in root.children:
+                self.relation_preparation(node)
+            self.check_stack_on_return()
+
+    def pattern_analysis(self, pattern_node: Node) -> None:
+        if pattern_node.node_type in ['PATTERN_WHILE', 'PATTERN_IF']:
+            self.pattern_while_or_if(pattern_node)
         else:
-            for index in range(len(root.children)):
-                if root.children[index].node_type == 'SUCH_THAT' and len(root.children) != index + 1:
-                    self.with_analysis(root.children[index + 1])
-                self.node_analysis(root.children[index])
+            self.pattern_assign(pattern_node)
 
-    def arguments_analysis(self, argument_relation: Node) -> str:
-        if argument_relation.node_type == 'INTEGER' or argument_relation.node_type == 'EVERYTHING':
-            return argument_relation.value
-        elif argument_relation.node_type == 'IDENT_QUOTE':
-            return argument_relation.value.replace('"', '')
-        elif argument_relation.node_type == 'IDENT':
-            return self.variable_search(argument_relation.value)
+    def pattern_while_or_if(self, node: Node) -> None:
+        if node.children[1].node_type in ['VARIABLE', 'EVERYTHING']:
+            self.results[node.children[0].value] = self.all_tables['statement'] \
+                .get_statement_line_by_type_name(node.children[0].node_type)
+        else:
+            self.results[node.children[0].value] = self.all_tables['statement'] \
+                .get_statement_line_by_type_name_and_value(node.children[0].node_type, node.children[1].value)
 
-    def variable_search(self, value: str) -> str:
-        if value == self.parameter_with[0]:
-            return self.parameter_with[1]
-        for parent in self.variables.children:
-            for child in parent.children:
-                if child.value == value:
-                    return parent.node_type
+        if self.results[node.children[0].value] and self.results.get('BOOLEAN', True) is True:
+            self.results['BOOLEAN'] = True
+        else:
+            self.results['BOOLEAN'] = False
 
-    def select_relation(self, relation_type: str, argument_first: str, argument_second: str):
+    def pattern_assign(self, node: Node) -> None:
+        if node.children[1].node_type in ['VARIABLE', 'EVERYTHING']:
+            self.results[node.children[0].value] = set(self.all_tables['statement'] \
+                                                       .get_statement_line_by_type_name(node.children[0].node_type))
+        else:  # pobranie wszystkich lini gdy po lewej stronie rownania jest dana wartosć np. "t"
+            self.results[node.children[0].value] = set(self.all_tables['statement'] \
+                                                       .get_statement_line_by_type_name_and_value(
+                node.children[0].node_type, node.children[1].value))
+
+        if self.results[node.children[0].value] and node.children[2].node_type == "EVERYTHING":
+            self.pattern_assign_check(node.children[0].value, node.children[2], True)
+        elif self.results[node.children[0].value]:
+            self.pattern_assign_check(node.children[0].value, node.children[2], False)
+
+        if self.results[node.children[0].value] and self.results.get('BOOLEAN', True) is True:
+            self.results['BOOLEAN'] = True
+        else:
+            self.results['BOOLEAN'] = False
+
+    def pattern_assign_check(self, attr_name: str, node_expr: Node, wild_card: bool) -> None:
+        if node_expr.children:
+            search: SearchUtils = SearchUtils(self.ast_node)
+            result: Set[int] = set()
+            if wild_card:
+                for line in self.results[attr_name]:
+                    search_node: Node = search.find_node_by_line(line).children[1]
+                    if search_node is not None:
+                        if self.expression_part_is_identical(search_node, node_expr.children[0]):
+                            result.add(int(line))
+            else:
+                for line in self.results[attr_name]:
+                    search_node: Node = search.find_node_by_line(line).children[1]
+                    if search_node is not None:
+                        if self.expression_is_identical(search_node, node_expr):
+                            result.add(int(line))
+            self.results[attr_name] = result
+
+    def expression_part_is_identical(self, ast: Node, comparing_node: Node) -> bool:
+        if comparing_node.equals_expression(ast):
+            for index, child in enumerate(ast.children):
+                if not self.expression_part_is_identical(child, comparing_node.children[index]):
+                    return False
+            return True
+        else:
+            for child in ast.children:
+                if self.expression_part_is_identical(child, comparing_node):
+                    if len(child.children) == 2:
+                        return True
+                    return True
+            return False
+
+    def expression_is_identical(self, ast: Node, comparing_node: Node) -> bool:
+        if comparing_node.equals_expression(ast):
+            for index, child in enumerate(ast.children):
+                if not self.expression_is_identical(child, comparing_node.children[index]):
+                    return False
+            return True
+        else:
+            return False
+
+    def relation_preparation(self, relation: Node) -> None:
+        # tworzenie tupli dwróch argumentów danej relacji
+        first_argument: Tuple[str, str] = (relation.children[0].node_type, relation.children[0].value)
+        second_argument: Tuple[str, str] = (relation.children[1].node_type, relation.children[1].value)
+
+        # dodnaie do stosu relacji nowy element
+        self.relation_stack.append((relation.node_type, first_argument, second_argument))
+
+        # wybranie argumentu jesli typ argumentu to INTEGER, EVERYTHING, IDENT_QUOTE - zwraca str: np. 1, _, "x"
+        # jesli typ argumentu jest IDENT - zwraca str(nazwa zmiennej) jesli na slowniku nie ma danego klucza
+        # a jesli na slowniku jest klucz to zwroci nazwe zmienne i liste integerow
+        first_argument_value: Union[str, Tuple[str, List[int]]] = self.choosing_an_argument(first_argument)
+        second_argument_value: Union[str, Tuple[str, List[int]]] = self.choosing_an_argument(second_argument)
+
+        self.execution_of_relation(relation.node_type, first_argument_value, second_argument_value)
+
+    def choosing_an_argument(self, relation_argument: Tuple[str, str]) -> Union[
+        str, Tuple[str, Set[int]], Tuple[str, str]]:
+        if relation_argument[0] in ['INTEGER', 'EVERYTHING', 'IDENT_QUOTE']:
+            return relation_argument[1]
+        else:
+            if self.results.get(relation_argument[1], None) is None:
+                return relation_argument[1], relation_argument[0]
+            else:
+                if not self.results[relation_argument[1]]:
+                    return relation_argument[1], relation_argument[0]
+                else:
+                    return relation_argument[1], self.results[relation_argument[1]]
+
+    def execution_of_relation(self, node_type: str,
+                              first_argument_value: Union[str, Tuple[str, List[int]]],
+                              second_argument_value: Union[str, Tuple[str, List[int]]]) -> None:
+        """
+            wykona relacjie dla danych argumentów połączy dane zwracane
+        :param node_type: nazwa relacji
+        :param first_argument_value: pierwszy argument/argumenty relacji
+        :param second_argument_value: drugi  argument/argumenty relacji
+        """
+        if type(first_argument_value) is tuple:
+            if type(first_argument_value[1]) is set:  # pierwszy jest np. ('i2', [3,7]), ('s', [3,7,4,5])
+                if type(second_argument_value) is tuple:
+                    if type(second_argument_value[1]) is set:  # drugi jest np. ('i2', [3,7]), ('s', [3,7,4,5])
+                        first_relation_result: Set[int] = set()
+                        second_relation_result: Set[int] = set()
+                        for first_argument in first_argument_value[1]:
+                            for second_argument in second_argument_value[1]:
+                                result: Union[Tuple[List[int], None], Tuple[List[str], None], Tuple[bool, None]] = \
+                                    self.select_relation(node_type, str(first_argument), str(second_argument))
+                                if result[0]:
+                                    first_relation_result.add(first_argument)
+                                    second_relation_result.add(second_argument)
+                        if first_relation_result and self.results.get('BOOLEAN', True) is True:
+                            self.results['BOOLEAN'] = True
+                        else:
+                            self.results['BOOLEAN'] = False
+                        self.results[first_argument_value[0]] = first_relation_result
+                        self.results[second_argument_value[0]] = second_relation_result
+                    else:  # drugi jest np. ('i1','IF'), ('w','WHILE')
+                        relation_result: Set[int] = set()
+                        for argument in first_argument_value[1]:
+                            result: Union[Tuple[List[int], None], Tuple[List[str], None]] = \
+                                self.select_relation(node_type, str(argument), second_argument_value[1])
+                            relation_result.update(result[0])
+                        if relation_result and self.results.get('BOOLEAN', True) is True:
+                            self.results['BOOLEAN'] = True
+                        else:
+                            self.results['BOOLEAN'] = False
+                        self.results[second_argument_value[0]] = relation_result
+                else:  # drugi argument jest np. 1, _, "x"
+                    relation_result: Set[int] = set()
+                    for argument in first_argument_value[1]:
+                        result: Union[Tuple[List[int], None], Tuple[List[str], None], Tuple[bool, None]] = \
+                            self.select_relation(node_type, str(argument), second_argument_value)
+                        if result[0]:
+                            relation_result.add(argument)
+                    if relation_result and self.results.get('BOOLEAN', True) is True:
+                        self.results['BOOLEAN'] = True
+                    else:
+                        self.results['BOOLEAN'] = False
+                    self.results[first_argument_value[0]] = relation_result
+            else:  # pierwszy jest np. ('i1','IF'), ('w','WHILE')
+                if type(second_argument_value) is tuple:
+                    if type(second_argument_value[1]) is set:  # drugi jest np. ('i2', [3,7]), ('s', [3,7,4,5])
+                        relation_result: Set[int] = set()
+                        for argument in second_argument_value[1]:
+                            result: Union[Tuple[List[int], None], Tuple[List[str], None]] = \
+                                self.select_relation(node_type, first_argument_value[1], str(argument))
+                            relation_result.update(result[0])
+                        if relation_result and self.results.get('BOOLEAN', True) is True:
+                            self.results['BOOLEAN'] = True
+                        else:
+                            self.results['BOOLEAN'] = False
+                        self.results[first_argument_value[0]] = relation_result
+                    else:  # drugi jest np. ('i1','IF'), ('w','WHILE')
+                        result: Union[Tuple[List[int], None], Tuple[List[str], None], Tuple[bool, None]] = \
+                            self.select_relation(node_type, first_argument_value[1], second_argument_value[1])
+                        if result[0] and result[1] and self.results.get('BOOLEAN', True) is True:
+                            self.results['BOOLEAN'] = True
+                        else:
+                            self.results['BOOLEAN'] = False
+                        self.results[first_argument_value[0]] = set(result[0])
+                        self.results[second_argument_value[0]] = set(result[1])
+                else:  # drugi argument jest np. 1, _, "x"
+                    result: Union[Tuple[List[int], None], Tuple[List[str], None], Tuple[bool, None]] = \
+                        self.select_relation(node_type, first_argument_value[1], second_argument_value)
+                    if result[0] and self.results.get('BOOLEAN', True) is True:
+                        self.results['BOOLEAN'] = True
+                    else:
+                        self.results['BOOLEAN'] = False
+                    self.results[first_argument_value[0]] = set(result[0])
+        else:  # pierwszy argument jest np. 1, _, "x"
+            if type(second_argument_value) is tuple:
+                if type(second_argument_value[1]) is set:  # drugi jest np. ('i2', [3,7]), ('s', [3,7,4,5])
+                    relation_result: Set[int] = set()
+                    for argument in second_argument_value[1]:
+                        result: Union[Tuple[List[int], None], Tuple[List[str], None], Tuple[bool, None]] = \
+                            self.select_relation(node_type, first_argument_value, str(argument))
+                        if result[0]:
+                            relation_result.add(argument)
+                    if relation_result and self.results.get('BOOLEAN', True) is True:
+                        self.results['BOOLEAN'] = True
+                    else:
+                        self.results['BOOLEAN'] = False
+                    self.results[second_argument_value[0]] = relation_result
+                else:  # drugi jest np. ('i1','IF'), ('w','WHILE')
+                    result: Union[Tuple[List[int], None], Tuple[List[str], None], Tuple[bool, None]] = \
+                        self.select_relation(node_type, first_argument_value, second_argument_value[1])
+                    if result[0] and self.results.get('BOOLEAN', True) is True:
+                        self.results['BOOLEAN'] = True
+                    else:
+                        self.results['BOOLEAN'] = False
+                    self.results[second_argument_value[0]] = set(result[0])
+            else:  # drugi argument jest np. 1, _, "x"
+                result: Union[Tuple[List[int], None], Tuple[List[str], None], Tuple[bool, None]] = \
+                    self.select_relation(node_type, first_argument_value, second_argument_value)
+                if result[0] and self.results.get('BOOLEAN', True) is True:
+                    self.results['BOOLEAN'] = True
+                else:
+                    self.results['BOOLEAN'] = False
+
+    def select_relation(self, relation_type: str, first_argument: str, second_argument: str) -> \
+            Union[Tuple[List[int], None], Tuple[List[str], None], Tuple[bool, None]]:
+
         if relation_type == 'MODIFIES':
-            result_relation = ModifiesRelation(self.code_ast_tree, self.all_tables['modifies'],
-                                               self.all_tables['var']).modifies(argument_first, argument_second)
+            return ModifiesRelation(self.all_tables['modifies'], self.all_tables['var'],
+                                    self.all_tables['statement'], self.all_tables['proc']) \
+                .modifies(first_argument, second_argument)
         elif relation_type == 'USES':
-            result_relation = UsesRelation(self.code_ast_tree, self.all_tables['uses'], self.all_tables['var']).uses(
-                argument_first, argument_second)
+            return UsesRelation(self.all_tables['uses'], self.all_tables['var'],
+                                self.all_tables['statement'], self.all_tables['proc']) \
+                .uses(first_argument, second_argument)
         elif relation_type == 'PARENT':
-            result_relation = ParentRelation(self.code_ast_tree, self.all_tables['parent']).parent(argument_first,
-                                                                                                   argument_second)
+            return ParentRelation(self.all_tables['parent'], self.all_tables['statement']) \
+                .parent(first_argument, second_argument)
         elif relation_type == 'PARENTT':
-            result_relation = ParentRelation(self.code_ast_tree, self.all_tables['parent']).parent_T(argument_first,
-                                                                                                     argument_second)
+            return ParentRelation(self.all_tables['parent'], self.all_tables['statement']) \
+                .parent_T(first_argument, second_argument)
         elif relation_type == 'FOLLOWS':
-            result_relation = FollowsRelation(self.code_ast_tree, self.all_tables['follows']).follows(argument_first,
-                                                                                                      argument_second)
+            return FollowsRelation(self.all_tables['follows'], self.all_tables['statement']) \
+                .follows(first_argument, second_argument)
         elif relation_type == 'FOLLOWST':
-            result_relation = FollowsRelation(self.code_ast_tree, self.all_tables['follows']).follows_T(argument_first,
-                                                                                                        argument_second)
+            return FollowsRelation(self.all_tables['follows'], self.all_tables['statement']) \
+                .follows_T(first_argument, second_argument)
+        elif relation_type == 'CALLS':
+            return CallsRelation(self.all_tables['calls'], self.all_tables['var'], self.all_tables['statement'],
+                                 self.all_tables['proc']) \
+                .calls(first_argument, second_argument)
+        elif relation_type == 'CALLST':
+            return CallsRelation(self.all_tables['calls'], self.all_tables['var'], self.all_tables['statement'],
+                                 self.all_tables['proc']) \
+                .calls_T(first_argument, second_argument)
+        elif relation_type == 'NEXT':
+            return NextRelation(self.all_tables['next'], self.all_tables['statement']) \
+                .next(first_argument, second_argument)
+        elif relation_type == 'NEXTT':
+            return NextRelation(self.all_tables['next'], self.all_tables['statement']) \
+                .next_T(first_argument, second_argument)
 
-        if self.and_flag:
-            self.result = list(set(self.result).intersection(result_relation))
+    def attr_analysis(self, attr_node: Node) -> None:
+        if attr_node.children[1].node_type in ['INTEGER', 'IDENT_QUOTE']:
+            self.results[attr_node.children[0].value] = set([attr_node.children[1].value])
+        elif attr_node.children[1].node_type == 'CONSTANT':
+            self.results[attr_node.children[0].value] = set(self.all_tables['const'].get_all_constant())
         else:
-            self.result = result_relation
+            if attr_node.children[0].node_type in ['CALL', 'PROCEDURE']:
+                left: Set[str] = set(self.all_tables['proc'].get_all_proc_name())
+            else:
+                left: Set[str] = set(self.all_tables['var'].get_all_var_name())
 
-    def with_analysis(self, with_node: Node) -> None:
-        value_node: Node = with_node.children[0]
-        self.parameter_with = (value_node.value, self.variable_search(value_node.value))
-        self.resolve_attribute(value_node.children[0])
+            if attr_node.children[1].node_type in ['CALL', 'PROCEDURE']:
+                right: Set[str] = set(self.all_tables['proc'].get_all_proc_name())
+            else:
+                right: Set[str] = set(self.all_tables['var'].get_all_var_name())
 
-    def resolve_attribute(self, node: Node) -> None:
-        if (self.parameter_with[1] == 'STMT' and node.value == 'stmt#') or (
-                self.parameter_with[1] in ['PROCEDURE', 'CALL'] and node.value == 'procName') or (
-                self.parameter_with[1] == 'VARIABLE' and node.value == 'varName') or (
-                self.parameter_with[1] == 'CONSTANT' and node.value == 'value'):
-            self.substitute_value(node.children[0])
-        else:
-            print('ERROR')
+            self.results[attr_node.children[0].value] = left.intersection(right)
 
-    def substitute_value(self, value_node: Node) -> None:
-        self.parameter_with = (self.parameter_with[0], value_node.value)
+    def check_stack_on_return(self) -> None:
+        while len(self.relation_stack) != 0:
+            relation: Tuple[str, Tuple[str, str], Tuple[str, str]] = self.relation_stack.pop()
+            self.execution_of_relation(relation[0],
+                                       self.choosing_an_argument(relation[1]),
+                                       self.choosing_an_argument(relation[2]))

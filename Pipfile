@@ -12,6 +12,9 @@ dataclasses = "*"
 marshmallow-dataclass = "*"
 anytree = "*"
 graphviz = "*"
+pyinstaller = "*"
+setuptools = "*"
+numpy = "*"
 
 [requires]
 python_version = "3.6.5"

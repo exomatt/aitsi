@@ -10,7 +10,7 @@ class UsesTable:
             table = pd.DataFrame()
         self.table: pd.DataFrame = table
 
-    def set_uses(self, var_name: str, stmt: int) -> None:
+    def set_uses(self, var_name: str, stmt: str) -> None:
         if var_name not in self.table.index[:]:
             indexes: List[str] = list(self.table.index[:])
             indexes.append(var_name)
@@ -21,9 +21,10 @@ class UsesTable:
             self.table = self.table.sort_index(axis=1)
             self.table = self.table.fillna(value=0)
         else:
+            self.table = self.table.fillna(value=0)
             self.table[stmt][var_name] = 1
 
-    def get_used(self, stmt: int) -> List[str]:
+    def get_used(self, stmt: str) -> List[str]:
         results: List[str] = []
         if stmt not in self.table.columns.values:
             return results
@@ -32,8 +33,8 @@ class UsesTable:
                 results.append(self.table[stmt].index[i])
         return results
 
-    def get_uses(self, var_name: str) -> List[int]:
-        results: List[int] = []
+    def get_uses(self, var_name: str) -> List[str]:
+        results: List[str] = []
         if var_name not in self.table.index[:]:
             return results
         for col in self.table.loc[var_name].index[:]:
@@ -41,7 +42,7 @@ class UsesTable:
                 results.append(col)
         return results
 
-    def is_used(self, var_name: str, stmt: int) -> bool:
+    def is_used(self, var_name: str, stmt: str) -> bool:
         if stmt not in self.table.columns.values or var_name not in self.table.index[:]:
             return False
         return self.table.at[var_name, stmt] == 1
@@ -49,3 +50,6 @@ class UsesTable:
     def to_string(self) -> None:
         print("UsesTable:")
         print(self.table.to_string())
+
+    def to_log(self) -> str:
+        return "UsesTable: \n" + self.table.to_string()
