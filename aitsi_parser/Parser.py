@@ -274,7 +274,7 @@ class Parser:
         self.match("THEN")
         self.match("OPEN_BRACKET")
         if_node.add_child(self.statement_list())
-        last_if_line = self.find_last_child_line_number(if_node.children[1])
+        last_if_line: int = self.find_last_child_line_number(if_node.children[1])
         for child in if_node.children[1].children:
             self.parent_table.set_parent(if_node.line, child.line)
             if child.node_type == 'ASSIGN' or child.node_type == 'WHILE' or child.node_type == 'IF':
@@ -288,7 +288,7 @@ class Parser:
         self.match("ELSE")
         self.match("OPEN_BRACKET")
         if_node.add_child(self.statement_list())
-        last_else_line = self.find_last_child_line_number(if_node.children[2])
+        last_else_line: int = self.find_last_child_line_number(if_node.children[2])
         for child in if_node.children[2].children:
             self.parent_table.set_parent(if_node.line, child.line)
             if child.node_type == 'ASSIGN' or child.node_type == 'WHILE' or child.node_type == 'IF':
