@@ -147,7 +147,7 @@ class QueryProcessor:
             self.match("EVERYTHING")
         elif self.next_token[0] == "IDENT_QUOTE":
             if self.next_token[1].strip().replace('"', '') not in self.proc_names:
-                self.error(self.next_token[1].strip().replace('"', '') + " procedure not exist")
+                self.return_none()
             self.match("IDENT_QUOTE")
 
         return Node(self.prev_token[0].strip(), self.prev_token[1].strip().replace('"', ''))
@@ -479,7 +479,7 @@ class QueryProcessor:
         if attribute_node.children[1].node_type == "IDENT_QUOTE":
             if synonym_node.node_type in ["PROCEDURE", "CALL"]:
                 if attribute_node.children[1].value.strip() not in self.proc_names:
-                    self.error(attribute_node.children[1].value + " procedure not exist")
+                    self.return_none()
             elif synonym_node.node_type == "VARIABLE":
                 if attribute_node.children[1].value not in self.var_names:
                     self.return_none()
