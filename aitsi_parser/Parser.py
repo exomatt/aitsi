@@ -133,7 +133,7 @@ class Parser:
                 and root.node_type != 'IF' \
                 and root.node_type != 'PROCEDURE' \
                 and root.node_type != 'PROGRAM':
-            line_numbers = [x.line for x in root.children]
+            line_numbers: List[int] = [x.line for x in root.children]
             for i in range(len(line_numbers) - 1):
                 self.next_table.set_next(line_numbers[i], line_numbers[i + 1])
             for child in root.children:
@@ -142,11 +142,11 @@ class Parser:
                     self.next_table.set_next(child.children[1].children[-1].line, child.line)
                     self.adjust_next(child)
                 elif child.node_type == 'IF':
-                    parent = self.get_parent_node(self.root, self.get_parent_node(self.root, child))
-                    before_evaluating = self.next_table.get_next(child.line)
-                    other_info = self.statement_table.get_other_info(child.line)
+                    parent: Node = self.get_parent_node(self.root, self.get_parent_node(self.root, child))
+                    before_evaluating: List[int] = self.next_table.get_next(child.line)
+                    other_info: dict = self.statement_table.get_other_info(child.line)
                     if parent.node_type == 'IF':
-                        parents = self.next_table.get_next(parent.line)
+                        parents: List[int] = self.next_table.get_next(parent.line)
                         if len(parents) > 0:
                             self.next_table.remove_next(parent.line)
                             for p in parents:
