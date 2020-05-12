@@ -214,3 +214,477 @@ Second
 procedure p, p2;
 Select p such that Uses (p, "Y1") such that Calls*(p2 ,p)
 none
+procedure p, p2;
+Select p such that Modifies (p, "a") such that Calls(p ,p2)
+none
+procedure p, p2;
+Select p such that Modifies (p, "b")  such that Calls(p ,p2)
+ABC, Second
+procedure p, p2;
+Select p such that Modifies (p, "c") such that Calls(p ,p2)
+ABC, Second
+procedure p, p2;
+Select p such that Modifies (p, "beta") such that Calls(p ,p2)
+none
+procedure p, p2;
+Select p such that Modifies (p, "tmp") such that Calls(p ,p2)
+none
+procedure p, p2;
+Select p such that Modifies (p, "k") such that Calls(p ,p2)
+none
+procedure p, p2;
+Select p such that Modifies (p, "I") such that Calls(p ,p2)
+none
+procedure p, p2;
+Select p such that Modifies (p, "j1k") such that Calls(p ,p2)
+none
+procedure p, p2;
+Select p such that Modifies (p, "oSCar") such that Calls(p ,p2)
+ABC
+procedure p, p2;
+Select p such that Modifies (p, "chArlie") such that Calls(p ,p2)
+none
+procedure p, p2;
+Select p such that Modifies (p, "x") such that Calls(p ,p2)
+ABC, Second
+procedure p, p2;
+Select p such that Modifies (p, "x1") such that Calls(p ,p2)
+ABC, Second
+procedure p, p2;
+Select p such that Modifies (p, "left") such that Calls(p ,p2)
+none
+procedure p, p2;
+Select p such that Modifies (p, "right") such that Calls(p ,p2)
+none
+procedure p, p2;
+Select p such that Modifies (p, "Romeo") such that Calls(p ,p2)
+ABC, Second
+procedure p, p2;
+Select p such that Modifies (p, "delta") such that Calls(p ,p2)
+none
+procedure p, p2;
+Select p such that Modifies (p, "width") such that Calls(p ,p2)
+none
+procedure p, p2;
+Select p such that Modifies (p, "Y1") such that Calls(p ,p2)
+ABC, Second
+procedure p, p2;
+Select p such that Modifies (p, "a") such that Calls(p2 ,p)
+none
+procedure p, p2;
+Select p such that Modifies (p, "b")  such that Calls(p2 ,p)
+Second
+procedure p, p2;
+Select p such that Modifies (p, "c") such that Calls(p2 ,p)
+Second
+procedure p, p2;
+Select p such that Modifies (p, "beta") such that Calls(p2 ,p)
+none
+procedure p, p2;
+Select p such that Modifies (p, "tmp") such that Calls(p2 ,p)
+none
+procedure p, p2;
+Select p such that Modifies (p, "k") such that Calls(p2 ,p)
+none
+procedure p, p2;
+Select p such that Modifies (p, "I") such that Calls(p2 ,p)
+none
+procedure p, p2;
+Select p such that Modifies (p, "j1k") such that Calls(p2 ,p)
+none
+procedure p, p2;
+Select p such that Modifies (p, "oSCar") such that Calls(p2 ,p)
+none
+procedure p, p2;
+Select p such that Modifies (p, "chArlie") such that Calls(p2 ,p)
+none
+procedure p, p2;
+Select p such that Modifies (p, "x") such that Calls(p2 ,p)
+Second
+procedure p, p2;
+Select p such that Modifies (p, "x1") such that Calls(p2 ,p)
+Second, Init
+procedure p, p2;
+Select p such that Modifies (p, "left") such that Calls(p2 ,p)
+none
+procedure p, p2;
+Select p such that Modifies (p, "right") such that Calls(p2 ,p)
+none
+procedure p, p2;
+Select p such that Modifies (p, "Romeo") such that Calls(p2 ,p)
+Second
+procedure p, p2;
+Select p such that Modifies (p, "delta") such that Calls(p2 ,p)
+none
+procedure p, p2;
+Select p such that Modifies (p, "width") such that Calls(p2 ,p)
+none
+procedure p, p2;
+Select p such that Modifies (p, "Y1") such that Calls(p2 ,p)
+Second
+procedure p, p2;
+Select p such that Modifies (p, "a") such that Calls*(p ,p2)
+none
+procedure p, p2;
+Select p such that Modifies (p, "b")  such that Calls*(p ,p2)
+ABC, Second
+procedure p, p2;
+Select p such that Modifies (p, "c") such that Calls*(p ,p2)
+ABC, Second
+procedure p, p2;
+Select p such that Modifies (p, "beta") such that Calls*(p ,p2)
+none
+procedure p, p2;
+Select p such that Modifies (p, "tmp") such that Calls*(p ,p2)
+none
+procedure p, p2;
+Select p such that Modifies (p, "k") such that Calls*(p ,p2)
+none
+procedure p, p2;
+Select p such that Modifies (p, "I") such that Calls*(p ,p2)
+none
+procedure p, p2;
+Select p such that Modifies (p, "j1k") such that Calls*(p ,p2)
+none
+procedure p, p2;
+Select p such that Modifies (p, "oSCar") such that Calls*(p ,p2)
+ABC
+procedure p, p2;
+Select p such that Modifies (p, "chArlie") such that Calls*(p ,p2)
+none
+procedure p, p2;
+Select p such that Modifies (p, "x") such that Calls*(p ,p2)
+ABC, Second
+procedure p, p2;
+Select p such that Modifies (p, "x1") such that Calls*(p ,p2)
+ABC, Second
+procedure p, p2;
+Select p such that Modifies (p, "left") such that Calls*(p ,p2)
+none
+procedure p, p2;
+Select p such that Modifies (p, "right") such that Calls*(p ,p2)
+none
+procedure p, p2;
+Select p such that Modifies (p, "Romeo") such that Calls*(p ,p2)
+ABC, Second
+procedure p, p2;
+Select p such that Modifies (p, "delta") such that Calls*(p ,p2)
+none
+procedure p, p2;
+Select p such that Modifies (p, "width") such that Calls*(p ,p2)
+none
+procedure p, p2;
+Select p such that Modifies (p, "Y1") such that Calls*(p ,p2)
+ABC, Second
+procedure p, p2;
+Select p such that Modifies (p, "a") such that Calls*(p2 ,p)
+none
+procedure p, p2;
+Select p such that Modifies (p, "b")  such that Calls*(p2 ,p)
+Second
+procedure p, p2;
+Select p such that Modifies (p, "c") such that Calls*(p2 ,p)
+Second
+procedure p, p2;
+Select p such that Modifies (p, "beta") such that Calls*(p2 ,p)
+none
+procedure p, p2;
+Select p such that Modifies (p, "tmp") such that Calls*(p2 ,p)
+none
+procedure p, p2;
+Select p such that Modifies (p, "k") such that Calls*(p2 ,p)
+none
+procedure p, p2;
+Select p such that Modifies (p, "I") such that Calls*(p2 ,p)
+none
+procedure p, p2;
+Select p such that Modifies (p, "j1k") such that Calls*(p2 ,p)
+none
+procedure p, p2;
+Select p such that Modifies (p, "oSCar") such that Calls*(p2 ,p)
+none
+procedure p, p2;
+Select p such that Modifies (p, "chArlie") such that Calls*(p2 ,p)
+none
+procedure p, p2;
+Select p such that Modifies (p, "x") such that Calls*(p2 ,p)
+Second
+procedure p, p2;
+Select p such that Modifies (p, "x1") such that Calls*(p2 ,p)
+Second, Init
+procedure p, p2;
+Select p such that Modifies (p, "left") such that Calls*(p2 ,p)
+none
+procedure p, p2;
+Select p such that Modifies (p, "right") such that Calls*(p2 ,p)
+none
+procedure p, p2;
+Select p such that Modifies (p, "Romeo") such that Calls*(p2 ,p)
+Second
+procedure p, p2;
+Select p such that Modifies (p, "delta") such that Calls*(p2 ,p)
+none
+procedure p, p2;
+Select p such that Modifies (p, "width") such that Calls*(p2 ,p)
+none
+procedure p, p2;
+Select p such that Modifies (p, "Y1") such that Calls*(p2 ,p)
+Second
+procedure p, p2; variable v;
+Select v such that Uses (p, v) such that Calls(p ,p2) such that Modifies(p2, v)
+c, x, Romeo
+procedure p, p2; variable v;
+Select p such that Uses (p, v) such that Calls(p ,p2) such that Modifies(p2, v)
+ABC
+procedure p, p2; variable v;
+Select p2 such that Uses (p, v) such that Calls(p ,p2) such that Modifies(p2, v)
+Second
+procedure p, p2; variable v;
+Select v such that Uses (p, v) such that Calls(p ,p2) such that Modifies(p, v)
+c, x, Romeo
+procedure p, p2; variable v;
+Select p such that Uses (p, v) such that Calls(p ,p2) such that Modifies(p, v)
+ABC, Second
+procedure p, p2; variable v;
+Select p2 such that Uses (p, v) such that Calls(p ,p2) such that Modifies(p, v)
+Second, Init
+procedure p, p2; variable v;
+Select p such that Uses (p, v) such that Calls(p ,p2) such that Modifies(p2, v) with v.varName="a"
+none
+procedure p, p2; variable v;
+Select p2 such that Uses (p, v) such that Calls(p ,p2) such that Modifies(p2, v) with v.varName="delta"
+none
+procedure p, p2; variable v;
+Select v such that Uses (p, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="x1"
+none
+procedure p, p2; variable v;
+Select p such that Uses (p, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="left"
+none
+procedure p, p2; variable v;
+Select p2 such that Uses (p, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="Romeo"
+Second, Init
+procedure p, p2; variable v;
+Select v such that Uses (p, v) such that Calls(p ,p2) such that Modifies(p, v) with p.procName="ABC"
+c, x, Romeo
+procedure p, p2; variable v;
+Select v such that Uses (p, v) such that Calls(p ,p2) such that Modifies(p, v) with p.procName="Second"
+c, x, Romeo
+procedure p, p2; variable v;
+Select v such that Uses (p, v) such that Calls(p ,p2) such that Modifies(p, v) with p.procName="Init"
+none
+procedure p, p2; variable v;
+Select v such that Uses (p, v) such that Calls(p ,p2) such that Modifies(p, v) with p2.procName="ABC"
+none
+procedure p, p2; variable v;
+Select v such that Uses (p, v) such that Calls(p ,p2) such that Modifies(p, v) with p2.procName="Second"
+c, x, Romeo
+procedure p, p2; variable v;
+Select v such that Uses (p, v) such that Calls(p ,p2) such that Modifies(p, v) with p2.procName="Init"
+c, x, Romeo
+procedure p,p2; variable v; stmt s;
+Select s such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v)
+4, 9, 11, 12, 13, 17, 19, 23, 25, 27, 31, 33, 10, 20, 34, 14, 16, 28, 30
+procedure p,p2; variable v; stmt s;
+Select p such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v)
+ABC, Second
+procedure p,p2; variable v; stmt s;
+Select p2 such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v)
+Second, Init
+procedure p,p2; variable v; stmt s;
+Select s such that Uses (p, v) such that Calls(p ,p2) such that Modifies(s, v)
+3, 4, 9, 11, 12, 13, 16, 17, 19, 23, 25, 27, 30, 31, 33, 10, 20, 34, 14, 28
+procedure p,p2; variable v; stmt s;
+Select p such that Uses (p, v) such that Calls(p ,p2) such that Modifies(s, v)
+ABC, Second
+procedure p,p2; variable v; stmt s;
+Select p2 such that Uses (p, v) such that Calls(p ,p2) such that Modifies(s, v)
+Second, Init
+procedure p,p2; variable v; stmt s;
+Select s such that Uses (p, v) such that Calls(p ,p2) such that Modifies(s, v) with v.varName="x1"
+none
+procedure p,p2; variable v; stmt s;
+Select p such that Uses (p, v) such that Calls(p ,p2) such that Modifies(s, v) with v.varName="left"
+none
+procedure p,p2; variable v; stmt s;
+Select p2 such that Uses (p, v) such that Calls(p ,p2) such that Modifies(s, v) with v.varName="Romeo"
+Second, Init
+procedure p,p2; variable v; stmt s;
+Select s such that Uses (p, v) such that Calls(p ,p2) such that Modifies(s, v) with p.procName="ABC"
+3, 4, 9, 11, 12, 13, 16, 17, 19, 23, 25, 27, 30, 31, 33, 10, 20, 34, 14, 28
+procedure p,p2; variable v; stmt s;
+Select s such that Uses (p, v) such that Calls(p ,p2) such that Modifies(s, v) with p.procName="Second"
+3, 4, 9, 11, 12, 13, 16, 17, 19, 23, 25, 27, 30, 31, 33, 10, 20, 34, 14, 28
+procedure p,p2; variable v; stmt s;
+Select s such that Uses (p, v) such that Calls(p ,p2) such that Modifies(s, v) with p.procName="Init"
+none
+procedure p,p2; variable v; stmt s;
+Select s such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="a"
+none
+procedure p,p2; variable v; stmt s;
+Select s such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="delta"
+none
+procedure p,p2; variable v; stmt s;
+Select s such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="x1"
+none
+procedure p,p2; variable v; stmt s;
+Select s such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="left"
+none
+procedure p,p2; variable v; stmt s;
+Select s such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="Romeo"
+4, 9, 11, 12, 13, 14, 16, 23, 25, 27, 28, 30
+procedure p,p2; variable v; stmt s;
+Select s such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="b"
+none
+procedure p,p2; variable v; stmt s;
+Select s such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="c"
+4, 9, 11, 12, 13, 17, 19, 23, 25, 27, 31, 33
+procedure p,p2; variable v; stmt s;
+Select s such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="tmp"
+none
+procedure p,p2; variable v; stmt s;
+Select s such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="right"
+none
+procedure p,p2; variable v; stmt s;
+Select s such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="k"
+none
+procedure p,p2; variable v; stmt s;
+Select s such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="I"
+none
+procedure p,p2; variable v; stmt s;
+Select s such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="j1k"
+none
+procedure p,p2; variable v; stmt s;
+Select s such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="x"
+4, 9, 10, 11, 12, 13, 20, 23, 25, 27, 34
+procedure p,p2; variable v; stmt s;
+Select s such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="chArlie"
+none
+procedure p,p2; variable v; stmt s;
+Select s such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="oSCar"
+none
+procedure p,p2; variable v; stmt s;
+Select s such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="width"
+none
+procedure p,p2; variable v; stmt s;
+Select s such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="Y1"
+none
+procedure p,p2; variable v; stmt s;
+Select p such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="a"
+none
+procedure p,p2; variable v; stmt s;
+Select p such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="delta"
+none
+procedure p,p2; variable v; stmt s;
+Select p such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="x1"
+none
+procedure p,p2; variable v; stmt s;
+Select p such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="left"
+none
+procedure p,p2; variable v; stmt s;
+Select p such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="Romeo"
+ABC, Second
+procedure p,p2; variable v; stmt s;
+Select p such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="b"
+none
+procedure p,p2; variable v; stmt s;
+Select p such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="c"
+ABC, Second
+procedure p,p2; variable v; stmt s;
+Select p such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="tmp"
+none
+procedure p,p2; variable v; stmt s;
+Select p such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="right"
+none
+procedure p,p2; variable v; stmt s;
+Select p such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="k"
+none
+procedure p,p2; variable v; stmt s;
+Select p such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="I"
+none
+procedure p,p2; variable v; stmt s;
+Select p such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="j1k"
+none
+procedure p,p2; variable v; stmt s;
+Select p such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="x"
+ABC, Second
+procedure p,p2; variable v; stmt s;
+Select p such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="chArlie"
+none
+procedure p,p2; variable v; stmt s;
+Select p such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="oSCar"
+none
+procedure p,p2; variable v; stmt s;
+Select p such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="width"
+none
+procedure p,p2; variable v; stmt s;
+Select p such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="Y1"
+none
+stmt s1,s2,s3;
+Select s1 such that Parent (s1, s2) such that Parent(s2,s3)
+4, 5, 9, 11, 13, 23, 25, 27
+stmt s1,s2,s3;
+Select s2 such that Parent (s1, s2) such that Parent(s2,s3)
+5, 7, 9, 11, 13, 17, 25, 27, 31
+stmt s1,s2,s3;
+Select s3 such that Parent (s1, s2) such that Parent(s2,s3)
+6, 7, 8, 10, 11, 12, 13, 21, 14, 15, 16, 17, 20, 18, 19, 26, 27, 35, 28, 29, 30, 31, 34, 32, 33
+stmt s1,s2; variable v;
+Select s1 such that Follows (s1, s2) such that Uses(s2,v)
+2, 3, 6, 5, 10, 12, 15, 18, 17, 26, 29, 32, 31
+stmt s1,s2; variable v;
+Select s2 such that Follows (s1, s2) such that Uses(s2,v)
+3, 4, 7, 9, 11, 13, 16, 19, 20, 27, 30, 33, 34
+stmt s1,s2; variable v;
+Select s1 such that Follows (s1, s2) such that Uses(s2,v) with v.varName="Y1"
+none
+stmt s1,s2; variable v;
+Select s1 such that Follows (s1,s2) such that Uses(s2,v) with v.varName="a"
+2, 3, 5, 10, 12, 26
+stmt s1,s2; variable v;
+Select s1 such that Follows (s1,s2) such that Uses(s2,v) with v.varName="delta"
+3, 5, 10, 12, 15, 26, 29
+stmt s1,s2; variable v;
+Select s1 such that Follows (s1,s2) such that Uses(s2,v) with v.varName="x1"
+none
+stmt s1,s2; variable v;
+Select s1 such that Follows (s1,s2) such that Uses(s2,v) with v.varName="left"
+3, 5, 10
+stmt s1,s2; variable v;
+Select s1 such that Follows (s1,s2) such that Uses(s2,v) with v.varName="Romeo"
+3, 5, 10, 12, 15, 26, 29
+stmt s1,s2; variable v;
+Select s1 such that Follows (s1,s2) such that Uses(s2,v) with v.varName="b"
+none
+stmt s1,s2; variable v;
+Select s1 such that Follows (s1,s2) such that Uses(s2,v) with v.varName="c"
+3, 5, 10, 12, 18, 26, 32
+stmt s1,s2; variable v;
+Select s1 such that Follows (s1,s2) such that Uses(s2,v) with v.varName="tmp"
+3, 6
+stmt s1,s2; variable v;
+Select s1 such that Follows (s1,s2) such that Uses(s2,v) with v.varName="right"
+3, 5, 10, 12, 26
+stmt s1,s2; variable v;
+Select s1 such that Follows (s1,s2) such that Uses(s2,v) with v.varName="k"
+3, 6
+stmt s1,s2; variable v;
+Select s1 such that Follows (s1,s2) such that Uses(s2,v) with v.varName="I"
+3, 6
+stmt s1,s2; variable v;
+Select s1 such that Follows (s1,s2) such that Uses(s2,v) with v.varName="j1k"
+3, 6
+stmt s1,s2; variable v;
+Select s1 such that Follows (s1,s2) such that Uses(s2,v) with v.varName="x"
+3, 5, 10, 12, 17, 26, 31
+stmt s1,s2; variable v;
+Select s1 such that Follows (s1,s2) such that Uses(s2,v) with v.varName="chArlie"
+3, 6
+stmt s1,s2; variable v;
+Select s1 such that Follows (s1,s2) such that Uses(s2,v) with v.varName="oSCar"
+none
+stmt s1,s2; variable v;
+Select s1 such that Follows (s1,s2) such that Uses(s2,v) with v.varName="width"
+3, 5, 10, 12, 15, 26, 29
+stmt s1,s2; variable v;
+Select s1 such that Follows (s1,s2) such that Uses(s2,v) with v.varName="Y1"
+none
