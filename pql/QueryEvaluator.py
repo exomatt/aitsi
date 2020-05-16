@@ -66,22 +66,9 @@ class QueryEvaluator:
                 else:
                     return ', '.join(
                         map(str, self.all_tables['statement'].get_statement_line_by_type_name(self.select[0])))
-                return ', '.join([str(element) for element in self.results[self.select[1]]])
+            return ', '.join([str(element) for element in self.results[self.select[1]]])
         else:
             return 'none'
-
-        if self.results.get(self.select[1], None) is None:
-            if bool([value for value in self.results.values() if not value]):
-                return 'none'
-            if self.select[0] == 'STMT':
-                return ', '.join(map(str, self.all_tables['statement'].get_all_statement_lines()))
-            elif self.select[0] == 'PROCEDURE':
-                return ', '.join(self.all_tables['proc'].get_all_proc_name())
-            else:
-                return ', '.join(map(str, self.all_tables['statement'].get_statement_line_by_type_name(self.select[0])))
-        if len(self.results[self.select[1]]) == 0:
-            return 'none'
-        return ', '.join([str(element) for element in self.results[self.select[1]]])
 
     def distribution_of_tasks(self, root: Node) -> None:
         if root.node_type == 'RESULT':
@@ -115,6 +102,7 @@ class QueryEvaluator:
             self.results['BOOLEAN'] = True
         else:
             self.results['BOOLEAN'] = False
+            raise Exception()
 
     def pattern_assign(self, node: Node) -> None:
         if node.children[1].node_type in ['VARIABLE', 'EVERYTHING']:
@@ -134,6 +122,7 @@ class QueryEvaluator:
             self.results['BOOLEAN'] = True
         else:
             self.results['BOOLEAN'] = False
+            raise Exception()
 
     def pattern_assign_check(self, attr_name: str, node_expr: Node, wild_card: bool) -> None:
         if node_expr.children:
@@ -227,10 +216,11 @@ class QueryEvaluator:
                                 if result[0]:
                                     first_relation_result.add(first_argument)
                                     second_relation_result.add(second_argument)
-                        if first_relation_result and self.results.get('BOOLEAN', True) is True:
+                        if first_relation_result:
                             self.results['BOOLEAN'] = True
                         else:
                             self.results['BOOLEAN'] = False
+                            raise Exception()
                         self.results[first_argument_value[0]] = first_relation_result
                         self.results[second_argument_value[0]] = second_relation_result
                     else:  # drugi jest np. ('i1','IF'), ('w','WHILE')
@@ -239,10 +229,11 @@ class QueryEvaluator:
                             result: Union[Tuple[List[int], None], Tuple[List[str], None]] = \
                                 self.select_relation(node_type, str(argument), second_argument_value[1])
                             relation_result.update(result[0])
-                        if relation_result and self.results.get('BOOLEAN', True) is True:
+                        if relation_result:
                             self.results['BOOLEAN'] = True
                         else:
                             self.results['BOOLEAN'] = False
+                            raise Exception()
                         self.results[second_argument_value[0]] = relation_result
                 else:  # drugi argument jest np. 1, _, "x"
                     relation_result: Set[int] = set()
@@ -251,10 +242,11 @@ class QueryEvaluator:
                             self.select_relation(node_type, str(argument), second_argument_value)
                         if result[0]:
                             relation_result.add(argument)
-                    if relation_result and self.results.get('BOOLEAN', True) is True:
+                    if relation_result:
                         self.results['BOOLEAN'] = True
                     else:
                         self.results['BOOLEAN'] = False
+                        raise Exception()
                     self.results[first_argument_value[0]] = relation_result
             else:  # pierwszy jest np. ('i1','IF'), ('w','WHILE')
                 if type(second_argument_value) is tuple:
@@ -264,27 +256,30 @@ class QueryEvaluator:
                             result: Union[Tuple[List[int], None], Tuple[List[str], None]] = \
                                 self.select_relation(node_type, first_argument_value[1], str(argument))
                             relation_result.update(result[0])
-                        if relation_result and self.results.get('BOOLEAN', True) is True:
+                        if relation_result:
                             self.results['BOOLEAN'] = True
                         else:
                             self.results['BOOLEAN'] = False
+                            raise Exception()
                         self.results[first_argument_value[0]] = relation_result
                     else:  # drugi jest np. ('i1','IF'), ('w','WHILE')
                         result: Union[Tuple[List[int], None], Tuple[List[str], None], Tuple[bool, None]] = \
                             self.select_relation(node_type, first_argument_value[1], second_argument_value[1])
-                        if result[0] and result[1] and self.results.get('BOOLEAN', True) is True:
+                        if result[0] and result[1]:
                             self.results['BOOLEAN'] = True
                         else:
                             self.results['BOOLEAN'] = False
+                            raise Exception()
                         self.results[first_argument_value[0]] = set(result[0])
                         self.results[second_argument_value[0]] = set(result[1])
                 else:  # drugi argument jest np. 1, _, "x"
                     result: Union[Tuple[List[int], None], Tuple[List[str], None], Tuple[bool, None]] = \
                         self.select_relation(node_type, first_argument_value[1], second_argument_value)
-                    if result[0] and self.results.get('BOOLEAN', True) is True:
+                    if result[0]:
                         self.results['BOOLEAN'] = True
                     else:
                         self.results['BOOLEAN'] = False
+                        raise Exception()
                     self.results[first_argument_value[0]] = set(result[0])
         else:  # pierwszy argument jest np. 1, _, "x"
             if type(second_argument_value) is tuple:
@@ -295,26 +290,29 @@ class QueryEvaluator:
                             self.select_relation(node_type, first_argument_value, str(argument))
                         if result[0]:
                             relation_result.add(argument)
-                    if relation_result and self.results.get('BOOLEAN', True) is True:
+                    if relation_result:
                         self.results['BOOLEAN'] = True
                     else:
                         self.results['BOOLEAN'] = False
+                        raise Exception()
                     self.results[second_argument_value[0]] = relation_result
                 else:  # drugi jest np. ('i1','IF'), ('w','WHILE')
                     result: Union[Tuple[List[int], None], Tuple[List[str], None], Tuple[bool, None]] = \
                         self.select_relation(node_type, first_argument_value, second_argument_value[1])
-                    if result[0] and self.results.get('BOOLEAN', True) is True:
+                    if result[0]:
                         self.results['BOOLEAN'] = True
                     else:
                         self.results['BOOLEAN'] = False
+                        raise Exception()
                     self.results[second_argument_value[0]] = set(result[0])
             else:  # drugi argument jest np. 1, _, "x"
                 result: Union[Tuple[List[int], None], Tuple[List[str], None], Tuple[bool, None]] = \
                     self.select_relation(node_type, first_argument_value, second_argument_value)
-                if result[0] and self.results.get('BOOLEAN', True) is True:
+                if result[0]:
                     self.results['BOOLEAN'] = True
                 else:
                     self.results['BOOLEAN'] = False
+                    raise Exception()
 
     def select_relation(self, relation_type: str, first_argument: str, second_argument: str) -> \
             Union[Tuple[List[int], None], Tuple[List[str], None], Tuple[bool, None]]:

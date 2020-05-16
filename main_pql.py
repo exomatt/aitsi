@@ -89,7 +89,13 @@ class PQL:
             return str(e)
         query_tree: Dict[str, dict] = query_processor.get_node_json()
         query_evaluator: QueryEvaluator = QueryEvaluator(self.all_tables, self.ast_node)
-        response = query_evaluator.evaluate_query(query_processor.root)
+        try:
+            response = query_evaluator.evaluate_query(query_processor.root)
+        except Exception as e:
+            if query_evaluator.select[0] == 'BOOLEAN':
+                return 'false'
+            else:
+                return 'none'
         if save_to_file:
             export_query_tree_to_file(query_tree, output_query_filename)
         return response
