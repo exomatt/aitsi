@@ -97,7 +97,7 @@ class QueryProcessor:
             self.match("EVERYTHING")
         elif self.next_token[0] == "INTEGER":
             if not self.if_line_is_in_code(int(self.next_token[1].strip())):
-                self.error("line " + self.next_token[1].strip() + " is out of bound")
+                self.return_none()
             self.match("INTEGER")
         return Node(self.prev_token[0].strip(), self.prev_token[1].strip())
 
@@ -114,7 +114,7 @@ class QueryProcessor:
             self.match("IDENT_QUOTE")
         elif self.next_token[0] == "INTEGER":
             if not self.if_line_is_in_code(int(self.next_token[1].strip())):
-                self.error("line" + self.next_token[1].strip() + "is out of bound")
+                self.return_none()
             self.match("INTEGER")
 
         return Node(self.prev_token[0].strip(), self.prev_token[1].strip().replace('"', ''))
@@ -133,7 +133,7 @@ class QueryProcessor:
             self.match("EVERYTHING")
         elif self.next_token[0] == "INTEGER":
             if not self.if_line_is_in_code(int(self.next_token[1].strip())):
-                self.error("line " + self.next_token[1].strip() + " is out of bound")
+                self.return_none()
             self.match("INTEGER")
         return Node(self.prev_token[0].strip(), self.prev_token[1].strip())
 
@@ -488,7 +488,7 @@ class QueryProcessor:
                     self.return_none()
         elif attribute_node.children[1].node_type == "INTEGER":
             if not self.if_line_is_in_code(int(attribute_node.children[1].value)):
-                self.error("line " + attribute_node.children[1].value + " is out of bound")
+                self.return_none()
         return attribute_node
 
     def attr_name(self) -> Node:
@@ -519,6 +519,8 @@ class QueryProcessor:
         if self.next_token[0] == "IDENT_QUOTE":
             self.match("IDENT_QUOTE")
         elif self.next_token[0] == "INTEGER":
+            if not self.if_line_is_in_code(int(self.next_token[1])):
+                self.return_none()
             self.match("INTEGER")
         elif self.next_token[0] == "IDENT":
             return self.attribute_value()
