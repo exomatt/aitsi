@@ -286,8 +286,11 @@ class ParentRelation:
         else:
             lines_by_type_name.extend(self.stmt_table.get_statement_line_by_type_name(param_second))
         for line in lines_by_type_name:
-            if self.parent_table.get_parent(line):
-                result.add(line)
+            parents.extend(self.parent_table.get_parent(line))
+        for parent in parents:
+            parents.extend(self.parent_table.get_parent(parent))
+            if self.stmt_table.get_other_info(parent)['name'] in self.statements:
+                result.add(parent)
         return list(result), None
 
     def _parent_T_wildcard_digit(self, param_second) -> Tuple[List[int], None]:

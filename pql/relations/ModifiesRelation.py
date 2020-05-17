@@ -179,7 +179,10 @@ class ModifiesRelation:
                         result_right.add(variable)
                 if not self.proc_table.is_in(param_first):
                     return [], []
-                return list(result_right), None
+                info: Dict[str, int] = self.proc_table.get_other_info(param_first)
+                for number in range(info['start'], info['finish']):
+                    if self.modifies_table.get_modified(str(number)):
+                        result_left.add(number)
         return list(result_left), list(result_right)
 
     def _digit_and_wild_card_or_variable(self, param_first) -> Tuple[List[str], None]:

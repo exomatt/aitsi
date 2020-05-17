@@ -40,7 +40,6 @@ class QueryProcessor:
         self.proc_names: List[str] = proc_names
         self.var_names: List[str] = var_names
         self.max_line_in_code: int = max_line_in_code
-        self.select: str = ''
 
     def match(self, token: str) -> None:
         if self.next_token[0] == token:
@@ -54,8 +53,6 @@ class QueryProcessor:
         raise Exception("#ERROR " + info)
 
     def return_none(self):
-        if self.select == 'BOOLEAN':
-            raise Exception("false")
         raise Exception("none")
 
     def get_token(self) -> Tuple[str, str]:
@@ -97,7 +94,7 @@ class QueryProcessor:
             self.match("EVERYTHING")
         elif self.next_token[0] == "INTEGER":
             if not self.if_line_is_in_code(int(self.next_token[1].strip())):
-                self.return_none()
+                self.error("line " + self.next_token[1].strip() + " is out of bound")
             self.match("INTEGER")
         return Node(self.prev_token[0].strip(), self.prev_token[1].strip())
 
@@ -114,7 +111,7 @@ class QueryProcessor:
             self.match("IDENT_QUOTE")
         elif self.next_token[0] == "INTEGER":
             if not self.if_line_is_in_code(int(self.next_token[1].strip())):
-                self.return_none()
+                self.error("line" + self.next_token[1].strip() + "is out of bound")
             self.match("INTEGER")
 
         return Node(self.prev_token[0].strip(), self.prev_token[1].strip().replace('"', ''))
@@ -133,7 +130,7 @@ class QueryProcessor:
             self.match("EVERYTHING")
         elif self.next_token[0] == "INTEGER":
             if not self.if_line_is_in_code(int(self.next_token[1].strip())):
-                self.return_none()
+                self.error("line " + self.next_token[1].strip() + " is out of bound")
             self.match("INTEGER")
         return Node(self.prev_token[0].strip(), self.prev_token[1].strip())
 
@@ -177,7 +174,6 @@ class QueryProcessor:
         self.design_entity()
         self.match("SELECT")
         result_node: Node = Node("RESULT")
-        self.select = self.next_token[0]
         if self.next_token[0] == 'BOOLEAN':
             self.match('BOOLEAN')
             result_node.add_child(Node('BOOLEAN', 'BOOLEAN'))
@@ -427,6 +423,8 @@ class QueryProcessor:
             argument2_node: Node = self.line_ref()
             relation_node.add_child(argument2_node)
         self.match("CLOSE_PARENTHESIS")
+        if argument1_node.node_type == "EVERYTHING" and argument2_node.node_type == "EVERYTHING":
+            self.error("Error - relation with both arguments '_' is invalid")
         return relation_node
 
     def relation_with_other_arguments(self, type_node: str) -> Node:
@@ -454,9 +452,8 @@ class QueryProcessor:
             argument2_node: Node = self.var_ref()
             relation_node.add_child(argument2_node)
         self.match("CLOSE_PARENTHESIS")
-        # TODO ze stanem omowione ze mozna wyrzucac bład w przy[adku pierwszego argumentu _ w modifies i uses ale w oficjalu jest to mozliwe
-        # if argument1_node.node_type == "EVERYTHING":
-        #     self.error("Error - in this relation _ as first argument is invalid")
+        if argument1_node.node_type == "EVERYTHING":
+            self.error("Error - in this relation _ as first argument is invalid")
         return relation_node
 
     def with_cl(self) -> List[Node]:
@@ -488,7 +485,7 @@ class QueryProcessor:
                     self.return_none()
         elif attribute_node.children[1].node_type == "INTEGER":
             if not self.if_line_is_in_code(int(attribute_node.children[1].value)):
-                self.return_none()
+                self.error("line " + attribute_node.children[1].value + " is out of bound")
         return attribute_node
 
     def attr_name(self) -> Node:
@@ -519,8 +516,6 @@ class QueryProcessor:
         if self.next_token[0] == "IDENT_QUOTE":
             self.match("IDENT_QUOTE")
         elif self.next_token[0] == "INTEGER":
-            if not self.if_line_is_in_code(int(self.next_token[1])):
-                self.return_none()
             self.match("INTEGER")
         elif self.next_token[0] == "IDENT":
             return self.attribute_value()
