@@ -49,3 +49,9 @@ Select w with c.procName = "Orchid"
 call c; variable v;
 Select v with c.stmt# = 5
 y, x, z, v, t, idx
+variable v;
+Select v with v.varName = "ABC"
+none
+procedure p;
+Select p with p.procName = "ABC"
+none
