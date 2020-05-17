@@ -1,0 +1,57 @@
+stmt s; constant co;
+Select s with s.stmt# = co.value
+10, 5, 4, 12, 1, 16, 3, 2
+procedure p;
+Select p with p.procName = "Tulip"
+Tulip
+assign a;
+Select a with a.stmt# = 10
+10
+variable v; procedure p;
+Select p with p.procName = v.varName
+none
+assign a;
+Select BOOLEAN with a.stmt# = 12
+true
+assign a, a1;
+Select a1 with a.stmt# = 12
+1, 2, 3, 4, 6, 8, 10, 12, 13, 14, 16, 17, 20, 22, 23, 25, 26, 29, 30
+variable v;
+Select v with v.varName = "x"
+x
+if i;
+Select i with i.stmt# = 22
+none
+if i; assign a;
+Select i with a.stmt# = 12
+11, 28
+while w; assign a;
+Select w with a.stmt# = 12
+9, 19, 24, 27
+procedure p; assign a;
+Select p with a.stmt# = 12
+Fern, Orchid, Lily, Tulip
+call c; assign a;
+Select c with a.stmt# = 12
+5, 7, 15, 18, 21
+constant co; while w;
+Select co with w.stmt# = 19
+10, 5, 4, 12, 1, 16, 3, 2, 80
+call c; while w;
+Select c with c.procName = "Orchid"
+18
+call c; if i;
+Select c with i.stmt# = 11
+5, 7, 15, 18, 21
+call c; while w;
+Select w with c.procName = "Orchid"
+9, 19, 24, 27
+call c; variable v;
+Select v with c.stmt# = 5
+y, x, z, v, t, idx
+variable v;
+Select v with v.varName = "ABC"
+none
+procedure p;
+Select p with p.procName = "ABC"
+none

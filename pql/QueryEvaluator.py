@@ -63,25 +63,14 @@ class QueryEvaluator:
                     return ', '.join(self.all_tables['proc'].get_all_proc_name())
                 elif self.select[0] == 'VARIABLE':
                     return ', '.join(self.all_tables['var'].get_all_var_name())
+                elif self.select[0] == 'CONSTANT':
+                    return ', '.join(map(str, self.all_tables['const'].get_all_constant()))
                 else:
                     return ', '.join(
                         map(str, self.all_tables['statement'].get_statement_line_by_type_name(self.select[0])))
-                return ', '.join([str(element) for element in self.results[self.select[1]]])
+            return ', '.join([str(element) for element in self.results[self.select[1]]])
         else:
             return 'none'
-
-        if self.results.get(self.select[1], None) is None:
-            if bool([value for value in self.results.values() if not value]):
-                return 'none'
-            if self.select[0] == 'STMT':
-                return ', '.join(map(str, self.all_tables['statement'].get_all_statement_lines()))
-            elif self.select[0] == 'PROCEDURE':
-                return ', '.join(self.all_tables['proc'].get_all_proc_name())
-            else:
-                return ', '.join(map(str, self.all_tables['statement'].get_statement_line_by_type_name(self.select[0])))
-        if len(self.results[self.select[1]]) == 0:
-            return 'none'
-        return ', '.join([str(element) for element in self.results[self.select[1]]])
 
     def distribution_of_tasks(self, root: Node) -> None:
         if root.node_type == 'RESULT':
@@ -115,6 +104,7 @@ class QueryEvaluator:
             self.results['BOOLEAN'] = True
         else:
             self.results['BOOLEAN'] = False
+            raise Exception()
 
     def pattern_assign(self, node: Node) -> None:
         if node.children[1].node_type in ['VARIABLE', 'EVERYTHING']:
@@ -122,7 +112,7 @@ class QueryEvaluator:
                                                        .get_statement_line_by_type_name(node.children[0].node_type))
         else:  # pobranie wszystkich lini gdy po lewej stronie rownania jest dana wartosć np. "t"
             self.results[node.children[0].value] = set(self.all_tables['statement'] \
-                                                       .get_statement_line_by_type_name_and_value(
+                .get_statement_line_by_type_name_and_value(
                 node.children[0].node_type, node.children[1].value))
 
         if self.results[node.children[0].value] and node.children[2].node_type == "EVERYTHING":
@@ -134,6 +124,7 @@ class QueryEvaluator:
             self.results['BOOLEAN'] = True
         else:
             self.results['BOOLEAN'] = False
+            raise Exception()
 
     def pattern_assign_check(self, attr_name: str, node_expr: Node, wild_card: bool) -> None:
         if node_expr.children:
@@ -227,10 +218,11 @@ class QueryEvaluator:
                                 if result[0]:
                                     first_relation_result.add(first_argument)
                                     second_relation_result.add(second_argument)
-                        if first_relation_result and self.results.get('BOOLEAN', True) is True:
+                        if first_relation_result:
                             self.results['BOOLEAN'] = True
                         else:
                             self.results['BOOLEAN'] = False
+                            raise Exception()
                         self.results[first_argument_value[0]] = first_relation_result
                         self.results[second_argument_value[0]] = second_relation_result
                     else:  # drugi jest np. ('i1','IF'), ('w','WHILE')
@@ -239,10 +231,11 @@ class QueryEvaluator:
                             result: Union[Tuple[List[int], None], Tuple[List[str], None]] = \
                                 self.select_relation(node_type, str(argument), second_argument_value[1])
                             relation_result.update(result[0])
-                        if relation_result and self.results.get('BOOLEAN', True) is True:
+                        if relation_result:
                             self.results['BOOLEAN'] = True
                         else:
                             self.results['BOOLEAN'] = False
+                            raise Exception()
                         self.results[second_argument_value[0]] = relation_result
                 else:  # drugi argument jest np. 1, _, "x"
                     relation_result: Set[int] = set()
@@ -251,10 +244,11 @@ class QueryEvaluator:
                             self.select_relation(node_type, str(argument), second_argument_value)
                         if result[0]:
                             relation_result.add(argument)
-                    if relation_result and self.results.get('BOOLEAN', True) is True:
+                    if relation_result:
                         self.results['BOOLEAN'] = True
                     else:
                         self.results['BOOLEAN'] = False
+                        raise Exception()
                     self.results[first_argument_value[0]] = relation_result
             else:  # pierwszy jest np. ('i1','IF'), ('w','WHILE')
                 if type(second_argument_value) is tuple:
@@ -264,27 +258,30 @@ class QueryEvaluator:
                             result: Union[Tuple[List[int], None], Tuple[List[str], None]] = \
                                 self.select_relation(node_type, first_argument_value[1], str(argument))
                             relation_result.update(result[0])
-                        if relation_result and self.results.get('BOOLEAN', True) is True:
+                        if relation_result:
                             self.results['BOOLEAN'] = True
                         else:
                             self.results['BOOLEAN'] = False
+                            raise Exception()
                         self.results[first_argument_value[0]] = relation_result
                     else:  # drugi jest np. ('i1','IF'), ('w','WHILE')
                         result: Union[Tuple[List[int], None], Tuple[List[str], None], Tuple[bool, None]] = \
                             self.select_relation(node_type, first_argument_value[1], second_argument_value[1])
-                        if result[0] and result[1] and self.results.get('BOOLEAN', True) is True:
+                        if result[0] and result[1]:
                             self.results['BOOLEAN'] = True
                         else:
                             self.results['BOOLEAN'] = False
+                            raise Exception()
                         self.results[first_argument_value[0]] = set(result[0])
                         self.results[second_argument_value[0]] = set(result[1])
                 else:  # drugi argument jest np. 1, _, "x"
                     result: Union[Tuple[List[int], None], Tuple[List[str], None], Tuple[bool, None]] = \
                         self.select_relation(node_type, first_argument_value[1], second_argument_value)
-                    if result[0] and self.results.get('BOOLEAN', True) is True:
+                    if result[0]:
                         self.results['BOOLEAN'] = True
                     else:
                         self.results['BOOLEAN'] = False
+                        raise Exception()
                     self.results[first_argument_value[0]] = set(result[0])
         else:  # pierwszy argument jest np. 1, _, "x"
             if type(second_argument_value) is tuple:
@@ -295,26 +292,29 @@ class QueryEvaluator:
                             self.select_relation(node_type, first_argument_value, str(argument))
                         if result[0]:
                             relation_result.add(argument)
-                    if relation_result and self.results.get('BOOLEAN', True) is True:
+                    if relation_result:
                         self.results['BOOLEAN'] = True
                     else:
                         self.results['BOOLEAN'] = False
+                        raise Exception()
                     self.results[second_argument_value[0]] = relation_result
                 else:  # drugi jest np. ('i1','IF'), ('w','WHILE')
                     result: Union[Tuple[List[int], None], Tuple[List[str], None], Tuple[bool, None]] = \
                         self.select_relation(node_type, first_argument_value, second_argument_value[1])
-                    if result[0] and self.results.get('BOOLEAN', True) is True:
+                    if result[0]:
                         self.results['BOOLEAN'] = True
                     else:
                         self.results['BOOLEAN'] = False
+                        raise Exception()
                     self.results[second_argument_value[0]] = set(result[0])
             else:  # drugi argument jest np. 1, _, "x"
                 result: Union[Tuple[List[int], None], Tuple[List[str], None], Tuple[bool, None]] = \
                     self.select_relation(node_type, first_argument_value, second_argument_value)
-                if result[0] and self.results.get('BOOLEAN', True) is True:
+                if result[0]:
                     self.results['BOOLEAN'] = True
                 else:
                     self.results['BOOLEAN'] = False
+                    raise Exception()
 
     def select_relation(self, relation_type: str, first_argument: str, second_argument: str) -> \
             Union[Tuple[List[int], None], Tuple[List[str], None], Tuple[bool, None]]:
@@ -355,10 +355,50 @@ class QueryEvaluator:
                 .next_T(first_argument, second_argument)
 
     def attr_analysis(self, attr_node: Node) -> None:
-        if attr_node.children[1].node_type in ['INTEGER', 'IDENT_QUOTE']:
-            self.results[attr_node.children[0].value] = set([attr_node.children[1].value])
+        if attr_node.children[1].node_type == 'INTEGER':
+            if attr_node.children[0].node_type == 'CONSTANT':
+                if self.all_tables['const'].is_in(attr_node.children[1].value):
+                    self.results[attr_node.children[0].value] = set([attr_node.children[1].value])
+                else:
+                    self.results[attr_node.children[0].value] = set()
+            elif attr_node.children[0].node_type == 'STMT':
+                if attr_node.children[1].value <= self.all_tables['statement'].get_size():
+                    self.results[attr_node.children[0].value] = set([attr_node.children[1].value])
+                else:
+                    self.results[attr_node.children[0].value] = set()
+            else:
+                if int(attr_node.children[1].value) in self.all_tables['statement'].get_statement_line_by_type_name(
+                        attr_node.children[0].node_type):
+                    self.results[attr_node.children[0].value] = set([attr_node.children[1].value])
+                else:
+                    self.results[attr_node.children[0].value] = set()
+        elif attr_node.children[1].node_type == 'IDENT_QUOTE':
+            if attr_node.children[0].node_type == 'PROCEDURE':
+                if self.all_tables['proc'].is_in(attr_node.children[1].value):
+                    self.results[attr_node.children[0].value] = set([attr_node.children[1].value])
+                else:
+                    self.results[attr_node.children[0].value] = set()
+            elif attr_node.children[0].node_type == 'VARIABLE':
+                if self.all_tables['var'].is_in(attr_node.children[1].value):
+                    self.results[attr_node.children[0].value] = set([attr_node.children[1].value])
+                else:
+                    self.results[attr_node.children[0].value] = set()
+            else:
+                self.results[attr_node.children[0].value] = set(
+                    self.all_tables['statement'].get_statement_line_by_type_name_and_value(
+                        attr_node.children[0].node_type,
+                        attr_node.children[1].value))
         elif attr_node.children[1].node_type == 'CONSTANT':
-            self.results[attr_node.children[0].value] = set(self.all_tables['const'].get_all_constant())
+            if attr_node.children[0].node_type == 'STMT':
+                self.results[attr_node.children[0].value] = set(
+                    [const for const in self.all_tables['const'].get_all_constant() if
+                     self.all_tables['statement'].is_in(const)])
+            else:
+                self.results[attr_node.children[0].value] = set(
+                    [const for const in self.all_tables['const'].get_all_constant() if
+                     const in self.all_tables['statement'].get_statement_line_by_type_name(
+                         attr_node.children[0].value)])
+
         else:
             if attr_node.children[0].node_type in ['CALL', 'PROCEDURE']:
                 left: Set[str] = set(self.all_tables['proc'].get_all_proc_name())
@@ -371,6 +411,12 @@ class QueryEvaluator:
                 right: Set[str] = set(self.all_tables['var'].get_all_var_name())
 
             self.results[attr_node.children[0].value] = left.intersection(right)
+
+        if self.results[attr_node.children[0].value]:
+            self.results['BOOLEAN'] = True
+        else:
+            self.results['BOOLEAN'] = False
+            raise Exception()
 
     def check_stack_on_return(self) -> None:
         while len(self.relation_stack) != 0:

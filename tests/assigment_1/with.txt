@@ -1,0 +1,57 @@
+stmt s; constant co;
+Select s with s.stmt# = co.value
+1, 10, 2, 3, 20
+procedure p;
+Select p with p.procName = "Rectangle"
+Rectangle
+procedure p;
+Select p with p.procName = "ABC"
+none
+assign a;
+Select a with a.stmt# = 2
+2
+variable v; procedure p;
+Select p with p.procName = v.varName
+none
+assign a;
+Select BOOLEAN with a.stmt# = 2
+true
+assign a, a1;
+Select a1 with a.stmt# = 2
+1, 2, 3, 5, 7, 9, 11, 12, 13, 14, 16, 19, 21, 22, 25, 26, 27, 28
+variable v;
+Select v with v.varName = "a"
+a
+variable v;
+Select v with v.varName = "ABC"
+none
+if i;
+Select i with i.stmt# = 8
+8
+if i; assign a;
+Select i with a.stmt# = 2
+8, 24
+while w; assign a;
+Select w with a.stmt# = 2
+10, 18, 23
+procedure p; assign a;
+Select p with a.stmt# = 2
+Circle, Rectangle, Triangle, Hexagon
+call c; assign a;
+Select c with a.stmt# = 2
+4, 6, 15, 17, 20
+constant co; while w;
+Select co with w.stmt# = 10
+1, 10, 2, 3, 20
+call c; while w;
+Select c with c.procName = "Triangle"
+4, 20
+call c; if i;
+Select c with i.stmt# = 8
+4, 6, 15, 17, 20
+call c; while w;
+Select w with c.procName = "Hexagon"
+10, 18, 23
+call c; variable v;
+Select v with c.stmt# = 4
+t, a, d, b, k, c
