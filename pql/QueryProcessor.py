@@ -40,6 +40,7 @@ class QueryProcessor:
         self.proc_names: List[str] = proc_names
         self.var_names: List[str] = var_names
         self.max_line_in_code: int = max_line_in_code
+        self.select: str = ''
 
     def match(self, token: str) -> None:
         if self.next_token[0] == token:
@@ -53,6 +54,8 @@ class QueryProcessor:
         raise Exception("#ERROR " + info)
 
     def return_none(self):
+        if self.select == 'BOOLEAN':
+            raise Exception("false")
         raise Exception("none")
 
     def get_token(self) -> Tuple[str, str]:
@@ -174,6 +177,7 @@ class QueryProcessor:
         self.design_entity()
         self.match("SELECT")
         result_node: Node = Node("RESULT")
+        self.select = self.next_token[0]
         if self.next_token[0] == 'BOOLEAN':
             self.match('BOOLEAN')
             result_node.add_child(Node('BOOLEAN', 'BOOLEAN'))
