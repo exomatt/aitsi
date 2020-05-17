@@ -170,6 +170,8 @@ class QueryProcessor:
             if self.next_token[1].strip().replace('"', '') not in self.var_names:
                 self.return_none()
             self.match("IDENT_QUOTE")
+        else:
+            self.return_none()
 
         return Node(self.prev_token[0].strip(), self.prev_token[1].strip().replace('"', ''))
 
