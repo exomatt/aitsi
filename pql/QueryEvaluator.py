@@ -84,7 +84,8 @@ class QueryEvaluator:
         elif root.node_type == 'SUCH_THAT':
             for node in root.children:
                 self.relation_preparation(node)
-            self.check_stack_on_return()
+            if len(self.relation_stack) > 1:
+                self.check_stack_on_return()
 
     def pattern_analysis(self, pattern_node: Node) -> None:
         if pattern_node.node_type in ['PATTERN_WHILE', 'PATTERN_IF']:
@@ -189,9 +190,13 @@ class QueryEvaluator:
             return relation_argument[1]
         else:
             if self.results.get(relation_argument[1], None) is None:
+                if relation_argument[0] == 'PROG_LINE':
+                    return relation_argument[1], 'STMT'
                 return relation_argument[1], relation_argument[0]
             else:
                 if not self.results[relation_argument[1]]:
+                    if relation_argument[0] == 'PROG_LINE':
+                        return relation_argument[1], 'STMT'
                     return relation_argument[1], relation_argument[0]
                 else:
                     return relation_argument[1], self.results[relation_argument[1]]
@@ -362,10 +367,12 @@ class QueryEvaluator:
                 else:
                     self.results[attr_node.children[0].value] = set()
             elif attr_node.children[0].node_type == 'STMT':
-                if attr_node.children[1].value <= self.all_tables['statement'].get_size():
+                if int(attr_node.children[1].value) <= self.all_tables['statement'].get_size():
                     self.results[attr_node.children[0].value] = set([attr_node.children[1].value])
                 else:
                     self.results[attr_node.children[0].value] = set()
+            elif attr_node.children[0].node_type == 'PROG_LINE':
+                self.results[attr_node.children[0].value] = set([attr_node.children[1].value])
             else:
                 if int(attr_node.children[1].value) in self.all_tables['statement'].get_statement_line_by_type_name(
                         attr_node.children[0].node_type):

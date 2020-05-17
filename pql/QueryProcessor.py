@@ -215,8 +215,6 @@ class QueryProcessor:
 
     def declaration(self) -> None:
         variable_type: str = self.prev_token[1].upper().strip()
-        if variable_type.upper() == "PROG_LINE":
-            variable_type = "STMT"
         while self.next_token[0] != "SEMICOLON":
             if self.next_token[1].strip() in self.declaration_dict:
                 self.error("Variable " + self.next_token[1].strip() + " already exist")
@@ -477,7 +475,7 @@ class QueryProcessor:
         synonym_node: Node = Node(declaration_variable_type, self.prev_token[1].strip())
         if self.validate_attribute_name(declaration_variable_type) is False:
             self.error("attribute validate error")
-        else:
+        elif declaration_variable_type != "PROG_LINE":
             synonym_node.add_child(self.attr_name())
         attribute_node.add_child(synonym_node)
         attribute_node.add_child(self.ref())
@@ -542,6 +540,8 @@ class QueryProcessor:
         if variable_type == "VARIABLE" and self.next_token[1].replace('.', '').strip() == "varName":
             return True
         if variable_type == "CALL" and self.next_token[1].replace('.', '').strip() == "procName":
+            return True
+        if variable_type == "PROG_LINE" and self.next_token[1].replace('.', '').strip() == "=":
             return True
         return False
 
