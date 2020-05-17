@@ -362,7 +362,7 @@ class QueryEvaluator:
     def attr_analysis(self, attr_node: Node) -> None:
         if attr_node.children[1].node_type == 'INTEGER':
             if attr_node.children[0].node_type == 'CONSTANT':
-                if self.all_tables['const'].is_in(attr_node.children[1].value):
+                if self.all_tables['const'].is_in(int(attr_node.children[1].value)):
                     self.results[attr_node.children[0].value] = set([attr_node.children[1].value])
                 else:
                     self.results[attr_node.children[0].value] = set()

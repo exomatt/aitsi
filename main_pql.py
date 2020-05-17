@@ -2,6 +2,7 @@ import argparse
 import json
 import logging
 import logging.config as conf
+import warnings
 from typing import Dict, Union
 
 from aitsi_parser.CallsTable import CallsTable
@@ -20,7 +21,7 @@ from pql.QueryProcessor import QueryProcessor
 from pql.utils.CsvReader import CsvReader
 
 log = logging.getLogger(__name__)
-
+warnings.simplefilter(action='ignore', category=FutureWarning)
 
 def load_ast_from_file(filename: str) -> Node:
     with open(filename) as g:
