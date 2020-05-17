@@ -427,8 +427,6 @@ class QueryProcessor:
             argument2_node: Node = self.line_ref()
             relation_node.add_child(argument2_node)
         self.match("CLOSE_PARENTHESIS")
-        if argument1_node.node_type == "EVERYTHING" and argument2_node.node_type == "EVERYTHING":
-            self.error("Error - relation with both arguments '_' is invalid")
         return relation_node
 
     def relation_with_other_arguments(self, type_node: str) -> Node:
@@ -456,8 +454,9 @@ class QueryProcessor:
             argument2_node: Node = self.var_ref()
             relation_node.add_child(argument2_node)
         self.match("CLOSE_PARENTHESIS")
-        if argument1_node.node_type == "EVERYTHING":
-            self.error("Error - in this relation _ as first argument is invalid")
+        # TODO ze stanem omowione ze mozna wyrzucac bład w przy[adku pierwszego argumentu _ w modifies i uses ale w oficjalu jest to mozliwe
+        # if argument1_node.node_type == "EVERYTHING":
+        #     self.error("Error - in this relation _ as first argument is invalid")
         return relation_node
 
     def with_cl(self) -> List[Node]:
