@@ -1,0 +1,207 @@
+variable v; stmt s;
+Select s such that Modifies(s, v) with v.varName="x1"
+none
+variable v; stmt s;
+Select s such that Modifies(s, v) with v.varName="left"
+none
+variable v; stmt s;
+Select s such that Modifies(s, v) with v.varName="Romeo"
+none
+procedure p,p2; variable v; stmt s;
+Select p such that Modifies(p, v) with v.varName="c"
+none
+procedure p,p2; variable v; stmt s;
+Select p such that Modifies(p, v) with v.varName="tmp"
+none
+procedure p,p2; variable v; stmt s;
+Select p such that Modifies(p, v) with v.varName="right"
+none
+procedure p,p2; variable v; stmt s;
+Select p such that Modifies(p, v) with v.varName="k"
+none
+procedure p,p2; variable v; stmt s;
+Select p such that Modifies(p, v) with v.varName="I"
+none
+procedure p,p2; variable v; stmt s;
+Select p such that Modifies(p, v) with v.varName="j1k"
+none
+procedure p, p1; variable v;
+Select BOOLEAN such that Modifies(p1,v) with v.varName="a"
+false
+procedure p, p1; variable v;
+Select p1 such that Modifies(p1,v) with v.varName="false"
+none
+procedure p, p1; variable v;
+Select v such that Modifies(p1,v) with v.varName="true"
+none
+procedure p1; variable v;
+Select p1 such that Modifies(p1,v) with v.varName="Rectangle"
+none
+procedure p, p1; variable v;
+Select p1 such that Modifies(p1,v) with v.varName="yes"
+none
+stmt s; variable v; 
+Select s such that Modifies (s,v) with v.varName=2
+none
+stmt s; variable v; 
+Select s such that Modifies (s,v) with v.varName=10
+none
+stmt s; variable v;  
+Select s such that Modifies (s,v) with v.varName=11
+none
+stmt s; variable v; 
+Select s such that Modifies (s,v) with v.varName="a"
+none
+procedure p,p2; variable v; stmt s;
+Select p such that Modifies(p, v) with v.varName="Tulip"
+none
+procedure p,p2; variable v; stmt s;
+Select p such that Modifies(p, v) with v.varName="Lily"
+none
+procedure p,p2; variable v; stmt s;
+Select p such that Modifies(p, v) with v.varName="Orchid"
+none
+procedure p,p2; variable v; stmt s;
+Select p such that Modifies(p, v) with v.varName="Tulip"
+none
+procedure p,p2; variable v; stmt s;
+Select p such that Modifies(p, v) with v.varName="Lily"
+none
+procedure p,p2; variable v; stmt s;
+Select p such that Modifies(p, v) with v.varName="Orchid"
+none
+stmt s; variable v; 
+Select s such that Modifies (s,v) with v.varName="Tulip"
+none
+stmt s; variable v; 
+Select s such that Modifies (s,v) with v.varName="Lily"
+none
+stmt s; variable v; 
+Select s such that Modifies (s,v) with v.varName="Orchid"
+none
+stmt s; variable v;
+Select s such that Modifies (4,v) with v.varName=4
+none
+variable v;
+Select v such that Modifies (4,v) with v.varName=1
+none
+stmt s; variable v;
+Select s such that Modifies (s,v) with v.varName="z"
+3, 9, 11, 12, 18, 23
+stmt s; variable v;
+Select s such that Modifies (s,v) with v.varName="y"
+1, 5, 7, 9, 11, 15, 18, 19, 20, 21, 24, 25, 27, 28, 30
+stmt s; variable v;
+Select s such that Modifies (s,v) with v.varName="x"
+2, 5, 7, 9, 11, 14, 15, 17, 18, 19, 21, 26, 27, 28, 29
+stmt s; variable v;
+Select s such that Modifies (s,v) with v.varName="t"
+8, 9, 10
+stmt s; variable v;
+Select s such that Modifies (s,v) with v.varName="idx"
+9, 11, 13, 16, 18, 19, 22
+stmt s; variable v;
+Select s such that Modifies (s,v) with v.varName="v"
+4, 6
+procedure p; variable v;
+Select p such that Modifies (p,v) with p.procName="Orchid"
+Orchid
+procedure p; variable v;
+Select p such that Modifies (p,v) with p.procName="Lily"
+Lily
+procedure p; variable v;
+Select p such that Modifies (p,v) with p.procName="Tulip"
+Tulip
+variable v;
+Select v such that Modifies (7,v) with v.varName="idx"
+none
+variable v;
+Select v such that Modifies (7,v) with v.varName="y"
+y
+variable v; stmt s;
+Select v such that Modifies (s,v) with v.varName=7
+none
+variable v; stmt s;
+Select BOOLEAN such that Modifies (s,v) with v.varName="x"
+true
+while w; variable v;
+Select w such that Modifies (w,v) with v.varName="7"
+none
+while w; variable v;
+Select w such that Modifies (w,v) with v.varName="x"
+9, 19, 27
+while w; variable v;
+Select w such that Modifies (w,v) with v.varName="y"
+9, 19, 24, 27
+assign a; variable v;
+Select a such that Modifies (a,v) with v.varName="z"
+3, 12, 23
+assign a; variable v;
+Select a such that Modifies (a,v) with v.varName="7"
+none
+assign a; variable v;
+Select a such that Modifies (a,v) with v.varName="idx"
+13, 16, 22
+assign a; variable v;
+Select BOOLEAN such that Modifies (a,v) with v.varName="z"
+true
+if ifstat; variable v;
+Select ifstat such that Modifies (ifstat,v) with v.varName="c"
+none
+if ifstat; variable v;
+Select ifstat such that Modifies (ifstat,v) with v.varName="e"
+none
+if ifstat; variable v;
+Select ifstat such that Modifies (ifstat,v) with v.varName="z"
+11
+if ifstat; variable v;
+Select ifstat such that Modifies (ifstat,v) with v.varName="t"
+none
+if ifstat; variable v;
+Select ifstat such that Modifies (ifstat,v) with v.varName="x"
+11, 28
+if ifstat; variable v;
+Select BOOLEAN such that Modifies (ifstat,v) with v.varName="v"
+false
+if ifstat; variable v;
+Select BOOLEAN such that Modifies (ifstat,v) with v.varName="t"
+false
+if ifstat; variable v;
+Select BOOLEAN such that Modifies (ifstat,v) with v.varName="idx"
+true
+if ifstat; variable v;
+Select BOOLEAN such that Modifies (ifstat,v) with v.varName="y"
+true
+if ifstat; variable v;
+Select BOOLEAN such that Modifies (ifstat,v) with v.varName="x"
+true
+call c; variable v;
+Select v such that Modifies (c,v) with v.varName="y"
+y
+call c; variable v;
+Select v such that Modifies (c,v) with v.varName="t"
+none
+call c; variable v;
+Select v such that Modifies (c,v) with v.varName="idx"
+idx
+call c; variable v;
+Select BOOLEAN such that Modifies (c,v) with v.varName="t"
+false
+call c; variable v;
+Select BOOLEAN such that Modifies (c,v) with v.varName="idx"
+true
+call c; variable v;
+Select c such that Modifies (c,v) with v.varName="x"
+5, 7, 15, 18, 21
+call c; variable v;
+Select c such that Modifies (c,v) with v.varName="t"
+none
+variable v;
+Select v such that Modifies (_,v) with v.varName="t"
+t
+variable v;
+Select v such that Modifies (_,v) with v.varName="y"
+y
+if ifstat; variable v;
+Select ifstat such that Modifies (_,v) with v.varName="y"
+11, 28
