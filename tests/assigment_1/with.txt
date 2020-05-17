@@ -4,6 +4,9 @@ Select s with s.stmt# = co.value
 procedure p;
 Select p with p.procName = "Rectangle"
 Rectangle
+procedure p;
+Select p with p.procName = "ABC"
+none
 assign a;
 Select a with a.stmt# = 2
 2
@@ -19,6 +22,9 @@ Select a1 with a.stmt# = 2
 variable v;
 Select v with v.varName = "a"
 a
+variable v;
+Select v with v.varName = "ABC"
+none
 if i;
 Select i with i.stmt# = 8
 8

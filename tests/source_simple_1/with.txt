@@ -49,3 +49,9 @@ Select w with c.procName = "Second"
 call c; variable v;
 Select v with c.stmt# = 12
 i, b, c, a, beta, oSCar, tmp, I, k, j1k, chArlie, x, left, right, Romeo, delta, l, width, Y1, x1
+variable v;
+Select v with v.varName = "CBA"
+none
+procedure p;
+Select p with p.procName = "CBA"
+none
