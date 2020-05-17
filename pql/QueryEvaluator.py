@@ -63,6 +63,8 @@ class QueryEvaluator:
                     return ', '.join(self.all_tables['proc'].get_all_proc_name())
                 elif self.select[0] == 'VARIABLE':
                     return ', '.join(self.all_tables['var'].get_all_var_name())
+                elif self.select[0] == 'CONSTANT':
+                    return ', '.join(map(str, self.all_tables['const'].get_all_constant()))
                 else:
                     return ', '.join(
                         map(str, self.all_tables['statement'].get_statement_line_by_type_name(self.select[0])))
@@ -110,7 +112,7 @@ class QueryEvaluator:
                                                        .get_statement_line_by_type_name(node.children[0].node_type))
         else:  # pobranie wszystkich lini gdy po lewej stronie rownania jest dana wartosć np. "t"
             self.results[node.children[0].value] = set(self.all_tables['statement'] \
-                                                       .get_statement_line_by_type_name_and_value(
+                .get_statement_line_by_type_name_and_value(
                 node.children[0].node_type, node.children[1].value))
 
         if self.results[node.children[0].value] and node.children[2].node_type == "EVERYTHING":
@@ -353,10 +355,50 @@ class QueryEvaluator:
                 .next_T(first_argument, second_argument)
 
     def attr_analysis(self, attr_node: Node) -> None:
-        if attr_node.children[1].node_type in ['INTEGER', 'IDENT_QUOTE']:
-            self.results[attr_node.children[0].value] = set([attr_node.children[1].value])
+        if attr_node.children[1].node_type == 'INTEGER':
+            if attr_node.children[0].node_type == 'CONSTANT':
+                if self.all_tables['const'].is_in(attr_node.children[1].value):
+                    self.results[attr_node.children[0].value] = set([attr_node.children[1].value])
+                else:
+                    self.results[attr_node.children[0].value] = set()
+            elif attr_node.children[0].node_type == 'STMT':
+                if attr_node.children[1].value <= self.all_tables['statement'].get_size():
+                    self.results[attr_node.children[0].value] = set([attr_node.children[1].value])
+                else:
+                    self.results[attr_node.children[0].value] = set()
+            else:
+                if int(attr_node.children[1].value) in self.all_tables['statement'].get_statement_line_by_type_name(
+                        attr_node.children[0].node_type):
+                    self.results[attr_node.children[0].value] = set([attr_node.children[1].value])
+                else:
+                    self.results[attr_node.children[0].value] = set()
+        elif attr_node.children[1].node_type == 'IDENT_QUOTE':
+            if attr_node.children[0].node_type == 'PROCEDURE':
+                if self.all_tables['proc'].is_in(attr_node.children[1].value):
+                    self.results[attr_node.children[0].value] = set([attr_node.children[1].value])
+                else:
+                    self.results[attr_node.children[0].value] = set()
+            elif attr_node.children[0].node_type == 'VARIABLE':
+                if self.all_tables['var'].is_in(attr_node.children[1].value):
+                    self.results[attr_node.children[0].value] = set([attr_node.children[1].value])
+                else:
+                    self.results[attr_node.children[0].value] = set()
+            else:
+                self.results[attr_node.children[0].value] = set(
+                    self.all_tables['statement'].get_statement_line_by_type_name_and_value(
+                        attr_node.children[0].node_type,
+                        attr_node.children[1].value))
         elif attr_node.children[1].node_type == 'CONSTANT':
-            self.results[attr_node.children[0].value] = set(self.all_tables['const'].get_all_constant())
+            if attr_node.children[0].node_type == 'STMT':
+                self.results[attr_node.children[0].value] = set(
+                    [const for const in self.all_tables['const'].get_all_constant() if
+                     self.all_tables['statement'].is_in(const)])
+            else:
+                self.results[attr_node.children[0].value] = set(
+                    [const for const in self.all_tables['const'].get_all_constant() if
+                     const in self.all_tables['statement'].get_statement_line_by_type_name(
+                         attr_node.children[0].value)])
+
         else:
             if attr_node.children[0].node_type in ['CALL', 'PROCEDURE']:
                 left: Set[str] = set(self.all_tables['proc'].get_all_proc_name())
@@ -369,6 +411,12 @@ class QueryEvaluator:
                 right: Set[str] = set(self.all_tables['var'].get_all_var_name())
 
             self.results[attr_node.children[0].value] = left.intersection(right)
+
+        if self.results[attr_node.children[0].value]:
+            self.results['BOOLEAN'] = True
+        else:
+            self.results['BOOLEAN'] = False
+            raise Exception()
 
     def check_stack_on_return(self) -> None:
         while len(self.relation_stack) != 0:
