@@ -177,8 +177,6 @@ class ModifiesRelation:
                 for variable in variables:
                     if self.modifies_table.is_modified(variable, param_first):
                         result_right.add(variable)
-                if not self.proc_table.is_in(param_first):
-                    return [], []
                 return list(result_right), None
         return list(result_left), list(result_right)
 
