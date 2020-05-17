@@ -21,7 +21,10 @@ from pql.QueryProcessor import QueryProcessor
 from pql.utils.CsvReader import CsvReader
 
 log = logging.getLogger(__name__)
+
+# TODO - tutaj uwaga! Są warningi wyciszone z pandasa i numpy
 warnings.simplefilter(action='ignore', category=FutureWarning)
+
 
 def load_ast_from_file(filename: str) -> Node:
     with open(filename) as g:
