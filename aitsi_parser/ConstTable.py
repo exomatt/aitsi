@@ -39,7 +39,7 @@ class ConstTable:
     def get_size(self) -> int:
         return len(self.table)
 
-    def is_in(self, constant: str) -> bool:
+    def is_in(self, constant: int) -> bool:
         values: pd.Series = self.table['constant'] == constant
         for value in values:
             if value:
