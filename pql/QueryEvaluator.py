@@ -48,6 +48,22 @@ class QueryEvaluator:
         self.results: Dict[str, Union[bool, Set[str], Set[int]]] = {}
         self.select: Tuple[str, str] = ('', '')
         self.relation_stack: List[Tuple[str, Tuple[str, str], Tuple[str, str]]] = []
+        # stopien ograniczenia
+        # 1.stala liczba
+        # 1.staly nazwa
+        # 2.Zmienna
+        # 3.wild card
+        #
+        # 1.Next
+        # 2.Follows
+        # 3.Calls
+        # 4.Parent
+        # 5.Modifies
+        # 6.Uses
+        # 7.Parent*
+        # 8.Follows*
+        # 9.Calls*
+        # 10.Next*
         self.degree_of_restriction = {
             'INTEGER': 1,
             'IDENT_QUOTE': 1,
@@ -67,54 +83,6 @@ class QueryEvaluator:
             'PARENT': 4,
             'MODIFIES': 5,
             'USES': 6,
-            'PARENTT': 7,
-            'FOLLOWST': 8,
-            'CALLST': 9,
-            'NEXTT': 10,
-        }
-        self.degree_of_restriction_1 = {
-            'INTEGER': 1,
-            'IDENT_QUOTE': 1,
-            'STMT': 2,
-            'WHILE': 2,
-            'ASSIGN': 2,
-            'VARIABLE': 2,
-            'CONSTANT': 2,
-            'PROCEDURE': 2,
-            'PROG_LINE': 2,
-            'CALL': 2,
-            'IF': 2,
-            'EVERYTHING': 3,
-            'NEXT': 1,
-            'MODIFIES': 2,
-            'USES': 3,
-            'CALLS': 4,
-            'PARENT': 5,
-            'FOLLOWS': 6,
-            'PARENTT': 7,
-            'FOLLOWST': 8,
-            'CALLST': 9,
-            'NEXTT': 10,
-        }
-        self.degree_of_restriction_2 = {
-            'INTEGER': 1,
-            'IDENT_QUOTE': 1,
-            'STMT': 2,
-            'WHILE': 2,
-            'ASSIGN': 2,
-            'VARIABLE': 2,
-            'CONSTANT': 2,
-            'PROCEDURE': 2,
-            'PROG_LINE': 2,
-            'CALL': 2,
-            'IF': 2,
-            'EVERYTHING': 3,
-            'MODIFIES': 1,
-            'USES': 2,
-            'CALLS': 3,
-            'PARENT': 4,
-            'NEXT': 5,
-            'FOLLOWS': 6,
             'PARENTT': 7,
             'FOLLOWST': 8,
             'CALLST': 9,
