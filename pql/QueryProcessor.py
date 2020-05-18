@@ -516,6 +516,10 @@ class QueryProcessor:
         self.match("EQUALS_SIGN")
         if self.next_token[0] == 'QUOTE':
             self.match("QUOTE")
+            ref_node: Node = Node('IDENT_QUOTE', self.next_token[1].replace('.', '').replace('"', '').strip())
+            self.match(self.next_token[0].strip())
+            self.match('QUOTE')
+            return ref_node
         ref_node: Node = Node(self.next_token[0].strip(), self.next_token[1].replace('.', '').replace('"', '').strip())
         # if ref_node.value not in
         if self.next_token[0] == "IDENT_QUOTE":
@@ -526,6 +530,7 @@ class QueryProcessor:
             self.match("INTEGER")
         elif self.next_token[0] == "IDENT":
             return self.attribute_value()
+
         return ref_node
 
     def synonym(self) -> None:
