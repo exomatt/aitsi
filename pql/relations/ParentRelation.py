@@ -50,17 +50,12 @@ class ParentRelation:
         return self.parent_table.table.index.tolist(), self.parent_table.table.columns.tolist()
 
     def _wild_card_and_str_with_type(self, param_second) -> Tuple[List[int], None]:
-        result: Set[int] = set()
-        parents: List[int] = []
         lines_by_type_name: List[int] = []
         if param_second == 'STMT':
-            for stmt in self.statements:
-                lines_by_type_name.extend(self.stmt_table.get_statement_line_by_type_name(stmt))
+            lines_by_type_name = self.stmt_table.get_all_statement_lines()
         else:
             lines_by_type_name.extend(self.stmt_table.get_statement_line_by_type_name(param_second))
-        for line in lines_by_type_name:
-            if self.parent_table.get_parent(line):
-                result.add(line)
+        result = {line for line in lines_by_type_name if self.parent_table.get_parent(line)}
         return list(result), None
 
     def _two_str_with_types(self, param_first, param_second) -> Tuple[List[int], List[int]]:
@@ -69,91 +64,62 @@ class ParentRelation:
         return list(result_left), list(result_right)
 
     def _get_right_result_two_str_types(self, param_first, param_second):
-        result_right: Set[int] = set()
-        children: List[int] = []
+        children: Set[int] = set()
         lines_by_type_name_right: List[int] = []
         if param_first == 'STMT':
-            for stmt in self.statements:
-                lines_by_type_name_right.extend(self.stmt_table.get_statement_line_by_type_name(stmt))
+            lines_by_type_name_right = self.stmt_table.get_all_statement_lines()
         else:
             lines_by_type_name_right.extend(self.stmt_table.get_statement_line_by_type_name(param_first))
         for line in lines_by_type_name_right:
-            children.extend(self.parent_table.get_child(line))
+            children.update(self.parent_table.get_child(line))
         if param_second == 'STMT':
-            for child in children:
-                if self.stmt_table.get_other_info(child)['name'] in self.statements:
-                    result_right.add(child)
+            result_right = {child for child in children}
         else:
-            for child in children:
-                if self.stmt_table.get_other_info(child)['name'] == param_second:
-                    result_right.add(child)
+            result_right = {child for child in children if
+                            self.stmt_table.get_other_info(child)['name'] == param_second}
         return result_right
 
     def _get_left_result_two_str_types(self, param_first, param_second):
-        result_left: Set[int] = set()
-        parents: List[int] = []
-        lines_by_type_name_left: List[int] = []
+        parents: Set[int] = set()
         if param_second == 'STMT':
-            for stmt in self.statements:
-                lines_by_type_name_left.extend(self.stmt_table.get_statement_line_by_type_name(stmt))
+            lines_by_type_name_left = self.stmt_table.get_all_statement_lines()
         else:
-            lines_by_type_name_left.extend(self.stmt_table.get_statement_line_by_type_name(param_second))
+            lines_by_type_name_left = self.stmt_table.get_statement_line_by_type_name(param_second)
         for line in lines_by_type_name_left:
-            parents.extend(self.parent_table.get_parent(line))
+            parents.update(self.parent_table.get_parent(line))
         if param_first == 'STMT':
-            for parent in parents:
-                if self.stmt_table.get_other_info(parent)['name'] in self.statements:
-                    result_left.add(parent)
+            result_left = {parent for parent in parents}
         else:
-            for parent in parents:
-                if self.stmt_table.get_other_info(parent)['name'] == param_first:
-                    result_left.add(parent)
+            result_left = {parent for parent in parents if
+                           self.stmt_table.get_other_info(parent)['name'] == param_first}
         return result_left
 
     def _str_with_type_and_wild_card(self, param_first) -> Tuple[List[int], None]:
-        result: Set[int] = set()
-        parents: List[int] = []
-        lines_by_type_name: List[int] = []
-        for stmt in self.statements:
-            lines_by_type_name.extend(self.stmt_table.get_statement_line_by_type_name(stmt))
+        parents: Set[int] = set()
+        lines_by_type_name: List[int] = self.stmt_table.get_all_statement_lines()
         for line in lines_by_type_name:
-            parents.extend(self.parent_table.get_parent(line))
+            parents.update(self.parent_table.get_parent(line))
         if param_first == 'STMT':
-            for parent in parents:
-                if self.stmt_table.get_other_info(parent)['name'] in self.statements:
-                    result.add(parent)
+            result = {parent for parent in parents}
         else:
-            for parent in parents:
-                if self.stmt_table.get_other_info(parent)['name'] == param_first:
-                    result.add(parent)
+            result = {parent for parent in parents if self.stmt_table.get_other_info(parent)['name'] == param_first}
         return list(result), None
 
     def _str_with_type_and_digit(self, param_first, param_second) -> Tuple[List[int], None]:
-        result: Set[int] = set()
         parents = self.parent_table.get_parent(int(param_second))
         if param_first == 'STMT':
-            for parent in parents:
-                if self.stmt_table.get_other_info(parent)['name'] in self.statements:
-                    result.add(parent)
+            result = {parent for parent in parents}
         else:
-            for parent in parents:
-                if self.stmt_table.get_other_info(parent)['name'] == param_first:
-                    result.add(parent)
+            result = {parent for parent in parents if self.stmt_table.get_other_info(parent)['name'] == param_first}
         return list(result), None
 
     def _digit_and_string_with_type(self, param_first, param_second) -> Tuple[List[int], None]:
-        result: Set[int] = set()
         children: List[int] = self.parent_table.get_child(int(param_first))
         if param_second == 'STMT':
-            for child in children:
-                if self.stmt_table.get_other_info(child)['name'] in self.statements:
-                    result.add(child)
-            return list(result), None
+            result = {child for child in children}
         else:
-            for child in children:
-                if self.stmt_table.get_other_info(child)['name'] in param_second:
-                    result.add(child)
-            return list(result), None
+            result = {child for child in children if self.stmt_table.get_other_info(child)['name'] in param_second}
+        return list(result), None
 
     def parent_T(self, param_first: str, param_second: str) -> Union[Tuple[bool, None],
                                                                      Tuple[List[int], None],
@@ -197,15 +163,15 @@ class ParentRelation:
 
     def _result_left_parent_T_two_str(self, param_first, param_second):
         result_left: Set[int] = set()
-        parents: List[int] = []
+        parents: Set[int] = set()
         lines_by_type_name: List[int] = []
         if param_second == 'STMT':
-            for stmt in self.statements:
-                lines_by_type_name.extend(self.stmt_table.get_statement_line_by_type_name(stmt))
+            lines_by_type_name = self.stmt_table.get_all_statement_lines()
         else:
             lines_by_type_name.extend(self.stmt_table.get_statement_line_by_type_name(param_second))
         for line in lines_by_type_name:
-            parents.extend(self.parent_table.get_parent(line))
+            parents.update(self.parent_table.get_parent(line))
+        parents: List[int] = list(parents)
         if param_first == 'STMT':
             for parent in parents:
                 parents.extend(self.parent_table.get_parent(parent))
@@ -220,15 +186,15 @@ class ParentRelation:
 
     def _result_right_parent_T_two_str(self, param_first, param_second):
         result_right: Set[int] = set()
-        children: List[int] = []
+        children: Set[int] = set()
         lines_by_type_name: List[int] = []
         if param_first == 'STMT':
-            for stmt in self.statements:
-                lines_by_type_name.extend(self.stmt_table.get_statement_line_by_type_name(stmt))
+            lines_by_type_name = self.stmt_table.get_all_statement_lines()
         else:
             lines_by_type_name.extend(self.stmt_table.get_statement_line_by_type_name(param_first))
         for line in lines_by_type_name:
-            children.extend(self.parent_table.get_child(line))
+            children.update(self.parent_table.get_child(line))
+        children: List[int] = list(children)
         if param_second == 'STMT':
             for child in children:
                 children.extend(self.parent_table.get_child(child))
@@ -243,27 +209,25 @@ class ParentRelation:
 
     def _parent_T_str_type_wild_card(self, param_first) -> Tuple[List[int], None]:
         result: Set[int] = set()
-        parents: List[int] = []
-        lines_by_type_name: List[int] = []
-        for stmt in self.statements:
-            lines_by_type_name.extend(self.stmt_table.get_statement_line_by_type_name(stmt))
+        parents: Set[int] = set()
+        lines_by_type_name: List[int] = self.stmt_table.get_all_statement_lines()
         for line in lines_by_type_name:
-            parents.extend(self.parent_table.get_parent(line))
+            parents.update(self.parent_table.get_parent(line))
         if param_first == 'STMT':
             for parent in parents:
-                parents.extend(self.parent_table.get_parent(parent))
+                parents.update(self.parent_table.get_parent(parent))
                 if self.stmt_table.get_other_info(parent)['name'] in self.statements:
                     result.add(parent)
         else:
             for parent in parents:
-                parents.extend(self.parent_table.get_parent(parent))
+                parents.update(self.parent_table.get_parent(parent))
                 if self.stmt_table.get_other_info(parent)['name'] == param_first:
                     result.add(parent)
         return list(result), None
 
     def _parent_T_str_type_digit(self, param_first, param_second) -> Tuple[List[int], None]:
         result: Set[int] = set()
-        parents = self.parent_table.get_parent(int(param_second))
+        parents: List[int] = self.parent_table.get_parent(int(param_second))
         if param_first == 'STMT':
             for parent in parents:
                 parents.extend(self.parent_table.get_parent(parent))
@@ -277,24 +241,18 @@ class ParentRelation:
         return list(result), None
 
     def _parent_T_wildcard_str_type(self, param_second) -> Tuple[List[int], None]:
-        result: Set[int] = set()
-        parents: List[int] = []
-        lines_by_type_name: List[int] = []
         if param_second == 'STMT':
-            for stmt in self.statements:
-                lines_by_type_name.extend(self.stmt_table.get_statement_line_by_type_name(stmt))
+            lines_by_type_name: List[int] = self.stmt_table.get_all_statement_lines()
         else:
-            lines_by_type_name.extend(self.stmt_table.get_statement_line_by_type_name(param_second))
-        for line in lines_by_type_name:
-            if self.parent_table.get_parent(line):
-                result.add(line)
+            lines_by_type_name: List[int] = self.stmt_table.get_statement_line_by_type_name(param_second)
+        result: Set[int] = {line for line in lines_by_type_name if self.parent_table.get_parent(line)}
         return list(result), None
 
     def _parent_T_wildcard_digit(self, param_second) -> Tuple[List[int], None]:
-        parents = self.parent_table.get_parent(int(param_second))
+        parents: Set[int] = set(self.parent_table.get_parent(int(param_second)))
         for parent in parents:
-            parents.extend(self.parent_table.get_parent(parent))
-        return parents, None
+            parents.update(self.parent_table.get_parent(parent))
+        return list(parents), None
 
     def _parent_T_digit_str_type(self, param_first, param_second) -> Tuple[List[int], None]:
         result: Set[int] = set()
@@ -316,7 +274,7 @@ class ParentRelation:
         children: List[int] = self.parent_table.get_child(int(param_first))
         for child in children:
             children.extend(self.parent_table.get_child(child))
-        return children, None
+        return list(children), None
 
     def _parent_T_two_digits(self, param_first, param_second) -> Tuple[bool, None]:
         is_parent = self.parent_table.is_parent(int(param_first), int(param_second))
