@@ -514,6 +514,8 @@ class QueryProcessor:
 
     def ref(self) -> Node:
         self.match("EQUALS_SIGN")
+        if self.next_token[0] == 'QUOTE':
+            self.match("QUOTE")
         ref_node: Node = Node(self.next_token[0].strip(), self.next_token[1].replace('.', '').replace('"', '').strip())
         # if ref_node.value not in
         if self.next_token[0] == "IDENT_QUOTE":
