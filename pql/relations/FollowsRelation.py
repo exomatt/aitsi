@@ -1,4 +1,4 @@
-from typing import List, Union, Tuple
+from typing import List, Union, Tuple, Set
 
 from aitsi_parser import FollowsTable
 from aitsi_parser.StatementTable import StatementTable
@@ -59,15 +59,15 @@ class FollowsRelation:
             lines_numbers: List[int] = self.stmt_table.get_statement_line_by_type_name(param_second)
             return [line for line in lines_numbers if self.follows_table.get_follows(line) is not None], None
 
-    def _digit_and_wild_card(self, param_first) -> Tuple[List[bool], None]:
+    def _digit_and_wild_card(self, param_first) -> Tuple[bool, None]:
         if self.follows_table.get_child(int(param_first)) is not None:
-            return [True], None
-        return [False], None
+            return True, None
+        return False, None
 
-    def _wild_card_and_digit(self, param_second) -> Tuple[List[bool], None]:
+    def _wild_card_and_digit(self, param_second) -> Tuple[bool, None]:
         if self.follows_table.get_child(int(param_second)) is not None:
-            return [True], None
-        return [False], None
+            return True, None
+        return False, None
 
     def _two_str_with_types(self, param_first, param_second) -> Tuple[List[int], List[int]]:
         if param_first == 'STMT':
@@ -151,7 +151,7 @@ class FollowsRelation:
                 return self._follows_T_wild_card_and_digit(int(param_second))
             elif param_second == '_':
                 # p1  "_", a p2  "_"
-                return self._follows_T_two_wildcards()
+                return self.follows_table.table.index.tolist(), self.follows_table.table.columns.tolist()
             else:
                 # p1  "_", a p2 str np. "CALL"
                 return self._follows_T_wildcard_and_str_with_type(param_second)
@@ -167,108 +167,100 @@ class FollowsRelation:
                 return self._follows_T_two_str_with_types(param_first, param_second)
 
     def get_all_lines_in_stmt_lst_after_line(self, line_number: int) -> List[int]:
-        pom: List[int] = self.follows_table.get_child(int(line_number))
+        pom: Union[int, None] = self.follows_table.get_child(int(line_number))
         results: List[int] = []
-        while pom:
-            results.append(pom[0])
-            pom = self.follows_table.get_child(pom[0])
+        while pom is not None:
+            results.append(pom)
+            pom = self.follows_table.get_child(pom)
         return results
 
     def get_all_lines_in_stmt_lst_before_line(self, line_number: int) -> List[int]:
-        pom: List[int] = self.follows_table.get_follows(int(line_number))
+        pom: Union[int, None] = self.follows_table.get_follows(int(line_number))
         results: List[int] = []
-        while pom:
-            results.append(pom[0])
-            pom = self.follows_table.get_follows(pom[0])
+        while pom is not None:
+            results.append(pom)
+            pom = self.follows_table.get_follows(pom)
         return results
 
-    def _follows_T_two_digits(self, param_first, param_second) -> Tuple[bool, bool]:
+    def _follows_T_two_digits(self, param_first, param_second) -> Tuple[bool, None]:
         pom: List[int] = self.get_all_lines_in_stmt_lst_after_line(int(param_first))
         if int(param_second) in pom:
-            return True, True
+            return True, None
         else:
-            return False, False
+            return False, None
 
-    def _follows_T_digit_and_wild_card(self, param_first) -> Tuple[bool, List[int]]:
-        result: List[int] = self.get_all_lines_in_stmt_lst_after_line(int(param_first))
-        is_follows: bool = False
-        if len(result) > 0:
-            is_follows = True
-        return is_follows, result
+    def _follows_T_digit_and_wild_card(self, param_first) -> Tuple[bool, None]:
+        if self.get_all_lines_in_stmt_lst_after_line(int(param_first)):
+            return True, None
+        return False, None
 
-    def _follows_T_wild_card_and_digit(self, param_second) -> Tuple[List[int], bool]:
-        result: List[int] = self.get_all_lines_in_stmt_lst_before_line(int(param_second))
-        is_follows: bool = False
-        if len(result) > 0:
-            is_follows = True
-        return result, is_follows
+    def _follows_T_wild_card_and_digit(self, param_second) -> Tuple[bool, None]:
+        if self.get_all_lines_in_stmt_lst_before_line(int(param_second)):
+            return True, None
 
     def _follows_T_digit_str_type(self, param_first, param_second) -> Tuple[List[int], None]:
-        pom: List[int] = []
         if param_second == 'STMT':
-            for stmt in self.statements:
-                pom.extend(self.stmt_table.get_statement_line_by_type_name(stmt))
+            pom: List[int] = self.follows_table.table.columns.tolist()
         else:
-            pom = self.stmt_table.get_statement_line_by_type_name(param_second)
+            pom: List[int] = self.stmt_table.get_statement_line_by_type_name(param_second)
         return list(set(self.get_all_lines_in_stmt_lst_after_line(param_first)).intersection(pom)), None
 
-    def _follows_T_two_wildcards(self) -> Tuple[List[int], List[int]]:
-        result: List[int] = [line for line in range(self.stmt_table.get_size())]
-        return result, result
-
     def _follows_T_wildcard_and_str_with_type(self, param_second) -> Tuple[List[int], None]:
-        pom: List[int] = []
         if param_second == 'STMT':
-            for stmt in self.statements:
-                pom.extend(self.stmt_table.get_statement_line_by_type_name(stmt))
+            pom: List[int] = self.follows_table.table.columns.tolist()
         else:
-            pom = self.stmt_table.get_statement_line_by_type_name(param_second)
-        pom = [line for line in pom if self.follows_table.get_follows(line)]
-        return list(set(pom)), None
+            pom: List[int] = list(set(self.stmt_table.get_statement_line_by_type_name(param_second)).intersection(
+                self.follows_table.table.columns.tolist()))
+        return pom, None
 
     def _follows_T_str_with_type_and_digit(self, param_first, param_second) -> Tuple[List[int], None]:
-        pom: List[int] = []
         if param_first == 'STMT':
-            for stmt in self.statements:
-                pom.extend(self.stmt_table.get_statement_line_by_type_name(stmt))
+            pom: List[int] = self.follows_table.table.index.tolist()
         else:
-            pom = self.stmt_table.get_statement_line_by_type_name(param_first)
+            pom: List[int] = self.stmt_table.get_statement_line_by_type_name(param_first)
         return list(set(self.get_all_lines_in_stmt_lst_before_line(param_second)).intersection(pom)), None
 
-    def _follows_T_str_with_type_and_wildcard(self, param_first) -> Tuple[List[int], List[int]]:
-        pom: List[int] = []
+    def _follows_T_str_with_type_and_wildcard(self, param_first) -> Tuple[List[int], None]:
         if param_first == 'STMT':
-            for stmt in self.statements:
-                pom.extend(self.stmt_table.get_statement_line_by_type_name(stmt))
+            pom: List[int] = self.follows_table.table.index.tolist()
         else:
-            pom = self.stmt_table.get_statement_line_by_type_name(param_first)
-        results: List[int] = []
-        for i in pom:
-            if self.get_all_lines_in_stmt_lst_after_line(i):
-                results.append(i)
-        return list(set(results)), self.stmt_table.get_statement_line_by_type_name(param_first)
+            pom: List[int] = list(set(self.stmt_table.get_statement_line_by_type_name(param_first)).intersection(
+                self.follows_table.table.index.tolist()))
+        return pom, None
 
     def _follows_T_two_str_with_types(self, param_first, param_second) -> Tuple[List[int], List[int]]:
-        pom_first: List[int] = []
         if param_first == 'STMT':
-            for stmt in self.statements:
-                pom_first.extend(self.stmt_table.get_statement_line_by_type_name(stmt))
+            if param_second == 'STMT':
+                return self.follows_table.table.index.tolist(), self.follows_table.table.columns.tolist()
+            else:
+                pom_second: List[int] = self.stmt_table.get_statement_line_by_type_name(param_second)
+                result_first: Set[int] = set()
+                result_second: List[int] = []
+                for line in pom_second:
+                    pom: List[int] = self.get_all_lines_in_stmt_lst_before_line(line)
+                    if pom:
+                        result_first.update(pom)
+                        result_second.append(line)
+                return list(result_first), result_second
         else:
-            pom_first = self.stmt_table.get_statement_line_by_type_name(param_first)
-        pom_second: List[int] = []
-        if param_second == 'STMT':
-            for stmt in self.statements:
-                pom_second.extend(self.stmt_table.get_statement_line_by_type_name(stmt))
-        else:
-            pom_second = self.stmt_table.get_statement_line_by_type_name(param_second)
-        results_second: List[int] = []
-        results_first: List[int] = []
-        for i in pom_first:
-            for j in self.get_all_lines_in_stmt_lst_after_line(i):
-                if j in pom_second:
-                    results_first.append(i)
-        for k in pom_second:
-            for m in self.get_all_lines_in_stmt_lst_before_line(k):
-                if m in pom_first:
-                    results_second.append(k)
-        return list(set(results_first)), list(set(results_second))
+            pom_first: List[int] = self.stmt_table.get_statement_line_by_type_name(param_first)
+            if param_second == 'STMT':
+                result_first: List[int] = []
+                result_second: Set[int] = set()
+                for line in pom_first:
+                    pom: List[int] = self.get_all_lines_in_stmt_lst_after_line(line)
+                    if pom:
+                        result_first.append(line)
+                        result_second.update(pom)
+                return result_first, list(result_second)
+            else:
+                pom_second: List[int] = self.stmt_table.get_statement_line_by_type_name(param_second)
+                result_first: List[int] = []
+                result_second: Set[int] = set()
+                for line in pom_first:
+                    pom: List[int] = list(
+                        set(self.get_all_lines_in_stmt_lst_after_line(line)).intersection(set(pom_second)))
+                    if pom:
+                        result_first.append(line)
+                        result_second.update(pom)
+                return result_first, list(result_second)
