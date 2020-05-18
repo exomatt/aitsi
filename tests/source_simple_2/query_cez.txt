@@ -1,0 +1,324 @@
+stmt s, s1; 
+Select s such that Parent (s,s1) with s1.stmt#=2
+none
+stmt s, s1; 
+Select s such that Parent (s,s1) with s1.stmt#=10
+9
+stmt s, s1; 
+Select s such that Parent (s,s1) with s1.stmt#=11
+9
+stmt s, s1; 
+Select s such that Parent (s,s1) with s1.stmt#=20
+19
+stmt s;
+Select s such that Parent (s,2)
+none
+stmt s;
+Select s such that Parent (s,10)
+9
+stmt s;
+Select s such that Parent (s,11)
+9
+stmt s;
+Select s such that Parent (s,20)
+19
+stmt s;
+Select s such that Parent (2,s)
+none
+stmt s;
+Select s such that Parent (8,s)
+none
+stmt s;
+Select s such that Parent (9,s)
+10, 11, 17
+stmt s;
+Select s such that Parent (25,s)
+none
+stmt s;
+Select s such that Parent* (s,2)
+none
+stmt s;
+Select s such that Parent* (s,10)
+9
+stmt s;
+Select s such that Parent* (s,11)
+9
+stmt s;
+Select s such that Parent* (s,20)
+19
+stmt s; while w;
+Select w such that Parent* (s,2)
+none
+stmt s; while w;
+Select w such that Parent* (s,10)
+9, 19, 24, 27
+stmt s; while w;
+Select w such that Parent* (s,11)
+9, 19, 24, 27
+stmt s; while w;
+Select w such that Parent* (s,20)
+9, 19, 24, 27
+while w;
+Select w such that Parent* (w,9)
+none
+while w;
+Select w such that Parent* (w,11)
+9
+while w;
+Select w such that Parent* (w,13)
+9
+while w;
+Select w such that Parent* (w,21)
+19
+stmt s;
+Select s such that Follows (s,1)
+none
+stmt s;
+Select s such that Follows (s,8)
+7
+stmt s;
+Select s such that Follows (s,9)
+8
+stmt s;
+Select s such that Follows (s,10)
+none
+stmt s;
+Select s such that Follows (s,12)
+none
+stmt s;
+Select s such that Follows (s,13)
+12
+stmt s;
+Select s such that Follows (s,23)
+19
+assign a;
+Select a such that Follows (a,1)
+none
+assign a;
+Select a such that Follows (a,8)
+none
+assign a;
+Select a such that Follows (a,9)
+8
+assign a;
+Select a such that Follows (a,10)
+none
+assign a;
+Select a such that Follows (a,12)
+none
+assign a;
+Select a such that Follows (a,13)
+12
+while w; stmt s;
+Select w such that Follows* (s,w)
+9
+while w; stmt s;
+Select w such that Follows* (w,s)
+9, 19, 24
+stmt s;
+Select s such that Follows* (s,1)
+none
+stmt s;
+Select s such that Follows* (s,8)
+1, 2, 3, 4, 5, 6, 7
+stmt s;
+Select s such that Follows* (s,9)
+1, 2, 3, 4, 5, 6, 7, 8
+stmt s;
+Select s such that Follows* (s,13)
+12
+stmt s;
+Select s such that Follows* (s,19)
+none
+stmt s;
+Select s such that Follows* (s,22)
+20, 21
+if ifstat;
+Select ifstat such that Follows* (ifstat, 8)
+none
+if ifstat;
+Select ifstat such that Follows* (ifstat, 17)
+11
+if ifstat;
+Select ifstat such that Follows* (ifstat, 25)
+none
+if ifstat;
+Select ifstat such that Follows* (ifstat, 27)
+none
+assign a;
+Select a such that Follows* (a,6)
+1, 2, 3, 4
+assign a;
+Select a such that Follows* (a,9)
+1, 2, 3, 4, 6, 8
+assign a;
+Select a such that Follows* (a,10)
+none
+assign a;
+Select a such that Follows* (a,12)
+none
+assign a;
+Select a such that Follows* (a,17)
+10
+assign a;
+Select a such that Follows* (a,28)
+none
+variable v;
+Select v such that Modifies (3,v)
+z
+variable v;
+Select v such that Modifies (4,v)
+v
+variable v;
+Select v such that Modifies (6,v)
+v
+variable v;
+Select v such that Modifies (18,v)
+y, x, z, idx
+variable v;
+Select v such that Modifies (24,v)
+y
+variable v;
+Select v such that Modifies (28,v)
+y, x
+while w;
+Select w such that Modifies (w,"d")
+none
+while w;
+Select w such that Modifies (w,"c")
+none
+variable v;
+Select v such that Modifies ("Rectangle",v)
+none
+stmt s;
+Select s such that Uses (s,"d")
+none
+stmt s;
+Select s such that Uses (s,"c")
+none
+variable v;
+Select v such that Uses (10,v)
+x, z
+variable v;
+Select v such that Uses (18,v)
+y, x, z, v, t, idx
+variable v;
+Select v such that Uses (23,v)
+y, z, idx
+assign a; variable v;
+Select v such that Uses (a,v)
+y, x, z, v, t, idx
+assign a;
+Select a such that Modifies (a,"a") and Uses (a,"a")
+none
+assign a;
+Select a such that Modifies (a,"d") and Uses (a,"d")
+none
+assign a;
+Select a such that Modifies (a,"b") and Uses (a,"b")
+none
+assign a;
+Select a such that Modifies (a,"c") and Uses (a,"c")
+none
+while w; assign a;
+Select a such that Modifies (a,"t") and Parent (w,a)
+10
+while w; assign a;
+Select a such that Parent (w,a) and Modifies (a,"t")
+10
+while w; assign a;
+Select a such that Modifies (a,"t") such that Parent (w,a)
+10
+procedure p;
+Select p such that Calls* (p, "Triangle")
+none
+procedure p;
+Select p such that Calls ("Circle", p) and Modifies (p, "c") and Uses (p, "a")
+none
+procedure p;
+Select p such that Calls* ("Circle", p) and Modifies (p, "c")
+none
+assign a;
+Select a pattern a("d",_)
+none
+assign a;
+Select a pattern a("t","3*a")
+none
+while w; assign a;
+Select a pattern a("a",_) such that Follows (w,a)
+none
+assign a;
+Select a pattern a(_, "d+1")
+none
+assign a;
+Select a pattern a(_, "d*5+3")
+none
+assign a;
+Select a pattern a(_, _"d+k*b"_)
+none
+assign a;
+Select a pattern a(_, _"d+t"_)
+none
+assign a;
+Select a pattern a(_, _"k+d"_)
+none
+assign a;
+Select a pattern a(_, _"d+3"_)
+none
+assign a;
+Select a pattern a(_, _"d+3*a"_)
+none
+assign a;
+Select a pattern a(_, _"3*a"_)
+none
+assign a;
+Select a pattern a(_, _"5+3"_)
+none
+assign a;
+Select a pattern a(_, _"d+1"_)
+none
+stmt s; constant co;
+Select s with s.stmt# = co.value
+10, 5, 4, 12, 1, 16, 3, 2
+if ifstat; constant co;
+Select BOOLEAN pattern ifstat ("t", _, _) with co.value = 2
+false
+prog_line n2;
+Select BOOLEAN such that Next (1,2)
+true
+prog_line n2;
+Select BOOLEAN such that Next (6,8)
+false
+prog_line n2;
+Select BOOLEAN such that Next (8,9)
+true
+prog_line n2;
+Select BOOLEAN such that Next (10,11)
+true
+prog_line n2;
+Select BOOLEAN such that Next (12,10)
+false
+prog_line n2;
+Select BOOLEAN such that Next (12,11)
+false
+prog_line n2;
+Select BOOLEAN such that Next (13,14)
+false
+prog_line n2;
+Select BOOLEAN such that Next (17,18)
+false
+prog_line n2;
+Select BOOLEAN such that Next (23,27)
+false
+prog_line n2;
+Select BOOLEAN such that Next* (9,9)
+true
+prog_line n2;
+Select BOOLEAN such that Next* (10,10)
+true
+prog_line n2;
+Select BOOLEAN such that Next* (12,12)
+true
+prog_line n2;
+Select BOOLEAN such that Next* (20,20)
+true
