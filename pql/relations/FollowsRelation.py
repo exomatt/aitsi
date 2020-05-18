@@ -248,6 +248,7 @@ class FollowsRelation:
                 pom.extend(self.stmt_table.get_statement_line_by_type_name(stmt))
         else:
             pom = self.stmt_table.get_statement_line_by_type_name(param_second)
+        pom = [line for line in pom if self.follows_table.get_follows(line)]
         return list(set(pom)), None
 
     def _follows_T_str_with_type_and_digit(self, param_first, param_second) -> Tuple[List[int], None]:

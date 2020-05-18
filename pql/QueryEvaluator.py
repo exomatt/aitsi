@@ -84,7 +84,8 @@ class QueryEvaluator:
         elif root.node_type == 'SUCH_THAT':
             for node in root.children:
                 self.relation_preparation(node)
-            self.check_stack_on_return()
+            if len(self.relation_stack) > 1:
+                self.check_stack_on_return()
 
     def pattern_analysis(self, pattern_node: Node) -> None:
         if pattern_node.node_type in ['PATTERN_WHILE', 'PATTERN_IF']:
@@ -189,9 +190,13 @@ class QueryEvaluator:
             return relation_argument[1]
         else:
             if self.results.get(relation_argument[1], None) is None:
+                if relation_argument[0] == 'PROG_LINE':
+                    return relation_argument[1], 'STMT'
                 return relation_argument[1], relation_argument[0]
             else:
                 if not self.results[relation_argument[1]]:
+                    if relation_argument[0] == 'PROG_LINE':
+                        return relation_argument[1], 'STMT'
                     return relation_argument[1], relation_argument[0]
                 else:
                     return relation_argument[1], self.results[relation_argument[1]]
@@ -253,17 +258,22 @@ class QueryEvaluator:
             else:  # pierwszy jest np. ('i1','IF'), ('w','WHILE')
                 if type(second_argument_value) is tuple:
                     if type(second_argument_value[1]) is set:  # drugi jest np. ('i2', [3,7]), ('s', [3,7,4,5])
-                        relation_result: Set[int] = set()
+                        relation_result_first_argument: Set[int] = set()
+                        relation_result_second_argument: Set[int] = set()
                         for argument in second_argument_value[1]:
                             result: Union[Tuple[List[int], None], Tuple[List[str], None]] = \
                                 self.select_relation(node_type, first_argument_value[1], str(argument))
-                            relation_result.update(result[0])
-                        if relation_result:
+                            if result[0]:
+                                relation_result_first_argument.update(result[0])
+                                relation_result_second_argument.update([argument])
+
+                        if relation_result_first_argument:
                             self.results['BOOLEAN'] = True
                         else:
                             self.results['BOOLEAN'] = False
                             raise Exception()
-                        self.results[first_argument_value[0]] = relation_result
+                        self.results[first_argument_value[0]] = relation_result_first_argument
+                        self.results[second_argument_value[0]] = relation_result_second_argument
                     else:  # drugi jest np. ('i1','IF'), ('w','WHILE')
                         result: Union[Tuple[List[int], None], Tuple[List[str], None], Tuple[bool, None]] = \
                             self.select_relation(node_type, first_argument_value[1], second_argument_value[1])
@@ -357,15 +367,17 @@ class QueryEvaluator:
     def attr_analysis(self, attr_node: Node) -> None:
         if attr_node.children[1].node_type == 'INTEGER':
             if attr_node.children[0].node_type == 'CONSTANT':
-                if self.all_tables['const'].is_in(attr_node.children[1].value):
+                if self.all_tables['const'].is_in(int(attr_node.children[1].value)):
                     self.results[attr_node.children[0].value] = set([attr_node.children[1].value])
                 else:
                     self.results[attr_node.children[0].value] = set()
             elif attr_node.children[0].node_type == 'STMT':
-                if attr_node.children[1].value <= self.all_tables['statement'].get_size():
+                if int(attr_node.children[1].value) <= self.all_tables['statement'].get_size():
                     self.results[attr_node.children[0].value] = set([attr_node.children[1].value])
                 else:
                     self.results[attr_node.children[0].value] = set()
+            elif attr_node.children[0].node_type == 'PROG_LINE':
+                self.results[attr_node.children[0].value] = set([attr_node.children[1].value])
             else:
                 if int(attr_node.children[1].value) in self.all_tables['statement'].get_statement_line_by_type_name(
                         attr_node.children[0].node_type):
