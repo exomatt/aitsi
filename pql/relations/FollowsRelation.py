@@ -37,7 +37,7 @@ class FollowsRelation:
                 return self._wild_card_and_digit(int(param_second))
             elif param_second == '_':
                 # p1  "_", a p2  "_"
-                return self._two_wild_cards()
+                return self.follows_table.table.index.tolist(), self.follows_table.table.columns.tolist()
             else:
                 # p1  "_", a p2 str np. "CALL"
                 return self._wild_card_and_str_with_type(param_second)
@@ -52,103 +52,78 @@ class FollowsRelation:
                 # p1 str np. "IF", a p2 str np. "CALL"
                 return self._two_str_with_types(param_first, param_second)
 
-    def _two_wild_cards(self) -> Tuple[List[int], List[int]]:
-        result: List[int] = []
-        for number in range(self.stmt_table.get_size()):
-            result.extend(self.follows_table.get_child(number))
-        return result, result
-
-    def _wild_card_and_str_with_type(self, param_second) -> Tuple[List[int], List[int]]:
-        result: List[int] = []
-        result_second: List[int] = []
-        lines_numbers: List[int] = []
+    def _wild_card_and_str_with_type(self, param_second) -> Tuple[List[int], None]:
         if param_second == 'STMT':
-            for stmt in self.statements:
-                lines_numbers.extend(self.stmt_table.get_statement_line_by_type_name(stmt))
+            return self.follows_table.table.columns.tolist(), None
         else:
-            lines_numbers = self.stmt_table.get_statement_line_by_type_name(param_second)
-        for number in lines_numbers:
-            parents: List[int] = self.follows_table.get_follows(number)
-            if len(parents) != 0:
-                result.append(number)
-                result_second.append(parents[0])
-        return result, result_second
+            lines_numbers: List[int] = self.stmt_table.get_statement_line_by_type_name(param_second)
+            return [line for line in lines_numbers if self.follows_table.get_follows(line) is not None], None
 
-    def _digit_and_wild_card(self, param_first) -> Tuple[bool, List[int]]:
-        result: List[int] = self.follows_table.get_child(int(param_first))
-        is_follows: bool = False
-        if len(result) > 0:
-            is_follows = True
-        return is_follows, result
+    def _digit_and_wild_card(self, param_first) -> Tuple[List[bool], None]:
+        if self.follows_table.get_child(int(param_first)) is not None:
+            return [True], None
+        return [False], None
 
-    def _wild_card_and_digit(self, param_second) -> Tuple[List[int], bool]:
-        result: List[int] = self.follows_table.get_follows(int(param_second))
-        is_follows: bool = False
-        if len(result) > 0:
-            is_follows = True
-        return result, is_follows
+    def _wild_card_and_digit(self, param_second) -> Tuple[List[bool], None]:
+        if self.follows_table.get_child(int(param_second)) is not None:
+            return [True], None
+        return [False], None
 
     def _two_str_with_types(self, param_first, param_second) -> Tuple[List[int], List[int]]:
-        result_param_second: List[int] = []
-        result_param_first: List[int] = []
-        p1_lines_numbers: List[int] = []
-        p2_lines_numbers: List[int] = []
         if param_first == 'STMT':
-            for stmt in self.statements:
-                p1_lines_numbers.extend(self.stmt_table.get_statement_line_by_type_name(stmt))
+            if param_second == 'STMT':
+                return self.follows_table.table.index.tolist(), self.follows_table.table.columns.tolist()
+            else:
+                param_second_lines: List[int] = list(
+                    set(self.stmt_table.get_statement_line_by_type_name(param_second)).intersection(
+                        set(self.follows_table.table.columns.tolist())))
+                return list(filter(lambda line: line is not None, [self.follows_table.get_follows(line) for line in
+                                                                   param_second_lines])), param_second_lines
         else:
-            p1_lines_numbers = self.stmt_table.get_statement_line_by_type_name(param_first)
-        if param_second == 'STMT':
-            for stmt in self.statements:
-                p2_lines_numbers.extend(self.stmt_table.get_statement_line_by_type_name(stmt))
-        else:
-            p2_lines_numbers = self.stmt_table.get_statement_line_by_type_name(param_second)
-        for p1_number in p1_lines_numbers:
-            for p2_number in p2_lines_numbers:
-                if self.follows_table.is_follows(p1_number, p2_number):
-                    result_param_second.append(p2_number)
-                    result_param_first.append(p1_number)
-        return result_param_first, result_param_second
+            param_first_lines: List[int] = list(
+                set(self.stmt_table.get_statement_line_by_type_name(param_first)).intersection(
+                    set(self.follows_table.table.index.tolist())))
+            if param_second == 'STMT':
+                return param_first_lines, list(filter(lambda line: line is not None,
+                                                      [self.follows_table.get_child(line) for line in
+                                                       param_first_lines]))
+            else:
+                param_second_lines: List[int] = list(
+                    set(self.stmt_table.get_statement_line_by_type_name(param_second)).intersection(
+                        set(self.follows_table.columns.tolist())))
+                return list(filter(lambda line: line is not None, [line for line in param_first_lines if
+                                                                   self.follows_table.get_child(
+                                                                       line) in param_second_lines])), \
+                       list(filter(lambda line: line is not None, [line for line in param_second_lines if
+                                                                   self.follows_table.get_follows(
+                                                                       line) in param_first_lines]))
 
-    def _str_with_type_and_wild_card(self, param_first) -> Tuple[List[int], List[int]]:
-        result: List[int] = []
-        result_second: List[int] = []
-        lines_numbers: List[int] = []
+    def _str_with_type_and_wild_card(self, param_first) -> Tuple[List[int], None]:
         if param_first == 'STMT':
-            for stmt in self.statements:
-                lines_numbers.extend(self.stmt_table.get_statement_line_by_type_name(stmt))
+            return self.follows_table.table.index.tolist(), None
         else:
-            lines_numbers = self.stmt_table.get_statement_line_by_type_name(param_first)
-        for number in lines_numbers:
-            result_second.extend(self.follows_table.get_child(number))
-            if len(self.follows_table.get_child(number)) != 0:
-                result.append(number)
-        return result, result_second
+            return list(set(self.stmt_table.get_statement_line_by_type_name(param_first)).intersection(
+                set(self.follows_table.table.index.tolist()))), None
 
     def _str_with_type_and_digit(self, param_first, param_second) -> Tuple[List[int], None]:
-        lines_numbers: List[int] = []
-        if param_first == 'STMT':
-            for stmt in self.statements:
-                lines_numbers.extend(self.stmt_table.get_statement_line_by_type_name(stmt))
+        follows_line: Union[int, None] = self.follows_table.get_follows(int(param_second))
+        if follows_line is not None:
+            if param_first == 'STMT' or follows_line in self.stmt_table.get_statement_line_by_type_name(param_first):
+                return [follows_line], None
+            else:
+                return [], None
         else:
-            lines_numbers.extend(self.stmt_table.get_statement_line_by_type_name(param_first))
-        lines_numbers.extend(self.stmt_table.get_statement_line_by_type_name(param_first))
-        for number in lines_numbers:
-            if self.follows_table.is_follows(number, int(param_second)):
-                return [number], None
-        return [], None
+            return [], None
 
     def _digit_and_string_with_type(self, param_first, param_second) -> Tuple[List[int], None]:
-        lines_numbers: List[int] = []
-        if param_second == 'STMT':
-            for stmt in self.statements:
-                lines_numbers.extend(self.stmt_table.get_statement_line_by_type_name(stmt))
+        child_line: Union[int, None] = self.follows_table.get_child(int(param_first))
+        if child_line is not None:
+            if param_second == 'STMT' or child_line in self.stmt_table.get_statement_line_by_type_name(param_second):
+                return [child_line], None
+            else:
+                return [], None
         else:
-            lines_numbers = self.stmt_table.get_statement_line_by_type_name(param_second)
-        for number in lines_numbers:
-            if self.follows_table.is_follows(int(param_first), number):
-                return [number], None
-        return [], None
+            return [], None
 
     def follows_T(self, param_first: str, param_second: str) -> Union[Tuple[bool, bool],
                                                                       Tuple[List[int], List[str]],

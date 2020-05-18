@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union
 
 import pandas as pd
 
@@ -22,23 +22,24 @@ class FollowsTable:
         else:
             self.table[child_stmt][follows_stmt] = 1
 
-    def get_follows(self, stmt: int) -> List[int]:
-        results: List[int] = []
+    def get_follows(self, stmt: int) -> Union[int, None]:
         if stmt not in self.table.columns.values:
-            return results
+            return None
         for i in self.table[stmt].index[:]:
             if self.table[stmt][i] == 1:
-                results.append(i)
-        return results
+                return i
+        return None
 
-    def get_child(self, stmt: int) -> List[int]:
-        results: List[int] = []
+    def get_all_follows(self):
+        return
+
+    def get_child(self, stmt: int) -> Union[int, None]:
         if stmt not in self.table.index[:]:
-            return results
+            return None
         for col in self.table.loc[stmt].index[:]:
             if self.table.loc[stmt][col] == 1:
-                results.append(col)
-        return results
+                return col
+        return None
 
     def is_follows(self, follows_stmt: int, child_stmt: int) -> bool:
         if child_stmt not in self.table.columns.values or follows_stmt not in self.table.index[:]:
