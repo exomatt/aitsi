@@ -55,7 +55,10 @@ class NextRelation:
         for stmt in self.statements:
             lines_by_type_name.extend(self.stmt_table.get_statement_line_by_type_name(stmt))
         for line in lines_by_type_name:
-            previous.extend(self.next_table.get_previous(line))
+            new_previous: Set[int] = set(self.next_table.get_previous(line))
+            if not set(new_previous).issubset(previous):
+                previous.extend(new_previous)
+
         if param_first == 'STMT':
             for prev in previous:
                 if self.stmt_table.get_other_info(prev)['name'] in self.statements:
@@ -89,7 +92,9 @@ class NextRelation:
         else:
             lines_by_type_name.extend(self.stmt_table.get_statement_line_by_type_name(param_second))
         for line in lines_by_type_name:
-            previous.extend(self.next_table.get_previous(line))
+            new_previous: Set[int] = set(self.next_table.get_previous(line))
+            if not set(new_previous).issubset(previous):
+                previous.extend(new_previous)
         for prev in previous:
             if self.stmt_table.get_other_info(prev)['name'] in self.statements:
                 result.add(prev)
@@ -119,7 +124,9 @@ class NextRelation:
         else:
             lines_by_type_name_right.extend(self.stmt_table.get_statement_line_by_type_name(param_first))
         for line in lines_by_type_name_right:
-            next_lines.extend(self.next_table.get_next(line))
+            new_next: Set[int] = set(self.next_table.get_next(line))
+            if not set(new_next).issubset(next_lines):
+                next_lines.extend(new_next)
         if param_second == 'STMT':
             for _next in next_lines:
                 if self.stmt_table.get_other_info(_next)['name'] in self.statements:
@@ -140,7 +147,9 @@ class NextRelation:
         else:
             lines_by_type_name_left.extend(self.stmt_table.get_statement_line_by_type_name(param_second))
         for line in lines_by_type_name_left:
-            previous.extend(self.next_table.get_previous(line))
+            new_previous: Set[int] = set(self.next_table.get_previous(line))
+            if not set(new_previous).issubset(previous):
+                previous.extend(new_previous)
         if param_first == 'STMT':
             for prev in previous:
                 if self.stmt_table.get_other_info(prev)['name'] in self.statements:
@@ -195,31 +204,36 @@ class NextRelation:
             previous.extend(self.next_table.get_previous(line))
         if param_first == 'STMT':
             for prev in previous:
-                if not all(elem in previous for elem in self.next_table.get_previous(prev)):
-                    previous.extend(self.next_table.get_previous(prev))
+                new_previous: Set[int] = set(self.next_table.get_previous(prev))
+                if not set(new_previous).issubset(previous):
+                    previous.extend(new_previous)
                 if self.stmt_table.get_other_info(prev)['name'] in self.statements:
                     result.add(prev)
         else:
             for prev in previous:
-                if not all(elem in previous for elem in self.next_table.get_previous(prev)):
-                    previous.extend(self.next_table.get_previous(prev))
+                new_previous: Set[int] = set(self.next_table.get_previous(prev))
+                if not set(new_previous).issubset(previous):
+                    previous.extend(new_previous)
                 if self.stmt_table.get_other_info(prev)['name'] == param_first:
                     result.add(prev)
         return list(result), None
 
     def _next_T_stmt_digit(self, param_first, param_second) -> Tuple[List[int], None]:
         result: Set[int] = set()
-        previous = self.next_table.get_previous(int(param_second))
+        previous: List[int] = self.next_table.get_previous(int(param_second))
+        new_previous: Set[int] = set()
         if param_first == 'STMT':
             for prev in previous:
-                if not all(elem in previous for elem in self.next_table.get_previous(prev)):
-                    previous.extend(self.next_table.get_previous(prev))
+                new_previous = set(self.next_table.get_previous(prev))
+                if not set(new_previous).issubset(previous):
+                    previous.extend(new_previous)
                 if self.stmt_table.get_other_info(prev)['name'] in self.statements:
                     result.add(prev)
         else:
             for prev in previous:
-                if not all(elem in previous for elem in self.next_table.get_previous(prev)):
-                    previous.extend(self.next_table.get_previous(prev))
+                new_previous = set(self.next_table.get_previous(prev))
+                if not set(new_previous).issubset(previous):
+                    previous.extend(new_previous)
                 if self.stmt_table.get_other_info(prev)['name'] == param_first:
                     result.add(prev)
         return list(result), None
@@ -236,33 +250,37 @@ class NextRelation:
         for line in lines_by_type_name:
             previous.extend(self.next_table.get_previous(line))
         for prev in previous:
-            if not all(elem in previous for elem in self.next_table.get_previous(prev)):
-                previous.extend(self.next_table.get_previous(prev))
+            new_previous: Set[int] = set(self.next_table.get_previous(prev))
+            if not set(new_previous).issubset(previous):
+                previous.extend(new_previous)
             if self.stmt_table.get_other_info(prev)['name'] in self.statements:
                 result.add(prev)
         return list(result), None
 
     def _next_T_wildcard_digit(self, param_second) -> Tuple[List[int], None]:
-        previous = self.next_table.get_previous(int(param_second))
+        previous: List[int] = self.next_table.get_previous(int(param_second))
         for prev in previous:
-            if not all(elem in previous for elem in self.next_table.get_previous(prev)):
-                previous.extend(self.next_table.get_previous(prev))
-        return previous, None
+            new_previous: Set[int] = set(self.next_table.get_previous(prev))
+            if not set(new_previous).issubset(previous):
+                previous.extend(new_previous)
+        return list(previous), None
 
     def _next_T_digit_stmt(self, param_first, param_second) -> Tuple[List[int], None]:
         result: Set[int] = set()
         next_lines: List[int] = self.next_table.get_next(int(param_first))
         if param_second == 'STMT':
             for _next in next_lines:
-                if not all(elem in next_lines for elem in self.next_table.get_next(_next)):
-                    next_lines.extend(self.next_table.get_next(_next))
+                new_next: Set[int] = set(self.next_table.get_next(_next))
+                if not set(new_next).issubset(next_lines):
+                    next_lines.extend(new_next)
                 if self.stmt_table.get_other_info(_next)['name'] in self.statements:
                     result.add(_next)
             return list(result), None
         else:
             for _next in next_lines:
-                if not all(elem in next_lines for elem in self.next_table.get_next(_next)):
-                    next_lines.extend(self.next_table.get_next(_next))
+                new_next: Set[int] = set(self.next_table.get_next(_next))
+                if not set(new_next).issubset(next_lines):
+                    next_lines.extend(new_next)
                 if self.stmt_table.get_other_info(_next)['name'] in param_second:
                     result.add(_next)
             return list(result), None
@@ -270,9 +288,10 @@ class NextRelation:
     def _next_T_digit_wildcard(self, param_first) -> Tuple[List[int], None]:
         next_lines: List[int] = self.next_table.get_next(int(param_first))
         for _next in next_lines:
-            if not all(elem in next_lines for elem in self.next_table.get_next(_next)):
-                next_lines.extend(self.next_table.get_next(_next))
-        return next_lines, None
+            new_next: Set[int] = set(self.next_table.get_next(_next))
+            if not set(new_next).issubset(next_lines):
+                next_lines.extend(new_next)
+        return list(next_lines), None
 
     def _next_T_two_digit(self, param_first, param_second) -> Tuple[bool, None]:
         is_next = self.next_table.is_next(int(param_first), int(param_second))
@@ -283,8 +302,9 @@ class NextRelation:
             for _next in next_values:
                 if int(param_second) in self.next_table.get_next(_next):
                     return True, None
-                if not all(elem in next_values for elem in self.next_table.get_next(_next)):
-                    next_values.extend(self.next_table.get_next(_next))
+                new_next: Set[int] = set(self.next_table.get_next(_next))
+                if not set(new_next).issubset(next_values):
+                    next_values.extend(new_next)
             return False, None
 
     def _next_T_two_str_types(self, param_first, param_second) -> Tuple[List[int], List[int]]:
@@ -305,14 +325,16 @@ class NextRelation:
             previous.extend(self.next_table.get_previous(line))
         if param_first == 'STMT':
             for prev in previous:
-                if not all(elem in previous for elem in self.next_table.get_previous(prev)):
-                    previous.extend(self.next_table.get_previous(prev))
+                new_previous: Set[int] = set(self.next_table.get_previous(prev))
+                if not set(new_previous).issubset(previous):
+                    previous.extend(new_previous)
                 if self.stmt_table.get_other_info(prev)['name'] in self.statements:
                     result_left.add(prev)
         else:
             for prev in previous:
-                if not all(elem in previous for elem in self.next_table.get_previous(prev)):
-                    previous.extend(self.next_table.get_previous(prev))
+                new_previous: Set[int] = set(self.next_table.get_previous(prev))
+                if not set(new_previous).issubset(previous):
+                    previous.extend(new_previous)
                 if self.stmt_table.get_other_info(prev)['name'] == param_first:
                     result_left.add(prev)
         return result_left
@@ -330,14 +352,16 @@ class NextRelation:
             next_lines.extend(self.next_table.get_next(line))
         if param_second == 'STMT':
             for _next in next_lines:
-                if not all(elem in next_lines for elem in self.next_table.get_next(_next)):
-                    next_lines.extend(self.next_table.get_next(_next))
+                new_next: Set[int] = set(self.next_table.get_next(_next))
+                if not set(new_next).issubset(next_lines):
+                    next_lines.extend(new_next)
                 if self.stmt_table.get_other_info(_next)['name'] in self.statements:
                     result_right.add(_next)
         else:
             for _next in next_lines:
-                if not all(elem in next_lines for elem in self.next_table.get_next(_next)):
-                    next_lines.extend(self.next_table.get_next(_next))
+                new_next: Set[int] = set(self.next_table.get_next(_next))
+                if not set(new_next).issubset(next_lines):
+                    next_lines.extend(new_next)
                 if self.stmt_table.get_other_info(_next)['name'] == param_second:
                     result_right.add(_next)
         return result_right
