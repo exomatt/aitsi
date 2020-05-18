@@ -51,8 +51,10 @@ class StatementTable:
         return len(self.table)
 
     def is_in(self, statement_line: int) -> bool:
-        if self.table.loc[self.table['statement_line'] == statement_line].tolist():
-            return True
+        statements: pd.Series = self.table['statement_line'] == statement_line
+        for statement in statements:
+            if statement:
+                return True
         return False
 
     def to_string(self) -> None:

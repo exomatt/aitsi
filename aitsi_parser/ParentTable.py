@@ -24,27 +24,22 @@ class ParentTable:
             self.table[child_stmt][parent_stmt] = 1
 
     def get_parent(self, stmt: int) -> List[int]:
-        results: List[int] = []
-        if stmt not in self.table.columns.values:
-            return results
-        for i in self.table[stmt].index[:]:
-            if self.table[stmt][i] == 1:
-                results.append(i)
-        return results
+        try:
+            return self.table.index[self.table[stmt] == 1].tolist()
+        except Exception:
+            return []
 
     def get_child(self, stmt: int) -> List[int]:
-        results: List[int] = []
-        if stmt not in self.table.index[:]:
-            return results
-        for col in self.table.loc[stmt].index[:]:
-            if self.table.loc[stmt][col] == 1:
-                results.append(col)
-        return results
+        try:
+            return self.table.columns[self.table.loc[stmt] == 1].tolist()
+        except Exception:
+            return []
 
     def is_parent(self, parent_stmt: int, child_stmt: int) -> bool:
-        if child_stmt not in self.table.columns.values or parent_stmt not in self.table.index[:]:
+        try:
+            return bool(self.table.at[parent_stmt, child_stmt])
+        except Exception:
             return False
-        return self.table.at[parent_stmt, child_stmt] == 1
 
     def to_string(self) -> None:
         print("ParentTable:")
