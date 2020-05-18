@@ -1,0 +1,48 @@
+assign a;
+Select a pattern a(_, _"c -1"_)
+19, 33
+assign a;
+Select a pattern a(_, _"1"_)
+1, 6, 10, 14, 19, 20, 28, 33, 34
+assign a;
+Select a pattern a(_, _"delta  + l "_)
+none
+assign a;
+Select a pattern a(_, _"200"_)
+2
+assign a;
+Select a pattern a(_, _"0"_)
+15, 24, 29, 37
+assign a;
+Select a pattern a("c", "c -1")
+19, 33
+assign a;
+Select a pattern a("b", "x+ 1"_)
+none
+assign a;
+Select a pattern a("b", _"delta  + l  * width")
+none
+assign a;
+Select a pattern a("c", _"width + Romeo"_)
+none
+assign a;
+Select a pattern a(_, _"l  * width"_)
+16, 30
+assign a;
+Select a pattern a(_, _"(Romeo - 1)"_)
+14, 28
+assign a;
+Select a pattern a("oSCar", "(k + j1k * chArlie)")
+none
+assign a;
+Select a pattern a("x", "(k + j1k)"_)
+none
+assign a;
+Select a pattern a("x", _"(k + j1k * chArlie)")
+none
+assign a;
+Select a pattern a("oSCar", _"(k + j1k)"_)
+none
+assign a;
+Select a pattern a(_, _"(k + j1k * chArlie)"_)
+8
