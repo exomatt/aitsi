@@ -26,15 +26,15 @@ class UsesTable:
 
     def get_used(self, stmt: str) -> List[str]:
         try:
-            return self.table.index[self.table[stmt] == 1].tolist()[0]
+            return self.table.index[self.table[stmt] == 1].tolist()
         except Exception:
-            return None
+            return []
 
     def get_uses(self, var_name: str) -> List[str]:
         try:
-            return self.table.columns[self.table.loc[var_name] == 1].tolist()[0]
+            return self.table.columns[self.table.loc[var_name] == 1].tolist()
         except Exception:
-            return None
+            return []
 
     def is_used(self, var_name: str, stmt: str) -> bool:
         try:
