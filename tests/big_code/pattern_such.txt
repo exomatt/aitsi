@@ -1,0 +1,231 @@
+procedure p, p1, p2; assign a;
+Select a pattern a("a",_) such that Calls(p,p1) and Calls(p1,p2)
+none
+procedure p, p1, p2; assign a;
+Select a pattern a("x",_) such that Calls (p, "Lily")
+none
+procedure p, p1, p2; assign a;
+Select a pattern a("y",_) such that Calls (p, "Orchid")
+none
+procedure p, p1, p2; assign a;
+Select a pattern a("z",_) such that Calls (p, "Tulip")
+none
+while w; assign a;
+Select a pattern a("x",_) such that Follows (w,a)
+116
+while w; assign a;
+Select a pattern a("y",_) such that Follows (w,a)
+none
+while w; assign a;
+Select a pattern a("t",_) such that Follows (w,a)
+none
+while w; assign a;
+Select a pattern a("idx",_) such that Follows (w,a)
+none
+while w; assign a;
+Select a pattern a("z",_) such that Follows (w,a)
+none
+while w; assign a;
+Select a pattern a(_,"5+3") such that Follows (w,a)
+none
+while w; assign a;
+Select a pattern a(_,"x+y") such that Follows (w,a)
+none
+while w; assign a;
+Select a pattern a(_,"z+1") such that Follows (w,a)
+none
+while w; assign a;
+Select a pattern a("x","3*a") such that Follows (w,a)
+none
+procedure p, p1, p2; assign a;
+Select a pattern a("x",_) such that Calls(p,p1) and Calls(p1,p2)
+106, 116
+procedure p, p1, p2; assign a;
+Select a pattern a("idx",_) such that Calls(p,p1) and Calls(p1,p2)
+none
+procedure p1, p2; assign a;
+Select a pattern a("x",_) such that Calls("x",p1) and Calls*(p1,p2)
+none
+procedure p1, p2; assign a;
+Select a pattern a("y",_) such that Calls("y",p1) and Calls*(p1,p2)
+none
+procedure p1, p2; assign a;
+Select a pattern a("x",_) such that Calls("z",p1) and Calls*(p1,p2)
+none
+procedure p, p1, p2; assign a;
+Select a pattern a("x",_) such that Calls(p,p1) and Calls(p1,p2)
+106, 116
+procedure p1, p2; assign a;
+Select a pattern a("x",_) such that Calls(p1,"Tulip") and Calls*(p1,p2)
+none
+procedure p1, p2; assign a;
+Select a pattern a("x*y",_) such that Calls(p1,"Tulip") and Calls*(p1,p2)
+none
+procedure p1, p2; assign a;
+Select a pattern a("x",_) such that Calls(p1,"Lily") and Calls*(p1,p2)
+none
+procedure p1, p2; assign a;
+Select a pattern a("x+idx",_) such that Calls(p1,"Lily") and Calls*(p1,p2)
+none
+procedure p1, p2; assign a;
+Select a pattern a("x",_) such that Calls(p1,"Orchid") and Calls*(p1,p2)
+none
+procedure p1, p2;  assign a;
+Select a pattern a("x",_) such that Calls("Tulip",p1) and Calls*(p1,p2) and Calls*(p1,p2)
+none
+procedure p1, p2;  assign a;
+Select a pattern a("idx",_) such that Calls("Tulip",p1) and Calls*(p1,p2) and Calls*(p1,p2)
+none
+procedure p1, p2;  assign a;
+Select a pattern a("z",_) such that Calls("Tulip",p1) and Calls*(p1,p2) and Calls*(p1,p2)
+none
+procedure p1, p2;  assign a;
+Select a pattern a("t",_) such that Calls("Tulip",p1) and Calls*(p1,p2) and Calls*(p1,p2)
+none
+procedure p1, p2;  assign a;
+Select a pattern a("x",_) such that Calls(p1,"Tulip") and Calls*(p1,p2) and Modifies(p1,"x")
+none
+procedure p1, p2;  assign a;
+Select a pattern a("y",_) such that Calls(p1,"Tulip") and Calls*(p1,p2) and Modifies(p1,"x")
+none
+procedure p1, p2;  assign a;
+Select a pattern a("z",_) such that Calls(p1,"Tulip") and Calls*(p1,p2) and Modifies(p1,"x")
+none
+procedure p1, p2;  assign a;
+Select a pattern a("t",_) such that Calls(p1,"Tulip") and Calls*(p1,p2) and Modifies(p1,"x")
+none
+procedure p1, p2;  assign a;
+Select a pattern a("t",_) such that Calls(p1,"Tulip") and Calls*(p1,p2) and Modifies(p1,"y")
+none
+procedure p1, p2;  assign a;
+Select a pattern a("t",_) such that Calls(p1,"Tulip") and Calls*(p1,p2) and Modifies(p1,"idx")
+none
+procedure p1, p2;  assign a;
+Select a pattern a("t",_) such that Calls(p1,"Orchid") and Calls*(p1,p2) and Modifies(p1,"z")
+none
+procedure p1, p2;  assign a;
+Select a pattern a("y",_) such that Calls(p1,"Orchid") and Calls*(p1,p2) and Modifies(p1,"z")
+none
+procedure p, p1, p2;  assign a;
+Select a pattern a("t",_) such that Calls(p,p1) and Calls*(p1,p2) and Follows(1,2)
+none
+procedure p, p1, p2;  assign a;
+Select a pattern a("y",_) such that Calls(p,p1) and Calls*(p1,p2) and Follows(1,2)
+none
+procedure p, p1, p2;  assign a;
+Select a pattern a("x",_) such that Calls(p,p1) and Calls*(p1,p2) and Follows(1,2)
+106, 116
+procedure p, p1, p2;  assign a;
+Select a pattern a("t",_) such that Calls(p,p1) and Calls*(p1,p2) and Uses(p1,"x")
+none
+procedure p, p1, p2;  assign a;
+Select a pattern a("x",_) such that Calls(p,p1) and Calls*(p1,p2) and Uses(p1,"x")
+none
+procedure p, p1, p2;  assign a;
+Select a pattern a("y",_) such that Calls(p,p1) and Calls*(p1,p2) and Uses(p1,"x")
+none
+procedure p, p1, p2;  assign a;
+Select a pattern a("y",_) such that Calls(p,p1) and Calls*(p1,p2) and Uses(p1,"z")
+none
+procedure p, p1, p2;  assign a;
+Select a pattern a("t",_) such that Calls(p,p1) and Calls(p1,p2) and Next(7,8)
+none
+procedure p, p1, p2;  assign a;
+Select a pattern a("x",_) such that Calls(p,p1) and Calls(p1,p2) and Next(7,8)
+106, 116
+procedure p, p1, p2;  assign a;
+Select a pattern a("idx",_) such that Calls(p,p1) and Calls(p1,p2) and Next(7,8)
+none
+procedure p, p1, p2;  assign a;
+Select a pattern a("idx*a",_) such that Calls(p,p1) and Calls(p1,p2) and Next(7,8)
+none
+procedure p, p1, p2;  assign a;
+Select a pattern a("idx*z",_) such that Calls(p,p1) and Calls(p1,p2) and Next(7,8)
+none
+procedure p, p1, p2;  assign a;
+Select a pattern a("z",_) such that Calls(p,p1) and Calls(p1,p2) and Next(7,8)
+none
+procedure p, p1; variable v;  assign a;
+Select a pattern a("t",_) such that Calls(p,p1) and Modifies(p1,v) and Calls*("Tulip",p1)
+none
+procedure p, p1; variable v;  assign a;
+Select a pattern a("x",_) such that Calls(p,p1) and Modifies(p1,v) and Calls*("Orchid",p1)
+none
+procedure p, p1; variable v;  assign a;
+Select a pattern a("t",_) such that Calls(p1,"Tulip") and Modifies(p1,"x") and Follows(1,2)
+none
+procedure p, p1; variable v;  assign a;
+Select a pattern a("x",_) such that Calls(p1,"Tulip") and Modifies(p1,"x") and Follows(1,2)
+none
+procedure p, p1; variable v;  assign a;
+Select a pattern a("z",_) such that Calls(p1,"Tulip") and Modifies(p1,"idx") and Follows(1,2)
+none
+stmt s; while w; if ifstat;  assign a;
+Select a pattern a("t",_) such that Follows(w, s) and Follows(s,ifstat) and Parent*(w,s)
+none
+stmt s; while w; if ifstat;  assign a;
+Select a pattern a("x",_) such that Follows(w, s) and Follows(s,ifstat) and Parent*(w,s)
+none
+stmt s; while w; if ifstat;  assign a;
+Select a pattern a("z",_) such that Follows(w, s) and Follows(s,ifstat) and Parent*(w,s)
+none
+stmt s; while w; if ifstat; assign a;
+Select a pattern a("t",_) such that Follows(w, a) and Follows(a,ifstat) and Parent*(1,2)
+none
+stmt s; while w; if ifstat; assign a;
+Select a pattern a("x",_) such that Follows(w, a) and Follows(a,ifstat) and Parent*(1,2)
+none
+stmt s; while w; if ifstat; assign a;
+Select a pattern a("x+t",_) such that Follows(w, a) and Follows(a,ifstat) and Parent*(1,2)
+none
+stmt s; while w; if ifstat; assign a;
+Select a pattern a("idx",_) such that Follows(w, a) and Follows(a,ifstat) and Parent*(1,2)
+none
+stmt s; while w; assign a;
+Select a pattern a("t",_) such that Follows(w, a) and Follows(a,12) and Follows(w,s)
+none
+stmt s; while w; assign a;
+Select a pattern a("x",_) such that Follows(w, a) and Follows(a,12) and Follows(w,s)
+none
+stmt s; while w; assign a;
+Select a pattern a("z",_) such that Follows(w, a) and Follows(a,12) and Follows(w,s)
+none
+stmt s, s1; while w; assign a;
+Select a pattern a("t",_) such that Follows(a, w) and Follows(w,s1) and Next(7,8)
+none
+stmt s, s1; while w; assign a;
+Select a pattern a("y",_) such that Follows(a, w) and Follows(w,s1) and Next(7,8)
+none
+stmt s; variable v;  assign a;
+Select a pattern a("t",_) such that Modifies(s, v) and Modifies(s,"x") and Next(7,8)
+none
+stmt s; variable v;  assign a;
+Select a pattern a("t",_) such that Modifies(s, v) and Modifies(s,"y") and Next(7,8)
+none
+stmt s; variable v;  assign a;
+Select a pattern a("x*t",_) such that Modifies(s, v) and Modifies(s,"y") and Next(5,9)
+none
+stmt s; variable v;  assign a;
+Select a pattern a("t+1",_) such that Modifies(s, v) and Modifies(s,"y") and Next(4,5)
+none
+stmt s; variable v;  assign a;
+Select a pattern a("t",_) such that Modifies(s, v) and Modifies(s,"t") and Next(7,8)
+none
+stmt s; variable v;  assign a;
+Select a pattern a("x",_) such that Modifies(s, v) and Modifies(s,"x") and Next(7,8)
+106, 116
+stmt s; variable v;  assign a;
+Select a pattern a("x",_) such that Modifies(s, v) and Modifies(s,"y") and Next(7,8)
+none
+stmt s; variable v;  assign a;
+Select a pattern a("x",_) such that Modifies(s, v) and Modifies(s,"t") and Next(7,8)
+none
+stmt s; variable v;  assign a;
+Select a pattern a("idx",_) such that Modifies(s, v) and Modifies(s,"x") and Next(7,8)
+none
+stmt s; variable v;  assign a;
+Select a pattern a("x*y",_) such that Modifies(s, v) and Modifies(s,"y") and Next(7,8)
+none
+stmt s; variable v;  assign a;
+Select a pattern a("x+7",_) such that Modifies(s, v) and Modifies(s,"t+1") and Next(7,8)
+none
