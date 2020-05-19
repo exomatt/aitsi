@@ -1,0 +1,387 @@
+variable v;
+Select v such that Uses (10,v)
+incre, y1, bottom
+variable v;
+Select v such that Uses (18,v)
+difference, pink, green, pixel, dot, notmove, edge, depth, semi, increase, temporary, decrease, half, notdone
+variable v;
+Select v such that Uses (23,v)
+tmp, y1
+assign a; variable v;
+Select v such that Uses (a,v)
+width, height, tmp, I, x1, incre, left, x2, right, y1, top, y2, bottom, area, j, difference, k, decrement, radius, x3, x4, volume, length, x5, x8, x9, x, c, weight, factor, pct, dx, lengx, cover, dy, marking, median, range, mean, s, pink, green, pixel, dot, line, edge, depth, semi, increase, temporary, decrease, half, notdone, triangle, base, degrees, triange, wcounter, unknown, correct, cs2, cs3, cs5, cs6, cs9
+procedure p; variable v;
+Select p such that Uses (p, v)
+Main, Move, Transform, Translate, Rotate, Shrink, Shift, Shear, Draw, Random, Show, Enlarge, Clear, Fill, Scale, RR, PP, QQ, TT, SS, UU, XX
+procedure p;
+Select p such that Uses (p, "a")
+none
+procedure p;
+Select p such that Uses (p, "b")
+none
+procedure p;
+Select p such that Uses (p, "c")
+Main
+procedure p;
+Select p such that Uses (p, "beta")
+none
+procedure p;
+Select p such that Uses (p, "tmp")
+Main, Transform, Move
+procedure p;
+Select p such that Uses (p, "k")
+Main
+procedure p;
+Select p such that Uses (p, "I")
+Main, Move, Shrink
+procedure p;
+Select p such that Uses (p, "j1k")
+none
+procedure p;
+Select p such that Uses (p, "oSCar")
+none
+procedure p;
+Select p such that Uses (p, "chArlie")
+none
+procedure p;
+Select p such that Uses (p, "x")
+Main
+procedure p;
+Select p such that Uses (p, "x1")
+Main, Transform, Shift, Shear, Move, Draw, Shrink
+procedure p;
+Select p such that Uses (p, "left")
+Main, Transform, Shift
+procedure p;
+Select p such that Uses (p, "right")
+Main, Transform, Shift
+procedure p;
+Select p such that Uses (p, "Romeo")
+none
+procedure p;
+Select p such that Uses (p, "delta")
+none
+procedure p;
+Select p such that Uses (p, "width")
+Main, Move
+procedure p;
+Select p such that Uses (p, "Y1")
+none
+assign a;
+Select a such that Uses (a, "a")
+none
+assign a;
+Select a such that Uses (a, "b")
+none
+assign a;
+Select a such that Uses (a, "c")
+115
+assign a;
+Select a such that Uses (a, "beta")
+none
+assign a;
+Select a such that Uses (a, "k")
+21, 61, 65, 91, 104
+assign a;
+Select a such that Uses (a, "tmp")
+28, 48, 50, 57, 61, 74, 91, 102, 138, 139, 147, 186
+assign a;
+Select a such that Uses (a, "oSCar")
+none
+assign a;
+Select a such that Uses (a, "I")
+13, 21, 39, 61, 65, 70, 71, 75, 77, 91, 104, 252, 253, 254
+assign a;
+Select a such that Uses (a, "j1k")
+none
+assign a;
+Select a such that Uses (a, "chArlie")
+none
+assign a;
+Select a such that Uses (a, "x")
+106, 116
+assign a;
+Select a such that Uses (a, "x1")
+8, 19, 30, 36, 37, 43, 46, 49, 64, 71, 74, 82, 85, 142, 148, 150, 152, 153, 154, 155, 156, 157, 158, 162, 165, 169, 185, 206, 245, 249, 252, 254
+assign a;
+Select a such that Uses (a, "left")
+7, 30, 49, 135, 152, 153, 154, 155, 156, 157, 158
+assign a;
+Select a such that Uses (a, "right")
+8, 31, 135, 152, 153, 154, 155, 156, 157, 158
+assign a;
+Select a such that Uses (a, "Romeo")
+none
+assign a;
+Select a such that Uses (a, "delta")
+none
+assign a;
+Select a such that Uses (a, "width")
+7, 11, 32, 40, 77, 85, 112, 186
+assign a;
+Select a such that Uses (a, "Y1")
+none
+variable v;
+Select v such that Uses ("ABC", v)
+none
+variable v;
+Select v such that Uses ("Second", v)
+none
+variable v;
+Select v such that Uses ("Init", v)
+none
+stmt s;
+Select s such that Uses (s, "a")
+none
+stmt s;
+Select s such that Uses (s, "b")
+none
+stmt s;
+Select s such that Uses (s, "c")
+6, 12, 105, 107, 109, 113, 115
+stmt s;
+Select s such that Uses (s, "beta")
+none
+stmt s;
+Select s such that Uses (s, "k")
+6, 12, 14, 15, 16, 21, 59, 61, 65, 66, 76, 79, 80, 89, 91, 101, 103, 104
+stmt s;
+Select s such that Uses (s, "tmp")
+6, 12, 14, 15, 16, 23, 26, 28, 29, 33, 34, 38, 42, 47, 48, 50, 55, 57, 59, 61, 63, 66, 69, 72, 74, 76, 78, 79, 80, 89, 91, 95, 97, 101, 102, 103, 105, 107, 108, 136, 138, 139, 143, 144, 147, 180, 181, 186
+stmt s;
+Select s such that Uses (s, "oSCar")
+none
+stmt s;
+Select s such that Uses (s, "I")
+6, 12, 13, 14, 15, 16, 21, 22, 34, 38, 39, 42, 59, 61, 63, 65, 66, 69, 70, 71, 75, 76, 77, 79, 80, 83, 84, 89, 91, 101, 103, 104, 180, 181, 184, 187, 250, 251, 252, 253, 254
+stmt s;
+Select s such that Uses (s, "j1k")
+none
+stmt s;
+Select s such that Uses (s, "chArlie")
+none
+stmt s;
+Select s such that Uses (s, "x")
+6, 12, 105, 106, 107, 109, 116
+stmt s;
+Select s such that Uses (s, "x1")
+6, 8, 12, 14, 15, 16, 19, 22, 29, 30, 33, 34, 36, 37, 38, 41, 42, 43, 45, 46, 47, 49, 63, 64, 66, 69, 71, 72, 74, 76, 78, 79, 80, 82, 83, 84, 85, 86, 87, 105, 107, 108, 109, 113, 114, 118, 136, 140, 142, 143, 144, 148, 150, 152, 153, 154, 155, 156, 157, 158, 159, 160, 162, 163, 165, 169, 180, 181, 184, 185, 191, 204, 206, 245, 249, 250, 251, 252, 254, 259
+stmt s;
+Select s such that Uses (s, "left")
+6, 7, 12, 14, 15, 16, 29, 30, 33, 45, 47, 49, 66, 76, 78, 105, 107, 108, 109, 113, 114, 135, 152, 153, 154, 155, 156, 157, 158
+stmt s;
+Select s such that Uses (s, "right")
+6, 8, 12, 14, 15, 16, 29, 31, 33, 45, 66, 76, 78, 105, 107, 108, 109, 113, 114, 135, 152, 153, 154, 155, 156, 157, 158
+stmt s;
+Select s such that Uses (s, "Romeo")
+none
+stmt s;
+Select s such that Uses (s, "delta")
+none
+stmt s;
+Select s such that Uses (s, "width")
+6, 7, 11, 12, 14, 15, 16, 29, 32, 34, 38, 40, 42, 63, 66, 76, 77, 79, 80, 83, 85, 105, 107, 109, 112, 180, 181, 186
+stmt s;
+Select s such that Uses (s, "Y1")
+none
+while w;
+Select w such that Uses (w, "a")
+none
+while w;
+Select w such that Uses (w, "b")
+none
+while w;
+Select w such that Uses (w, "c")
+6, 12, 105, 113
+while w;
+Select w such that Uses (w, "beta")
+none
+while w;
+Select w such that Uses (w, "k")
+6, 12, 16, 59, 79, 89, 101, 103
+while w;
+Select w such that Uses (w, "tmp")
+6, 12, 16, 26, 29, 47, 59, 69, 79, 89, 95, 101, 103, 105, 136, 143, 180, 181
+while w;
+Select w such that Uses (w, "oSCar")
+none
+while w;
+Select w such that Uses (w, "I")
+6, 12, 16, 59, 69, 79, 83, 89, 101, 103, 180, 181, 184, 187, 251
+while w;
+Select w such that Uses (w, "j1k")
+none
+while w;
+Select w such that Uses (w, "chArlie")
+none
+while w;
+Select w such that Uses (w, "x")
+6, 12, 105
+while w;
+Select w such that Uses (w, "x1")
+6, 12, 16, 29, 47, 69, 79, 83, 105, 113, 136, 143, 180, 181, 184, 191, 251
+while w;
+Select w such that Uses (w, "left")
+6, 12, 16, 29, 47, 105, 113
+while w;
+Select w such that Uses (w, "right")
+6, 12, 16, 29, 105, 113
+while w;
+Select w such that Uses (w, "Romeo")
+none
+while w;
+Select w such that Uses (w, "delta")
+none
+while w;
+Select w such that Uses (w, "width")
+6, 12, 16, 29, 79, 83, 105, 180, 181
+while w;
+Select w such that Uses (w, "Y1")
+none
+if ifstat;
+Select ifstat such that Uses (ifstat, "a")
+none
+if ifstat;
+Select ifstat such that Uses (ifstat, "b")
+none
+if ifstat;
+Select ifstat such that Uses (ifstat, "c")
+107, 109
+if ifstat;
+Select ifstat such that Uses (ifstat, "beta")
+none
+if ifstat;
+Select ifstat such that Uses (ifstat, "k")
+14, 15, 66, 76, 80
+if ifstat;
+Select ifstat such that Uses (ifstat, "tmp")
+14, 15, 23, 34, 38, 55, 66, 72, 76, 80, 97, 107, 144
+if ifstat;
+Select ifstat such that Uses (ifstat, "oSCar")
+none
+if ifstat;
+Select ifstat such that Uses (ifstat, "I")
+14, 15, 34, 38, 66, 76, 80, 250
+if ifstat;
+Select ifstat such that Uses (ifstat, "j1k")
+none
+if ifstat;
+Select ifstat such that Uses (ifstat, "chArlie")
+none
+if ifstat;
+Select ifstat such that Uses (ifstat, "x")
+107, 109
+if ifstat;
+Select ifstat such that Uses (ifstat, "x1")
+14, 15, 34, 38, 66, 72, 76, 80, 86, 107, 109, 140, 144, 159, 160, 163, 204, 250
+if ifstat;
+Select ifstat such that Uses (ifstat, "left")
+14, 15, 66, 76, 107, 109
+if ifstat;
+Select ifstat such that Uses (ifstat, "right")
+14, 15, 66, 76, 107, 109
+if ifstat;
+Select ifstat such that Uses (ifstat, "Romeo")
+none
+if ifstat;
+Select ifstat such that Uses (ifstat, "delta")
+none
+if ifstat;
+Select ifstat such that Uses (ifstat, "width")
+14, 15, 34, 38, 66, 76, 80, 107, 109
+if ifstat;
+Select ifstat such that Uses (ifstat, "Y1")
+none
+stmt s; variable v;
+Select v such that Uses (s, _)
+width, height, tmp, I, x1, incre, left, x2, right, y1, top, y2, bottom, area, j, difference, k, decrement, radius, x3, x4, volume, distance, length, x5, x8, x9, x6, x7, y7, circumference, x, b, c, weight, factor, pct, mtoggle, dx, lengx, cover, dy, marking, median, asterick, range, peak, mean, trim, s, p1, p2, pink, green, blue, pixel, dot, notmove, line, edge, depth, semi, increase, temporary, decrease, half, total, notdone, triangle, base, degrees, triange, wrong, wcounter, location, unknown, correct, cs1, cs2, cs3, cs4, cs5, cs6, cs9, cs8
+stmt s; variable v;
+Select v such that Uses (s, v) with s.stmt#=10
+incre, y1, bottom
+stmt s; variable v;
+Select v such that Uses (s, v) with s.stmt#=11
+width, height
+stmt s; variable v;
+Select v such that Uses (s, v) with s.stmt#=13
+I, j
+stmt s; variable v;
+Select v such that Uses (s, v) with s.stmt#=14
+width, height, tmp, I, x1, incre, left, x2, right, y1, top, y2, bottom, area, j, difference, k, decrement, radius, x3, x4, volume, length, x5, x8, x9, x6, weight, factor, pct, mtoggle, dx, lengx, cover, dy, marking, median, asterick, range, mean, s, pink, green, pixel, dot, notmove, edge, depth, semi, increase, temporary, decrease, half, notdone
+stmt s; variable v;
+Select v such that Uses (s, v) with s.stmt#=20
+difference
+stmt s; variable v;
+Select v such that Uses (s, v) with s.stmt#=22
+I, x1, incre, x2, y1, top, y2, bottom, j, difference, decrement, factor, pct, mtoggle, dx, lengx, cover, dy, marking, median, asterick, range, mean, s, pink, green
+stmt s; variable v;
+Select v such that Uses (s, v) with s.stmt#=25
+none
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="a"
+none
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="b"
+none
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="c"
+6, 12, 105, 107, 109, 113, 115
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="tmp"
+6, 12, 14, 15, 16, 23, 26, 28, 29, 33, 34, 38, 42, 47, 48, 50, 55, 57, 59, 61, 63, 66, 69, 72, 74, 76, 78, 79, 80, 89, 91, 95, 97, 101, 102, 103, 105, 107, 108, 136, 138, 139, 143, 144, 147, 180, 181, 186
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="k"
+6, 12, 14, 15, 16, 21, 59, 61, 65, 66, 76, 79, 80, 89, 91, 101, 103, 104
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="oSCar"
+none
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="I"
+6, 12, 13, 14, 15, 16, 21, 22, 34, 38, 39, 42, 59, 61, 63, 65, 66, 69, 70, 71, 75, 76, 77, 79, 80, 83, 84, 89, 91, 101, 103, 104, 180, 181, 184, 187, 250, 251, 252, 253, 254
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="j1k"
+none
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="chArlie"
+none
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="x"
+6, 12, 105, 106, 107, 109, 116
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="x1"
+6, 8, 12, 14, 15, 16, 19, 22, 29, 30, 33, 34, 36, 37, 38, 41, 42, 43, 45, 46, 47, 49, 63, 64, 66, 69, 71, 72, 74, 76, 78, 79, 80, 82, 83, 84, 85, 86, 87, 105, 107, 108, 109, 113, 114, 118, 136, 140, 142, 143, 144, 148, 150, 152, 153, 154, 155, 156, 157, 158, 159, 160, 162, 163, 165, 169, 180, 181, 184, 185, 191, 204, 206, 245, 249, 250, 251, 252, 254, 259
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="Romeo"
+none
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="left"
+6, 7, 12, 14, 15, 16, 29, 30, 33, 45, 47, 49, 66, 76, 78, 105, 107, 108, 109, 113, 114, 135, 152, 153, 154, 155, 156, 157, 158
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="right"
+6, 8, 12, 14, 15, 16, 29, 31, 33, 45, 66, 76, 78, 105, 107, 108, 109, 113, 114, 135, 152, 153, 154, 155, 156, 157, 158
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="delta"
+none
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="width"
+6, 7, 11, 12, 14, 15, 16, 29, 32, 34, 38, 40, 42, 63, 66, 76, 77, 79, 80, 83, 85, 105, 107, 109, 112, 180, 181, 186
+stmt s; variable v;
+Select s such that Uses (s, v) with v.varName="Y1"
+none
+procedure p; variable v;
+Select v such that Uses (p, v) with p.procName="ABC"
+none
+procedure p; variable v;
+Select v such that Uses (p, v) with p.procName="Init"
+none
+procedure p; variable v;
+Select v such that Uses (p, v) with p.procName="Second"
+none
+procedure p; variable v;
+Select v such that Uses (p, v)
+width, height, tmp, I, x1, incre, left, x2, right, y1, top, y2, bottom, area, j, difference, k, decrement, radius, x3, x4, volume, length, x5, x8, x9, x6, x, c, weight, factor, pct, mtoggle, dx, lengx, cover, dy, marking, median, asterick, range, mean, s, pink, green, pixel, dot, notmove, line, edge, depth, semi, increase, temporary, decrease, half, notdone, triangle, base, degrees, triange, wrong, wcounter, unknown, correct, cs1, cs2, cs3, cs4, cs5, cs6, cs9
+procedure p; variable v;
+Select v such that Uses (p, v) with p.procName="Second2"
+none
+procedure p; variable v;
+Select v such that Uses ("p", v)
+none

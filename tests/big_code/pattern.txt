@@ -1,0 +1,48 @@
+assign a;
+Select a pattern a(_, _"c -1"_)
+115
+assign a;
+Select a pattern a(_, _"1"_)
+2, 20, 27, 28, 39, 40, 48, 70, 73, 75, 96, 102, 106, 110, 115, 116, 124, 125, 126, 127, 132, 172, 183, 193, 200, 203, 207, 212, 214, 223, 225, 229, 242, 243, 253, 257, 283, 302, 304, 308, 310
+assign a;
+Select a pattern a(_, _"delta  + l "_)
+none
+assign a;
+Select a pattern a(_, _"200"_)
+none
+assign a;
+Select a pattern a(_, _"0"_)
+3, 4, 24, 25, 52, 53, 60, 81, 88, 90, 94, 98, 99, 100, 111, 120, 121, 122, 123, 149, 164, 171, 174, 175, 177, 179, 189, 201, 202, 205, 210, 211, 260, 261, 290
+assign a;
+Select a pattern a("c", "c -1")
+115
+assign a;
+Select a pattern a("b", "x+ 1"_)
+
+assign a;
+Select a pattern a("b", _"delta  + l  * width")
+
+assign a;
+Select a pattern a("c", _"width + Romeo"_)
+none
+assign a;
+Select a pattern a(_, _"l  * width"_)
+none
+assign a;
+Select a pattern a(_, _"(Romeo - 1)"_)
+none
+assign a;
+Select a pattern a("oSCar", "(k + j1k * chArlie)")
+none
+assign a;
+Select a pattern a("x", "(k + j1k)"_)
+
+assign a;
+Select a pattern a("x", _"(k + j1k * chArlie)")
+
+assign a;
+Select a pattern a("oSCar", _"(k + j1k)"_)
+none
+assign a;
+Select a pattern a(_, _"(k + j1k * chArlie)"_)
+none
