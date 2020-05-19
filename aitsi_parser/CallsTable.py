@@ -26,27 +26,22 @@ class CallsTable:
             self.table = self.table.fillna(value=0)
 
     def get_calls(self, procedure: str) -> List[str]:
-        results: List[str] = []
-        if procedure not in self.table.columns.values:
-            return results
-        for i in self.table[procedure].index[:]:
-            if self.table[procedure][i] == 1:
-                results.append(i)
-        return results
+        try:
+            return self.table.index[self.table[procedure] == 1].tolist()
+        except Exception:
+            return []
 
     def get_called_from(self, procedure: str) -> List[str]:
-        results: List[str] = []
-        if procedure not in self.table.index[:]:
-            return results
-        for col in self.table.loc[procedure].index[:]:
-            if self.table.loc[procedure][col] == 1:
-                results.append(col)
-        return results
+        try:
+            return self.table.columns[self.table.loc[procedure] == 1].tolist()
+        except Exception:
+            return []
 
     def is_calls(self, call_procedure: str, receiving_procedure: str) -> bool:
-        if receiving_procedure not in self.table.columns.values or call_procedure not in self.table.index[:]:
+        try:
+            return bool(self.table.at[call_procedure, receiving_procedure])
+        except Exception:
             return False
-        return self.table.at[call_procedure, receiving_procedure] == 1
 
     def to_string(self) -> None:
         print("CallsTable:")

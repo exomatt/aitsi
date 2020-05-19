@@ -25,27 +25,22 @@ class UsesTable:
             self.table[stmt][var_name] = 1
 
     def get_used(self, stmt: str) -> List[str]:
-        results: List[str] = []
-        if stmt not in self.table.columns.values:
-            return results
-        for i in range(len(self.table[stmt])):
-            if self.table[stmt][i] == 1:
-                results.append(self.table[stmt].index[i])
-        return results
+        try:
+            return self.table.index[self.table[stmt] == 1].tolist()
+        except Exception:
+            return []
 
     def get_uses(self, var_name: str) -> List[str]:
-        results: List[str] = []
-        if var_name not in self.table.index[:]:
-            return results
-        for col in self.table.loc[var_name].index[:]:
-            if self.table.loc[var_name][col] == 1:
-                results.append(col)
-        return results
+        try:
+            return self.table.columns[self.table.loc[var_name] == 1].tolist()
+        except Exception:
+            return []
 
     def is_used(self, var_name: str, stmt: str) -> bool:
-        if stmt not in self.table.columns.values or var_name not in self.table.index[:]:
+        try:
+            return bool(self.table.at[var_name, stmt])
+        except Exception:
             return False
-        return self.table.at[var_name, stmt] == 1
 
     def to_string(self) -> None:
         print("UsesTable:")

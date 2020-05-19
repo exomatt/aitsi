@@ -42,7 +42,7 @@ class StatementTable:
 
     def get_statement_line_by_type_name_and_value(self, type_name: str, value: str) -> List[int]:
         return self.table.loc[self.table['other_info']
-            .apply(lambda line: line['name'] == type_name & line['value'] == value)]['statement_line'].tolist()
+            .apply(lambda line: line['name'] == type_name and line['value'] == value)]['statement_line'].tolist()
 
     def get_all_statement_lines(self) -> List[int]:
         return self.table['statement_line'].tolist()
@@ -51,8 +51,10 @@ class StatementTable:
         return len(self.table)
 
     def is_in(self, statement_line: int) -> bool:
-        if self.table.loc[self.table['statement_line'] == statement_line].tolist():
-            return True
+        statements: pd.Series = self.table['statement_line'] == statement_line
+        for statement in statements:
+            if statement:
+                return True
         return False
 
     def to_string(self) -> None:
