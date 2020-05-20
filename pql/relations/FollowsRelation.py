@@ -62,7 +62,7 @@ class FollowsRelation:
             else:
                 param_second_lines: List[int] = list(
                     set(self.stmt_table.get_statement_line_by_type_name(param_second)).intersection(
-                        set(self.follows_table.columns.tolist())))
+                        set(self.follows_table.table.columns.tolist())))
                 return list(filter(lambda line: line is not None, [line for line in param_first_lines if
                                                                    self.follows_table.get_child(
                                                                        line) in param_second_lines])), \
