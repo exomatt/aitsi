@@ -17,6 +17,34 @@ class UsesRelation:
         self.stmt_table: StatementTable = stmt_table
         self.proc_table: ProcTable = proc_table
 
+    def value_from_set_and_value_from_set(self, param_first: str, param_second: str) -> bool:
+        pass
+
+    def value_from_set_and_not_initialized_set(self, param_first: str, param_second: str) -> List[str]:
+        pass
+
+    def value_from_set_and_value_from_query(self, param_first: str, param_second: str) -> bool:
+        pass
+
+    def not_initialized_set_and_value_from_set(self, param_first: str, param_second: str) -> List[str]:
+        pass
+
+    def not_initialized_set_and_not_initialized_set(self, param_first: str, param_second: str) -> \
+            Tuple[List[str], List[str]]:
+        pass
+
+    def not_initialized_set_and_value_from_query(self, param_first: str, param_second: str) -> List[str]:
+        pass
+
+    def value_from_query_and_value_from_set(self, param_first: str, param_second: str) -> bool:
+        pass
+
+    def value_from_query_and_not_initialized_set(self, param_first: str, param_second: str) -> List[str]:
+        pass
+
+    def value_from_query_and_value_from_query(self, param_first: str, param_second: str) -> bool:
+        pass
+
     def execute(self, param_first: str, param_second: str) -> Union[Tuple[bool, None],
                                                                     Tuple[List[int], List[str]],
                                                                     Tuple[List[str], None],

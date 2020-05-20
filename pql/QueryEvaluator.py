@@ -288,9 +288,9 @@ class QueryEvaluator:
                         second_relation_result: Set[int] = set()
                         for first_argument in first_argument_value[1]:
                             for second_argument in second_argument_value[1]:
-                                result: Union[Tuple[List[int], None], Tuple[List[str], None], Tuple[bool, None]] = \
-                                    self.relation[node_type].execute(str(first_argument), str(second_argument))
-                                if result[0]:
+                                result: bool = self.relation[node_type].value_from_set_and_value_from_set(
+                                    str(first_argument), str(second_argument))
+                                if result:
                                     first_relation_result.add(first_argument)
                                     second_relation_result.add(second_argument)
                         if first_relation_result:
@@ -303,9 +303,11 @@ class QueryEvaluator:
                     else:  # drugi jest np. ('i1','IF'), ('w','WHILE'), ('v','VARIABLE')
                         relation_result: Set[int] = set()
                         for argument in first_argument_value[1]:
-                            result: Union[Tuple[List[int], None], Tuple[List[str], None]] = \
-                                self.relation[node_type].execute(str(argument), second_argument_value[1])
-                            relation_result.update(result[0])
+                            result: Union[List[int], List[str]] = \
+                                self.relation[node_type].value_from_set_and_not_initialized_set(str(argument),
+                                                                                                second_argument_value[
+                                                                                                    1])
+                            relation_result.update(result)
                         if relation_result:
                             self.results['BOOLEAN'] = True
                         else:
@@ -315,9 +317,10 @@ class QueryEvaluator:
                 else:  # drugi argument jest np. 1, _, "x"
                     relation_result: Set[int] = set()
                     for argument in first_argument_value[1]:
-                        result: Union[Tuple[List[int], None], Tuple[List[str], None], Tuple[bool, None]] = \
-                            self.relation[node_type].execute(str(argument), second_argument_value)
-                        if result[0]:
+                        result: bool = \
+                            self.relation[node_type].value_from_set_and_value_from_query(str(argument),
+                                                                                         second_argument_value)
+                        if result:
                             relation_result.add(argument)
                     if relation_result:
                         self.results['BOOLEAN'] = True
@@ -329,13 +332,14 @@ class QueryEvaluator:
                 if type(second_argument_value) is tuple:
                     if type(second_argument_value[1]) is set:  # drugi jest np. ('i2', [3,7]), ('s', [3,7,4,5])
                         relation_result_first_argument: Set[int] = set()
-                        relation_result_second_argument: Set[int] = set()
+                        relation_result_second_argument: Union[Set[int], Set[str]] = set()
                         for argument in second_argument_value[1]:
-                            result: Union[Tuple[List[int], None], Tuple[List[str], None]] = \
-                                self.relation[node_type].execute(first_argument_value[1], str(argument))
-                            if result[0]:
-                                relation_result_first_argument.update(result[0])
-                                relation_result_second_argument.update([argument])
+                            result: Union[List[int], List[str]] = \
+                                self.relation[node_type].not_initialized_set_and_value_from_set(first_argument_value[1],
+                                                                                                str(argument))
+                            if result:
+                                relation_result_first_argument.update(result)
+                                relation_result_second_argument.add(argument)
 
                         if relation_result_first_argument:
                             self.results['BOOLEAN'] = True
@@ -345,8 +349,12 @@ class QueryEvaluator:
                         self.results[first_argument_value[0]] = relation_result_first_argument
                         self.results[second_argument_value[0]] = relation_result_second_argument
                     else:  # drugi jest np. ('i1','IF'), ('w','WHILE')
-                        result: Union[Tuple[List[int], None], Tuple[List[str], None], Tuple[bool, None]] = \
-                            self.relation[node_type].execute(first_argument_value[1], second_argument_value[1])
+                        result: Union[Tuple[List[int], List[int]],
+                                      Tuple[List[str], List[str]],
+                                      Tuple[List[int], List[str]],
+                                      Tuple[List[str], List[int]]] = \
+                            self.relation[node_type].not_initialized_set_and_not_initialized_set(
+                                first_argument_value[1], second_argument_value[1])
                         if result[0] and result[1]:
                             self.results['BOOLEAN'] = True
                         else:
@@ -355,22 +363,23 @@ class QueryEvaluator:
                         self.results[first_argument_value[0]] = set(result[0])
                         self.results[second_argument_value[0]] = set(result[1])
                 else:  # drugi argument jest np. 1, _, "x"
-                    result: Union[Tuple[List[int], None], Tuple[List[str], None], Tuple[bool, None]] = \
-                        self.relation[node_type].execute(first_argument_value[1], second_argument_value)
-                    if result[0]:
+                    result: Union[List[int], List[str]] = \
+                        self.relation[node_type].not_initialized_set_and_value_from_query(first_argument_value[1],
+                                                                                          second_argument_value)
+                    if result:
                         self.results['BOOLEAN'] = True
                     else:
                         self.results['BOOLEAN'] = False
                         raise Exception()
-                    self.results[first_argument_value[0]] = set(result[0])
+                    self.results[first_argument_value[0]] = set(result)
         else:  # pierwszy argument jest np. 1, _, "x"
             if type(second_argument_value) is tuple:
                 if type(second_argument_value[1]) is set:  # drugi jest np. ('i2', [3,7]), ('s', [3,7,4,5])
-                    relation_result: Set[int] = set()
+                    relation_result: Union[Set[int], Set[str]] = set()
                     for argument in second_argument_value[1]:
-                        result: Union[Tuple[List[int], None], Tuple[List[str], None], Tuple[bool, None]] = \
-                            self.relation[node_type].execute(first_argument_value, str(argument))
-                        if result[0]:
+                        result: bool = self.relation[node_type].value_from_query_and_value_from_set(
+                            first_argument_value, str(argument))
+                        if result:
                             relation_result.add(argument)
                     if relation_result:
                         self.results['BOOLEAN'] = True
@@ -379,18 +388,20 @@ class QueryEvaluator:
                         raise Exception()
                     self.results[second_argument_value[0]] = relation_result
                 else:  # drugi jest np. ('i1','IF'), ('w','WHILE')
-                    result: Union[Tuple[List[int], None], Tuple[List[str], None], Tuple[bool, None]] = \
-                        self.relation[node_type].execute(first_argument_value, second_argument_value[1])
-                    if result[0]:
+                    result: Union[List[int], List[str]] = \
+                        self.relation[node_type].value_from_query_and_not_initialized_set(first_argument_value,
+                                                                                          second_argument_value[1])
+                    if result:
                         self.results['BOOLEAN'] = True
                     else:
                         self.results['BOOLEAN'] = False
                         raise Exception()
-                    self.results[second_argument_value[0]] = set(result[0])
+                    self.results[second_argument_value[0]] = set(result)
             else:  # drugi argument jest np. 1, _, "x"
-                result: Union[Tuple[List[int], None], Tuple[List[str], None], Tuple[bool, None]] = \
-                    self.relation[node_type].execute(first_argument_value, second_argument_value)
-                if result[0]:
+                result: bool = \
+                    self.relation[node_type].value_from_query_and_value_from_query(first_argument_value,
+                                                                                   second_argument_value)
+                if result:
                     self.results['BOOLEAN'] = True
                 else:
                     self.results['BOOLEAN'] = False
