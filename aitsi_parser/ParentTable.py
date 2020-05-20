@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Union
 
 import pandas as pd
 
@@ -23,11 +23,11 @@ class ParentTable:
         else:
             self.table[child_stmt][parent_stmt] = 1
 
-    def get_parent(self, stmt: int) -> List[int]:
+    def get_parent(self, stmt: int) -> Union[int, None]:
         try:
-            return self.table.index[self.table[stmt] == 1].tolist()
+            return self.table.index[self.table[stmt] == 1].tolist()[0]
         except Exception:
-            return []
+            return None
 
     def get_child(self, stmt: int) -> List[int]:
         try:
