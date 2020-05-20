@@ -13,137 +13,29 @@ class FollowsTRelation:
         self.follows_table: FollowsTable = follows_table
 
     def value_from_set_and_value_from_set(self, param_first: str, param_second: str) -> bool:
-        pass
+        return bool(int(param_second) in self.get_all_lines_in_stmt_lst_after_line(int(param_first)))
 
-    def value_from_set_and_not_initialized_set(self, param_first: str, param_second: str) -> List[str]:
-        pass
-
-    def value_from_set_and_value_from_query(self, param_first: str, param_second: str) -> bool:
-        pass
-
-    def not_initialized_set_and_value_from_set(self, param_first: str, param_second: str) -> List[str]:
-        pass
-
-    def not_initialized_set_and_not_initialized_set(self, param_first: str, param_second: str) -> \
-            Tuple[List[str], List[str]]:
-        pass
-
-    def not_initialized_set_and_value_from_query(self, param_first: str, param_second: str) -> List[str]:
-        pass
-
-    def value_from_query_and_value_from_set(self, param_first: str, param_second: str) -> bool:
-        pass
-
-    def value_from_query_and_not_initialized_set(self, param_first: str, param_second: str) -> List[str]:
-        pass
-
-    def value_from_query_and_value_from_query(self, param_first: str, param_second: str) -> bool:
-        pass
-
-    def execute(self, param_first: str, param_second: str) -> Union[Tuple[bool, bool],
-                                                                    Tuple[List[int], List[str]],
-                                                                    Tuple[List[str], None],
-                                                                    Tuple[List[int], None],
-                                                                    Tuple[bool, List[int]],
-                                                                    Tuple[List[str], List[int]],
-                                                                    Tuple[List[str], List[str]],
-                                                                    Tuple[List[int], List[int]],
-                                                                    Tuple[List[int], bool]]:
-
-        if param_first.isdigit():
-            if param_second.isdigit():
-                # p1 i p2 sa liczbami
-                return self._follows_T_two_digits(param_first, param_second)
-            elif param_second == '_':
-                # p1 jest liczba, a p2  "_"
-                return self._follows_T_digit_and_wild_card(int(param_first))
-            else:
-                # p1 jest liczba, a p2 str np. "CALL"
-                return self._follows_T_digit_str_type(param_first, param_second)
-        elif param_first == '_':
-            if param_second.isdigit():
-                # p1  "_"  p2 jest liczba
-                return self._follows_T_wild_card_and_digit(int(param_second))
-            elif param_second == '_':
-                # p1  "_", a p2  "_"
-                return self.follows_table.table.index.tolist(), self.follows_table.table.columns.tolist()
-            else:
-                # p1  "_", a p2 str np. "CALL"
-                return self._follows_T_wildcard_and_str_with_type(param_second)
-        else:
-            if param_second.isdigit():
-                # p1 str np. "IF"  p2 jest liczba
-                return self._follows_T_str_with_type_and_digit(param_first, param_second)
-            elif param_second == '_':
-                # p1 str np. "IF", a p2  "_"
-                return self._follows_T_str_with_type_and_wildcard(param_first)
-            else:
-                # p1 str np. "IF", a p2 str np. "CALL"
-                return self._follows_T_two_str_with_types(param_first, param_second)
-
-    def get_all_lines_in_stmt_lst_before_line(self, line_number: int) -> List[int]:
-        pom: Union[int, None] = self.follows_table.get_follows(int(line_number))
-        results: List[int] = []
-        while pom is not None:
-            results.append(pom)
-            pom = self.follows_table.get_follows(pom)
-        return results
-
-    def get_all_lines_in_stmt_lst_after_line(self, line_number: int) -> List[int]:
-        pom: Union[int, None] = self.follows_table.get_child(int(line_number))
-        results: List[int] = []
-        while pom is not None:
-            results.append(pom)
-            pom = self.follows_table.get_child(pom)
-        return results
-
-    def _follows_T_two_digits(self, param_first, param_second) -> Tuple[bool, None]:
-        pom: List[int] = self.get_all_lines_in_stmt_lst_after_line(int(param_first))
-        if int(param_second) in pom:
-            return True, None
-        else:
-            return False, None
-
-    def _follows_T_digit_and_wild_card(self, param_first) -> Tuple[bool, None]:
-        if self.get_all_lines_in_stmt_lst_after_line(int(param_first)):
-            return True, None
-        return False, None
-
-    def _follows_T_wild_card_and_digit(self, param_second) -> Tuple[bool, None]:
-        if self.get_all_lines_in_stmt_lst_before_line(int(param_second)):
-            return True, None
-
-    def _follows_T_digit_str_type(self, param_first, param_second) -> Tuple[List[int], None]:
+    def value_from_set_and_not_initialized_set(self, param_first: str, param_second: str) -> List[int]:
         if param_second == 'STMT':
             pom: List[int] = self.follows_table.table.columns.tolist()
         else:
             pom: List[int] = self.stmt_table.get_statement_line_by_type_name(param_second)
-        return list(set(self.get_all_lines_in_stmt_lst_after_line(param_first)).intersection(pom)), None
+        return list(set(self.get_all_lines_in_stmt_lst_after_line(int(param_first))).intersection(pom))
 
-    def _follows_T_wildcard_and_str_with_type(self, param_second) -> Tuple[List[int], None]:
-        if param_second == 'STMT':
-            pom: List[int] = self.follows_table.table.columns.tolist()
-        else:
-            pom: List[int] = list(set(self.stmt_table.get_statement_line_by_type_name(param_second)).intersection(
-                self.follows_table.table.columns.tolist()))
-        return pom, None
+    def value_from_set_and_value_from_query(self, param_first: str, param_second: str) -> bool:
+        if param_second == '_':
+            return bool(self.follows_table.get_child(int(param_first)))
+        return bool(int(param_second) in self.get_all_lines_in_stmt_lst_after_line(int(param_first)))
 
-    def _follows_T_str_with_type_and_digit(self, param_first, param_second) -> Tuple[List[int], None]:
+    def not_initialized_set_and_value_from_set(self, param_first: str, param_second: str) -> List[int]:
         if param_first == 'STMT':
             pom: List[int] = self.follows_table.table.index.tolist()
         else:
             pom: List[int] = self.stmt_table.get_statement_line_by_type_name(param_first)
-        return list(set(self.get_all_lines_in_stmt_lst_before_line(param_second)).intersection(pom)), None
+        return list(set(self.get_all_lines_in_stmt_lst_before_line(int(param_second))).intersection(pom))
 
-    def _follows_T_str_with_type_and_wildcard(self, param_first) -> Tuple[List[int], None]:
-        if param_first == 'STMT':
-            pom: List[int] = self.follows_table.table.index.tolist()
-        else:
-            pom: List[int] = list(set(self.stmt_table.get_statement_line_by_type_name(param_first)).intersection(
-                self.follows_table.table.index.tolist()))
-        return pom, None
-
-    def _follows_T_two_str_with_types(self, param_first, param_second) -> Tuple[List[int], List[int]]:
+    def not_initialized_set_and_not_initialized_set(self, param_first: str, param_second: str) -> \
+            Tuple[List[int], List[int]]:
         if param_first == 'STMT':
             if param_second == 'STMT':
                 return self.follows_table.table.index.tolist(), self.follows_table.table.columns.tolist()
@@ -179,3 +71,53 @@ class FollowsTRelation:
                         result_first.append(line)
                         result_second.update(pom)
                 return result_first, list(result_second)
+
+    def not_initialized_set_and_value_from_query(self, param_first: str, param_second: str) -> List[int]:
+        if param_second == '_':
+            if param_first == 'STMT':
+                pom: List[int] = self.follows_table.table.index.tolist()
+            else:
+                pom: List[int] = list(set(self.stmt_table.get_statement_line_by_type_name(param_first)).intersection(
+                    self.follows_table.table.index.tolist()))
+            return pom
+        return self.not_initialized_set_and_value_from_set(param_first, param_second)
+
+    def value_from_query_and_value_from_set(self, param_first: str, param_second: str) -> bool:
+        if param_first == '_':
+            return bool(self.follows_table.get_follows(int(param_second)))
+        return self.value_from_set_and_value_from_set(param_first, param_second)
+
+    def value_from_query_and_not_initialized_set(self, param_first: str, param_second: str) -> List[int]:
+        if param_first == '_':
+            if param_second == 'STMT':
+                pom: List[int] = self.follows_table.table.columns.tolist()
+            else:
+                pom: List[int] = list(set(self.stmt_table.get_statement_line_by_type_name(param_second)).intersection(
+                    self.follows_table.table.columns.tolist()))
+            return pom
+        return self.value_from_set_and_not_initialized_set(param_first, param_second)
+
+    def value_from_query_and_value_from_query(self, param_first: str, param_second: str) -> bool:
+        if param_first == '_':
+            if param_second == '_':
+                return bool(self.follows_table.table.index.tolist() and self.follows_table.table.columns.tolist())
+            return bool(self.follows_table.get_follows(int(param_second)))
+        if param_second == '_':
+            return bool(self.follows_table.get_child(int(param_first)))
+        return bool(int(param_second) in self.get_all_lines_in_stmt_lst_after_line(int(param_first)))
+
+    def get_all_lines_in_stmt_lst_before_line(self, line_number: int) -> List[int]:
+        pom: Union[int, None] = self.follows_table.get_follows(int(line_number))
+        results: List[int] = []
+        while pom is not None:
+            results.append(pom)
+            pom = self.follows_table.get_follows(pom)
+        return results
+
+    def get_all_lines_in_stmt_lst_after_line(self, line_number: int) -> List[int]:
+        pom: Union[int, None] = self.follows_table.get_child(int(line_number))
+        results: List[int] = []
+        while pom is not None:
+            results.append(pom)
+            pom = self.follows_table.get_child(pom)
+        return results
