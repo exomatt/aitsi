@@ -17,11 +17,11 @@ class UsesRelation:
         self.stmt_table: StatementTable = stmt_table
         self.proc_table: ProcTable = proc_table
 
-    def uses(self, param_first: str, param_second: str) -> Union[Tuple[bool, None],
-                                                                 Tuple[List[int], List[str]],
-                                                                 Tuple[List[str], None],
-                                                                 Tuple[List[int], None],
-                                                                 Tuple[List[str], List[str]]]:
+    def execute(self, param_first: str, param_second: str) -> Union[Tuple[bool, None],
+                                                                    Tuple[List[int], List[str]],
+                                                                    Tuple[List[str], None],
+                                                                    Tuple[List[int], None],
+                                                                    Tuple[List[str], List[str]]]:
         if param_first.isdigit():
             if param_second == '_':
                 # p1 - numer linii | p2 - '_'   #Uses(4,"_")

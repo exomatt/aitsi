@@ -17,11 +17,11 @@ class ModifiesRelation:
         self.stmt_table: StatementTable = stmt_table
         self.proc_table: ProcTable = proc_table
 
-    def modifies(self, param_first: str, param_second: str) -> Union[Tuple[bool, None],
-                                                                     Tuple[List[int], List[str]],
-                                                                     Tuple[List[str], None],
-                                                                     Tuple[List[int], None],
-                                                                     Tuple[List[str], List[str]]]:
+    def execute(self, param_first: str, param_second: str) -> Union[Tuple[bool, None],
+                                                                    Tuple[List[int], List[str]],
+                                                                    Tuple[List[str], None],
+                                                                    Tuple[List[int], None],
+                                                                    Tuple[List[str], List[str]]]:
         if param_first.isdigit():
             if param_second == 'VARIABLE':
                 # p1 jest liczba, a p2 zmienna variable v czyli   np. 'VARIABLE' Modifies('3',v) zwraca liste ze zmiennymi modyfikowanymi tam lub pusta liste
