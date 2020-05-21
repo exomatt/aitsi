@@ -26,7 +26,7 @@ class ModifiesTable:
 
     def get_modified(self, stmt: str) -> List[str]:
         try:
-            return self.table.index[self.table[stmt] == 1].tolist()
+            return self.table.index[self.table[str(stmt)] == 1].tolist()
         except Exception:
             return []
 
@@ -36,7 +36,7 @@ class ModifiesTable:
         except Exception:
             return []
 
-    def is_modified(self, var_name: str, stmt: str) -> bool:
+    def is_modified(self, stmt: str, var_name: str) -> bool:
         try:
             return bool(self.table.at[var_name, stmt])
         except Exception:

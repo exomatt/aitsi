@@ -1,4 +1,4 @@
-from typing import Union, Tuple, List
+from typing import Tuple, List
 
 from aitsi_parser.CallsTable import CallsTable
 from aitsi_parser.ProcTable import ProcTable
@@ -17,36 +17,44 @@ class CallsRelation:
         self.stmt_table: StatementTable = stmt_table
         self.proc_table: ProcTable = proc_table
 
-    def execute(self, param_first: str, param_second: str) -> Union[Tuple[bool, None],
-                                                                    Tuple[List[str], None],
-                                                                    Tuple[List[str], List[str]]]:
-        if param_first == 'PROCEDURE':
-            if param_second == 'PROCEDURE':
-                # p1 - procedura (p) | p2 - procedura (p2)
-                return self.calls_table.table.index.tolist(), self.calls_table.table.columns.tolist()
-            elif param_second == '_':
-                # p1 - procedura (p) | p2 - '_' czyli dowolna procedura
-                return self.calls_table.table.index.tolist(), self.calls_table.table.columns.tolist()
-            else:
-                # p1 - procedura (p) | p2 - np. "First" czyli konkretna procedura
-                return self.calls_table.get_calls(param_second), None
-        elif param_first == '_':
-            if param_second == 'PROCEDURE':
-                # p1 - lub '_' | p2 - procedura (p2)
-                return self.calls_table.table.columns.tolist(), self.calls_table.table.index.tolist()
-            elif param_second == '_':
-                # p1 - '_' | p2 - '_' czyli dowolna procedura
-                return self.calls_table.table.index.tolist(), self.calls_table.table.columns.tolist()
-            else:
-                # p1 - '_' | p2 - np. "First" czyli konkretna procedura
-                return self.calls_table.get_calls(param_second), None
-        else:
-            if param_second == 'PROCEDURE':
-                # p1 - nazwa procedury (np. "First") | p2 - procedura (p2)
-                return self.calls_table.get_called_from(param_first), None
-            elif param_second == '_':
-                # p1 - nazwa procedury (np. "First") | p2 - '_' czyli dowolna procedura
-                return self.calls_table.get_called_from(param_first), None
-            else:
-                # p1 - nazwa procedury (np. "First") | p2 - np. "First" czyli konkretna procedura
-                return self.calls_table.is_calls(param_first, param_second), None
+    def value_from_set_and_value_from_set(self, param_first: str, param_second: str) -> bool:
+        return self.calls_table.is_calls(param_first, param_second)
+
+    def value_from_set_and_not_initialized_set(self, param_first: str, param_second: str) -> List[str]:
+        return self.calls_table.get_called_from(param_first)
+
+    def value_from_set_and_value_from_query(self, param_first: str, param_second: str) -> bool:
+        if param_second == '_':
+            return bool(self.calls_table.get_called_from(param_first))
+        return self.calls_table.is_calls(param_first, param_second)
+
+    def not_initialized_set_and_value_from_set(self, param_first: str, param_second: str) -> List[str]:
+        return self.calls_table.get_calls(param_second)
+
+    def not_initialized_set_and_not_initialized_set(self, param_first: str, param_second: str) -> Tuple[
+        List[str], List[str]]:
+        return self.calls_table.table.index.tolist(), self.calls_table.table.columns.tolist()
+
+    def not_initialized_set_and_value_from_query(self, param_first: str, param_second: str) -> List[str]:
+        if param_second == '_':
+            return self.calls_table.table.index.tolist()
+        return self.calls_table.get_calls(param_second)
+
+    def value_from_query_and_value_from_set(self, param_first: str, param_second: str) -> bool:
+        if param_first == '_':
+            return bool(self.calls_table.get_calls(param_second))
+        return self.calls_table.is_calls(param_first, param_second)
+
+    def value_from_query_and_not_initialized_set(self, param_first: str, param_second: str) -> List[str]:
+        if param_first == '_':
+            return self.calls_table.table.columns.tolist()
+        return self.calls_table.get_called_from(param_first)
+
+    def value_from_query_and_value_from_query(self, param_first: str, param_second: str) -> bool:
+        if param_first == '_':
+            if param_second == '_':
+                return bool(self.calls_table.table.index.tolist() and self.calls_table.table.columns.tolist())
+            return bool(self.calls_table.get_calls(param_second))
+        if param_second == '_':
+            return bool(self.calls_table.get_called_from(param_first))
+        return self.calls_table.is_calls(param_first, param_second)
