@@ -5,7 +5,6 @@ from aitsi_parser.StatementTable import StatementTable
 
 
 class ParentTRelation:
-    statements = ['WHILE', 'IF', 'CALL', 'ASSIGN']
 
     def __init__(self, parent_table: ParentTable, stmt_table: StatementTable) -> None:
         super().__init__()
@@ -115,12 +114,11 @@ class ParentTRelation:
         return results
 
     def get_all_lines_in_stmt_lst_child_line(self, line_number: int) -> List[int]:
-        pom: Set[int] = set(self.parent_table.get_child(int(line_number)))
-        results: Set[int] = set()
-        while pom:
-            results.update(pom)
-            children: Set[int] = set()
-            for line in pom.intersection(self.parent_table.table.index.tolist()):
-                children.update(self.parent_table.get_child(line))
-            pom = children
-        return results
+        result: Set[int] = set()
+        pom: List[int] = self.parent_table.get_child(int(line_number))
+        for child in pom:
+            new_previous: Set[int] = set(self.parent_table.get_child(child))
+            if not new_previous.issubset(pom):
+                pom.extend(new_previous)
+            result.add(child)
+        return list(result)

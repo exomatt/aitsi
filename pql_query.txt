@@ -1,2 +1,2 @@
-procedure p;
-Select p such that Calls(_,p)
+prog_line n;
+Select n such that Next*(12,n)
