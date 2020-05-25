@@ -93,15 +93,10 @@ class Parser:
         self.next_token = self.get_token()
         while self.next_token[0] == "PROCEDURE":
             self.root.add_child(self.procedure())
-        for child in self.root.children:
-            called_procedures = self.calls_table.get_called_from(child.value)
-            for proc in called_procedures:
-                modified_vars: List[str] = self.mod_table.get_modified(proc)
-                used_vars: List[str] = self.uses_table.get_used(proc)
-                for var in modified_vars:
-                    self.mod_table.set_modifies(var, child.value)
-                for var in used_vars:
-                    self.uses_table.set_uses(var, child.value)
+        for child in self.proc_table.get_all_proc_name():
+            for proc in self.calls_table.get_called_from(child):
+                self.mod_table.set_modifies_from_procedure(child, proc)
+                self.uses_table.set_uses_from_procedure(child, proc)
         for statement in self.statement_table.table.values:
             if statement[1]['name'] == 'CALL':
                 modified_vars: List[str] = self.mod_table.get_modified(statement[1]['value'])
@@ -110,8 +105,7 @@ class Parser:
                     self.mod_table.set_modifies(var, str(statement[0]))
                 for var in used_vars:
                     self.uses_table.set_uses(var, str(statement[0]))
-        for statement in self.statement_table.table.values:
-            if statement[1]['name'] == 'WHILE' or statement[1]['name'] == 'IF':
+            elif statement[1]['name'] == 'WHILE' or statement[1]['name'] == 'IF':
                 statements_inside_statement: List = [self.statement_table.table.values[i] for i in
                                                      range(statement[1]['start'], statement[1]['end'])]
                 for stmt in statements_inside_statement:
@@ -341,7 +335,7 @@ class Parser:
                 return factor_node
             elif self.next_token[0] == "INTEGER":
                 self.match("INTEGER")
-                if self.const_table.is_in(self.prev_token[1]):
+                if self.const_table.is_in(int(self.prev_token[1])):
                     const_lines: List[int] = self.const_table.get_other_info(int(self.prev_token[1]))['lines']
                     const_lines.append(self.current_line)
                     self.const_table.update_const(int(self.prev_token[1]), {'lines': const_lines})
