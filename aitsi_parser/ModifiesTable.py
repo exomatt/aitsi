@@ -15,7 +15,7 @@ class ModifiesTable:
             self.table[stmt] = 0
         if var_name not in self.table.index.tolist():
             self.table.loc[var_name] = 0
-        self.table.loc[stmt, var_name] = 1
+        self.table.loc[var_name, stmt] = 1
 
     def set_modifies_from_procedure(self, called_from: str, called_to: str) -> None:
         try:
