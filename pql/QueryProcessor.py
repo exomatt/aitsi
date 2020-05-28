@@ -168,7 +168,9 @@ class QueryProcessor:
             self.match("EVERYTHING")
         elif self.next_token[0] == "IDENT_QUOTE":
             if self.next_token[1].strip().replace('"', '') not in self.var_names:
-                self.return_none()
+                #self.return_none()
+                self.match("IDENT_QUOTE")
+                return None
             self.match("IDENT_QUOTE")
         else:
             self.return_none()
@@ -291,6 +293,8 @@ class QueryProcessor:
         self.match("CLOSE_PARENTHESIS")
         pattern_assign_node.add_child(argument1_node)
         pattern_assign_node.add_child(argument2_node)
+        if argument1_node is None:
+            self.return_none()
         return pattern_assign_node
 
     def expression(self) -> Node:
@@ -353,6 +357,8 @@ class QueryProcessor:
         pattern_if_node.add_child(argument1_node)
         pattern_if_node.add_child(argument2_node)
         pattern_if_node.add_child(argument3_node)
+        if argument1_node is None:
+            self.return_none()
         return pattern_if_node
 
     def while_cond(self) -> Node:
@@ -371,6 +377,8 @@ class QueryProcessor:
         self.match("CLOSE_PARENTHESIS")
         pattern_while_node.add_child(argument1_node)
         pattern_while_node.add_child(argument2_node)
+        if argument1_node is None:
+            self.return_none()
         return pattern_while_node
 
     def rel_ref(self) -> Node:
@@ -454,6 +462,8 @@ class QueryProcessor:
             argument2_node: Node = self.var_ref()
             relation_node.add_child(argument2_node)
         self.match("CLOSE_PARENTHESIS")
+        if argument2_node is None:
+            self.return_none()
         # TODO ze stanem omowione ze mozna wyrzucac bład w przy[adku pierwszego argumentu _ w modifies i uses ale w oficjalu jest to mozliwe
         # if argument1_node.node_type == "EVERYTHING":
         #     self.error("Error - in this relation _ as first argument is invalid")
