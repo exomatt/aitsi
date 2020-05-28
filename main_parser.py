@@ -28,6 +28,7 @@ def main(simple_file_path: str = "code_short.txt", tree_output: str = "AST.json"
     parser.program()
     # json_tree: Dict[str, dict] = parser.get_node_json()
     fill_empty_values(parser)
+    # result = [parser.next_table.get_next(n) for n in range(1,312)]
     ##todo można odkomentować żeby wypisac sobie dane cyk najlepiej zmienic na logi
     # log.debug(json_tree)
     # log.debug(parser.var_table.to_log())
