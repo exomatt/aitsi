@@ -12,17 +12,11 @@ class NextTable:
         self.table: pd.DataFrame = table
 
     def set_next(self, previous_stmt: int, next_stmt: int) -> None:
-        if previous_stmt not in self.table.index[:]:
-            indexes: List[int] = list(self.table.index[:])
-            indexes.append(previous_stmt)
-            self.table = self.table.reindex(indexes)
-            self.table = self.table.sort_index(axis=0)
-        if next_stmt not in self.table.columns.values:
-            self.table[next_stmt] = pd.Series(1, index=[previous_stmt])
-            self.table = self.table.sort_index(axis=1)
-            self.table = self.table.fillna(value=0)
-        else:
-            self.table[next_stmt][previous_stmt] = 1
+        if next_stmt not in self.table.columns.tolist():
+            self.table[next_stmt] = 0
+        if previous_stmt not in self.table.index.tolist():
+            self.table.loc[previous_stmt] = 0
+        self.table.loc[previous_stmt, next_stmt] = 1
 
     def remove_next(self, stmt: int) -> None:
         self.table = self.table.drop([stmt])

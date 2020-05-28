@@ -12,10 +12,14 @@ from aitsi_parser.UsesTable import UsesTable
 from aitsi_parser.VarTable import VarTable
 from pql.Node import Node
 from pql.relations.CallsRelation import CallsRelation
+from pql.relations.CallsTRelation import CallsTRelation
 from pql.relations.FollowsRelation import FollowsRelation
+from pql.relations.FollowsTRelation import FollowsTRelation
 from pql.relations.ModifiesRelation import ModifiesRelation
 from pql.relations.NextRelation import NextRelation
+from pql.relations.NextTRelation import NextTRelation
 from pql.relations.ParentRelation import ParentRelation
+from pql.relations.ParentTRelation import ParentTRelation
 from pql.relations.UsesRelation import UsesRelation
 from pql.utils.SearchUtils import SearchUtils
 
@@ -87,6 +91,24 @@ class QueryEvaluator:
             'FOLLOWST': 8,
             'CALLST': 9,
             'NEXTT': 10,
+        }
+        self.relation: Dict[str, Union[
+            ModifiesRelation, FollowsRelation, FollowsTRelation, ParentRelation, ParentTRelation, UsesRelation,
+            NextRelation, NextTRelation, CallsRelation, CallsTRelation]] = {
+            'MODIFIES': ModifiesRelation(self.all_tables['modifies'], self.all_tables['var'],
+                                         self.all_tables['statement'], self.all_tables['proc']),
+            'USES': UsesRelation(self.all_tables['uses'], self.all_tables['var'],
+                                 self.all_tables['statement'], self.all_tables['proc']),
+            'PARENT': ParentRelation(self.all_tables['parent'], self.all_tables['statement']),
+            'PARENTT': ParentTRelation(self.all_tables['parent'], self.all_tables['statement']),
+            'FOLLOWS': FollowsRelation(self.all_tables['follows'], self.all_tables['statement']),
+            'FOLLOWST': FollowsTRelation(self.all_tables['follows'], self.all_tables['statement']),
+            'CALLS': CallsRelation(self.all_tables['calls'], self.all_tables['var'], self.all_tables['statement'],
+                                   self.all_tables['proc']),
+            'CALLST': CallsTRelation(self.all_tables['calls'], self.all_tables['var'], self.all_tables['statement'],
+                                     self.all_tables['proc']),
+            'NEXT': NextRelation(self.all_tables['next'], self.all_tables['statement']),
+            'NEXTT': NextTRelation(self.all_tables['next'], self.all_tables['statement'])
         }
 
     def evaluate_query(self, pql_ast_tree: Node) -> str:
@@ -266,9 +288,9 @@ class QueryEvaluator:
                         second_relation_result: Set[int] = set()
                         for first_argument in first_argument_value[1]:
                             for second_argument in second_argument_value[1]:
-                                result: Union[Tuple[List[int], None], Tuple[List[str], None], Tuple[bool, None]] = \
-                                    self.select_relation(node_type, str(first_argument), str(second_argument))
-                                if result[0]:
+                                result: bool = self.relation[node_type].value_from_set_and_value_from_set(
+                                    str(first_argument), str(second_argument))
+                                if result:
                                     first_relation_result.add(first_argument)
                                     second_relation_result.add(second_argument)
                         if first_relation_result:
@@ -278,12 +300,14 @@ class QueryEvaluator:
                             raise Exception()
                         self.results[first_argument_value[0]] = first_relation_result
                         self.results[second_argument_value[0]] = second_relation_result
-                    else:  # drugi jest np. ('i1','IF'), ('w','WHILE')
+                    else:  # drugi jest np. ('i1','IF'), ('w','WHILE'), ('v','VARIABLE')
                         relation_result: Set[int] = set()
                         for argument in first_argument_value[1]:
-                            result: Union[Tuple[List[int], None], Tuple[List[str], None]] = \
-                                self.select_relation(node_type, str(argument), second_argument_value[1])
-                            relation_result.update(result[0])
+                            result: Union[List[int], List[str]] = \
+                                self.relation[node_type].value_from_set_and_not_initialized_set(str(argument),
+                                                                                                second_argument_value[
+                                                                                                    1])
+                            relation_result.update(result)
                         if relation_result:
                             self.results['BOOLEAN'] = True
                         else:
@@ -293,9 +317,10 @@ class QueryEvaluator:
                 else:  # drugi argument jest np. 1, _, "x"
                     relation_result: Set[int] = set()
                     for argument in first_argument_value[1]:
-                        result: Union[Tuple[List[int], None], Tuple[List[str], None], Tuple[bool, None]] = \
-                            self.select_relation(node_type, str(argument), second_argument_value)
-                        if result[0]:
+                        result: bool = \
+                            self.relation[node_type].value_from_set_and_value_from_query(str(argument),
+                                                                                         second_argument_value)
+                        if result:
                             relation_result.add(argument)
                     if relation_result:
                         self.results['BOOLEAN'] = True
@@ -307,13 +332,14 @@ class QueryEvaluator:
                 if type(second_argument_value) is tuple:
                     if type(second_argument_value[1]) is set:  # drugi jest np. ('i2', [3,7]), ('s', [3,7,4,5])
                         relation_result_first_argument: Set[int] = set()
-                        relation_result_second_argument: Set[int] = set()
+                        relation_result_second_argument: Union[Set[int], Set[str]] = set()
                         for argument in second_argument_value[1]:
-                            result: Union[Tuple[List[int], None], Tuple[List[str], None]] = \
-                                self.select_relation(node_type, first_argument_value[1], str(argument))
-                            if result[0]:
-                                relation_result_first_argument.update(result[0])
-                                relation_result_second_argument.update([argument])
+                            result: Union[List[int], List[str]] = \
+                                self.relation[node_type].not_initialized_set_and_value_from_set(first_argument_value[1],
+                                                                                                str(argument))
+                            if result:
+                                relation_result_first_argument.update(result)
+                                relation_result_second_argument.add(argument)
 
                         if relation_result_first_argument:
                             self.results['BOOLEAN'] = True
@@ -323,8 +349,12 @@ class QueryEvaluator:
                         self.results[first_argument_value[0]] = relation_result_first_argument
                         self.results[second_argument_value[0]] = relation_result_second_argument
                     else:  # drugi jest np. ('i1','IF'), ('w','WHILE')
-                        result: Union[Tuple[List[int], None], Tuple[List[str], None], Tuple[bool, None]] = \
-                            self.select_relation(node_type, first_argument_value[1], second_argument_value[1])
+                        result: Union[Tuple[List[int], List[int]],
+                                      Tuple[List[str], List[str]],
+                                      Tuple[List[int], List[str]],
+                                      Tuple[List[str], List[int]]] = \
+                            self.relation[node_type].not_initialized_set_and_not_initialized_set(
+                                first_argument_value[1], second_argument_value[1])
                         if result[0] and result[1]:
                             self.results['BOOLEAN'] = True
                         else:
@@ -333,22 +363,23 @@ class QueryEvaluator:
                         self.results[first_argument_value[0]] = set(result[0])
                         self.results[second_argument_value[0]] = set(result[1])
                 else:  # drugi argument jest np. 1, _, "x"
-                    result: Union[Tuple[List[int], None], Tuple[List[str], None], Tuple[bool, None]] = \
-                        self.select_relation(node_type, first_argument_value[1], second_argument_value)
-                    if result[0]:
+                    result: Union[List[int], List[str]] = \
+                        self.relation[node_type].not_initialized_set_and_value_from_query(first_argument_value[1],
+                                                                                          second_argument_value)
+                    if result:
                         self.results['BOOLEAN'] = True
                     else:
                         self.results['BOOLEAN'] = False
                         raise Exception()
-                    self.results[first_argument_value[0]] = set(result[0])
+                    self.results[first_argument_value[0]] = set(result)
         else:  # pierwszy argument jest np. 1, _, "x"
             if type(second_argument_value) is tuple:
                 if type(second_argument_value[1]) is set:  # drugi jest np. ('i2', [3,7]), ('s', [3,7,4,5])
-                    relation_result: Set[int] = set()
+                    relation_result: Union[Set[int], Set[str]] = set()
                     for argument in second_argument_value[1]:
-                        result: Union[Tuple[List[int], None], Tuple[List[str], None], Tuple[bool, None]] = \
-                            self.select_relation(node_type, first_argument_value, str(argument))
-                        if result[0]:
+                        result: bool = self.relation[node_type].value_from_query_and_value_from_set(
+                            first_argument_value, str(argument))
+                        if result:
                             relation_result.add(argument)
                     if relation_result:
                         self.results['BOOLEAN'] = True
@@ -357,60 +388,24 @@ class QueryEvaluator:
                         raise Exception()
                     self.results[second_argument_value[0]] = relation_result
                 else:  # drugi jest np. ('i1','IF'), ('w','WHILE')
-                    result: Union[Tuple[List[int], None], Tuple[List[str], None], Tuple[bool, None]] = \
-                        self.select_relation(node_type, first_argument_value, second_argument_value[1])
-                    if result[0]:
+                    result: Union[List[int], List[str]] = \
+                        self.relation[node_type].value_from_query_and_not_initialized_set(first_argument_value,
+                                                                                          second_argument_value[1])
+                    if result:
                         self.results['BOOLEAN'] = True
                     else:
                         self.results['BOOLEAN'] = False
                         raise Exception()
-                    self.results[second_argument_value[0]] = set(result[0])
+                    self.results[second_argument_value[0]] = set(result)
             else:  # drugi argument jest np. 1, _, "x"
-                result: Union[Tuple[List[int], None], Tuple[List[str], None], Tuple[bool, None]] = \
-                    self.select_relation(node_type, first_argument_value, second_argument_value)
-                if result[0]:
+                result: bool = \
+                    self.relation[node_type].value_from_query_and_value_from_query(first_argument_value,
+                                                                                   second_argument_value)
+                if result:
                     self.results['BOOLEAN'] = True
                 else:
                     self.results['BOOLEAN'] = False
                     raise Exception()
-
-    def select_relation(self, relation_type: str, first_argument: str, second_argument: str) -> \
-            Union[Tuple[List[int], None], Tuple[List[str], None], Tuple[bool, None]]:
-
-        if relation_type == 'MODIFIES':
-            return ModifiesRelation(self.all_tables['modifies'], self.all_tables['var'],
-                                    self.all_tables['statement'], self.all_tables['proc']) \
-                .modifies(first_argument, second_argument)
-        elif relation_type == 'USES':
-            return UsesRelation(self.all_tables['uses'], self.all_tables['var'],
-                                self.all_tables['statement'], self.all_tables['proc']) \
-                .uses(first_argument, second_argument)
-        elif relation_type == 'PARENT':
-            return ParentRelation(self.all_tables['parent'], self.all_tables['statement']) \
-                .parent(first_argument, second_argument)
-        elif relation_type == 'PARENTT':
-            return ParentRelation(self.all_tables['parent'], self.all_tables['statement']) \
-                .parent_T(first_argument, second_argument)
-        elif relation_type == 'FOLLOWS':
-            return FollowsRelation(self.all_tables['follows'], self.all_tables['statement']) \
-                .follows(first_argument, second_argument)
-        elif relation_type == 'FOLLOWST':
-            return FollowsRelation(self.all_tables['follows'], self.all_tables['statement']) \
-                .follows_T(first_argument, second_argument)
-        elif relation_type == 'CALLS':
-            return CallsRelation(self.all_tables['calls'], self.all_tables['var'], self.all_tables['statement'],
-                                 self.all_tables['proc']) \
-                .calls(first_argument, second_argument)
-        elif relation_type == 'CALLST':
-            return CallsRelation(self.all_tables['calls'], self.all_tables['var'], self.all_tables['statement'],
-                                 self.all_tables['proc']) \
-                .calls_T(first_argument, second_argument)
-        elif relation_type == 'NEXT':
-            return NextRelation(self.all_tables['next'], self.all_tables['statement']) \
-                .next(first_argument, second_argument)
-        elif relation_type == 'NEXTT':
-            return NextRelation(self.all_tables['next'], self.all_tables['statement']) \
-                .next_T(first_argument, second_argument)
 
     def attr_analysis(self, attr_node: Node) -> None:
         if attr_node.children[1].node_type == 'INTEGER':

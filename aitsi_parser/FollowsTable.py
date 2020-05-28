@@ -10,17 +10,11 @@ class FollowsTable:
         self.table: pd.DataFrame = table
 
     def set_follows(self, follows_stmt: int, child_stmt: int) -> None:
-        if follows_stmt not in self.table.index[:]:
-            indexes: List[int] = list(self.table.index[:])
-            indexes.append(follows_stmt)
-            self.table = self.table.reindex(indexes)
-            self.table = self.table.sort_index(axis=0)
-        if child_stmt not in self.table.columns.values:
-            self.table[child_stmt] = pd.Series(1, index=[follows_stmt])
-            self.table = self.table.sort_index(axis=1)
-            self.table = self.table.fillna(value=0)
-        else:
-            self.table[child_stmt][follows_stmt] = 1
+        if child_stmt not in self.table.columns.tolist():
+            self.table[child_stmt] = 0
+        if follows_stmt not in self.table.index.tolist():
+            self.table.loc[follows_stmt] = 0
+        self.table.loc[follows_stmt, child_stmt] = 1
 
     def get_follows(self, stmt: int) -> Union[int, None]:
         try:
