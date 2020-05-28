@@ -52,6 +52,54 @@ Select a such that Modifies (a,"c")
 assign a;
 Select a such that Modifies (a,"d")
 none
+ assign a;
+Select a such that Modifies (a,"cs1")
+283, 288
+assign a;
+Select a such that Modifies (a,"cs5")
+290, 298, 302, 311
+assign a;
+Select a such that Modifies (a,"unknown")
+none
+assign a;
+Select a such that Modifies (a,"wrong")
+none
+assign a;
+Select a such that Modifies (a,"base")
+271
+assign a;
+Select a such that Modifies (a,"edge")
+223, 225, 273
+assign a;
+Select a such that Modifies (a,"line")
+219
+assign a;
+Select a such that Modifies (a,"depth")
+229, 242
+assign a;
+Select a such that Modifies (a,"peak")
+199
+assign a;
+Select a such that Modifies (a,"blie")
+none
+assign a;
+Select a such that Modifies (a,"green")
+214
+assign a;
+Select a such that Modifies (a,"x9")
+158
+assign a;
+Select a such that Modifies (a,"j")
+73, 99, 100, 257
+assign a;
+Select a such that Modifies (a,"k")
+none
+assign a;
+Select a such that Modifies (a,"top")
+77, 126, 150
+assign a;
+Select a such that Modifies (a,"tmp")
+4, 17, 48, 60, 81, 90, 96, 133, 137, 149, 188
 assign a; variable v;
 Select a such that Modifies (a,v)
 2, 30, 49, 82, 85, 3, 31, 61, 88, 91, 272, 4, 17, 48, 60, 81, 90, 96, 133, 137, 149, 188, 39, 70, 75, 98, 185, 253, 7, 67, 120, 138, 164, 165, 174, 182, 245, 252, 65, 110, 128, 134, 162, 124, 130, 8, 21, 74, 121, 139, 167, 168, 175, 186, 246, 254, 125, 131, 9, 24, 27, 122, 146, 147, 161, 177, 178, 247, 258, 77, 126, 150, 10, 25, 28, 123, 145, 148, 179, 248, 255, 127, 151, 11, 32, 73, 99, 100, 257, 13, 20, 37, 129, 135, 169, 19, 35, 36, 152, 153, 40, 56, 43, 46, 50, 52, 53, 57, 64, 154, 58, 157, 158, 68, 71, 155, 93, 156, 94, 102, 104, 106, 116, 111, 112, 115, 132, 141, 142, 171, 172, 183, 189, 244, 249, 260, 261, 201, 205, 207, 193, 270, 275, 194, 200, 206, 197, 203, 199, 202, 212, 210, 211, 213, 214, 215, 236, 269, 233, 219, 223, 225, 273, 229, 242, 220, 228, 243, 268, 226, 238, 240, 263, 276, 271, 280, 282, 283, 288, 284, 285, 290, 298, 302, 311, 299, 304, 306, 310, 300, 308, 305
@@ -64,6 +112,54 @@ Select ifstat such that Modifies (ifstat,"c")
 if ifstat;
 Select ifstat such that Modifies (ifstat,"d")
 none
+ if ifstat;
+Select ifstat such that Modifies (ifstat, "cs1")
+291
+if ifstat;
+Select ifstat such that Modifies (ifstat, "cs5")
+291, 309
+if ifstat;
+Select ifstat such that Modifies (ifstat, "unknown")
+none
+if ifstat;
+Select ifstat such that Modifies (ifstat, "wrong")
+none
+if ifstat;
+Select ifstat such that Modifies (ifstat, "base")
+107, 266
+if ifstat;
+Select ifstat such that Modifies (ifstat, "edge")
+14, 15, 80, 107, 216, 224, 266
+if ifstat;
+Select ifstat such that Modifies (ifstat, "line")
+14, 15, 80, 216
+if ifstat;
+Select ifstat such that Modifies (ifstat, "depth")
+14, 15, 80, 216, 230, 241
+if ifstat;
+Select ifstat such that Modifies (ifstat, "peak")
+14, 15, 80, 86, 198
+if ifstat;
+Select ifstat such that Modifies (ifstat, "blie")
+none
+if ifstat;
+Select ifstat such that Modifies (ifstat, "green")
+14, 15, 80, 86, 107, 216
+if ifstat;
+Select ifstat such that Modifies (ifstat, "x9")
+14, 15, 107, 109
+if ifstat;
+Select ifstat such that Modifies (ifstat, "j")
+14, 15, 66, 72, 80, 97, 250
+if ifstat;
+Select ifstat such that Modifies (ifstat, "k")
+none
+if ifstat;
+Select ifstat such that Modifies (ifstat, "top")
+14, 15, 66, 76, 107, 109
+if ifstat;
+Select ifstat such that Modifies (ifstat, "tmp")
+14, 15, 34, 38, 66, 76, 80, 107
 if ifstat; variable v;
 Select v such that Modifies (ifstat,v)
 width, height, tmp, I, x1, incre, left, x2, right, y1, top, y2, bottom, area, j, difference, decrement, radius, x3, x4, volume, distance, length, x5, x8, x9, x6, x7, y7, x, b, c, weight, factor, pct, dx, dy, marking, asterick, range, peak, trim, s, p1, p2, pink, green, blue, pixel, dot, notmove, line, edge, depth, semi, temporary, total, triangle, base, location, cs1, cs2, cs3, cs5, cs6, cs9, cs8
@@ -103,6 +199,54 @@ none
 call c;
 Select c such that Modifies (c,"d")
 none
+ call c;
+Select c such that Modifies (c, "cs1")
+286, 287, 292, 293, 295
+call c;
+Select c such that Modifies (c, "cs5")
+287, 293, 294, 296, 297, 307
+call c;
+Select c such that Modifies (c, "unknown")
+none
+call c;
+Select c such that Modifies (c, "wrong")
+none
+call c;
+Select c such that Modifies (c, "base")
+117, 262
+call c;
+Select c such that Modifies (c, "edge")
+18, 62, 92, 117, 262
+call c;
+Select c such that Modifies (c, "line")
+18, 62, 92
+call c;
+Select c such that Modifies (c, "depth")
+18, 62, 92, 221, 222, 231, 232, 235
+call c;
+Select c such that Modifies (c, "peak")
+22, 84, 87, 118, 259
+call c;
+Select c such that Modifies (c, "blie")
+none
+call c;
+Select c such that Modifies (c, "green")
+18, 22, 62, 84, 87, 92, 117, 118, 208, 227, 259, 262, 277
+call c;
+Select c such that Modifies (c, "x9")
+45, 114
+call c;
+Select c such that Modifies (c, "j")
+22, 84
+call c;
+Select c such that Modifies (c, "k")
+none
+call c;
+Select c such that Modifies (c, "top")
+1, 45, 114, 119
+call c;
+Select c such that Modifies (c, "tmp")
+33, 42, 63, 78, 108
 call c; variable v;
 Select v such that Modifies (c,v)
 height, tmp, I, x1, incre, left, x2, right, y1, top, y2, bottom, j, decrement, x3, x4, x5, x8, x9, x6, x7, weight, factor, pct, dx, dy, marking, asterick, range, peak, trim, s, p1, p2, pink, green, blue, pixel, dot, notmove, line, edge, depth, semi, temporary, total, triangle, base, cs1, cs2, cs3, cs5, cs6, cs9, cs8
@@ -163,6 +307,54 @@ Main, Translate, Rotate, Transform, Move, Shrink, Init, Shear, Random, Draw, Shi
 procedure p;
 Select BOOLEAN such that Modifies (p,_)
 true
+ procedure p;
+Select p such that Modifies (p, "cs1")
+PP, QQ, RR, TT
+procedure p;
+Select p such that Modifies (p, "cs5")
+PP, RR, SS, TT, UU, XX
+procedure p;
+Select p such that Modifies (p, "unknown")
+none
+procedure p;
+Select p such that Modifies (p, "wrong")
+none
+procedure p;
+Select p such that Modifies (p, "base")
+Main, Translate, Rotate
+procedure p;
+Select p such that Modifies (p, "edge")
+Main, Enlarge, Translate, Rotate
+procedure p;
+Select p such that Modifies (p, "line")
+Main, Enlarge
+procedure p;
+Select p such that Modifies (p, "depth")
+Main, Enlarge, Fill
+procedure p;
+Select p such that Modifies (p, "peak")
+Main, Draw, Shrink
+procedure p;
+Select p such that Modifies (p, "blie")
+none
+procedure p;
+Select p such that Modifies (p, "green")
+Main, Draw, Show, Enlarge, Shrink, Translate, Rotate
+procedure p;
+Select p such that Modifies (p, "x9")
+Main, Shift
+procedure p;
+Select p such that Modifies (p, "j")
+Main, Shrink
+procedure p;
+Select p such that Modifies (p, "k")
+none
+procedure p;
+Select p such that Modifies (p, "top")
+Main, Init, Shift
+procedure p;
+Select p such that Modifies (p, "tmp")
+Main, Transform, Move
 procedure p;
 Select p such that Modifies (p,_)
 Main, Init, Random, Transform, Shift, Shear, Move, Draw, Clear, Show, Enlarge, Fill, Shrink, Translate, Rotate, Scale, PP, QQ, RR, SS, TT, UU, XX

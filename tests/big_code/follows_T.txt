@@ -29,6 +29,36 @@ stmt s;
 Select s such that Follows* (s,13)
 none
 stmt s;
+Select s such that Follows* (s,100)
+96, 97
+stmt s;
+Select s such that Follows* (s,222)
+219, 220, 221
+stmt s;
+Select s such that Follows* (s,103)
+102
+stmt s;
+Select s such that Follows* (s,59)
+17, 18, 19, 20, 21, 22, 23, 29, 34, 45, 46, 47, 54, 55
+stmt s;
+Select s such that Follows* (s,92)
+90, 91
+stmt s;
+Select s such that Follows* (s,180)
+none
+stmt s;
+Select s such that Follows* (s,117)
+none
+stmt s;
+Select s such that Follows* (s,127)
+120, 121, 122, 123, 124, 125, 126
+stmt s;
+Select s such that Follows* (s,179)
+none
+stmt s;
+Select s such that Follows* (s,213)
+none
+stmt s;
 Select s such that Follows* (s,15)
 none
 stmt s;
@@ -1887,4 +1917,43 @@ Select s1 such that Follows*(_,s1) with s1.stmt#=13
 none
 call s1;
 Select s1 such that Follows*(_,s1) with s1.stmt#=28
+none
+call s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=150
+none
+call s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=66
+none
+call s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=351
+none
+call s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=99
+none
+call s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=136
+none
+call s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=211
+none
+call s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=201
+none
+call s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=300
+none
+call s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=82
+none
+call s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=23
+none
+call s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=59
+none
+call s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=13
+none
+call s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=68
 none

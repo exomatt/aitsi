@@ -29,6 +29,36 @@ stmt s;
 Select s such that Follows (s,13)
 none
 stmt s;
+Select s such that Follows (s,121)
+120
+stmt s;
+Select s such that Follows (s,200)
+199
+stmt s;
+Select s such that Follows (s,111)
+110
+stmt s;
+Select s such that Follows (s,55)
+54
+stmt s;
+Select s such that Follows (s,97)
+96
+stmt s;
+Select s such that Follows (s,130)
+none
+stmt s;
+Select s such that Follows (s,311)
+none
+stmt s;
+Select s such that Follows (s,222)
+221
+stmt s;
+Select s such that Follows (s,170)
+169
+stmt s;
+Select s such that Follows (s,130)
+none
+stmt s;
 Select s such that Follows (s,15)
 none
 stmt s;
@@ -64,6 +94,18 @@ none
 call c;
 Select c such that Follows (c,23)
 22
+call c;
+Select c such that Follows (c,119)
+none
+call c;
+Select c such that Follows (c,71)
+none
+call c;
+Select c such that Follows (c,168)
+none
+call c;
+Select c such that Follows (c,147)
+none
 while v;
 Select v such that Follows (v,18)
 none
@@ -312,4 +354,34 @@ Select v such that Follows (s,v) with s.stmt#=6
 none
 while v; stmt s;
 Select v such that Follows (s,v) with s.stmt#=18
+none
+if ifstat;  stmt s;
+Select ifstat such that Follows (ifstat,s) with s.stmt#=300
+none
+if ifstat;  stmt s;
+Select ifstat such that Follows (ifstat,s) with s.stmt#=222
+none
+if ifstat;  stmt s;
+Select ifstat such that Follows (s,ifstat) with s.stmt#=111
+none
+if ifstat;  stmt s;
+Select ifstat such that Follows (s,ifstat) with s.stmt#=100
+none
+if ifstat;  stmt s;
+Select ifstat such that Follows (s,ifstat) with s.stmt#=321
+none
+while v;  stmt s;
+Select v such that Follows (s,v) with s.stmt#=200
+none
+while v;  stmt s;
+Select v such that Follows (s,v) with s.stmt#=52
+none
+while v;  stmt s;
+Select v such that Follows (s,v) with s.stmt#=13
+none
+while v;  stmt s;
+Select v such that Follows (s,v) with s.stmt#=2
+none
+while v; stmt s;
+Select v such that Follows (s,v) with s.stmt#=333
 none

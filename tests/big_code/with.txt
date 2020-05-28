@@ -2,8 +2,11 @@ stmt s; constant co;
 Select s with s.stmt# = co.value
 1, 10, 3, 2, 16, 83, 11, 32, 5, 100, 8, 20
 procedure p;
-Select p with p.procName = "Second"
-none
+Select p with p.procName = "Init"
+Init
+procedure p;
+Select p with p.procName = "Main"
+Main
 assign a;
 Select a with a.stmt# = 10
 10
@@ -44,14 +47,14 @@ call c; if i;
 Select c with i.stmt# = 11
 none
 call c; while w;
-Select w with c.procName = "Second"
-none
+Select w with c.procName = "Clear"
+6, 12, 16, 26, 29, 47, 59, 69, 79, 83, 89, 95, 101, 103, 105, 113, 136, 143, 180, 181, 184, 187, 191, 196, 209, 217, 218, 234, 239, 251, 256, 264, 265, 279, 281, 289, 301
 call c; variable v;
 Select v with c.stmt# = 12
 none
 variable v;
-Select v with v.varName = "CBA"
-none
+Select v with v.varName = "dot"
+dot
 procedure p;
-Select p with p.procName = "CBA"
+Select p with p.procName = "pink"
 none

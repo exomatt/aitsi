@@ -68,13 +68,13 @@ procedure p, p1; variable v;
 Select p1 such that Calls(p1,"Second") and Modifies(p1,v)
 none
 procedure p, p1; variable v;
-Select p1 such that Calls(p,p1) and Modifies(p1,"x")
-none
+Select p1 such that Calls(p,p1) and Modifies(p1,"x1")
+Init, Transform, Shear, Move, Shrink
 procedure p1; variable v;
-Select p1 such that Calls("Second",p1) and Modifies(p1,"x")
+Select p1 such that Calls("Second",p1) and Modifies(p1,"x1")
 none
 procedure p, p1; variable v;
-Select p1 such that Calls(p1,"Second") and Modifies(p1,"x")
+Select p1 such that Calls(p1,"Second") and Modifies(p1,"x1")
 none
 procedure p, p1; variable v;
 Select p such that Calls(p,p1) and Uses(p1,v)
@@ -95,16 +95,16 @@ procedure p, p1; variable v;
 Select p1 such that Calls(p1,"Second") and Uses(p1,v)
 none
 procedure p, p1; variable v;
-Select p1 such that Calls(p,p1) and Uses(p1,"x")
-none
+Select p1 such that Calls(p,p1) and Uses(p1,"x1")
+Transform, Shift, Shear, Move, Draw, Shrink
 procedure p1; variable v;
-Select p1 such that Calls("Second",p1) and Uses(p1,"x")
+Select p1 such that Calls("Second",p1) and Uses(p1,"x1")
 none
 procedure p, p1; variable v;
-Select p1 such that Calls(p1,"Second") and Uses(p1,"x")
+Select p1 such that Calls(p1,"Second") and Uses(p1,"x1")
 none
 procedure p, p1; variable v;
-Select BOOLEAN such that Calls(p1,"Second") and Uses(p1,"x")
+Select BOOLEAN such that Calls(p1,"Second") and Uses(p1,"x1")
 false
 procedure p, p1, p2;
 Select p such that Calls*(p,p1) and Calls*(p1,p2)
@@ -143,13 +143,13 @@ procedure p, p1; variable v;
 Select p1 such that Calls*(p1,"Second") and Modifies(p1,v)
 none
 procedure p, p1; variable v;
-Select p1 such that Calls*(p,p1) and Modifies(p1,"x")
-none
+Select p1 such that Calls*(p,p1) and Modifies(p1,"x1")
+Init, Transform, Shear, Move, Shrink
 procedure p1; variable v;
-Select p1 such that Calls*("Second",p1) and Modifies(p1,"x")
+Select p1 such that Calls*("Second",p1) and Modifies(p1,"x1")
 none
 procedure p, p1; variable v;
-Select p1 such that Calls*(p1,"Second") and Modifies(p1,"x")
+Select p1 such that Calls*(p1,"Second") and Modifies(p1,"x1")
 none
 procedure p, p1; variable v;
 Select p such that Calls*(p,p1) and Uses(p1,v)
@@ -173,16 +173,16 @@ procedure p, p1; variable v;
 Select BOOLEAN such that Calls*(p1,"Second") and Uses(p1,v)
 false
 procedure p, p1; variable v;
-Select p1 such that Calls*(p,p1) and Uses(p1,"x")
-none
+Select p1 such that Calls*(p,p1) and Uses(p1,"x1")
+Transform, Shift, Shear, Move, Draw, Shrink
 procedure p1; variable v;
-Select p1 such that Calls*("Second",p1) and Uses(p1,"x")
+Select p1 such that Calls*("Second",p1) and Uses(p1,"x1")
 none
 procedure p, p1; variable v;
-Select p1 such that Calls*(p1,"SecondIncorrect") and Uses(p1,"x")
+Select p1 such that Calls*(p1,"SecondIncorrect") and Uses(p1,"x1")
 none
 procedure p, p1; variable v;
-Select BOOLEAN such that Calls*(p1,"SecondIncorrect") and Uses(p1,"x")
+Select BOOLEAN such that Calls*(p1,"SecondIncorrect") and Uses(p1,"x1")
 false
 stmt s, s1, s2;
 Select s such that Follows(s, s1) and Follows(s1,s2)
@@ -260,10 +260,10 @@ stmt s, s1; variable v;
 Select v such that Follows(s, s1) and Modifies(s1,v)
 width, height, tmp, left, right, I, x1, incre, x2, y1, top, y2, bottom, area, j, difference, decrement, radius, x3, x4, volume, distance, length, x5, x8, x9, x6, x7, y7, circumference, x, b, c, weight, factor, pct, dx, dy, marking, asterick, range, peak, trim, s, p1, p2, pink, green, blue, pixel, dot, notmove, line, edge, depth, semi, temporary, total, triangle, base, cs2, cs3, cs1, cs5, cs6, cs9, cs8
 stmt s, s1;
-Select s1 such that Follows(s, s1) and Modifies(s1,"x")
-6, 12, 105, 107, 109, 116
+Select s1 such that Follows(s, s1) and Modifies(s1,"x1")
+6, 12, 14, 22, 29, 33, 34, 41, 42, 63, 66, 83, 105, 107, 119, 136, 138, 163, 173, 245, 250
 stmt s, s1;
-Select BOOLEAN such that Follows(s, s1) and Modifies(s1,"x")
+Select BOOLEAN such that Follows(s, s1) and Modifies(s1,"x1")
 true
 stmt s, s1; while w;
 Select s1 such that Follows(s, s1) and Parent(w,s)
@@ -317,10 +317,10 @@ stmt s, s1; variable v;
 Select v such that Follows(s, s1) and Uses(s1,v)
 incre, top, bottom, decrement, width, height, tmp, I, x1, left, x2, right, y1, y2, area, j, difference, k, radius, x3, x4, volume, length, x5, x8, x9, x6, x, c, weight, factor, pct, mtoggle, dx, lengx, cover, dy, marking, median, asterick, range, mean, s, pink, green, pixel, dot, notmove, line, edge, depth, semi, increase, temporary, decrease, half, notdone, triangle, base, degrees, triange, cs2, cs3, cs5, cs6, cs9, cs1
 stmt s, s1;
-Select s1 such that Follows(s, s1) and Uses(s1,"x")
-6, 12, 105, 107, 109, 116
+Select s1 such that Follows(s, s1) and Uses(s1,"x1")
+6, 8, 12, 14, 19, 22, 29, 33, 34, 36, 37, 41, 42, 45, 46, 47, 49, 63, 64, 66, 69, 71, 72, 82, 83, 85, 86, 105, 107, 109, 118, 136, 140, 143, 148, 152, 153, 154, 155, 156, 157, 158, 162, 163, 169, 184, 191, 204, 245, 249, 250, 254, 259
 stmt s, s1;
-Select BOOLEAN such that Follows(s, s1) and Uses(s1,"x")
+Select BOOLEAN such that Follows(s, s1) and Uses(s1,"x1")
 true
 stmt s, s1, s2;
 Select s such that Follows*(s, s1) and Follows*(s1,s2)
@@ -362,10 +362,10 @@ stmt s, s1; variable v;
 Select v such that Follows*(s, s1) and Modifies(s1,v)
 width, height, tmp, left, right, I, x1, incre, x2, y1, top, y2, bottom, area, j, difference, decrement, radius, x3, x4, volume, distance, length, x5, x8, x9, x6, x7, y7, circumference, x, b, c, weight, factor, pct, dx, dy, marking, asterick, range, peak, trim, s, p1, p2, pink, green, blue, pixel, dot, notmove, line, edge, depth, semi, temporary, total, triangle, base, cs2, cs3, cs1, cs5, cs6, cs9, cs8
 stmt s, s1;
-Select s1 such that Follows*(s, s1) and Modifies(s1,"x")
-6, 12, 105, 107, 109, 116
+Select s1 such that Follows*(s, s1) and Modifies(s1,"x1")
+6, 12, 14, 22, 29, 33, 34, 41, 42, 63, 66, 83, 105, 107, 119, 136, 138, 163, 173, 245, 250
 stmt s, s1;
-Select BOOLEAN such that Follows*(s, s1) and Modifies(s1,"x")
+Select BOOLEAN such that Follows*(s, s1) and Modifies(s1,"x1")
 true
 stmt s, s1; while w;
 Select s1 such that Follows*(s, s1) and Parent(w,s)
@@ -419,20 +419,20 @@ stmt s, s1; variable v;
 Select v such that Follows*(s, s1) and Uses(s1,v)
 incre, top, bottom, decrement, width, height, tmp, I, x1, left, x2, right, y1, y2, area, j, difference, k, radius, x3, x4, volume, length, x5, x8, x9, x6, x, c, weight, factor, pct, mtoggle, dx, lengx, cover, dy, marking, median, asterick, range, mean, s, pink, green, pixel, dot, notmove, line, edge, depth, semi, increase, temporary, decrease, half, notdone, triangle, base, degrees, triange, cs2, cs3, cs5, cs6, cs9, cs1
 stmt s, s1;
-Select s1 such that Follows*(s, s1) and Uses(s1,"x")
-6, 12, 105, 107, 109, 116
+Select s1 such that Follows*(s, s1) and Uses(s1,"x1")
+6, 8, 12, 14, 19, 22, 29, 33, 34, 36, 37, 41, 42, 45, 46, 47, 49, 63, 64, 66, 69, 71, 72, 82, 83, 85, 86, 105, 107, 109, 118, 136, 140, 143, 148, 152, 153, 154, 155, 156, 157, 158, 162, 163, 169, 184, 191, 204, 245, 249, 250, 254, 259
 stmt s, s1;
-Select BOOLEAN such that Follows*(s, s1) and Uses(s1,"x")
+Select BOOLEAN such that Follows*(s, s1) and Uses(s1,"x1")
 true
 stmt s; variable v;
-Select BOOLEAN such that Modifies(s, "k") and Modifies(s,"x")
+Select BOOLEAN such that Modifies(s, "k") and Modifies(s,"x1")
 false
 stmt s; variable v;
-Select v such that Modifies(s, v) and Modifies(s,"x")
-width, height, tmp, I, x1, incre, left, x2, right, y1, top, y2, bottom, area, j, difference, decrement, radius, x3, x4, volume, distance, length, x5, x8, x9, x6, x7, y7, circumference, x, b, c, weight, factor, pct, dx, dy, marking, asterick, range, peak, trim, s, p1, p2, pink, green, blue, pixel, dot, notmove, line, edge, depth, semi, temporary, total, triangle, base
+Select v such that Modifies(s, v) and Modifies(s,"x1")
+x1, incre, left, x2, right, y1, top, y2, bottom, decrement, width, height, tmp, I, area, j, difference, radius, x3, x4, volume, distance, length, x5, x8, x9, x6, x7, y7, circumference, x, b, c, weight, factor, pct, dx, dy, marking, asterick, range, peak, trim, s, p1, p2, pink, green, blue, pixel, dot, notmove, line, edge, depth, semi, temporary, total, triangle, base
 stmt s; variable v;
-Select s such that Modifies(s, v) and Modifies(s,"x")
-6, 12, 105, 106, 107, 109, 116
+Select s such that Modifies(s, v) and Modifies(s,"x1")
+1, 6, 7, 12, 14, 15, 16, 22, 29, 33, 34, 38, 41, 42, 63, 66, 67, 76, 78, 79, 80, 83, 84, 105, 107, 108, 119, 120, 136, 138, 159, 160, 163, 164, 165, 173, 174, 180, 181, 182, 245, 250, 251, 252
 stmt s; variable v, v1;
 Select v1 such that Modifies(s, v) and Modifies(s,v1)
 width, height, tmp, I, x1, incre, left, x2, right, y1, top, y2, bottom, area, j, difference, decrement, radius, x3, x4, volume, distance, length, x5, x8, x9, x6, x7, y7, circumference, x, b, c, weight, factor, pct, dx, dy, marking, asterick, range, peak, trim, s, p1, p2, pink, green, blue, pixel, dot, notmove, line, edge, depth, semi, temporary, total, triangle, base, location, cs1, cs5, cs6, cs9, cs8, cs2, cs3
@@ -452,7 +452,7 @@ stmt s, s1; while w; variable v;
 Select s such that Modifies(s, v) and Parent(w,s)
 12, 14, 29, 30, 47, 49, 80, 85, 31, 59, 61, 86, 91, 105, 107, 265, 266, 17, 33, 34, 48, 60, 90, 95, 96, 137, 149, 181, 187, 188, 22, 70, 75, 84, 97, 184, 185, 253, 7, 138, 182, 252, 54, 118, 192, 8, 21, 72, 139, 186, 9, 23, 27, 143, 144, 258, 45, 114, 10, 28, 11, 32, 100, 257, 13, 20, 19, 55, 46, 50, 51, 71, 101, 102, 103, 104, 106, 115, 140, 183, 189, 196, 198, 204, 207, 275, 197, 203, 212, 210, 211, 18, 62, 92, 218, 227, 277, 236, 233, 219, 223, 224, 221, 222, 229, 230, 234, 235, 220, 228, 240, 276, 280, 282, 291, 290, 302, 307, 303, 306, 308
 stmt s, s1; while w; assign a;
-Select BOOLEAN such that Modifies(s, "x") and Parent(w,s)
+Select BOOLEAN such that Modifies(s, "x1") and Parent(w,s)
 true
 assign a; if i; variable v;
 Select i such that Modifies(a, v) and Parent(i,a)
@@ -473,8 +473,8 @@ stmt s, s1; while w; variable v;
 Select s such that Modifies(s, v) and Parent*(w,s)
 12, 14, 15, 16, 29, 30, 47, 49, 79, 80, 82, 83, 85, 31, 59, 61, 86, 88, 89, 91, 105, 107, 117, 265, 266, 272, 17, 33, 34, 38, 42, 48, 60, 63, 66, 76, 78, 81, 90, 95, 96, 108, 137, 149, 181, 187, 188, 22, 39, 69, 70, 75, 84, 97, 98, 184, 185, 253, 7, 41, 67, 138, 182, 252, 65, 109, 110, 44, 54, 87, 118, 192, 195, 274, 8, 21, 72, 74, 139, 186, 9, 23, 24, 26, 27, 143, 144, 146, 147, 258, 45, 77, 113, 114, 10, 25, 28, 145, 148, 11, 32, 73, 99, 100, 257, 13, 20, 37, 19, 35, 36, 40, 55, 56, 43, 46, 50, 51, 52, 53, 57, 64, 58, 68, 71, 93, 94, 101, 102, 103, 104, 106, 116, 111, 112, 115, 140, 141, 142, 183, 189, 196, 198, 201, 204, 205, 207, 193, 270, 275, 194, 200, 206, 197, 203, 199, 202, 212, 210, 211, 18, 62, 92, 218, 227, 277, 236, 267, 269, 233, 219, 223, 224, 225, 273, 221, 222, 229, 230, 231, 232, 234, 235, 220, 228, 268, 226, 240, 276, 271, 280, 282, 291, 292, 293, 290, 302, 307, 303, 304, 306, 308, 305
 stmt s, s1; while w; assign a;
-Select w such that Modifies(s, "x") and Parent*(w,s)
-6, 12, 105
+Select w such that Modifies(s, "x1") and Parent*(w,s)
+6, 12, 16, 29, 79, 83, 105, 136, 180, 181, 251
 assign a; if i; variable v;
 Select BOOLEAN such that Modifies(a, v) and Parent*(i,a)
 true
@@ -482,14 +482,14 @@ while w; if i;variable v;
 Select w such that Modifies(w, v) and Parent*(i,w)
 16, 29, 47, 79, 83, 59, 89, 69, 251, 26, 256, 113, 217, 218, 234, 239, 279, 281
 stmt s; variable v;
-Select BOOLEAN such that Modifies(s, "k") and Uses(s,"x")
+Select BOOLEAN such that Modifies(s, "k") and Uses(s,"x1")
 false
 stmt s; variable v;
-Select v such that Modifies(s, v) and Uses(s,"x")
+Select v such that Modifies(s, v) and Uses(s,"x1")
 width, height, tmp, I, x1, incre, left, x2, right, y1, top, y2, bottom, area, j, difference, decrement, radius, x3, x4, volume, distance, length, x5, x8, x9, x6, x7, y7, circumference, x, b, c, weight, factor, pct, dx, dy, marking, asterick, range, peak, trim, s, p1, p2, pink, green, blue, pixel, dot, notmove, line, edge, depth, semi, temporary, total, triangle, base
 stmt s; variable v;
-Select s such that Modifies(s, v) and Uses(s,"x")
-6, 12, 105, 106, 107, 109, 116
+Select s such that Modifies(s, v) and Uses(s,"x1")
+6, 8, 12, 14, 15, 16, 19, 22, 29, 30, 33, 34, 36, 37, 38, 41, 42, 43, 45, 46, 47, 49, 63, 64, 66, 69, 71, 72, 74, 76, 78, 79, 80, 82, 83, 84, 85, 86, 87, 105, 107, 108, 109, 113, 114, 118, 136, 140, 142, 143, 144, 148, 150, 152, 153, 154, 155, 156, 157, 158, 159, 160, 162, 163, 165, 169, 180, 181, 184, 185, 191, 204, 206, 245, 249, 250, 251, 252, 254, 259
 stmt s; variable v, v1;
 Select v1 such that Modifies(s, v) and Uses(s,v1)
 width, height, tmp, I, x1, incre, left, x2, right, y1, top, y2, bottom, area, j, difference, k, decrement, radius, x3, x4, volume, length, x5, x8, x9, x6, x, c, weight, factor, pct, mtoggle, dx, lengx, cover, dy, marking, median, asterick, range, mean, s, pink, green, pixel, dot, notmove, line, edge, depth, semi, increase, temporary, decrease, half, notdone, triangle, base, degrees, triange, wrong, wcounter, unknown, correct, cs2, cs3, cs5, cs6, cs9, cs1, cs4
@@ -626,11 +626,11 @@ stmt s,s1,s2;while w; variable v;
 Select w such that Parent*(w, s1) and Uses(s1,v)
 6, 12, 16, 26, 29, 47, 59, 69, 79, 83, 89, 95, 101, 103, 105, 113, 136, 143, 180, 181, 184, 187, 191, 196, 209, 217, 218, 234, 239, 251, 256, 264, 265, 279, 281, 289, 301
 stmt s,s1,s2;while w; variable v;
-Select w such that Parent*(w, s1) and Uses(s1,"x")
-6, 12, 105
+Select w such that Parent*(w, s1) and Uses(s1,"x1")
+6, 12, 16, 29, 47, 69, 79, 83, 105, 113, 136, 143, 180, 181, 184, 191, 251
 stmt s,s1,s2;while w; variable v;
-Select w such that Parent(w, s1) and Uses(s1,"x")
-6, 12, 105
+Select w such that Parent(w, s1) and Uses(s1,"x1")
+6, 12, 16, 29, 47, 69, 79, 83, 105, 113, 136, 143, 180, 181, 184, 191, 251
 stmt s,s1,s2;if i; variable v;
 Select i such that Uses(i, v) and Uses(s1,v)
 14, 15, 34, 38, 66, 76, 80, 107, 109, 86, 144, 266, 23, 55, 72, 97, 250, 140, 159, 160, 163, 204, 166, 192, 176, 198, 216, 170, 51, 173, 237, 267, 230, 224, 241, 278, 291, 303, 309
@@ -647,8 +647,8 @@ stmt s,s1,s2;if i; variable v,v1;
 Select s1 such that Uses(s1, v) and Uses(s1,v1)
 6, 7, 11, 12, 14, 15, 16, 29, 32, 34, 38, 40, 42, 63, 66, 76, 77, 79, 80, 83, 85, 105, 107, 109, 112, 180, 181, 186, 9, 33, 46, 78, 86, 108, 117, 136, 137, 143, 144, 148, 262, 263, 264, 265, 266, 273, 23, 26, 28, 47, 48, 50, 55, 57, 59, 61, 69, 72, 74, 89, 91, 95, 97, 101, 102, 103, 138, 139, 147, 13, 21, 22, 39, 65, 70, 71, 75, 84, 104, 184, 187, 250, 251, 252, 253, 254, 8, 19, 30, 36, 37, 41, 43, 45, 49, 64, 82, 87, 113, 114, 118, 140, 142, 150, 152, 153, 154, 155, 156, 157, 158, 159, 160, 162, 163, 165, 169, 185, 191, 204, 206, 245, 249, 259, 5, 10, 31, 35, 44, 54, 93, 110, 130, 134, 145, 161, 166, 167, 182, 192, 195, 244, 255, 274, 135, 246, 27, 141, 146, 151, 168, 176, 178, 247, 67, 131, 196, 198, 199, 248, 17, 73, 256, 257, 258, 18, 20, 62, 92, 208, 213, 216, 217, 218, 227, 277, 170, 56, 58, 51, 52, 68, 106, 116, 115, 173, 183, 188, 260, 193, 207, 194, 197, 270, 271, 272, 276, 200, 203, 190, 209, 212, 214, 215, 229, 237, 238, 239, 240, 267, 223, 234, 269, 230, 219, 220, 224, 226, 228, 275, 221, 222, 231, 232, 235, 241, 242, 243, 268, 233, 225, 236, 278, 279, 280, 281, 282, 289, 291, 286, 287, 288, 292, 293, 295, 294, 296, 297, 301, 302, 303, 304, 305, 306, 307, 309, 310, 311, 308
 stmt s,s1,s2;while w; variable v;
-Select w such that Uses(w, v) and Uses(w,"x")
-6, 12, 105
+Select w such that Uses(w, v) and Uses(w,"x1")
+6, 12, 16, 29, 47, 69, 79, 83, 105, 113, 136, 143, 180, 181, 184, 191, 251
 stmt s,s1,s2;procedure p,p1; variable v;
 Select v such that Uses(p, v) and Uses(p1,v)
 width, height, tmp, I, x1, incre, left, x2, right, y1, top, y2, bottom, area, j, difference, k, decrement, radius, x3, x4, volume, length, x5, x8, x9, x6, x, c, weight, factor, pct, mtoggle, dx, lengx, cover, dy, marking, median, asterick, range, mean, s, pink, green, pixel, dot, notmove, line, edge, depth, semi, increase, temporary, decrease, half, notdone, triangle, base, degrees, triange, wrong, wcounter, unknown, correct, cs1, cs2, cs3, cs4, cs5, cs6, cs9
@@ -662,5 +662,5 @@ stmt s,s1,s2;procedure p,p1; variable v;
 Select BOOLEAN such that Uses(p, v) and Uses(p1,v)
 true
 stmt s,s1,s2;while w; variable v;
-Select BOOLEAN such that Uses(w, v) and Uses(w,"x")
+Select BOOLEAN such that Uses(w, v) and Uses(w,"x1")
 true
