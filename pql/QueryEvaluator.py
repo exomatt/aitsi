@@ -21,8 +21,9 @@ from pql.relations.NextRelation import NextRelation
 from pql.relations.NextTRelation import NextTRelation
 from pql.relations.ParentRelation import ParentRelation
 from pql.relations.ParentTRelation import ParentTRelation
+from pql.relations.Pattern import Pattern
 from pql.relations.UsesRelation import UsesRelation
-from pql.utils.SearchUtils import SearchUtils
+from pql.relations.With import With
 
 
 class QueryEvaluator:
@@ -50,10 +51,8 @@ class QueryEvaluator:
                                          StatementTable,
                                          ConstTable,
                                          NextTable]] = all_tables
-        self.results: Dict[str, Union[bool, Set[str], Set[int]]] = {}
         self.results_table: ResultsTable = ResultsTable()
-        self.select: Tuple[str, str] = ('', '')
-        self.relation_stack: List[Tuple[str, Tuple[str, str], Tuple[str, str]]] = []
+        self.relation_index_stack: Set[str] = set()
         # stopien ograniczenia
         # 1.stala liczba
         # 1.staly nazwa
@@ -96,7 +95,7 @@ class QueryEvaluator:
         }
         self.relation: Dict[str, Union[
             ModifiesRelation, FollowsRelation, FollowsTRelation, ParentRelation, ParentTRelation, UsesRelation,
-            NextRelation, NextTRelation, CallsRelation, CallsTRelation]] = {
+            NextRelation, NextTRelation, CallsRelation, CallsTRelation, Pattern, With]] = {
             'MODIFIES': ModifiesRelation(self.all_tables['modifies'], self.all_tables['var'],
                                          self.all_tables['statement'], self.all_tables['proc']),
             'USES': UsesRelation(self.all_tables['uses'], self.all_tables['var'],
@@ -110,47 +109,33 @@ class QueryEvaluator:
             'CALLST': CallsTRelation(self.all_tables['calls'], self.all_tables['var'], self.all_tables['statement'],
                                      self.all_tables['proc']),
             'NEXT': NextRelation(self.all_tables['next'], self.all_tables['statement']),
-            'NEXTT': NextTRelation(self.all_tables['next'], self.all_tables['statement'])
+            'NEXTT': NextTRelation(self.all_tables['next'], self.all_tables['statement']),
+            'PATTERN': Pattern(ast_node, self.all_tables['statement']),
+            'WITH': With(self.all_tables)
         }
 
     def evaluate_query(self, pql_ast_tree: Node) -> str:
         for node in pql_ast_tree.children:
             self.distribution_of_tasks(node)
 
-        if self.select[0] == 'BOOLEAN':
-            return str(self.results['BOOLEAN']).lower()
-        if self.results['BOOLEAN']:
-            if self.results.get(self.select[1], None) is None:
-                if self.select[0] in ['STMT', 'PROG_LINE']:
-                    return ', '.join(map(str, self.all_tables['statement'].get_all_statement_lines()))
-                elif self.select[0] == 'PROCEDURE':
-                    return ', '.join(self.all_tables['proc'].get_all_proc_name())
-                elif self.select[0] == 'VARIABLE':
-                    return ', '.join(self.all_tables['var'].get_all_var_name())
-                elif self.select[0] == 'CONSTANT':
-                    return ', '.join(map(str, self.all_tables['const'].get_all_constant()))
-                else:
-                    return ', '.join(
-                        map(str, self.all_tables['statement'].get_statement_line_by_type_name(self.select[0])))
-            return ', '.join([str(element) for element in self.results[self.select[1]]])
-        else:
-            return 'none'
+        return self.results_table.get_select(self.all_tables)
 
     def distribution_of_tasks(self, root: Node) -> None:
         if root.node_type == 'RESULT':
             self.select = root.children[0].node_type, root.children[0].value
+            self.results_table.select = root.children[0].node_type, root.children[0].value
         elif root.node_type == 'WITH':
             for node in root.children:
                 self.attr_analysis(node)
         elif root.node_type == 'PATTERN':
             for node in root.children:
-                self.pattern_analysis(node)
+                self.pattern(node)
         elif root.node_type == 'SUCH_THAT':
             if len(root.children) > 1:
                 root.children.sort(key=self.relation_sort)
                 for node in root.children:
                     self.relation_preparation(node)
-                # self.check_stack_on_return()
+                self.final_check()
             else:
                 self.relation_preparation(root.children[0])
 
@@ -159,110 +144,11 @@ class QueryEvaluator:
                + self.degree_of_restriction[relation.children[0].node_type] \
                + self.degree_of_restriction[relation.children[1].node_type]
 
-    def pattern_analysis(self, pattern_node: Node) -> None:
-        if pattern_node.node_type in ['PATTERN_WHILE', 'PATTERN_IF']:
-            self.pattern_while_or_if(pattern_node)
-        else:
-            self.pattern_assign(pattern_node)
-
-    def pattern_while_or_if(self, node: Node) -> None:
-        self.results_table.set_results(node.children[0].value, node.children[0].node_type)
-        if node.children[1].node_type in ['VARIABLE', 'EVERYTHING']:
-            self.results_table.update_results('PATTERN',
-                                              node.children[0].value,
-                                              self.all_tables['statement'].get_statement_line_by_type_name(
-                                                  node.children[0]
-                                                      .node_type))
-            self.results[node.children[0].value] = self.all_tables['statement'] \
-                .get_statement_line_by_type_name(node.children[0].node_type)
-        else:
-            self.results_table.update_results('PATTERN',
-                                              node.children[0].value,
-                                              self.all_tables['statement'] \
-                                              .get_statement_line_by_type_name_and_value(node.children[0].node_type,
-                                                                                         node.children[1].value))
-            self.results[node.children[0].value] = self.all_tables['statement'] \
-                .get_statement_line_by_type_name_and_value(node.children[0].node_type, node.children[1].value)
-
-        if self.results[node.children[0].value] and self.results.get('BOOLEAN', True) is True:
-            self.results['BOOLEAN'] = True
-        else:
-            self.results['BOOLEAN'] = False
-            raise Exception()
-
-    def pattern_assign(self, node: Node) -> None:
-        self.results_table.set_results(node.children[0].value, node.children[0].node_type)
-        if node.children[1].node_type in ['VARIABLE', 'EVERYTHING']:
-            self.results_table.update_results('PATTERN',
-                                              node.children[0].value,
-                                              self.all_tables['statement'] \
-                                              .get_statement_line_by_type_name(node.children[0].node_type))
-            self.results[node.children[0].value] = set(self.all_tables['statement'] \
-                                                       .get_statement_line_by_type_name(node.children[0].node_type))
-        else:  # pobranie wszystkich lini gdy po lewej stronie rownania jest dana wartosć np. "t"
-            self.results_table.update_results('PATTERN',
-                                              node.children[0].value,
-                                              self.all_tables['statement'] \
-                                              .get_statement_line_by_type_name_and_value(
-                                                  node.children[0].node_type, node.children[1].value))
-            self.results[node.children[0].value] = set(self.all_tables['statement'] \
-                .get_statement_line_by_type_name_and_value(
-                node.children[0].node_type, node.children[1].value))
-
-        if self.results[node.children[0].value] and node.children[2].node_type == "EVERYTHING":
-            self.pattern_assign_check(node.children[0].value, node.children[2], True)
-        elif self.results[node.children[0].value]:
-            self.pattern_assign_check(node.children[0].value, node.children[2], False)
-
-        if self.results[node.children[0].value] and self.results.get('BOOLEAN', True) is True:
-            self.results['BOOLEAN'] = True
-        else:
-            self.results['BOOLEAN'] = False
-            raise Exception()
-
-    def pattern_assign_check(self, attr_name: str, node_expr: Node, wild_card: bool) -> None:
-        if node_expr.children:
-            search: SearchUtils = SearchUtils(self.ast_node)
-            result: Set[int] = set()
-            if wild_card:
-                for line in self.results[attr_name]:
-                    search_node: Node = search.find_node_by_line(line).children[1]
-                    if search_node is not None:
-                        if self.expression_part_is_identical(search_node, node_expr.children[0]):
-                            result.add(int(line))
-            else:
-                for line in self.results[attr_name]:
-                    search_node: Node = search.find_node_by_line(line).children[1]
-                    if search_node is not None:
-                        if self.expression_is_identical(search_node, node_expr):
-                            result.add(int(line))
-            self.results_table.update_results('PATTERN',
-                                              attr_name,
-                                              result)
-            self.results[attr_name] = result
-
-    def expression_part_is_identical(self, ast: Node, comparing_node: Node) -> bool:
-        if comparing_node.equals_expression(ast):
-            for index, child in enumerate(ast.children):
-                if not self.expression_part_is_identical(child, comparing_node.children[index]):
-                    return False
-            return True
-        else:
-            for child in ast.children:
-                if self.expression_part_is_identical(child, comparing_node):
-                    if len(child.children) == 2:
-                        return True
-                    return True
-            return False
-
-    def expression_is_identical(self, ast: Node, comparing_node: Node) -> bool:
-        if comparing_node.equals_expression(ast):
-            for index, child in enumerate(ast.children):
-                if not self.expression_is_identical(child, comparing_node.children[index]):
-                    return False
-            return True
-        else:
-            return False
+    def pattern(self, pattern_node: Node) -> None:
+        self.results_table.set_results(pattern_node.children[0].value, pattern_node.children[0].node_type)
+        self.results_table.update_results('PATTERN',
+                                          pattern_node.children[0].value,
+                                          self.relation['PATTERN'].execute(pattern_node))
 
     def relation_preparation(self, relation: Node) -> None:
         # tworzenie tupli dwróch argumentów danej relacji
@@ -283,21 +169,21 @@ class QueryEvaluator:
             return relation_argument[1]
         else:
             self.results_table.set_results(relation_argument[1], relation_argument[0])
-            if self.results.get(relation_argument[1], None) is None:
+            if self.results_table.get_final_result(relation_argument[1]) is None:
                 if relation_argument[0] == 'PROG_LINE':
                     return relation_argument[1], 'STMT'
                 return relation_argument[1], relation_argument[0]
             else:
-                if not self.results[relation_argument[1]]:
+                if not self.results_table.get_final_result(relation_argument[1]):
                     if relation_argument[0] == 'PROG_LINE':
                         return relation_argument[1], 'STMT'
                     return relation_argument[1], relation_argument[0]
                 else:
-                    return relation_argument[1], self.results[relation_argument[1]]
+                    return relation_argument[1], self.results_table.get_final_result(relation_argument[1])
 
     def execution_of_relation(self, node_type: str,
-                              first_argument_value: Union[str, Tuple[str, List[int]]],
-                              second_argument_value: Union[str, Tuple[str, List[int]]]) -> None:
+                              first_argument_value: Union[str, Tuple[str, Set[int]]],
+                              second_argument_value: Union[str, Tuple[str, Set[int]]]) -> None:
         """
             wykona relacjie dla danych argumentów połączy dane zwracane
         :param node_type: nazwa relacji
@@ -438,121 +324,76 @@ class QueryEvaluator:
                                                                                    second_argument_value)
                 if not result:
                     raise Exception()
+                self.results_table.table.at['final', 'BOOLEAN'] = result
 
         if type(first_argument_value) is tuple:
-            relations: List[str] = []
-            for relation in [relation for relation in
-                             self.results_table.get_relations(first_argument_value[0]) if
-                             relation not in ['type', 'final', 'PATTERN'] and 'CONST' not in relation]:
-                if relation == relation_index:
-                    break
-                relations.append(relation)
+            relations: List[str] = [relation for relation in
+                                    self.results_table.get_relations(first_argument_value[0]) if
+                                    relation not in ['type', 'final', 'PATTERN', 'WITH', relation_index,
+                                                     *self.relation_index_stack] and 'CONST' not in relation]
             if relations:
-                relation_data = relations[-1].split('_')
-                if relation_data[1] == first_argument_value[0]:
-                    first_argument: Union[Tuple[str, Set[int]], Tuple[str, str]] = (
-                        relation_data[1], self.results_table.table.at['final', relation_data[1]])
-                    second_argument: Tuple[str, str] = (
-                        relation_data[2], self.results_table.table.at['type', relation_data[2]])
-                else:
-                    first_argument: Tuple[str, str] = (
-                        relation_data[1], self.results_table.table.at['type', relation_data[1]])
-                    second_argument: Union[Tuple[str, Set[int]], Tuple[str, str]] = (
-                        relation_data[2], self.results_table.table.at['final', relation_data[2]])
-                self.execution_of_relation(relation_data[0], first_argument, second_argument)
+                self.relation_index_stack.add(relation_index)
+                for relation in relations:
+                    relation_data = relation.split('_')
+                    if relation_data[1] == first_argument_value[0]:
+                        first_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
+                            relation_data[1], self.results_table.table.at['final', relation_data[1]])
+                        second_argument: Tuple[str, str] = (
+                            relation_data[2], self.results_table.table.at['final', relation_data[2]])
+                    else:
+                        first_argument: Tuple[str, str] = (
+                            relation_data[1], self.results_table.table.at['type', relation_data[1]])
+                        second_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
+                            relation_data[2], self.results_table.table.at['final', relation_data[2]])
+                    self.execution_of_relation(relation_data[0], first_argument, second_argument)
+                self.relation_index_stack.remove(relation_index)
 
         if type(second_argument_value) is tuple:
-            relations: List[str] = []
-            for relation in [relation for relation in
-                             self.results_table.get_relations(second_argument_value[0]) if
-                             relation not in ['type', 'final', 'PATTERN'] and 'CONST' not in relation]:
-                if relation == relation_index:
-                    break
-                relations.append(relation)
+            relations: List[str] = [relation for relation in
+                                    self.results_table.get_relations(second_argument_value[0]) if
+                                    relation not in ['type', 'final', 'PATTERN', 'WITH', relation_index,
+                                                     *self.relation_index_stack] and 'CONST' not in relation]
             if relations:
-                relation_data = relation[-1].split('_')
-                if relation_data[1] == second_argument_value[0]:
-                    first_argument: Union[Tuple[str, Set[int]], Tuple[str, str]] = (
-                        relation_data[1], self.results_table.table.at['final', relation_data[1]])
-                    second_argument: Tuple[str, str] = (
-                        relation_data[2], self.results_table.table.at['type', relation_data[2]])
-                else:
-                    first_argument: Tuple[str, str] = (
-                        relation_data[1], self.results_table.table.at['type', relation_data[1]])
-                    second_argument: Union[Tuple[str, Set[int]], Tuple[str, str]] = (
-                        relation_data[2], self.results_table.table.at['final', relation_data[2]])
-                self.execution_of_relation(relation_data[0], first_argument, second_argument)
+                self.relation_index_stack.add(relation_index)
+                for relation in relations:
+                    relation_data = relation.split('_')
+                    if relation_data[1] == second_argument_value[0]:
+                        first_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
+                            relation_data[1], self.results_table.table.at['final', relation_data[1]])
+                        second_argument: Tuple[str, str] = (
+                            relation_data[2], self.results_table.table.at['type', relation_data[2]])
+                    else:
+                        if relation_data[1] == first_argument_value[0]:
+                            first_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
+                                relation_data[1], self.results_table.table.at['final', relation_data[1]])
+                            second_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
+                                relation_data[2], self.results_table.table.at['final', relation_data[2]])
+                        else:
+                            first_argument: Tuple[str, str] = (
+                                relation_data[1], self.results_table.table.at['type', relation_data[1]])
+                            second_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
+                                relation_data[2], self.results_table.table.at['final', relation_data[2]])
+                    self.execution_of_relation(relation_data[0], first_argument, second_argument)
+                self.relation_index_stack.remove(relation_index)
         # print('Here')
 
     def attr_analysis(self, attr_node: Node) -> None:
-        if attr_node.children[1].node_type == 'INTEGER':
-            if attr_node.children[0].node_type == 'CONSTANT':
-                if self.all_tables['const'].is_in(int(attr_node.children[1].value)):
-                    self.results[attr_node.children[0].value] = set([attr_node.children[1].value])
-                else:
-                    self.results[attr_node.children[0].value] = set()
-            elif attr_node.children[0].node_type == 'STMT':
-                if int(attr_node.children[1].value) <= self.all_tables['statement'].get_size():
-                    self.results[attr_node.children[0].value] = set([attr_node.children[1].value])
-                else:
-                    self.results[attr_node.children[0].value] = set()
-            elif attr_node.children[0].node_type == 'PROG_LINE':
-                self.results[attr_node.children[0].value] = set([attr_node.children[1].value])
-            else:
-                if int(attr_node.children[1].value) in self.all_tables['statement'].get_statement_line_by_type_name(
-                        attr_node.children[0].node_type):
-                    self.results[attr_node.children[0].value] = set([attr_node.children[1].value])
-                else:
-                    self.results[attr_node.children[0].value] = set()
-        elif attr_node.children[1].node_type == 'IDENT_QUOTE':
-            if attr_node.children[0].node_type == 'PROCEDURE':
-                if self.all_tables['proc'].is_in(attr_node.children[1].value):
-                    self.results[attr_node.children[0].value] = set([attr_node.children[1].value])
-                else:
-                    self.results[attr_node.children[0].value] = set()
-            elif attr_node.children[0].node_type == 'VARIABLE':
-                if self.all_tables['var'].is_in(attr_node.children[1].value):
-                    self.results[attr_node.children[0].value] = set([attr_node.children[1].value])
-                else:
-                    self.results[attr_node.children[0].value] = set()
-            else:
-                self.results[attr_node.children[0].value] = set(
-                    self.all_tables['statement'].get_statement_line_by_type_name_and_value(
-                        attr_node.children[0].node_type,
-                        attr_node.children[1].value))
-        elif attr_node.children[1].node_type == 'CONSTANT':
-            if attr_node.children[0].node_type == 'STMT':
-                self.results[attr_node.children[0].value] = set(
-                    [const for const in self.all_tables['const'].get_all_constant() if
-                     self.all_tables['statement'].is_in(const)])
-            else:
-                self.results[attr_node.children[0].value] = set(
-                    [const for const in self.all_tables['const'].get_all_constant() if
-                     const in self.all_tables['statement'].get_statement_line_by_type_name(
-                         attr_node.children[0].value)])
+        self.results_table.set_results(attr_node.children[0].value, attr_node.children[0].node_type)
+        self.results_table.update_results('WITH',
+                                          attr_node.children[0].value,
+                                          self.relation['WITH'].execute(attr_node))
 
-        else:
-            if attr_node.children[0].node_type in ['CALL', 'PROCEDURE']:
-                left: Set[str] = set(self.all_tables['proc'].get_all_proc_name())
-            else:
-                left: Set[str] = set(self.all_tables['var'].get_all_var_name())
-
-            if attr_node.children[1].node_type in ['CALL', 'PROCEDURE']:
-                right: Set[str] = set(self.all_tables['proc'].get_all_proc_name())
-            else:
-                right: Set[str] = set(self.all_tables['var'].get_all_var_name())
-
-            self.results[attr_node.children[0].value] = left.intersection(right)
-
-        if self.results[attr_node.children[0].value]:
-            self.results['BOOLEAN'] = True
-        else:
-            self.results['BOOLEAN'] = False
-            raise Exception()
-
-    def check_stack_on_return(self) -> None:
-        while len(self.relation_stack) != 0:
-            relation: Tuple[str, Tuple[str, str], Tuple[str, str]] = self.relation_stack.pop()
-            self.execution_of_relation(relation[0],
-                                       self.choosing_an_argument(relation[1]),
-                                       self.choosing_an_argument(relation[2]))
+    def final_check(self):
+        for relation in [relation for relation in
+                         self.results_table.table.index.tolist() if
+                         relation not in ['type', 'final', 'PATTERN', 'WITH'] and 'CONST' not in relation]:
+            relation_data = str(relation).split('_')
+            if self.results_table.table.at['final', relation_data[2]] != self.results_table.table.at[
+                relation, relation_data[2]] \
+                    or self.results_table.table.at['final', relation_data[1]] != self.results_table.table.at[
+                relation, relation_data[1]]:
+                first_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
+                    relation_data[1], self.results_table.table.at['final', relation_data[1]])
+                second_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
+                    relation_data[2], self.results_table.table.at['final', relation_data[2]])
+                self.execution_of_relation(relation_data[0], first_argument, second_argument)

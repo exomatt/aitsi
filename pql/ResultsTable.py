@@ -1,4 +1,4 @@
-from typing import List, Union, Set
+from typing import List, Union, Set, Tuple
 
 import pandas as pd
 
@@ -9,6 +9,7 @@ class ResultsTable:
         if table is None:
             table = pd.DataFrame(columns=['BOOLEAN', 'CONST'], index=['type', 'final'])
         self.table: pd.DataFrame = table
+        self.select: Tuple[str, str] = ('', '')
 
     def set_results(self, synonym: str, synonym_type: str):
         if synonym not in self.table.columns.tolist():
@@ -30,6 +31,12 @@ class ResultsTable:
         if not self.table.loc['final', 'BOOLEAN']:
             raise Exception
 
+    def get_final_result(self, synonym: str) -> Union[Set[int], Set[str], None]:
+        try:
+            return self.table.at['final', synonym]
+        except Exception:
+            return None
+
     def get_relations(self, synonym: str) -> List[str]:
         try:  # FIXME
             return self.table.index[self.table[synonym] != 0].tolist()
@@ -42,14 +49,23 @@ class ResultsTable:
         except Exception:
             return []
 
-    def part_of_common(self, synonym: str) -> Union[Set[int], Set[str]]:
-        return list(filter(lambda values: type(values) is set, self.table[synonym].values))[-1]
-
-    # def __is_calls(self, call_procedure: str, receiving_procedure: str) -> bool:
-    #     try:
-    #         return bool(self.table.at[call_procedure, receiving_procedure])
-    #     except Exception:
-    #         return False
+    def get_select(self, all_tables) -> str:
+        try:
+            if self.select[1] == 'BOOLEAN':
+                return str(self.table.at['final', self.select[1]]).lower()
+            return ', '.join(map(str, self.table.at['final', self.select[1]]))
+        except:
+            if self.select[0] in ['STMT', 'PROG_LINE']:
+                return ', '.join(map(str, all_tables['statement'].get_all_statement_lines()))
+            elif self.select[0] == 'PROCEDURE':
+                return ', '.join(all_tables['proc'].get_all_proc_name())
+            elif self.select[0] == 'VARIABLE':
+                return ', '.join(all_tables['var'].get_all_var_name())
+            elif self.select[0] == 'CONSTANT':
+                return ', '.join(map(str, all_tables['const'].get_all_constant()))
+            else:
+                return ', '.join(
+                    map(str, all_tables['statement'].get_statement_line_by_type_name(self.select[0])))
 
     def to_string(self) -> None:
         print("ResultsTable:")

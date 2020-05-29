@@ -18,7 +18,7 @@ class ModifiesRelation:
         self.proc_table: ProcTable = proc_table
 
     def value_from_set_and_value_from_set(self, param_first: str, param_second: str) -> bool:
-        return self.modifies_table.is_modified(param_second, param_first)
+        return self.modifies_table.is_modified(param_first, param_second)
 
     def value_from_set_and_not_initialized_set(self, param_first: str, param_second: str) -> List[str]:
         return self.modifies_table.get_modified(param_first)

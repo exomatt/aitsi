@@ -96,7 +96,8 @@ class PQL:
         try:
             response = query_evaluator.evaluate_query(query_processor.root)
         except Exception as e:
-            if query_evaluator.select[0] == 'BOOLEAN':
+            log.error(e)
+            if query_evaluator.results_table.select[0] == 'BOOLEAN':
                 return 'false'
             else:
                 return 'none'
