@@ -18,7 +18,7 @@ class UsesRelation:
         self.proc_table: ProcTable = proc_table
 
     def value_from_set_and_value_from_set(self, param_first: str, param_second: str) -> bool:
-        return self.uses_table.is_used(param_second, param_first)
+        return self.uses_table.is_used(param_first, param_second)
 
     def value_from_set_and_not_initialized_set(self, param_first: str, param_second: str) -> List[str]:
         return self.uses_table.get_used(param_first)
