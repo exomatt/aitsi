@@ -29,6 +29,36 @@ prog_line n;
 Select n such that Next(8,n)
 9
 prog_line n;
+Select n such that Next(270,n)
+271
+prog_line n;
+Select n such that Next(100,n)
+95
+prog_line n;
+Select n such that Next(39,n)
+40
+prog_line n;
+Select n such that Next(29,n)
+30, 34
+prog_line n;
+Select n such that Next(19,n)
+20
+prog_line n;
+Select n such that Next(169,n)
+170
+prog_line n;
+Select n such that Next(253,n)
+251
+prog_line n;
+Select n such that Next(98,n)
+100
+prog_line n;
+Select n such that Next(213,n)
+214
+prog_line n;
+Select n such that Next(88,n)
+83
+prog_line n;
 Select n such that Next(14,n)
 15, 93
 prog_line n;
@@ -58,6 +88,36 @@ Select n such that Next(17,n)
 prog_line n;
 Select n such that Next(20,n)
 21
+prog_line n;
+Select n such that Next(144,n)
+145, 147
+prog_line n;
+Select n such that Next(100,n)
+95
+prog_line n;
+Select n such that Next(317,n)
+none
+prog_line n;
+Select n such that Next(202,n)
+203
+prog_line n;
+Select n such that Next(1\68,n)
+
+prog_line n;
+Select n such that Next(111,n)
+112
+prog_line n;
+Select n such that Next(301,n)
+302
+prog_line n;
+Select n such that Next(77,n)
+95
+prog_line n;
+Select n such that Next(217,n)
+218
+prog_line n;
+Select n such that Next(199,n)
+200
 prog_line n;
 Select n such that Next(6,n)
 7, 119

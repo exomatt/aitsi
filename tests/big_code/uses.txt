@@ -14,17 +14,17 @@ procedure p; variable v;
 Select p such that Uses (p, v)
 Main, Move, Transform, Translate, Rotate, Shrink, Shift, Shear, Draw, Random, Show, Enlarge, Clear, Fill, Scale, RR, PP, QQ, TT, SS, UU, XX
 procedure p;
-Select p such that Uses (p, "a")
+Select p such that Uses (p, "y7")
 none
 procedure p;
-Select p such that Uses (p, "b")
-none
+Select p such that Uses (p, "cs3")
+PP, QQ, RR, TT
 procedure p;
-Select p such that Uses (p, "c")
-Main
+Select p such that Uses (p, "x1")
+Main, Transform, Shift, Shear, Move, Draw, Shrink
 procedure p;
-Select p such that Uses (p, "beta")
-none
+Select p such that Uses (p, "left")
+Main, Transform, Shift
 procedure p;
 Select p such that Uses (p, "tmp")
 Main, Transform, Move
@@ -35,16 +35,16 @@ procedure p;
 Select p such that Uses (p, "I")
 Main, Move, Shrink
 procedure p;
-Select p such that Uses (p, "j1k")
-none
+Select p such that Uses (p, "top")
+Main, Random, Transform, Draw, Shrink, Translate, Rotate
 procedure p;
-Select p such that Uses (p, "oSCar")
-none
+Select p such that Uses (p, "bottom")
+Main, Random, Transform, Draw, Shrink, Translate, Rotate
 procedure p;
-Select p such that Uses (p, "chArlie")
-none
+Select p such that Uses (p, "area")
+Main
 procedure p;
-Select p such that Uses (p, "x")
+Select p such that Uses (p, "volume")
 Main
 procedure p;
 Select p such that Uses (p, "x1")
@@ -56,29 +56,29 @@ procedure p;
 Select p such that Uses (p, "right")
 Main, Transform, Shift
 procedure p;
-Select p such that Uses (p, "Romeo")
-none
+Select p such that Uses (p, "difference")
+Main, Draw, Show, Enlarge, Shrink, Translate, Rotate
 procedure p;
-Select p such that Uses (p, "delta")
-none
+Select p such that Uses (p, "factor")
+Main, Shear, Move, Shrink
 procedure p;
 Select p such that Uses (p, "width")
 Main, Move
 procedure p;
-Select p such that Uses (p, "Y1")
-none
+Select p such that Uses (p, "pct")
+Main, Draw, Shrink
 assign a;
-Select a such that Uses (a, "a")
-none
+Select a such that Uses (a, "x1")
+8, 19, 30, 36, 37, 43, 46, 49, 64, 71, 74, 82, 85, 142, 148, 150, 152, 153, 154, 155, 156, 157, 158, 162, 165, 169, 185, 206, 245, 249, 252, 254
 assign a;
-Select a such that Uses (a, "b")
-none
+Select a such that Uses (a, "tmp")
+28, 48, 50, 57, 61, 74, 91, 102, 138, 139, 147, 186
 assign a;
-Select a such that Uses (a, "c")
-115
+Select a such that Uses (a, "top")
+9, 67, 131, 135
 assign a;
-Select a such that Uses (a, "beta")
-none
+Select a such that Uses (a, "difference")
+19, 20, 35, 67, 213
 assign a;
 Select a such that Uses (a, "k")
 21, 61, 65, 91, 104
@@ -86,20 +86,20 @@ assign a;
 Select a such that Uses (a, "tmp")
 28, 48, 50, 57, 61, 74, 91, 102, 138, 139, 147, 186
 assign a;
-Select a such that Uses (a, "oSCar")
+Select a such that Uses (a, "green")
+215
+assign a;
+Select a such that Uses (a, "blue")
 none
 assign a;
-Select a such that Uses (a, "I")
-13, 21, 39, 61, 65, 70, 71, 75, 77, 91, 104, 252, 253, 254
+Select a such that Uses (a, "pixel")
+229, 238, 240
 assign a;
-Select a such that Uses (a, "j1k")
-none
+Select a such that Uses (a, "dot")
+223, 269
 assign a;
-Select a such that Uses (a, "chArlie")
-none
-assign a;
-Select a such that Uses (a, "x")
-106, 116
+Select a such that Uses (a, "pink")
+214, 215
 assign a;
 Select a such that Uses (a, "x1")
 8, 19, 30, 36, 37, 43, 46, 49, 64, 71, 74, 82, 85, 142, 148, 150, 152, 153, 154, 155, 156, 157, 158, 162, 165, 169, 185, 206, 245, 249, 252, 254
@@ -110,29 +110,47 @@ assign a;
 Select a such that Uses (a, "right")
 8, 31, 135, 152, 153, 154, 155, 156, 157, 158
 assign a;
-Select a such that Uses (a, "Romeo")
-none
+Select a such that Uses (a, "semi")
+229, 233
 assign a;
-Select a such that Uses (a, "delta")
-none
+Select a such that Uses (a, "edge")
+219, 220, 226, 228, 275, 276
 assign a;
-Select a such that Uses (a, "width")
-7, 11, 32, 40, 77, 85, 112, 186
+Select a such that Uses (a, "base")
+263, 272
 assign a;
-Select a such that Uses (a, "Y1")
+Select a such that Uses (a, "wrong")
 none
 variable v;
-Select v such that Uses ("ABC", v)
-none
+Select v such that Uses ("Main", v)
+width, height, tmp, I, x1, incre, left, x2, right, y1, top, y2, bottom, area, j, difference, k, decrement, radius, x3, x4, volume, length, x5, x8, x9, x6, x, c, weight, factor, pct, mtoggle, dx, lengx, cover, dy, marking, median, asterick, range, mean, s, pink, green, pixel, dot, notmove, line, edge, depth, semi, increase, temporary, decrease, half, notdone, triangle, base, degrees, triange
 variable v;
-Select v such that Uses ("Second", v)
-none
+Select v such that Uses ("Scale", v)
+wrong, wcounter, unknown, correct
 variable v;
 Select v such that Uses ("Init", v)
 none
+variable v;
+Select v such that Uses ("Fill", v)
+depth, temporary
+variable v;
+Select v such that Uses ("QQ", v)
+cs2, cs3
+variable v;
+Select v such that Uses ("PP", v)
+cs2, cs3, cs5, cs6, cs9
+variable v;
+Select v such that Uses ("Move", v)
+width, height, tmp, I, x1, incre, x2, decrement, factor
+variable v;
+Select v such that Uses ("Draw", v)
+x1, incre, x2, y1, top, y2, bottom, difference, decrement, pct, mtoggle, dx, lengx, cover, dy, marking, median, asterick, range, mean, s, pink, green
+variable v;
+Select v such that Uses ("Clear", v)
+s
 stmt s;
-Select s such that Uses (s, "a")
-none
+Select s such that Uses (s, "dot")
+6, 12, 14, 15, 16, 18, 59, 62, 79, 80, 89, 92, 105, 107, 117, 216, 217, 218, 223, 234, 262, 264, 265, 266, 267, 269
 stmt s;
 Select s such that Uses (s, "b")
 none
@@ -155,11 +173,11 @@ stmt s;
 Select s such that Uses (s, "I")
 6, 12, 13, 14, 15, 16, 21, 22, 34, 38, 39, 42, 59, 61, 63, 65, 66, 69, 70, 71, 75, 76, 77, 79, 80, 83, 84, 89, 91, 101, 103, 104, 180, 181, 184, 187, 250, 251, 252, 253, 254
 stmt s;
-Select s such that Uses (s, "j1k")
-none
+Select s such that Uses (s, "pixel")
+6, 12, 14, 15, 16, 18, 59, 62, 79, 80, 89, 92, 105, 107, 117, 216, 217, 218, 229, 237, 238, 239, 240, 262, 264, 265, 266, 267
 stmt s;
-Select s such that Uses (s, "chArlie")
-none
+Select s such that Uses (s, "half")
+6, 12, 14, 15, 16, 18, 59, 62, 79, 80, 89, 92, 105, 107, 117, 216, 217, 218, 233, 262, 263
 stmt s;
 Select s such that Uses (s, "x")
 6, 12, 105, 106, 107, 109, 116
@@ -173,7 +191,7 @@ stmt s;
 Select s such that Uses (s, "right")
 6, 8, 12, 14, 15, 16, 29, 31, 33, 45, 66, 76, 78, 105, 107, 108, 109, 113, 114, 135, 152, 153, 154, 155, 156, 157, 158
 stmt s;
-Select s such that Uses (s, "Romeo")
+Select s such that Uses (s, "distance")
 none
 stmt s;
 Select s such that Uses (s, "delta")
@@ -185,8 +203,8 @@ stmt s;
 Select s such that Uses (s, "Y1")
 none
 while w;
-Select w such that Uses (w, "a")
-none
+Select w such that Uses (w, "dot")
+6, 12, 16, 59, 79, 89, 105, 217, 218, 234, 264, 265
 while w;
 Select w such that Uses (w, "b")
 none
@@ -209,11 +227,11 @@ while w;
 Select w such that Uses (w, "I")
 6, 12, 16, 59, 69, 79, 83, 89, 101, 103, 180, 181, 184, 187, 251
 while w;
-Select w such that Uses (w, "j1k")
-none
+Select w such that Uses (w, "pixel")
+6, 12, 16, 59, 79, 89, 105, 217, 218, 239, 264, 265
 while w;
-Select w such that Uses (w, "chArlie")
-none
+Select w such that Uses (w, "half")
+6, 12, 16, 59, 79, 89, 105, 217, 218
 while w;
 Select w such that Uses (w, "x")
 6, 12, 105
@@ -227,7 +245,7 @@ while w;
 Select w such that Uses (w, "right")
 6, 12, 16, 29, 105, 113
 while w;
-Select w such that Uses (w, "Romeo")
+Select w such that Uses (w, "distance")
 none
 while w;
 Select w such that Uses (w, "delta")
@@ -239,8 +257,8 @@ while w;
 Select w such that Uses (w, "Y1")
 none
 if ifstat;
-Select ifstat such that Uses (ifstat, "a")
-none
+Select ifstat such that Uses (ifstat, "dot")
+14, 15, 80, 107, 216, 266, 267
 if ifstat;
 Select ifstat such that Uses (ifstat, "b")
 none
@@ -263,11 +281,11 @@ if ifstat;
 Select ifstat such that Uses (ifstat, "I")
 14, 15, 34, 38, 66, 76, 80, 250
 if ifstat;
-Select ifstat such that Uses (ifstat, "j1k")
-none
+Select ifstat such that Uses (ifstat, "pixel")
+14, 15, 80, 107, 216, 237, 266, 267
 if ifstat;
-Select ifstat such that Uses (ifstat, "chArlie")
-none
+Select ifstat such that Uses (ifstat, "half")
+14, 15, 80, 107, 216
 if ifstat;
 Select ifstat such that Uses (ifstat, "x")
 107, 109
@@ -281,7 +299,7 @@ if ifstat;
 Select ifstat such that Uses (ifstat, "right")
 14, 15, 66, 76, 107, 109
 if ifstat;
-Select ifstat such that Uses (ifstat, "Romeo")
+Select ifstat such that Uses (ifstat, "distance")
 none
 if ifstat;
 Select ifstat such that Uses (ifstat, "delta")
@@ -317,8 +335,8 @@ stmt s; variable v;
 Select v such that Uses (s, v) with s.stmt#=25
 none
 stmt s; variable v;
-Select s such that Uses (s, v) with v.varName="a"
-none
+Select s such that Uses (s, v) with v.varName="dot"
+6, 12, 14, 15, 16, 18, 59, 62, 79, 80, 89, 92, 105, 107, 117, 216, 217, 218, 223, 234, 262, 264, 265, 266, 267, 269
 stmt s; variable v;
 Select s such that Uses (s, v) with v.varName="b"
 none
@@ -338,11 +356,11 @@ stmt s; variable v;
 Select s such that Uses (s, v) with v.varName="I"
 6, 12, 13, 14, 15, 16, 21, 22, 34, 38, 39, 42, 59, 61, 63, 65, 66, 69, 70, 71, 75, 76, 77, 79, 80, 83, 84, 89, 91, 101, 103, 104, 180, 181, 184, 187, 250, 251, 252, 253, 254
 stmt s; variable v;
-Select s such that Uses (s, v) with v.varName="j1k"
-none
+Select s such that Uses (s, v) with v.varName="pixel"
+6, 12, 14, 15, 16, 18, 59, 62, 79, 80, 89, 92, 105, 107, 117, 216, 217, 218, 229, 237, 238, 239, 240, 262, 264, 265, 266, 267
 stmt s; variable v;
-Select s such that Uses (s, v) with v.varName="chArlie"
-none
+Select s such that Uses (s, v) with v.varName="half"
+6, 12, 14, 15, 16, 18, 59, 62, 79, 80, 89, 92, 105, 107, 117, 216, 217, 218, 233, 262, 263
 stmt s; variable v;
 Select s such that Uses (s, v) with v.varName="x"
 6, 12, 105, 106, 107, 109, 116
@@ -350,7 +368,7 @@ stmt s; variable v;
 Select s such that Uses (s, v) with v.varName="x1"
 6, 8, 12, 14, 15, 16, 19, 22, 29, 30, 33, 34, 36, 37, 38, 41, 42, 43, 45, 46, 47, 49, 63, 64, 66, 69, 71, 72, 74, 76, 78, 79, 80, 82, 83, 84, 85, 86, 87, 105, 107, 108, 109, 113, 114, 118, 136, 140, 142, 143, 144, 148, 150, 152, 153, 154, 155, 156, 157, 158, 159, 160, 162, 163, 165, 169, 180, 181, 184, 185, 191, 204, 206, 245, 249, 250, 251, 252, 254, 259
 stmt s; variable v;
-Select s such that Uses (s, v) with v.varName="Romeo"
+Select s such that Uses (s, v) with v.varName="distance"
 none
 stmt s; variable v;
 Select s such that Uses (s, v) with v.varName="left"
@@ -368,14 +386,14 @@ stmt s; variable v;
 Select s such that Uses (s, v) with v.varName="Y1"
 none
 procedure p; variable v;
-Select v such that Uses (p, v) with p.procName="ABC"
-none
+Select v such that Uses (p, v) with p.procName="Main"
+width, height, tmp, I, x1, incre, left, x2, right, y1, top, y2, bottom, area, j, difference, k, decrement, radius, x3, x4, volume, length, x5, x8, x9, x6, x, c, weight, factor, pct, mtoggle, dx, lengx, cover, dy, marking, median, asterick, range, mean, s, pink, green, pixel, dot, notmove, line, edge, depth, semi, increase, temporary, decrease, half, notdone, triangle, base, degrees, triange
 procedure p; variable v;
 Select v such that Uses (p, v) with p.procName="Init"
 none
 procedure p; variable v;
-Select v such that Uses (p, v) with p.procName="Second"
-none
+Select v such that Uses (p, v) with p.procName="Draw"
+x1, incre, x2, y1, top, y2, bottom, difference, decrement, pct, mtoggle, dx, lengx, cover, dy, marking, median, asterick, range, mean, s, pink, green
 procedure p; variable v;
 Select v such that Uses (p, v)
 width, height, tmp, I, x1, incre, left, x2, right, y1, top, y2, bottom, area, j, difference, k, decrement, radius, x3, x4, volume, length, x5, x8, x9, x6, x, c, weight, factor, pct, mtoggle, dx, lengx, cover, dy, marking, median, asterick, range, mean, s, pink, green, pixel, dot, notmove, line, edge, depth, semi, increase, temporary, decrease, half, notdone, triangle, base, degrees, triange, wrong, wcounter, unknown, correct, cs1, cs2, cs3, cs4, cs5, cs6, cs9

@@ -10,6 +10,18 @@ none
 while w;
 Select w such that Parent* (w,10)
 6
+stmt s;
+Select s such that Parent* (s,222)
+216, 217, 218
+stmt s;
+Select s such that Parent* (s,120)
+none
+while w;
+Select w such that Parent* (w,112)
+6, 12, 105
+while w;
+Select w such that Parent* (w,310)
+none
 if ifstat;
 Select ifstat such that Parent* (ifstat,2)
 none
@@ -28,6 +40,15 @@ false
 while w;
 Select BOOLEAN such that Parent* (w,10)
 true
+stmt s;
+Select BOOLEAN such that Parent* (s,110)
+true
+while w;
+Select BOOLEAN such that Parent* (w,222)
+true
+while w;
+Select BOOLEAN such that Parent* (w,310)
+false
 if ifstat;
 Select BOOLEAN such that Parent* (ifstat,2)
 false
