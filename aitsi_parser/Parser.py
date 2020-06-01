@@ -118,58 +118,6 @@ class Parser:
                             self.mod_table.set_modifies(var, str(statement[0]))
                         for var in used_vars:
                             self.uses_table.set_uses(var, str(statement[0]))
-        self.adjust_next(self.root)
-
-    def adjust_next(self, root: Node):
-        for child in root.children:
-            if child.node_type == 'STMT_LIST' or child.node_type == 'PROGRAM' or child.node_type == 'PROCEDURE':
-                self.adjust_next(child)
-        if len(root.children) > 0 \
-                and root.node_type != 'WHILE' \
-                and root.node_type != 'IF' \
-                and root.node_type != 'PROCEDURE' \
-                and root.node_type != 'PROGRAM':
-            line_numbers: List[int] = [x.line for x in root.children]
-            for i in range(len(line_numbers) - 1):
-                self.next_table.set_next(line_numbers[i], line_numbers[i + 1])
-            for child in root.children:
-                if child.node_type == 'WHILE':
-                    self.next_table.set_next(child.line, child.children[1].children[0].line)
-                    self.next_table.set_next(child.children[1].children[-1].line, child.line)
-                    self.adjust_next(child)
-                elif child.node_type == 'IF':
-                    parent: Node = self.get_parent_node(self.root, self.get_parent_node(self.root, child))
-                    before_evaluating: List[int] = self.next_table.get_next(child.line)
-                    other_info: dict = self.statement_table.get_other_info(child.line)
-                    if parent.node_type == 'IF':
-                        parents: List[int] = self.next_table.get_next(parent.line)
-                        if len(parents) > 0:
-                            self.next_table.remove_next(parent.line)
-                            for p in parents:
-                                self.next_table.set_next(other_info['last_if_line'], p)
-                                self.next_table.set_next(other_info['last_else_line'], p)
-                    if len(before_evaluating) > 0:
-                        self.next_table.set_next(other_info['last_if_line'], before_evaluating[-1])
-                        self.next_table.set_next(other_info['last_else_line'], before_evaluating[-1])
-                        if parent.node_type == 'PROCEDURE':
-                            if not child.equals_expression(parent.children[0].children[-1]) or len(
-                                    parent.children[0].children) == 1:
-                                self.next_table.remove_next(child.line)
-                        else:
-                            if not child.equals_expression(parent.children[1].children[-1]) or len(
-                                    parent.children[1].children) == 1:
-                                self.next_table.remove_next(child.line)
-                    self.adjust_next(child)
-                    self.next_table.set_next(child.line, child.children[1].children[0].line)
-                    self.next_table.set_next(child.line, child.children[2].children[0].line)
-
-    def get_parent_node(self, root: Node, node: Node):
-        for child in root.children:
-            value = self.get_parent_node(child, node)
-            if value is not None:
-                return value
-            if node in child.children:
-                return child
 
     def procedure(self) -> Node:
         self.match("PROCEDURE")
@@ -190,6 +138,11 @@ class Parser:
         while self.next_token[0] != "CLOSE_BRACKET":
             stmt_node = self.statement()
             if prev_node is not None:
+                if prev_node.node_type == 'IF':
+                    for line in self.get_all_possible_endings(prev_node):
+                        self.next_table.set_next(line, stmt_node.line)
+                else:
+                    self.next_table.set_next(prev_node.line, stmt_node.line)
                 self.follows_table.set_follows(prev_node.line, stmt_node.line)
             stmt_list_node.add_child(stmt_node)
             prev_node = stmt_node
@@ -228,8 +181,14 @@ class Parser:
         self.statement_table.insert_statement(self.current_line, {'name': 'WHILE', 'value': self.prev_token[1],
                                                                   'start': self.current_line})
         self.match("OPEN_BRACKET")
+        self.next_table.set_next(while_node.line, self.current_line + 1)
         while_node.add_child(self.statement_list())
         self.statement_table.update_statement(while_node.line, {'end': self.current_line})
+        if while_node.children[1].children[-1].node_type == 'IF':
+            for line in self.get_all_possible_endings(while_node.children[1].children[-1]):
+                self.next_table.set_next(line, while_node.line)
+        else:
+            self.next_table.set_next(while_node.children[1].children[-1].line, while_node.line)
         for child in while_node.children[1].children:
             self.parent_table.set_parent(while_node.line, child.line)
             if child.node_type == 'ASSIGN' or child.node_type == 'WHILE' or child.node_type == 'IF':
@@ -257,6 +216,15 @@ class Parser:
         self.match("SEMICOLON")
         return assign_node
 
+    def get_all_possible_endings(self, node: Node) -> list:
+        results: list = []
+        if node.node_type == 'IF':
+            results.extend(self.get_all_possible_endings(node.children[1].children[-1]))
+            results.extend(self.get_all_possible_endings(node.children[2].children[-1]))
+            return results
+        else:
+            return [node.line]
+
     def if_statement(self) -> Node:
         if_node: Node = Node("IF", line=self.current_line)
         self.match("IF")
@@ -269,6 +237,7 @@ class Parser:
         self.var_table.insert_var(self.prev_token[1])
         self.match("THEN")
         self.match("OPEN_BRACKET")
+        self.next_table.set_next(if_node.line, self.current_line + 1)
         if_node.add_child(self.statement_list())
         last_if_line: int = self.find_last_child_line_number(if_node.children[1])
         for child in if_node.children[1].children:
@@ -283,6 +252,7 @@ class Parser:
         self.match("CLOSE_BRACKET")
         self.match("ELSE")
         self.match("OPEN_BRACKET")
+        self.next_table.set_next(if_node.line, self.current_line + 1)
         if_node.add_child(self.statement_list())
         last_else_line: int = self.find_last_child_line_number(if_node.children[2])
         for child in if_node.children[2].children:

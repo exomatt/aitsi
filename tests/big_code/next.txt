@@ -407,35 +407,1490 @@ prog_line n1; prog_line n2;
 Select n2 such that Next(n1,n2) with n1=35
 36
 prog_line n1; prog_line n2;
-Select n2 such that Next(n1,n2) with n1=111
-112
+Select n2 such that Next(8,n2)
+9
 prog_line n1; prog_line n2;
-Select n2 such that Next(n1,n2) with n1=317
+Select n2 such that Next(250,n2)
+251, 255
+prog_line n1; prog_line n2;
+Select n2 such that Next(150,n2)
+151
+prog_line n1; prog_line n2;
+Select n2 such that Next(179,n2)
 none
 prog_line n1; prog_line n2;
-Select n2 such that Next(n1,n2) with n1=257
-258
-prog_line n1; prog_line n2;
-Select n2 such that Next(n1,n2) with n1=31
-32
-prog_line n1; prog_line n2;
-Select n2 such that Next(n1,n2) with n1=123
-124
-prog_line n1; prog_line n2;
-Select n2 such that Next(n1,n2) with n1=321
+Select n2 such that Next(208,n2)
 none
 prog_line n1; prog_line n2;
-Select n2 such that Next(n1,n2) with n1=222
-223
+Select n2 such that Next(311,n2)
+none
 prog_line n1; prog_line n2;
-Select n2 such that Next(n1,n2) with n1=99
+Select n2 such that Next(162,n2)
+163
+prog_line n1; prog_line n2;
+Select n2 such that Next(180,n2)
+181
+prog_line n1; prog_line n2;
+Select n2 such that Next(217,n2)
+218
+prog_line n1; prog_line n2;
+Select n2 such that Next(306,n2)
+307
+prog_line n1; prog_line n2;
+Select n2 such that Next(247,n2)
+248
+prog_line n1; prog_line n2;
+Select n2 such that Next(76,n2)
+77, 78
+prog_line n1; prog_line n2;
+Select n2 such that Next(29,n2)
+30, 34
+prog_line n1; prog_line n2;
+Select n2 such that Next(178,n2)
+none
+prog_line n1; prog_line n2;
+Select n2 such that Next(104,n2)
+103
+prog_line n1; prog_line n2;
+Select n2 such that Next(167,n2)
+169
+prog_line n1; prog_line n2;
+Select n2 such that Next(165,n2)
+166
+prog_line n1; prog_line n2;
+Select n2 such that Next(186,n2)
+187
+prog_line n1; prog_line n2;
+Select n2 such that Next(146,n2)
+143
+prog_line n1; prog_line n2;
+Select n2 such that Next(226,n2)
+227
+prog_line n1; prog_line n2;
+Select n2 such that Next(295,n2)
+296
+prog_line n1; prog_line n2;
+Select n2 such that Next(201,n2)
+202
+prog_line n1; prog_line n2;
+Select n2 such that Next(143,n2)
+144, 149
+prog_line n1; prog_line n2;
+Select n2 such that Next(157,n2)
+158
+prog_line n1; prog_line n2;
+Select n2 such that Next(117,n2)
+105
+prog_line n1; prog_line n2;
+Select n2 such that Next(227,n2)
+228
+prog_line n1; prog_line n2;
+Select n2 such that Next(266,n2)
+267, 274
+prog_line n1; prog_line n2;
+Select n2 such that Next(43,n2)
+44
+prog_line n1; prog_line n2;
+Select n2 such that Next(141,n2)
+143
+prog_line n1; prog_line n2;
+Select n2 such that Next(232,n2)
+233
+prog_line n1; prog_line n2;
+Select n2 such that Next(235,n2)
+234
+prog_line n1; prog_line n2;
+Select n2 such that Next(98,n2)
 100
 prog_line n1; prog_line n2;
-Select n2 such that Next(n1,n2) with n1=87
-83
+Select n2 such that Next(300,n2)
+301
 prog_line n1; prog_line n2;
-Select n2 such that Next(n1,n2) with n1=170
+Select n2 such that Next(291,n2)
+292, 293
+prog_line n1; prog_line n2;
+Select n2 such that Next(86,n2)
+87, 88
+prog_line n1; prog_line n2;
+Select n2 such that Next(142,n2)
+143
+prog_line n1; prog_line n2;
+Select n2 such that Next(177,n2)
+none
+prog_line n1; prog_line n2;
+Select n2 such that Next(9,n2)
+10
+prog_line n1; prog_line n2;
+Select n2 such that Next(158,n2)
+none
+prog_line n1; prog_line n2;
+Select n2 such that Next(65,n2)
+66
+prog_line n1; prog_line n2;
+Select n2 such that Next(16,n2)
+17, 63
+prog_line n1; prog_line n2;
+Select n2 such that Next(237,n2)
+238, 239
+prog_line n1; prog_line n2;
+Select n2 such that Next(147,n2)
+148
+prog_line n1; prog_line n2;
+Select n2 such that Next(221,n2)
+222
+prog_line n1; prog_line n2;
+Select n2 such that Next(308,n2)
+301
+prog_line n1; prog_line n2;
+Select n2 such that Next(285,n2)
+286
+prog_line n1; prog_line n2;
+Select n2 such that Next(252,n2)
+253
+prog_line n1; prog_line n2;
+Select n2 such that Next(2,n2)
+3
+prog_line n1; prog_line n2;
+Select n2 such that Next(89,n2)
+79, 90
+prog_line n1; prog_line n2;
+Select n2 such that Next(183,n2)
+184
+prog_line n1; prog_line n2;
+Select n2 such that Next(116,n2)
+105
+prog_line n1; prog_line n2;
+Select n2 such that Next(254,n2)
+259
+prog_line n1; prog_line n2;
+Select n2 such that Next(170,n2)
 171, 172
 prog_line n1; prog_line n2;
-Select n2 such that Next(n1,n2) with n1=135
+Select n2 such that Next(154,n2)
+155
+prog_line n1; prog_line n2;
+Select n2 such that Next(102,n2)
+103
+prog_line n1; prog_line n2;
+Select n2 such that Next(191,n2)
+192, 208
+prog_line n1; prog_line n2;
+Select n2 such that Next(251,n2)
+252, 254
+prog_line n1; prog_line n2;
+Select n2 such that Next(219,n2)
+220
+prog_line n1; prog_line n2;
+Select n2 such that Next(287,n2)
+none
+prog_line n1; prog_line n2;
+Select n2 such that Next(39,n2)
+40
+prog_line n1; prog_line n2;
+Select n2 such that Next(278,n2)
+279, 281
+prog_line n1; prog_line n2;
+Select n2 such that Next(91,n2)
+92
+prog_line n1; prog_line n2;
+Select n2 such that Next(90,n2)
+91
+prog_line n1; prog_line n2;
+Select n2 such that Next(61,n2)
+62
+prog_line n1; prog_line n2;
+Select n2 such that Next(95,n2)
+96, 101
+prog_line n1; prog_line n2;
+Select n2 such that Next(70,n2)
+71
+prog_line n1; prog_line n2;
+Select n2 such that Next(286,n2)
+287
+prog_line n1; prog_line n2;
+Select n2 such that Next(93,n2)
+94
+prog_line n1; prog_line n2;
+Select n2 such that Next(109,n2)
+110, 113
+prog_line n1; prog_line n2;
+Select n2 such that Next(181,n2)
+180, 182
+prog_line n1; prog_line n2;
+Select n2 such that Next(41,n2)
+42
+prog_line n1; prog_line n2;
+Select n2 such that Next(159,n2)
+160, 179
+prog_line n1; prog_line n2;
+Select n2 such that Next(87,n2)
+83
+prog_line n1; prog_line n2;
+Select n2 such that Next(6,n2)
+7, 119
+prog_line n1; prog_line n2;
+Select n2 such that Next(26,n2)
+27, 29
+prog_line n1; prog_line n2;
+Select n2 such that Next(200,n2)
+203
+prog_line n1; prog_line n2;
+Select n2 such that Next(203,n2)
+196
+prog_line n1; prog_line n2;
+Select n2 such that Next(229,n2)
+230
+prog_line n1; prog_line n2;
+Select n2 such that Next(45,n2)
+46
+prog_line n1; prog_line n2;
+Select n2 such that Next(68,n2)
+69
+prog_line n1; prog_line n2;
+Select n2 such that Next(264,n2)
+265
+prog_line n1; prog_line n2;
+Select n2 such that Next(121,n2)
+122
+prog_line n1; prog_line n2;
+Select n2 such that Next(100,n2)
+95
+prog_line n1; prog_line n2;
+Select n2 such that Next(145,n2)
+146
+prog_line n1; prog_line n2;
+Select n2 such that Next(73,n2)
+75
+prog_line n1; prog_line n2;
+Select n2 such that Next(240,n2)
+239
+prog_line n1; prog_line n2;
+Select n2 such that Next(144,n2)
+145, 147
+prog_line n1; prog_line n2;
+Select n2 such that Next(193,n2)
+194
+prog_line n1; prog_line n2;
+Select n2 such that Next(155,n2)
+156
+prog_line n1; prog_line n2;
+Select n2 such that Next(260,n2)
+none
+prog_line n1; prog_line n2;
+Select n2 such that Next(199,n2)
+200
+prog_line n1; prog_line n2;
+Select n2 such that Next(166,n2)
+167, 168
+prog_line n1; prog_line n2;
+Select n2 such that Next(297,n2)
+none
+prog_line n1; prog_line n2;
+Select n2 such that Next(248,n2)
+249
+prog_line n1; prog_line n2;
+Select n2 such that Next(209,n2)
+210
+prog_line n1; prog_line n2;
+Select n2 such that Next(289,n2)
+290
+prog_line n1; prog_line n2;
+Select n2 such that Next(5,n2)
+6
+prog_line n1; prog_line n2;
+Select n2 such that Next(11,n2)
+12
+prog_line n1; prog_line n2;
+Select n2 such that Next(309,n2)
+310, 311
+prog_line n1; prog_line n2;
+Select n2 such that Next(272,n2)
+273
+prog_line n1; prog_line n2;
+Select n2 such that Next(194,n2)
+196
+prog_line n1; prog_line n2;
+Select n2 such that Next(256,n2)
+257, 259
+prog_line n1; prog_line n2;
+Select n2 such that Next(37,n2)
+45
+prog_line n1; prog_line n2;
+Select n2 such that Next(220,n2)
+221
+prog_line n1; prog_line n2;
+Select n2 such that Next(69,n2)
+70, 95
+prog_line n1; prog_line n2;
+Select n2 such that Next(238,n2)
+none
+prog_line n1; prog_line n2;
+Select n2 such that Next(228,n2)
+229
+prog_line n1; prog_line n2;
+Select n2 such that Next(246,n2)
+247
+prog_line n1; prog_line n2;
+Select n2 such that Next(258,n2)
+256
+prog_line n1; prog_line n2;
+Select n2 such that Next(302,n2)
+303
+prog_line n1; prog_line n2;
+Select n2 such that Next(280,n2)
+279
+prog_line n1; prog_line n2;
+Select n2 such that Next(176,n2)
+177, 178
+prog_line n1; prog_line n2;
+Select n2 such that Next(3,n2)
+4
+prog_line n1; prog_line n2;
+Select n2 such that Next(185,n2)
+184
+prog_line n1; prog_line n2;
+Select n2 such that Next(206,n2)
+207
+prog_line n1; prog_line n2;
+Select n2 such that Next(63,n2)
+64
+prog_line n1; prog_line n2;
+Select n2 such that Next(301,n2)
+302
+prog_line n1; prog_line n2;
+Select n2 such that Next(184,n2)
+185, 186
+prog_line n1; prog_line n2;
+Select n2 such that Next(48,n2)
+49
+prog_line n1; prog_line n2;
+Select n2 such that Next(40,n2)
+41
+prog_line n1; prog_line n2;
+Select n2 such that Next(33,n2)
+29
+prog_line n1; prog_line n2;
+Select n2 such that Next(234,n2)
+235, 236
+prog_line n1; prog_line n2;
+Select n2 such that Next(243,n2)
+none
+prog_line n1; prog_line n2;
+Select n2 such that Next(168,n2)
+169
+prog_line n1; prog_line n2;
+Select n2 such that Next(134,n2)
+135
+prog_line n1; prog_line n2;
+Select n2 such that Next(50,n2)
+51
+prog_line n1; prog_line n2;
+Select n2 such that Next(268,n2)
+270
+prog_line n1; prog_line n2;
+Select n2 such that Next(130,n2)
+131
+prog_line n1; prog_line n2;
+Select n2 such that Next(204,n2)
+205, 206
+prog_line n1; prog_line n2;
+Select n2 such that Next(149,n2)
 136
+prog_line n1; prog_line n2;
+Select n2 such that Next(205,n2)
+207
+prog_line n1; prog_line n2;
+Select n2 such that Next(271,n2)
+272
+prog_line n1; prog_line n2;
+Select n2 such that Next(169,n2)
+170
+prog_line n1; prog_line n2;
+Select n2 such that Next(97,n2)
+98, 99
+prog_line n1; prog_line n2;
+Select n2 such that Next(88,n2)
+83
+prog_line n1; prog_line n2;
+Select n2 such that Next(13,n2)
+14
+prog_line n1; prog_line n2;
+Select n2 such that Next(230,n2)
+231, 232
+prog_line n1; prog_line n2;
+Select n2 such that Next(213,n2)
+214
+prog_line n1; prog_line n2;
+Select n2 such that Next(207,n2)
+191
+prog_line n1; prog_line n2;
+Select n2 such that Next(175,n2)
+none
+prog_line n1; prog_line n2;
+Select n2 such that Next(114,n2)
+115
+prog_line n1; prog_line n2;
+Select n2 such that Next(34,n2)
+35, 38
+prog_line n1; prog_line n2;
+Select n2 such that Next(123,n2)
+124
+prog_line n1; prog_line n2;
+Select n2 such that Next(108,n2)
+109
+prog_line n1; prog_line n2;
+Select n2 such that Next(122,n2)
+123
+prog_line n1; prog_line n2;
+Select n2 such that Next(80,n2)
+81, 89
+prog_line n1; prog_line n2;
+Select n2 such that Next(148,n2)
+143
+prog_line n1; prog_line n2;
+Select n2 such that Next(161,n2)
+162
+prog_line n1; prog_line n2;
+Select n2 such that Next(255,n2)
+256
+prog_line n1; prog_line n2;
+Select n2 such that Next(299,n2)
+300
+prog_line n1; prog_line n2;
+Select n2 such that Next(273,n2)
+275
+prog_line n1; prog_line n2;
+Select n2 such that Next(198,n2)
+199, 201
+prog_line n1; prog_line n2;
+Select n2 such that Next(274,n2)
+275
+prog_line n1; prog_line n2;
+Select n2 such that Next(140,n2)
+141, 142
+prog_line n1; prog_line n2;
+Select n2 such that Next(261,n2)
+262
+prog_line n1; prog_line n2;
+Select n2 such that Next(288,n2)
+none
+prog_line n1; prog_line n2;
+Select n2 such that Next(153,n2)
+154
+prog_line n1; prog_line n2;
+Select n2 such that Next(19,n2)
+20
+prog_line n1; prog_line n2;
+Select n2 such that Next(22,n2)
+23
+prog_line n1; prog_line n2;
+Select n2 such that Next(259,n2)
+260
+prog_line n1; prog_line n2;
+Select n2 such that Next(304,n2)
+306
+prog_line n1; prog_line n2;
+Select n2 such that Next(310,n2)
+none
+prog_line n1; prog_line n2;
+Select n2 such that Next(25,n2)
+29
+prog_line n1; prog_line n2;
+Select n2 such that Next(281,n2)
+282
+prog_line n1; prog_line n2;
+Select n2 such that Next(233,n2)
+218
+prog_line n1; prog_line n2;
+Select n2 such that Next(118,n2)
+6
+prog_line n1; prog_line n2;
+Select n2 such that Next(164,n2)
+166
+prog_line n1; prog_line n2;
+Select n2 such that Next(4,n2)
+5
+prog_line n1; prog_line n2;
+Select n2 such that Next(196,n2)
+197, 204
+prog_line n1; prog_line n2;
+Select n2 such that Next(75,n2)
+69
+prog_line n1; prog_line n2;
+Select n2 such that Next(242,n2)
+none
+prog_line n1; prog_line n2;
+Select n2 such that Next(197,n2)
+198
+prog_line n1; prog_line n2;
+Select n2 such that Next(111,n2)
+112
+prog_line n1; prog_line n2;
+Select n2 such that Next(138,n2)
+139
+prog_line n1; prog_line n2;
+Select n2 such that Next(187,n2)
+181, 188
+prog_line n1; prog_line n2;
+Select n2 such that Next(82,n2)
+83
+prog_line n1; prog_line n2;
+Select n2 such that Next(55,n2)
+56, 58
+prog_line n1; prog_line n2;
+Select n2 such that Next(35,n2)
+36
+prog_line n1; prog_line n2;
+Select n2 such that Next(112,n2)
+105
+prog_line n1; prog_line n2;
+Select n2 such that Next(222,n2)
+223
+prog_line n1; prog_line n2;
+Select n2 such that Next(38,n2)
+39, 43
+prog_line n1; prog_line n2;
+Select n2 such that Next(119,n2)
+none
+prog_line n1; prog_line n2;
+Select n2 such that Next(132,n2)
+133
+prog_line n1; prog_line n2;
+Select n2 such that Next(32,n2)
+33
+prog_line n1; prog_line n2;
+Select n2 such that Next(269,n2)
+270
+prog_line n1; prog_line n2;
+Select n2 such that Next(42,n2)
+45
+prog_line n1; prog_line n2;
+Select n2 such that Next(152,n2)
+153
+prog_line n1; prog_line n2;
+Select n2 such that Next(211,n2)
+212
+prog_line n1; prog_line n2;
+Select n2 such that Next(151,n2)
+152
+prog_line n1; prog_line n2;
+Select n2 such that Next(105,n2)
+12, 106
+prog_line n1; prog_line n2;
+Select n2 such that Next(307,n2)
+308
+prog_line n1; prog_line n2;
+Select n2 such that Next(47,n2)
+48, 54
+prog_line n1; prog_line n2;
+Select n2 such that Next(21,n2)
+22
+prog_line n1; prog_line n2;
+Select n2 such that Next(77,n2)
+95
+prog_line n1; prog_line n2;
+Select n2 such that Next(214,n2)
+215
+prog_line n1; prog_line n2;
+Select n2 such that Next(284,n2)
+285
+prog_line n1; prog_line n2;
+Select n2 such that Next(236,n2)
+217
+prog_line n1; prog_line n2;
+Select n2 such that Next(245,n2)
+246
+prog_line n1; prog_line n2;
+Select n2 such that Next(57,n2)
+59
+prog_line n1; prog_line n2;
+Select n2 such that Next(239,n2)
+240
+prog_line n1; prog_line n2;
+Select n2 such that Next(192,n2)
+193, 195
+prog_line n1; prog_line n2;
+Select n2 such that Next(223,n2)
+224
+prog_line n1; prog_line n2;
+Select n2 such that Next(262,n2)
+none
+prog_line n1; prog_line n2;
+Select n2 such that Next(36,n2)
+37
+prog_line n1; prog_line n2;
+Select n2 such that Next(28,n2)
+26
+prog_line n1; prog_line n2;
+Select n2 such that Next(277,n2)
+264
+prog_line n1; prog_line n2;
+Select n2 such that Next(279,n2)
+280
+prog_line n1; prog_line n2;
+Select n2 such that Next(14,n2)
+15, 93
+prog_line n1; prog_line n2;
+Select n2 such that Next(1,n2)
+2
+prog_line n1; prog_line n2;
+Select n2 such that Next(188,n2)
+189
+prog_line n1; prog_line n2;
+Select n2 such that Next(56,n2)
+57
+prog_line n1; prog_line n2;
+Select n2 such that Next(253,n2)
+251
+prog_line n1; prog_line n2;
+Select n2 such that Next(224,n2)
+225, 226
+prog_line n1; prog_line n2;
+Select n2 such that Next(17,n2)
+18
+prog_line n1; prog_line n2;
+Select n2 such that Next(115,n2)
+113
+prog_line n1; prog_line n2;
+Select n2 such that Next(46,n2)
+47
+prog_line n1; prog_line n2;
+Select n2 such that Next(139,n2)
+140
+prog_line n1; prog_line n2;
+Select n2 such that Next(212,n2)
+209
+prog_line n1; prog_line n2;
+Select n2 such that Next(190,n2)
+191
+prog_line n1; prog_line n2;
+Select n2 such that Next(71,n2)
+72
+prog_line n1; prog_line n2;
+Select n2 such that Next(92,n2)
+89
+prog_line n1; prog_line n2;
+Select n2 such that Next(275,n2)
+276
+prog_line n1; prog_line n2;
+Select n2 such that Next(283,n2)
+284
+prog_line n1; prog_line n2;
+Select n2 such that Next(171,n2)
+173
+prog_line n1; prog_line n2;
+Select n2 such that Next(173,n2)
+174, 175
+prog_line n1; prog_line n2;
+Select n2 such that Next(44,n2)
+45
+prog_line n1; prog_line n2;
+Select n2 such that Next(296,n2)
+297
+prog_line n1; prog_line n2;
+Select n2 such that Next(62,n2)
+59
+prog_line n1; prog_line n2;
+Select n2 such that Next(225,n2)
+227
+prog_line n1; prog_line n2;
+Select n2 such that Next(7,n2)
+8
+prog_line n1; prog_line n2;
+Select n2 such that Next(79,n2)
+80, 95
+prog_line n1; prog_line n2;
+Select n2 such that Next(303,n2)
+304, 305
+prog_line n1; prog_line n2;
+Select n2 such that Next(265,n2)
+266, 277
+prog_line n1; prog_line n2;
+Select n2 such that Next(174,n2)
+none
+prog_line n1; prog_line n2;
+Select n2 such that Next(72,n2)
+73, 74
+prog_line n1; prog_line n2;
+Select n2 such that Next(30,n2)
+31
+prog_line n1; prog_line n2;
+Select n2 such that Next(10,n2)
+11
+prog_line n1; prog_line n2;
+Select n2 such that Next(231,n2)
+233
+prog_line n1; prog_line n2;
+Select n2 such that Next(31,n2)
+32
+prog_line n1; prog_line n2;
+Select n2 such that Next(85,n2)
+86
+prog_line n1; prog_line n2;
+Select n2 such that Next(81,n2)
+82
+prog_line n1; prog_line n2;
+Select n2 such that Next(136,n2)
+137
+prog_line n1; prog_line n2;
+Select n2 such that Next(125,n2)
+126
+prog_line n1; prog_line n2;
+Select n2 such that Next(78,n2)
+95
+prog_line n1; prog_line n2;
+Select n2 such that Next(52,n2)
+47
+prog_line n1; prog_line n2;
+Select n2 such that Next(156,n2)
+157
+prog_line n1; prog_line n2;
+Select n2 such that Next(113,n2)
+114, 116
+prog_line n1; prog_line n2;
+Select n2 such that Next(60,n2)
+61
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,173)
+171, 172
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,233)
+231, 232
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,145)
+144
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,210)
+209
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,229)
+228
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,225)
+224
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,258)
+257
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,192)
+191
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,128)
+127
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,193)
+192
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,310)
+309
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,279)
+278, 280
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,10)
+9
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,234)
+218, 235
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,228)
+227
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,300)
+299
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,307)
+306
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,179)
+159
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,135)
+134
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,51)
+50
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,8)
+7
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,311)
+309
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,178)
+176
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,168)
+166
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,250)
+249
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,253)
+252
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,306)
+304, 305
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,200)
+199
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,33)
+32
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,52)
+51
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,261)
+none
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,149)
+143
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,148)
+147
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,28)
+27
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,47)
+46, 52, 53
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,131)
+130
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,104)
+103
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,264)
+263, 277
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,55)
+54
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,114)
+113
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,249)
+248
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,60)
+59
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,42)
+41
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,34)
+29
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,12)
+11, 105
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,40)
+39
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,5)
+4
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,244)
+none
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,32)
+31
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,227)
+225, 226
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,197)
+196
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,95)
+69, 77, 78, 79, 94, 100
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,143)
+141, 142, 146, 148
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,285)
+284
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,191)
+190, 207
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,182)
+181
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,75)
+73, 74
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,94)
+93
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,102)
+101
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,67)
+66
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,241)
+none
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,266)
+265
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,76)
+66
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,48)
+47
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,239)
+237, 240
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,198)
+197
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,58)
+55
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,88)
+86
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,265)
+264, 276
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,282)
+281
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,202)
+201
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,235)
+234
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,183)
+182
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,78)
+76
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,256)
+255, 258
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,101)
+95, 103
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,14)
+13
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,125)
+124
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,37)
+36
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,110)
+109
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,127)
+126
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,74)
+72
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,20)
+19
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,129)
+128
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,278)
+none
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,29)
+25, 26, 33
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,123)
+122
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,124)
+123
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,107)
+106
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,226)
+224
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,259)
+254, 256
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,86)
+85
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,71)
+70
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,117)
+107
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,112)
+111
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,68)
+67
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,172)
+170
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,6)
+5, 118
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,69)
+68, 75
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,126)
+125
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,92)
+91
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,281)
+278, 282
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,221)
+220
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,166)
+164, 165
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,195)
+192
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,184)
+183, 185
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,17)
+16
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,201)
+198
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,186)
+184
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,222)
+221
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,121)
+120
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,171)
+170
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,260)
+259
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,113)
+109, 115
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,163)
+162
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,267)
+266
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,251)
+250, 253
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,139)
+138
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,96)
+95
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,45)
+37, 42, 44
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,291)
+290
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,203)
+200, 202
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,24)
+23
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,41)
+40
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,99)
+97
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,158)
+157
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,119)
+6
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,19)
+18
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,293)
+291
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,120)
+none
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,109)
+108
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,93)
+14
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,155)
+154
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,151)
+150
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,288)
+none
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,299)
+298
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,213)
+none
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,146)
+145
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,16)
+15, 59
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,54)
+47
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,257)
+256
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,105)
+101, 112, 116, 117
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,106)
+105
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,1)
+none
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,206)
+204
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,276)
+275
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,81)
+80
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,275)
+273, 274
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,231)
+230
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,27)
+26
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,214)
+213
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,154)
+153
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,271)
+270
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,141)
+140
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,100)
+98, 99
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,49)
+48
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,242)
+241
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,111)
+110
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,188)
+187
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,134)
+133
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,132)
+none
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,169)
+167, 168
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,50)
+49
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,7)
+6
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,280)
+279
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,137)
+136
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,133)
+132
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,103)
+102, 104
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,118)
+12
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,237)
+216
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,23)
+22
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,255)
+250
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,61)
+60
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,277)
+265
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,39)
+38
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,98)
+97
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,245)
+244
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,156)
+155
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,240)
+239
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,80)
+79
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,3)
+2
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,284)
+283
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,219)
+218
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,207)
+205, 206
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,196)
+194, 195, 203
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,13)
+12
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,64)
+63
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,162)
+161
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,187)
+186, 189
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,147)
+144
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,77)
+76
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,246)
+245
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,175)
+173
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,170)
+169
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,53)
+51
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,25)
+24
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,243)
+241
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,82)
+81
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,209)
+212
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,35)
+34
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,66)
+65
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,216)
+none
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,290)
+289
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,297)
+296
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,236)
+234
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,130)
+none
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,152)
+151
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,122)
+121
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,90)
+89
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,57)
+56
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,308)
+307
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,79)
+15, 83, 89
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,247)
+246
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,205)
+204
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,270)
+268, 269
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,165)
+163
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,140)
+139
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,254)
+251
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,287)
+286
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,15)
+14
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,303)
+302
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,138)
+137
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,97)
+96
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,220)
+219
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,167)
+166
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,11)
+10
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,108)
+107
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,194)
+193
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,238)
+237
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,174)
+173
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,190)
+none
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,286)
+285
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,272)
+271
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,211)
+210
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,292)
+291
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,22)
+21
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,87)
+86
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,91)
+90
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,160)
+159
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,212)
+211
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,30)
+29
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,273)
+272
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,232)
+230
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,204)
+196
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,177)
+176
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,62)
+61
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,295)
+none
+prog_line n1; prog_line n2;
+Select n1 such that Next(n1,83)
+82, 87, 88
