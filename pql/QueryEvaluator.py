@@ -335,19 +335,22 @@ class QueryEvaluator:
                 self.relation_index_stack.add(relation_index)
                 for relation in relations:
                     relation_data = relation.split('_')
-                    if relation_data[1] == first_argument_value[0]:
-                        if relation_data[2] == second_argument_value[0]:
-                            self.check_two_relation_with_the_same_argument(relation_index, relation)
-                            continue
+                    if relation_data[2] == first_argument_value[0]:
+                        first_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
+                            relation_data[1], self.results_table.table.at['type', relation_data[1]])
+                        second_argument: Tuple[str, str] = (
+                            relation_data[2], self.results_table.table.at['final', relation_data[2]])
+                    elif relation_data[2] == second_argument_value[0]:
+                        self.check_two_relation_with_the_same_argument(relation, relation_index)
                         first_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
                             relation_data[1], self.results_table.table.at['final', relation_data[1]])
-                        second_argument: Tuple[str, str] = (
+                        second_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
                             relation_data[2], self.results_table.table.at['final', relation_data[2]])
                     else:
                         first_argument: Tuple[str, str] = (
-                            relation_data[1], self.results_table.table.at['type', relation_data[1]])
+                            relation_data[1], self.results_table.table.at['final', relation_data[1]])
                         second_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
-                            relation_data[2], self.results_table.table.at['final', relation_data[2]])
+                            relation_data[2], self.results_table.table.at['type', relation_data[2]])
                     self.execution_of_relation(relation_data[0], first_argument, second_argument)
                 self.relation_index_stack.remove(relation_index)
 
@@ -365,14 +368,16 @@ class QueryEvaluator:
                             relation_data[1], self.results_table.table.at['final', relation_data[1]])
                         second_argument: Tuple[str, str] = (
                             relation_data[2], self.results_table.table.at['type', relation_data[2]])
+                    elif relation_data[1] == first_argument_value[0]:
+                        first_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
+                            relation_data[1], self.results_table.table.at['final', relation_data[1]])
+                        second_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
+                            relation_data[2], self.results_table.table.at['final', relation_data[2]])
                     else:
-                        if relation_data[1] == first_argument_value[0]:
-                            continue
-                        else:
-                            first_argument: Tuple[str, str] = (
-                                relation_data[1], self.results_table.table.at['type', relation_data[1]])
-                            second_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
-                                relation_data[2], self.results_table.table.at['final', relation_data[2]])
+                        first_argument: Tuple[str, str] = (
+                            relation_data[1], self.results_table.table.at['type', relation_data[1]])
+                        second_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
+                            relation_data[2], self.results_table.table.at['final', relation_data[2]])
                     self.execution_of_relation(relation_data[0], first_argument, second_argument)
                 self.relation_index_stack.remove(relation_index)
         # print('Here')
@@ -387,7 +392,6 @@ class QueryEvaluator:
         relations: List[str] = [relation for relation in
                                 self.results_table.table.index.tolist() if
                                 relation not in ['type', 'final', 'PATTERN', 'WITH'] and 'CONST' not in relation]
-        # while relations:
         for relation in relations:
             relation_data = str(relation).split('_')
             if self.results_table.table.at['final', relation_data[2]] != self.results_table.table.at[
@@ -399,9 +403,6 @@ class QueryEvaluator:
                 second_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
                     relation_data[2], self.results_table.table.at['final', relation_data[2]])
                 self.execution_of_relation(relation_data[0], first_argument, second_argument)
-            # relations = [relation for relation in
-            #                          self.results_table.table.index.tolist() if
-            #                          relation not in ['type', 'final', 'PATTERN', 'WITH'] and 'CONST' not in relation]
 
     def check_two_relation_with_the_same_argument(self, first_relation: str, second_relation: str):
         first_relation_data: List[str] = first_relation.split('_')
@@ -412,14 +413,13 @@ class QueryEvaluator:
         results: Tuple[Union[Set[str], Set[int]], Union[Set[str], Set[int]]] = (set(), set())
         for first_argument in results_final[0]:
             for second_argument in results_final[1]:
-                if self.relation[first_relation_data[0]].value_from_set_and_value_from_set(first_argument,
-                                                                                           second_argument) and \
-                        self.relation[second_relation_data[0]].value_from_set_and_value_from_set(first_argument,
-                                                                                                 second_argument):
+                if self.relation[first_relation_data[0]] \
+                        .value_from_set_and_value_from_set(str(first_argument), second_argument) and \
+                        self.relation[second_relation_data[0]] \
+                                .value_from_set_and_value_from_set(str(first_argument), second_argument):
                     results[0].add(first_argument)
                     results[1].add(second_argument)
         self.results_table.update_results(first_relation, first_relation_data[1], results[0])
-        self.results_table.update_results(first_relation, first_relation_data[1], results[1])
-        self.results_table.update_results(second_relation, first_relation_data[2], results[0])
+        self.results_table.update_results(second_relation, first_relation_data[1], results[0])
         self.results_table.update_results(second_relation, first_relation_data[2], results[1])
-        # jeszcze dla drugiego argumentu i dla drugiej relacji dla dwóch argumentów
+        self.results_table.update_results(first_relation, first_relation_data[2], results[1])

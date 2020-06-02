@@ -422,12 +422,16 @@ class QueryProcessor:
             self.match("COMMA")
             argument2_node: Node = self.stmt_ref()
             relation_node.add_child(argument2_node)
+            if argument1_node.value == argument2_node.value and argument2_node.value != '_':
+                self.return_none()
         elif type_node in ["CALLS", "CALLST"]:
             argument1_node = self.proc_ref()
             relation_node.add_child(argument1_node)
             self.match("COMMA")
             argument2_node: Node = self.proc_ref()
             relation_node.add_child(argument2_node)
+            if argument1_node.value == argument2_node.value and argument2_node.value != '_':
+                self.return_none()
         elif type_node in ["NEXT", "NEXTT"]:
             argument1_node = self.line_ref()
             relation_node.add_child(argument1_node)
