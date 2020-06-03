@@ -1,0 +1,69 @@
+prog_line a1;
+Select BOOLEAN such that Next*(_,a1)
+none
+prog_line a; prog_line a1;
+Select a1 such that Next*(a,a1)
+none
+prog_line a; prog_line a1;
+Select a such that Next*(a,a1)
+none
+prog_line a; prog_line a1;
+Select BOOLEAN such that Next*(a,a1)
+none
+prog_line a1;
+Select a1 such that Next*(146, a1)
+none
+prog_line a1;
+Select a1 such that Next*(146, 147)
+none
+prog_line a; prog_line a1;
+Select a such that Next*(a,a1) with a=146
+none
+prog_line a; prog_line a1;
+Select a1 such that Next*(a,a1) with a=146
+none
+prog_line a; prog_line a1;
+Select a1 such that Next*(a,a1) with a=146 and a1=147
+none
+prog_line a; prog_line a1;
+Select BOOLEAN such that Next*(a,a1) with a1=146
+none
+prog_line a1;
+Select a1 such that Next*(16, a1)
+none
+prog_line a1;
+Select a1 such that Next*(16, 17)
+none
+prog_line a; prog_line a1;
+Select a such that Next*(a,a1) with a=16
+none
+prog_line a; prog_line a1;
+Select a1 such that Next*(a,a1) with a=16
+none
+prog_line a; prog_line a1;
+Select a1 such that Next*(a,a1) with a=16 and a1=17
+none
+prog_line a; prog_line a1;
+Select BOOLEAN such that Next*(a,a1) with a1=16
+none
+prog_line a1;
+Select a1 such that Next*(301, a1)
+none
+prog_line a1;
+Select a1 such that Next*(301, 302)
+none
+prog_line a; prog_line a1;
+Select a such that Next*(a,a1) with a=301
+none
+prog_line a; prog_line a1;
+Select a1 such that Next*(a,a1) with a=301
+none
+prog_line a; prog_line a1;
+Select a1 such that Next*(a,a1) with a=301 and a1=302
+none
+prog_line a; prog_line a1;
+Select BOOLEAN such that Next*(a,a1) with a1=301
+none
+prog_line a;
+Select a such that Next*(a,_)
+none

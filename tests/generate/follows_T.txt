@@ -1,0 +1,1005 @@
+stmt a1;
+Select BOOLEAN such that Follows*(_,a1)
+none
+stmt a; stmt a1;
+Select a1 such that Follows*(a,a1)
+none
+stmt a; stmt a1;
+Select a such that Follows*(a,a1)
+none
+stmt a; stmt a1;
+Select BOOLEAN such that Follows*(a,a1)
+none
+stmt a1;
+Select a1 such that Follows*(201, a1)
+none
+stmt a1;
+Select a1 such that Follows*(201, 202)
+none
+stmt a; stmt a1;
+Select a such that Follows*(a,a1) with a.stmt#=201
+none
+stmt a; stmt a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=201
+none
+stmt a; stmt a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=201 and a1.stmt#=202
+none
+stmt a; stmt a1;
+Select BOOLEAN such that Follows*(a,a1) with a1.stmt#=201
+none
+stmt a1;
+Select a1 such that Follows*(176, a1)
+none
+stmt a1;
+Select a1 such that Follows*(176, 177)
+none
+stmt a; stmt a1;
+Select a such that Follows*(a,a1) with a.stmt#=176
+none
+stmt a; stmt a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=176
+none
+stmt a; stmt a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=176 and a1.stmt#=177
+none
+stmt a; stmt a1;
+Select BOOLEAN such that Follows*(a,a1) with a1.stmt#=176
+none
+stmt a1;
+Select a1 such that Follows*(16, a1)
+none
+stmt a1;
+Select a1 such that Follows*(16, 17)
+none
+stmt a; stmt a1;
+Select a such that Follows*(a,a1) with a.stmt#=16
+none
+stmt a; stmt a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=16
+none
+stmt a; stmt a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=16 and a1.stmt#=17
+none
+stmt a; stmt a1;
+Select BOOLEAN such that Follows*(a,a1) with a1.stmt#=16
+none
+if a1;
+Select BOOLEAN such that Follows*(_,a1)
+none
+stmt a; if a1;
+Select a1 such that Follows*(a,a1)
+none
+stmt a; if a1;
+Select a such that Follows*(a,a1)
+none
+stmt a; if a1;
+Select BOOLEAN such that Follows*(a,a1)
+none
+stmt a1;
+Select a1 such that Follows*(256, a1)
+none
+stmt a1;
+Select a1 such that Follows*(256, 257)
+none
+stmt a; if a1;
+Select a such that Follows*(a,a1) with a.stmt#=256
+none
+stmt a; if a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=256
+none
+stmt a; if a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=256 and a1.stmt#=257
+none
+stmt a; if a1;
+Select BOOLEAN such that Follows*(a,a1) with a1.stmt#=256
+none
+stmt a1;
+Select a1 such that Follows*(236, a1)
+none
+stmt a1;
+Select a1 such that Follows*(236, 237)
+none
+stmt a; if a1;
+Select a such that Follows*(a,a1) with a.stmt#=236
+none
+stmt a; if a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=236
+none
+stmt a; if a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=236 and a1.stmt#=237
+none
+stmt a; if a1;
+Select BOOLEAN such that Follows*(a,a1) with a1.stmt#=236
+none
+stmt a1;
+Select a1 such that Follows*(231, a1)
+none
+stmt a1;
+Select a1 such that Follows*(231, 232)
+none
+stmt a; if a1;
+Select a such that Follows*(a,a1) with a.stmt#=231
+none
+stmt a; if a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=231
+none
+stmt a; if a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=231 and a1.stmt#=232
+none
+stmt a; if a1;
+Select BOOLEAN such that Follows*(a,a1) with a1.stmt#=231
+none
+assign a1;
+Select BOOLEAN such that Follows*(_,a1)
+none
+stmt a; assign a1;
+Select a1 such that Follows*(a,a1)
+none
+stmt a; assign a1;
+Select a such that Follows*(a,a1)
+none
+stmt a; assign a1;
+Select BOOLEAN such that Follows*(a,a1)
+none
+stmt a1;
+Select a1 such that Follows*(181, a1)
+none
+stmt a1;
+Select a1 such that Follows*(181, 182)
+none
+stmt a; assign a1;
+Select a such that Follows*(a,a1) with a.stmt#=181
+none
+stmt a; assign a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=181
+none
+stmt a; assign a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=181 and a1.stmt#=182
+none
+stmt a; assign a1;
+Select BOOLEAN such that Follows*(a,a1) with a1.stmt#=181
+none
+stmt a1;
+Select a1 such that Follows*(1, a1)
+none
+stmt a1;
+Select a1 such that Follows*(1, 2)
+none
+stmt a; assign a1;
+Select a such that Follows*(a,a1) with a.stmt#=1
+none
+stmt a; assign a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=1
+none
+stmt a; assign a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=1 and a1.stmt#=2
+none
+stmt a; assign a1;
+Select BOOLEAN such that Follows*(a,a1) with a1.stmt#=1
+none
+stmt a1;
+Select a1 such that Follows*(291, a1)
+none
+stmt a1;
+Select a1 such that Follows*(291, 292)
+none
+stmt a; assign a1;
+Select a such that Follows*(a,a1) with a.stmt#=291
+none
+stmt a; assign a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=291
+none
+stmt a; assign a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=291 and a1.stmt#=292
+none
+stmt a; assign a1;
+Select BOOLEAN such that Follows*(a,a1) with a1.stmt#=291
+none
+stmt a;
+Select a such that Follows*(a,_)
+none
+stmt a1;
+Select BOOLEAN such that Follows*(_,a1)
+none
+while a; stmt a1;
+Select a1 such that Follows*(a,a1)
+none
+while a; stmt a1;
+Select a such that Follows*(a,a1)
+none
+while a; stmt a1;
+Select BOOLEAN such that Follows*(a,a1)
+none
+while a1;
+Select a1 such that Follows*(231, a1)
+none
+while a1;
+Select a1 such that Follows*(231, 232)
+none
+while a; stmt a1;
+Select a such that Follows*(a,a1) with a.stmt#=231
+none
+while a; stmt a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=231
+none
+while a; stmt a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=231 and a1.stmt#=232
+none
+while a; stmt a1;
+Select BOOLEAN such that Follows*(a,a1) with a1.stmt#=231
+none
+while a1;
+Select a1 such that Follows*(106, a1)
+none
+while a1;
+Select a1 such that Follows*(106, 107)
+none
+while a; stmt a1;
+Select a such that Follows*(a,a1) with a.stmt#=106
+none
+while a; stmt a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=106
+none
+while a; stmt a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=106 and a1.stmt#=107
+none
+while a; stmt a1;
+Select BOOLEAN such that Follows*(a,a1) with a1.stmt#=106
+none
+while a1;
+Select a1 such that Follows*(146, a1)
+none
+while a1;
+Select a1 such that Follows*(146, 147)
+none
+while a; stmt a1;
+Select a such that Follows*(a,a1) with a.stmt#=146
+none
+while a; stmt a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=146
+none
+while a; stmt a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=146 and a1.stmt#=147
+none
+while a; stmt a1;
+Select BOOLEAN such that Follows*(a,a1) with a1.stmt#=146
+none
+if a1;
+Select BOOLEAN such that Follows*(_,a1)
+none
+while a; if a1;
+Select a1 such that Follows*(a,a1)
+none
+while a; if a1;
+Select a such that Follows*(a,a1)
+none
+while a; if a1;
+Select BOOLEAN such that Follows*(a,a1)
+none
+while a1;
+Select a1 such that Follows*(106, a1)
+none
+while a1;
+Select a1 such that Follows*(106, 107)
+none
+while a; if a1;
+Select a such that Follows*(a,a1) with a.stmt#=106
+none
+while a; if a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=106
+none
+while a; if a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=106 and a1.stmt#=107
+none
+while a; if a1;
+Select BOOLEAN such that Follows*(a,a1) with a1.stmt#=106
+none
+while a1;
+Select a1 such that Follows*(166, a1)
+none
+while a1;
+Select a1 such that Follows*(166, 167)
+none
+while a; if a1;
+Select a such that Follows*(a,a1) with a.stmt#=166
+none
+while a; if a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=166
+none
+while a; if a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=166 and a1.stmt#=167
+none
+while a; if a1;
+Select BOOLEAN such that Follows*(a,a1) with a1.stmt#=166
+none
+while a1;
+Select a1 such that Follows*(156, a1)
+none
+while a1;
+Select a1 such that Follows*(156, 157)
+none
+while a; if a1;
+Select a such that Follows*(a,a1) with a.stmt#=156
+none
+while a; if a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=156
+none
+while a; if a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=156 and a1.stmt#=157
+none
+while a; if a1;
+Select BOOLEAN such that Follows*(a,a1) with a1.stmt#=156
+none
+assign a1;
+Select BOOLEAN such that Follows*(_,a1)
+none
+while a; assign a1;
+Select a1 such that Follows*(a,a1)
+none
+while a; assign a1;
+Select a such that Follows*(a,a1)
+none
+while a; assign a1;
+Select BOOLEAN such that Follows*(a,a1)
+none
+while a1;
+Select a1 such that Follows*(46, a1)
+none
+while a1;
+Select a1 such that Follows*(46, 47)
+none
+while a; assign a1;
+Select a such that Follows*(a,a1) with a.stmt#=46
+none
+while a; assign a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=46
+none
+while a; assign a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=46 and a1.stmt#=47
+none
+while a; assign a1;
+Select BOOLEAN such that Follows*(a,a1) with a1.stmt#=46
+none
+while a1;
+Select a1 such that Follows*(116, a1)
+none
+while a1;
+Select a1 such that Follows*(116, 117)
+none
+while a; assign a1;
+Select a such that Follows*(a,a1) with a.stmt#=116
+none
+while a; assign a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=116
+none
+while a; assign a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=116 and a1.stmt#=117
+none
+while a; assign a1;
+Select BOOLEAN such that Follows*(a,a1) with a1.stmt#=116
+none
+while a1;
+Select a1 such that Follows*(176, a1)
+none
+while a1;
+Select a1 such that Follows*(176, 177)
+none
+while a; assign a1;
+Select a such that Follows*(a,a1) with a.stmt#=176
+none
+while a; assign a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=176
+none
+while a; assign a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=176 and a1.stmt#=177
+none
+while a; assign a1;
+Select BOOLEAN such that Follows*(a,a1) with a1.stmt#=176
+none
+while a;
+Select a such that Follows*(a,_)
+none
+stmt a1;
+Select BOOLEAN such that Follows*(_,a1)
+none
+if a; stmt a1;
+Select a1 such that Follows*(a,a1)
+none
+if a; stmt a1;
+Select a such that Follows*(a,a1)
+none
+if a; stmt a1;
+Select BOOLEAN such that Follows*(a,a1)
+none
+if a1;
+Select a1 such that Follows*(66, a1)
+none
+if a1;
+Select a1 such that Follows*(66, 67)
+none
+if a; stmt a1;
+Select a such that Follows*(a,a1) with a.stmt#=66
+none
+if a; stmt a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=66
+none
+if a; stmt a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=66 and a1.stmt#=67
+none
+if a; stmt a1;
+Select BOOLEAN such that Follows*(a,a1) with a1.stmt#=66
+none
+if a1;
+Select a1 such that Follows*(286, a1)
+none
+if a1;
+Select a1 such that Follows*(286, 287)
+none
+if a; stmt a1;
+Select a such that Follows*(a,a1) with a.stmt#=286
+none
+if a; stmt a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=286
+none
+if a; stmt a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=286 and a1.stmt#=287
+none
+if a; stmt a1;
+Select BOOLEAN such that Follows*(a,a1) with a1.stmt#=286
+none
+if a1;
+Select a1 such that Follows*(306, a1)
+none
+if a1;
+Select a1 such that Follows*(306, 307)
+none
+if a; stmt a1;
+Select a such that Follows*(a,a1) with a.stmt#=306
+none
+if a; stmt a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=306
+none
+if a; stmt a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=306 and a1.stmt#=307
+none
+if a; stmt a1;
+Select BOOLEAN such that Follows*(a,a1) with a1.stmt#=306
+none
+if a1;
+Select BOOLEAN such that Follows*(_,a1)
+none
+if a; if a1;
+Select a1 such that Follows*(a,a1)
+none
+if a; if a1;
+Select a such that Follows*(a,a1)
+none
+if a; if a1;
+Select BOOLEAN such that Follows*(a,a1)
+none
+if a1;
+Select a1 such that Follows*(141, a1)
+none
+if a1;
+Select a1 such that Follows*(141, 142)
+none
+if a; if a1;
+Select a such that Follows*(a,a1) with a.stmt#=141
+none
+if a; if a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=141
+none
+if a; if a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=141 and a1.stmt#=142
+none
+if a; if a1;
+Select BOOLEAN such that Follows*(a,a1) with a1.stmt#=141
+none
+if a1;
+Select a1 such that Follows*(261, a1)
+none
+if a1;
+Select a1 such that Follows*(261, 262)
+none
+if a; if a1;
+Select a such that Follows*(a,a1) with a.stmt#=261
+none
+if a; if a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=261
+none
+if a; if a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=261 and a1.stmt#=262
+none
+if a; if a1;
+Select BOOLEAN such that Follows*(a,a1) with a1.stmt#=261
+none
+if a1;
+Select a1 such that Follows*(241, a1)
+none
+if a1;
+Select a1 such that Follows*(241, 242)
+none
+if a; if a1;
+Select a such that Follows*(a,a1) with a.stmt#=241
+none
+if a; if a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=241
+none
+if a; if a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=241 and a1.stmt#=242
+none
+if a; if a1;
+Select BOOLEAN such that Follows*(a,a1) with a1.stmt#=241
+none
+assign a1;
+Select BOOLEAN such that Follows*(_,a1)
+none
+if a; assign a1;
+Select a1 such that Follows*(a,a1)
+none
+if a; assign a1;
+Select a such that Follows*(a,a1)
+none
+if a; assign a1;
+Select BOOLEAN such that Follows*(a,a1)
+none
+if a1;
+Select a1 such that Follows*(136, a1)
+none
+if a1;
+Select a1 such that Follows*(136, 137)
+none
+if a; assign a1;
+Select a such that Follows*(a,a1) with a.stmt#=136
+none
+if a; assign a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=136
+none
+if a; assign a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=136 and a1.stmt#=137
+none
+if a; assign a1;
+Select BOOLEAN such that Follows*(a,a1) with a1.stmt#=136
+none
+if a1;
+Select a1 such that Follows*(161, a1)
+none
+if a1;
+Select a1 such that Follows*(161, 162)
+none
+if a; assign a1;
+Select a such that Follows*(a,a1) with a.stmt#=161
+none
+if a; assign a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=161
+none
+if a; assign a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=161 and a1.stmt#=162
+none
+if a; assign a1;
+Select BOOLEAN such that Follows*(a,a1) with a1.stmt#=161
+none
+if a1;
+Select a1 such that Follows*(196, a1)
+none
+if a1;
+Select a1 such that Follows*(196, 197)
+none
+if a; assign a1;
+Select a such that Follows*(a,a1) with a.stmt#=196
+none
+if a; assign a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=196
+none
+if a; assign a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=196 and a1.stmt#=197
+none
+if a; assign a1;
+Select BOOLEAN such that Follows*(a,a1) with a1.stmt#=196
+none
+if a;
+Select a such that Follows*(a,_)
+none
+stmt a1;
+Select BOOLEAN such that Follows*(_,a1)
+none
+call a; stmt a1;
+Select a1 such that Follows*(a,a1)
+none
+call a; stmt a1;
+Select a such that Follows*(a,a1)
+none
+call a; stmt a1;
+Select BOOLEAN such that Follows*(a,a1)
+none
+call a1;
+Select a1 such that Follows*(291, a1)
+none
+call a1;
+Select a1 such that Follows*(291, 292)
+none
+call a; stmt a1;
+Select a such that Follows*(a,a1) with a.stmt#=291
+none
+call a; stmt a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=291
+none
+call a; stmt a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=291 and a1.stmt#=292
+none
+call a; stmt a1;
+Select BOOLEAN such that Follows*(a,a1) with a1.stmt#=291
+none
+call a1;
+Select a1 such that Follows*(96, a1)
+none
+call a1;
+Select a1 such that Follows*(96, 97)
+none
+call a; stmt a1;
+Select a such that Follows*(a,a1) with a.stmt#=96
+none
+call a; stmt a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=96
+none
+call a; stmt a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=96 and a1.stmt#=97
+none
+call a; stmt a1;
+Select BOOLEAN such that Follows*(a,a1) with a1.stmt#=96
+none
+call a1;
+Select a1 such that Follows*(86, a1)
+none
+call a1;
+Select a1 such that Follows*(86, 87)
+none
+call a; stmt a1;
+Select a such that Follows*(a,a1) with a.stmt#=86
+none
+call a; stmt a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=86
+none
+call a; stmt a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=86 and a1.stmt#=87
+none
+call a; stmt a1;
+Select BOOLEAN such that Follows*(a,a1) with a1.stmt#=86
+none
+if a1;
+Select BOOLEAN such that Follows*(_,a1)
+none
+call a; if a1;
+Select a1 such that Follows*(a,a1)
+none
+call a; if a1;
+Select a such that Follows*(a,a1)
+none
+call a; if a1;
+Select BOOLEAN such that Follows*(a,a1)
+none
+call a1;
+Select a1 such that Follows*(26, a1)
+none
+call a1;
+Select a1 such that Follows*(26, 27)
+none
+call a; if a1;
+Select a such that Follows*(a,a1) with a.stmt#=26
+none
+call a; if a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=26
+none
+call a; if a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=26 and a1.stmt#=27
+none
+call a; if a1;
+Select BOOLEAN such that Follows*(a,a1) with a1.stmt#=26
+none
+call a1;
+Select a1 such that Follows*(16, a1)
+none
+call a1;
+Select a1 such that Follows*(16, 17)
+none
+call a; if a1;
+Select a such that Follows*(a,a1) with a.stmt#=16
+none
+call a; if a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=16
+none
+call a; if a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=16 and a1.stmt#=17
+none
+call a; if a1;
+Select BOOLEAN such that Follows*(a,a1) with a1.stmt#=16
+none
+call a1;
+Select a1 such that Follows*(186, a1)
+none
+call a1;
+Select a1 such that Follows*(186, 187)
+none
+call a; if a1;
+Select a such that Follows*(a,a1) with a.stmt#=186
+none
+call a; if a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=186
+none
+call a; if a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=186 and a1.stmt#=187
+none
+call a; if a1;
+Select BOOLEAN such that Follows*(a,a1) with a1.stmt#=186
+none
+assign a1;
+Select BOOLEAN such that Follows*(_,a1)
+none
+call a; assign a1;
+Select a1 such that Follows*(a,a1)
+none
+call a; assign a1;
+Select a such that Follows*(a,a1)
+none
+call a; assign a1;
+Select BOOLEAN such that Follows*(a,a1)
+none
+call a1;
+Select a1 such that Follows*(106, a1)
+none
+call a1;
+Select a1 such that Follows*(106, 107)
+none
+call a; assign a1;
+Select a such that Follows*(a,a1) with a.stmt#=106
+none
+call a; assign a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=106
+none
+call a; assign a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=106 and a1.stmt#=107
+none
+call a; assign a1;
+Select BOOLEAN such that Follows*(a,a1) with a1.stmt#=106
+none
+call a1;
+Select a1 such that Follows*(266, a1)
+none
+call a1;
+Select a1 such that Follows*(266, 267)
+none
+call a; assign a1;
+Select a such that Follows*(a,a1) with a.stmt#=266
+none
+call a; assign a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=266
+none
+call a; assign a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=266 and a1.stmt#=267
+none
+call a; assign a1;
+Select BOOLEAN such that Follows*(a,a1) with a1.stmt#=266
+none
+call a1;
+Select a1 such that Follows*(206, a1)
+none
+call a1;
+Select a1 such that Follows*(206, 207)
+none
+call a; assign a1;
+Select a such that Follows*(a,a1) with a.stmt#=206
+none
+call a; assign a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=206
+none
+call a; assign a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=206 and a1.stmt#=207
+none
+call a; assign a1;
+Select BOOLEAN such that Follows*(a,a1) with a1.stmt#=206
+none
+call a;
+Select a such that Follows*(a,_)
+none
+stmt a1;
+Select BOOLEAN such that Follows*(_,a1)
+none
+assign a; stmt a1;
+Select a1 such that Follows*(a,a1)
+none
+assign a; stmt a1;
+Select a such that Follows*(a,a1)
+none
+assign a; stmt a1;
+Select BOOLEAN such that Follows*(a,a1)
+none
+assign a1;
+Select a1 such that Follows*(181, a1)
+none
+assign a1;
+Select a1 such that Follows*(181, 182)
+none
+assign a; stmt a1;
+Select a such that Follows*(a,a1) with a.stmt#=181
+none
+assign a; stmt a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=181
+none
+assign a; stmt a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=181 and a1.stmt#=182
+none
+assign a; stmt a1;
+Select BOOLEAN such that Follows*(a,a1) with a1.stmt#=181
+none
+assign a1;
+Select a1 such that Follows*(81, a1)
+none
+assign a1;
+Select a1 such that Follows*(81, 82)
+none
+assign a; stmt a1;
+Select a such that Follows*(a,a1) with a.stmt#=81
+none
+assign a; stmt a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=81
+none
+assign a; stmt a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=81 and a1.stmt#=82
+none
+assign a; stmt a1;
+Select BOOLEAN such that Follows*(a,a1) with a1.stmt#=81
+none
+assign a1;
+Select a1 such that Follows*(146, a1)
+none
+assign a1;
+Select a1 such that Follows*(146, 147)
+none
+assign a; stmt a1;
+Select a such that Follows*(a,a1) with a.stmt#=146
+none
+assign a; stmt a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=146
+none
+assign a; stmt a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=146 and a1.stmt#=147
+none
+assign a; stmt a1;
+Select BOOLEAN such that Follows*(a,a1) with a1.stmt#=146
+none
+if a1;
+Select BOOLEAN such that Follows*(_,a1)
+none
+assign a; if a1;
+Select a1 such that Follows*(a,a1)
+none
+assign a; if a1;
+Select a such that Follows*(a,a1)
+none
+assign a; if a1;
+Select BOOLEAN such that Follows*(a,a1)
+none
+assign a1;
+Select a1 such that Follows*(171, a1)
+none
+assign a1;
+Select a1 such that Follows*(171, 172)
+none
+assign a; if a1;
+Select a such that Follows*(a,a1) with a.stmt#=171
+none
+assign a; if a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=171
+none
+assign a; if a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=171 and a1.stmt#=172
+none
+assign a; if a1;
+Select BOOLEAN such that Follows*(a,a1) with a1.stmt#=171
+none
+assign a1;
+Select a1 such that Follows*(151, a1)
+none
+assign a1;
+Select a1 such that Follows*(151, 152)
+none
+assign a; if a1;
+Select a such that Follows*(a,a1) with a.stmt#=151
+none
+assign a; if a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=151
+none
+assign a; if a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=151 and a1.stmt#=152
+none
+assign a; if a1;
+Select BOOLEAN such that Follows*(a,a1) with a1.stmt#=151
+none
+assign a1;
+Select a1 such that Follows*(236, a1)
+none
+assign a1;
+Select a1 such that Follows*(236, 237)
+none
+assign a; if a1;
+Select a such that Follows*(a,a1) with a.stmt#=236
+none
+assign a; if a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=236
+none
+assign a; if a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=236 and a1.stmt#=237
+none
+assign a; if a1;
+Select BOOLEAN such that Follows*(a,a1) with a1.stmt#=236
+none
+assign a1;
+Select BOOLEAN such that Follows*(_,a1)
+none
+assign a; assign a1;
+Select a1 such that Follows*(a,a1)
+none
+assign a; assign a1;
+Select a such that Follows*(a,a1)
+none
+assign a; assign a1;
+Select BOOLEAN such that Follows*(a,a1)
+none
+assign a1;
+Select a1 such that Follows*(56, a1)
+none
+assign a1;
+Select a1 such that Follows*(56, 57)
+none
+assign a; assign a1;
+Select a such that Follows*(a,a1) with a.stmt#=56
+none
+assign a; assign a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=56
+none
+assign a; assign a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=56 and a1.stmt#=57
+none
+assign a; assign a1;
+Select BOOLEAN such that Follows*(a,a1) with a1.stmt#=56
+none
+assign a1;
+Select a1 such that Follows*(1, a1)
+none
+assign a1;
+Select a1 such that Follows*(1, 2)
+none
+assign a; assign a1;
+Select a such that Follows*(a,a1) with a.stmt#=1
+none
+assign a; assign a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=1
+none
+assign a; assign a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=1 and a1.stmt#=2
+none
+assign a; assign a1;
+Select BOOLEAN such that Follows*(a,a1) with a1.stmt#=1
+none
+assign a1;
+Select a1 such that Follows*(96, a1)
+none
+assign a1;
+Select a1 such that Follows*(96, 97)
+none
+assign a; assign a1;
+Select a such that Follows*(a,a1) with a.stmt#=96
+none
+assign a; assign a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=96
+none
+assign a; assign a1;
+Select a1 such that Follows*(a,a1) with a.stmt#=96 and a1.stmt#=97
+none
+assign a; assign a1;
+Select BOOLEAN such that Follows*(a,a1) with a1.stmt#=96
+none
+assign a;
+Select a such that Follows*(a,_)
+none

@@ -1,0 +1,27 @@
+procedure a1;
+Select BOOLEAN such that Calls(_,a1)
+true
+procedure a; procedure a1;
+Select a1 such that Calls(a,a1)
+Init, Random, Transform, Shift, Shear, Move, Draw, Clear, Show, Enlarge, Fill, Shrink, Translate, Rotate, PP, QQ, SS, TT, UU, XX
+procedure a; procedure a1;
+Select a such that Calls(a,a1)
+Main, Draw, Rotate, Shrink, Enlarge, Translate, RR, PP, TT, SS, UU
+procedure a; procedure a1;
+Select BOOLEAN such that Calls(a,a1)
+true
+procedure a1;
+Select a1 such that Calls("Move", a1)
+none
+procedure a; procedure a1;
+Select a such that Calls(a,a1) with a.procName="Move"
+none
+procedure a; procedure a1;
+Select a1 such that Calls(a,a1) with a.procName="Move"
+none
+procedure a; procedure a1;
+Select BOOLEAN such that Calls(a,a1) with a1.procName="Move"
+true
+procedure a;
+Select a such that Calls(a,_)
+Main, Draw, Enlarge, Shrink, Translate, Rotate, PP, RR, SS, TT, UU

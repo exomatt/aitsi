@@ -6,7 +6,6 @@ from pql.Reference import Reference
 
 
 class NextRelation:
-    statements = ['WHILE', 'IF', 'CALL', 'ASSIGN']
 
     def __init__(self, next_table: NextTable, stmt_table: StatementTable) -> None:
         super().__init__()

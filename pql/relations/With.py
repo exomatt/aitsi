@@ -43,7 +43,7 @@ class With:
                 if not self.all_tables['const'].is_in(int(attr_node.children[1].value)):
                     return set()
             elif attr_node.children[0].node_type in ['STMT', 'PROG_LINE']:
-                if int(attr_node.children[1].value) >= self.all_tables['statement'].get_size():
+                if int(attr_node.children[1].value) > self.all_tables['statement'].get_size():
                     return set()
             else:
                 if int(attr_node.children[1].value) not in self.all_tables['statement'].get_statement_line_by_type_name(

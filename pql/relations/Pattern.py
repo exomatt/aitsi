@@ -2,6 +2,7 @@ from typing import Set
 
 from aitsi_parser.StatementTable import StatementTable
 from pql.Node import Node
+from pql.Reference import Reference
 from pql.utils.SearchUtils import SearchUtils
 
 
@@ -19,10 +20,12 @@ class Pattern:
 
     def pattern_while_or_if(self, node: Node) -> Set[int]:
         if node.children[1].node_type in ['VARIABLE', 'EVERYTHING']:
-            return set(self.stmt_table.get_statement_line_by_type_name(node.children[0].node_type))
+            return {Reference(line, '') for line in
+                    set(self.stmt_table.get_statement_line_by_type_name(node.children[0].node_type))}
         else:
-            return set(self.stmt_table.get_statement_line_by_type_name_and_value(node.children[0].node_type,
-                                                                                 node.children[1].value))
+            return {Reference(line, '') for line in
+                    set(self.stmt_table.get_statement_line_by_type_name_and_value(node.children[0].node_type,
+                                                                                  node.children[1].value))}
 
     def pattern_assign(self, node: Node) -> Set[int]:
         if node.children[1].node_type in ['VARIABLE', 'EVERYTHING']:
@@ -38,21 +41,21 @@ class Pattern:
 
     def _pattern_assign_check(self, node_expr: Node, elements: Set[int], wild_card: bool) -> Set[int]:
         if node_expr.children:
-            result: Set[int] = set()
+            result: Set[Reference] = set()
             if wild_card:
                 for line in elements:
                     search_node: Node = self.search.find_node_by_line(line).children[1]
                     if search_node is not None:
                         if self._expression_part_is_identical(search_node, node_expr.children[0]):
-                            result.add(int(line))
+                            result.add(Reference(line, ''))
             else:
                 for line in elements:
                     search_node: Node = self.search.find_node_by_line(line).children[1]
                     if search_node is not None:
                         if self._expression_is_identical(search_node, node_expr):
-                            result.add(int(line))
+                            result.add(Reference(line, ''))
             return result
-        return elements
+        return [Reference(line, '') for line in elements]
 
     def _expression_part_is_identical(self, ast: Node, comparing_node: Node) -> bool:
         if comparing_node.equals_expression(ast):

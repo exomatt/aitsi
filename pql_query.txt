@@ -1,2 +1,2 @@
-stmt s;
-Select s such that Follows* (_,s)
+prog_line a;
+Select a such that Next(a,_)

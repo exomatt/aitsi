@@ -1,0 +1,69 @@
+prog_line a1;
+Select BOOLEAN such that Next(_,a1)
+none
+prog_line a; prog_line a1;
+Select a1 such that Next(a,a1)
+none
+prog_line a; prog_line a1;
+Select a such that Next(a,a1)
+none
+prog_line a; prog_line a1;
+Select BOOLEAN such that Next(a,a1)
+none
+prog_line a1;
+Select a1 such that Next(106, a1)
+none
+prog_line a1;
+Select a1 such that Next(106, 107)
+none
+prog_line a; prog_line a1;
+Select a such that Next(a,a1) with a=106
+none
+prog_line a; prog_line a1;
+Select a1 such that Next(a,a1) with a=106
+none
+prog_line a; prog_line a1;
+Select a1 such that Next(a,a1) with a=106 and a1=107
+none
+prog_line a; prog_line a1;
+Select BOOLEAN such that Next(a,a1) with a1=106
+none
+prog_line a1;
+Select a1 such that Next(161, a1)
+none
+prog_line a1;
+Select a1 such that Next(161, 162)
+none
+prog_line a; prog_line a1;
+Select a such that Next(a,a1) with a=161
+none
+prog_line a; prog_line a1;
+Select a1 such that Next(a,a1) with a=161
+none
+prog_line a; prog_line a1;
+Select a1 such that Next(a,a1) with a=161 and a1=162
+none
+prog_line a; prog_line a1;
+Select BOOLEAN such that Next(a,a1) with a1=161
+none
+prog_line a1;
+Select a1 such that Next(41, a1)
+none
+prog_line a1;
+Select a1 such that Next(41, 42)
+none
+prog_line a; prog_line a1;
+Select a such that Next(a,a1) with a=41
+none
+prog_line a; prog_line a1;
+Select a1 such that Next(a,a1) with a=41
+none
+prog_line a; prog_line a1;
+Select a1 such that Next(a,a1) with a=41 and a1=42
+none
+prog_line a; prog_line a1;
+Select BOOLEAN such that Next(a,a1) with a1=41
+none
+prog_line a;
+Select a such that Next(a,_)
+none
