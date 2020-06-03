@@ -14,6 +14,7 @@ from aitsi_parser.ProcTable import ProcTable
 from aitsi_parser.StatementTable import StatementTable
 from aitsi_parser.UsesTable import UsesTable
 from aitsi_parser.VarTable import VarTable
+from pql.Reference import Reference
 from pql.relations.CallsTRelation import CallsTRelation
 
 log = logging.getLogger(__name__)
@@ -97,14 +98,14 @@ class Parser:
         calls_relation = CallsTRelation(self.calls_table, self.var_table, self.statement_table, self.proc_table)
         for child in self.proc_table.get_all_proc_name():
             for proc in calls_relation.value_from_set_and_not_initialized_set(child, ''):
-                self.mod_table.set_modifies_from_procedure(child, proc)
-                self.uses_table.set_uses_from_procedure(child, proc)
+                self.mod_table.set_modifies_from_procedure(child, proc.element)
+                self.uses_table.set_uses_from_procedure(child, proc.element)
         for statement in self.statement_table.table.values:
             if statement[1]['name'] == 'CALL':
-                modified_vars: List[str] = self.mod_table.get_modified(statement[1]['value'])
+                modified_vars: List[Reference] = self.mod_table.get_modified(statement[1]['value'])
                 used_vars: List[str] = self.uses_table.get_used(statement[1]['value'])
                 for var in modified_vars:
-                    self.mod_table.set_modifies(var, str(statement[0]))
+                    self.mod_table.set_modifies(var.element, str(statement[0]))
                 for var in used_vars:
                     self.uses_table.set_uses(var, str(statement[0]))
             elif statement[1]['name'] == 'WHILE' or statement[1]['name'] == 'IF':
@@ -112,10 +113,10 @@ class Parser:
                                                      range(statement[1]['start'], statement[1]['end'])]
                 for stmt in statements_inside_statement:
                     if stmt[1]['name'] == 'CALL':
-                        modified_vars: List[str] = self.mod_table.get_modified(stmt[1]['value'])
+                        modified_vars: List[Reference] = self.mod_table.get_modified(stmt[1]['value'])
                         used_vars: List[str] = self.uses_table.get_used(stmt[1]['value'])
                         for var in modified_vars:
-                            self.mod_table.set_modifies(var, str(statement[0]))
+                            self.mod_table.set_modifies(var.element, str(statement[0]))
                         for var in used_vars:
                             self.uses_table.set_uses(var, str(statement[0]))
 
@@ -193,8 +194,8 @@ class Parser:
             self.parent_table.set_parent(while_node.line, child.line)
             if child.node_type == 'ASSIGN' or child.node_type == 'WHILE' or child.node_type == 'IF':
                 for letter in self.mod_table.get_modified(str(child.line)):
-                    self.mod_table.set_modifies(letter, str(while_node.line))
-                    self.mod_table.set_modifies(letter, self.call_procedure)
+                    self.mod_table.set_modifies(letter.element, str(while_node.line))
+                    self.mod_table.set_modifies(letter.element, self.call_procedure)
                 for letter in self.uses_table.get_used(str(child.line)):
                     self.uses_table.set_uses(letter, str(while_node.line))
                     self.uses_table.set_uses(letter, self.call_procedure)
@@ -244,8 +245,8 @@ class Parser:
             self.parent_table.set_parent(if_node.line, child.line)
             if child.node_type == 'ASSIGN' or child.node_type == 'WHILE' or child.node_type == 'IF':
                 for letter in self.mod_table.get_modified(str(child.line)):
-                    self.mod_table.set_modifies(letter, str(if_node.line))
-                    self.mod_table.set_modifies(letter, self.call_procedure)
+                    self.mod_table.set_modifies(letter.element, str(if_node.line))
+                    self.mod_table.set_modifies(letter.element, self.call_procedure)
                 for letter in self.uses_table.get_used(str(child.line)):
                     self.uses_table.set_uses(letter, str(if_node.line))
                     self.uses_table.set_uses(letter, self.call_procedure)
@@ -259,8 +260,8 @@ class Parser:
             self.parent_table.set_parent(if_node.line, child.line)
             if child.node_type == 'ASSIGN' or child.node_type == 'WHILE' or child.node_type == 'IF':
                 for letter in self.mod_table.get_modified(str(child.line)):
-                    self.mod_table.set_modifies(letter, str(if_node.line))
-                    self.mod_table.set_modifies(letter, self.call_procedure)
+                    self.mod_table.set_modifies(letter.element, str(if_node.line))
+                    self.mod_table.set_modifies(letter.element, self.call_procedure)
                 for letter in self.uses_table.get_used(str(child.line)):
                     self.uses_table.set_uses(letter, str(if_node.line))
                     self.uses_table.set_uses(letter, self.call_procedure)

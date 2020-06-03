@@ -196,3 +196,627 @@ false
 
 Select BOOLEAN such that Modifies ("Gola","b")
 false
+stmt a; variable a1;
+Select a such that Modifies(a,a1)
+2, 6, 12, 14, 15, 16, 29, 30, 47, 49, 79, 80, 82, 83, 85, 3, 31, 59, 61, 86, 88, 89, 91, 105, 107, 117, 262, 264, 265, 266, 272, 4, 17, 33, 34, 38, 42, 48, 60, 63, 66, 76, 78, 81, 90, 95, 96, 108, 133, 136, 137, 149, 180, 181, 187, 188, 22, 39, 69, 70, 75, 84, 97, 98, 184, 185, 250, 251, 253, 1, 7, 41, 67, 119, 120, 138, 159, 160, 163, 164, 165, 173, 174, 182, 245, 252, 65, 109, 110, 128, 134, 162, 5, 44, 54, 87, 118, 124, 130, 191, 192, 195, 259, 274, 8, 21, 72, 74, 121, 139, 166, 167, 168, 175, 186, 246, 254, 125, 131, 9, 23, 24, 26, 27, 122, 143, 144, 146, 147, 161, 176, 177, 178, 247, 256, 258, 45, 77, 113, 114, 126, 150, 10, 25, 28, 123, 145, 148, 179, 248, 255, 127, 151, 11, 32, 73, 99, 100, 257, 13, 20, 37, 129, 135, 169, 19, 35, 36, 152, 153, 40, 55, 56, 43, 46, 50, 51, 52, 53, 57, 64, 154, 58, 157, 158, 68, 71, 155, 93, 156, 94, 101, 102, 103, 104, 106, 116, 111, 112, 115, 132, 140, 141, 142, 170, 171, 172, 183, 189, 244, 249, 260, 261, 196, 198, 201, 204, 205, 207, 193, 270, 275, 194, 200, 206, 197, 203, 199, 202, 190, 209, 212, 210, 211, 18, 62, 92, 208, 213, 216, 217, 218, 227, 277, 214, 215, 236, 267, 269, 233, 219, 223, 224, 225, 273, 221, 222, 229, 230, 231, 232, 234, 235, 241, 242, 220, 228, 243, 268, 226, 237, 238, 239, 240, 263, 276, 271, 278, 279, 280, 281, 282, 283, 286, 287, 288, 289, 291, 292, 293, 295, 284, 285, 290, 294, 296, 297, 298, 301, 302, 307, 309, 311, 299, 303, 304, 306, 310, 300, 308, 305
+stmt a; variable a1;
+Select a1 such that Modifies(a,a1)
+width, height, tmp, I, x1, incre, left, x2, right, y1, top, y2, bottom, area, j, difference, decrement, radius, x3, x4, volume, distance, length, x5, x8, x9, x6, x7, y7, circumference, x, b, c, weight, factor, pct, dx, dy, marking, asterick, range, peak, trim, s, p1, p2, pink, green, blue, pixel, dot, notmove, line, edge, depth, semi, temporary, total, triangle, base, location, cs1, cs2, cs3, cs5, cs6, cs9, cs8
+stmt a; variable a1;
+Select BOOLEAN such that Modifies(a,a1)
+true
+stmt a;
+Select a such that Modifies(a,"semi")
+6, 12, 14, 15, 16, 18, 59, 62, 79, 80, 89, 92, 105, 107, 117, 216, 217, 218, 220, 221, 222, 228, 230, 231, 232, 234, 235, 241, 243, 262, 264, 265, 266, 267, 268
+stmt a; variable a1;
+Select a such that Modifies(a,a1) with a1.varName="semi"
+6, 12, 14, 15, 16, 18, 59, 62, 79, 80, 89, 92, 105, 107, 117, 216, 217, 218, 220, 221, 222, 228, 230, 231, 232, 234, 235, 241, 243, 262, 264, 265, 266, 267, 268
+stmt a; variable a1;
+Select a1 such that Modifies(a,a1) with a1.varName="semi"
+semi
+stmt a; variable a1;
+Select BOOLEAN such that Modifies(a,a1) with a1.varName="semi"
+true
+stmt a;
+Select a such that Modifies(a,"dot")
+6, 12, 105, 107, 117, 262, 264, 265, 266, 267, 269
+stmt a; variable a1;
+Select a such that Modifies(a,a1) with a1.varName="dot"
+6, 12, 105, 107, 117, 262, 264, 265, 266, 267, 269
+stmt a; variable a1;
+Select a1 such that Modifies(a,a1) with a1.varName="dot"
+dot
+stmt a; variable a1;
+Select BOOLEAN such that Modifies(a,a1) with a1.varName="dot"
+true
+stmt a;
+Select a such that Modifies(a,"edge")
+6, 12, 14, 15, 16, 18, 59, 62, 79, 80, 89, 92, 105, 107, 117, 216, 217, 218, 223, 224, 225, 262, 264, 265, 266, 273
+stmt a; variable a1;
+Select a such that Modifies(a,a1) with a1.varName="edge"
+6, 12, 14, 15, 16, 18, 59, 62, 79, 80, 89, 92, 105, 107, 117, 216, 217, 218, 223, 224, 225, 262, 264, 265, 266, 273
+stmt a; variable a1;
+Select a1 such that Modifies(a,a1) with a1.varName="edge"
+edge
+stmt a; variable a1;
+Select BOOLEAN such that Modifies(a,a1) with a1.varName="edge"
+true
+stmt a;
+Select a such that Modifies(a,"wrong")
+none
+stmt a; variable a1;
+Select a such that Modifies(a,a1) with a1.varName="wrong"
+none
+stmt a; variable a1;
+Select a1 such that Modifies(a,a1) with a1.varName="wrong"
+none
+stmt a; variable a1;
+Select BOOLEAN such that Modifies(a,a1) with a1.varName="wrong"
+false
+stmt a;
+Select a such that Modifies(a,"pct")
+6, 12, 14, 15, 16, 22, 79, 80, 83, 84, 86, 87, 118, 191, 196, 198, 201, 204, 205, 207, 259
+stmt a; variable a1;
+Select a such that Modifies(a,a1) with a1.varName="pct"
+6, 12, 14, 15, 16, 22, 79, 80, 83, 84, 86, 87, 118, 191, 196, 198, 201, 204, 205, 207, 259
+stmt a; variable a1;
+Select a1 such that Modifies(a,a1) with a1.varName="pct"
+pct
+stmt a; variable a1;
+Select BOOLEAN such that Modifies(a,a1) with a1.varName="pct"
+true
+variable a1;
+Select a1 such that Modifies(176, a1)
+y1
+stmt a; variable a1;
+Select a such that Modifies(a,a1) with a.stmt#=176
+176
+stmt a; variable a1;
+Select a1 such that Modifies(a,a1) with a.stmt#=176
+y1
+stmt a; variable a1;
+Select BOOLEAN such that Modifies(a,a1) with a.stmt#=176
+true
+variable a1;
+Select a1 such that Modifies(26, a1)
+y1, y2
+stmt a; variable a1;
+Select a such that Modifies(a,a1) with a.stmt#=26
+26
+stmt a; variable a1;
+Select a1 such that Modifies(a,a1) with a.stmt#=26
+y1, y2
+stmt a; variable a1;
+Select BOOLEAN such that Modifies(a,a1) with a.stmt#=26
+true
+variable a1;
+Select a1 such that Modifies(66, a1)
+tmp, I, x1, incre, x2, y1, top, y2, j, decrement, x6, weight
+stmt a; variable a1;
+Select a such that Modifies(a,a1) with a.stmt#=66
+66
+stmt a; variable a1;
+Select a1 such that Modifies(a,a1) with a.stmt#=66
+tmp, I, x1, incre, x2, y1, top, y2, j, decrement, x6, weight
+stmt a; variable a1;
+Select BOOLEAN such that Modifies(a,a1) with a.stmt#=66
+true
+stmt a;
+Select a such that Modifies(a,_)
+1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255, 256, 257, 258, 259, 260, 261, 262, 263, 264, 265, 266, 267, 268, 269, 270, 271, 272, 273, 274, 275, 276, 277, 278, 279, 280, 281, 282, 283, 284, 285, 286, 287, 288, 289, 290, 291, 292, 293, 294, 295, 296, 297, 298, 299, 300, 301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 311
+while a; variable a1;
+Select a such that Modifies(a,a1)
+6, 12, 16, 29, 47, 79, 83, 59, 89, 105, 264, 265, 95, 136, 180, 181, 187, 69, 184, 251, 191, 26, 143, 256, 113, 101, 103, 196, 209, 217, 218, 234, 239, 279, 281, 289, 301
+while a; variable a1;
+Select a1 such that Modifies(a,a1)
+width, height, tmp, I, x1, incre, left, x2, right, y1, top, y2, bottom, area, j, difference, decrement, radius, x3, x4, volume, distance, length, x5, x8, x9, x6, x7, y7, circumference, x, b, c, weight, factor, pct, dx, dy, marking, asterick, range, peak, trim, s, p1, p2, pink, green, blue, pixel, dot, notmove, line, edge, depth, semi, temporary, total, triangle, base, location, cs1, cs2, cs3, cs5, cs6, cs9, cs8
+while a; variable a1;
+Select BOOLEAN such that Modifies(a,a1)
+true
+while a;
+Select a such that Modifies(a,"width")
+6, 12, 16, 29, 47, 79, 83
+while a; variable a1;
+Select a such that Modifies(a,a1) with a1.varName="width"
+6, 12, 16, 29, 47, 79, 83
+while a; variable a1;
+Select a1 such that Modifies(a,a1) with a1.varName="width"
+width
+while a; variable a1;
+Select BOOLEAN such that Modifies(a,a1) with a1.varName="width"
+true
+while a;
+Select a such that Modifies(a,"x5")
+6, 12, 16, 105, 113
+while a; variable a1;
+Select a such that Modifies(a,a1) with a1.varName="x5"
+6, 12, 16, 105, 113
+while a; variable a1;
+Select a1 such that Modifies(a,a1) with a1.varName="x5"
+x5
+while a; variable a1;
+Select BOOLEAN such that Modifies(a,a1) with a1.varName="x5"
+true
+while a;
+Select a such that Modifies(a,"difference")
+6, 12, 16
+while a; variable a1;
+Select a such that Modifies(a,a1) with a1.varName="difference"
+6, 12, 16
+while a; variable a1;
+Select a1 such that Modifies(a,a1) with a1.varName="difference"
+difference
+while a; variable a1;
+Select BOOLEAN such that Modifies(a,a1) with a1.varName="difference"
+true
+while a;
+Select a such that Modifies(a,"location")
+279, 281
+while a; variable a1;
+Select a such that Modifies(a,a1) with a1.varName="location"
+279, 281
+while a; variable a1;
+Select a1 such that Modifies(a,a1) with a1.varName="location"
+location
+while a; variable a1;
+Select BOOLEAN such that Modifies(a,a1) with a1.varName="location"
+true
+while a;
+Select a such that Modifies(a,"degrees")
+none
+while a; variable a1;
+Select a such that Modifies(a,a1) with a1.varName="degrees"
+none
+while a; variable a1;
+Select a1 such that Modifies(a,a1) with a1.varName="degrees"
+none
+while a; variable a1;
+Select BOOLEAN such that Modifies(a,a1) with a1.varName="degrees"
+false
+variable a1;
+Select a1 such that Modifies(216, a1)
+pink, green, blue, pixel, notmove, line, edge, depth, semi, temporary, total
+while a; variable a1;
+Select a such that Modifies(a,a1) with a.stmt#=216
+none
+while a; variable a1;
+Select a1 such that Modifies(a,a1) with a.stmt#=216
+none
+while a; variable a1;
+Select BOOLEAN such that Modifies(a,a1) with a.stmt#=216
+false
+variable a1;
+Select a1 such that Modifies(181, a1)
+tmp, I, x1, x2, factor
+while a; variable a1;
+Select a such that Modifies(a,a1) with a.stmt#=181
+181
+while a; variable a1;
+Select a1 such that Modifies(a,a1) with a.stmt#=181
+tmp, I, x1, x2, factor
+while a; variable a1;
+Select BOOLEAN such that Modifies(a,a1) with a.stmt#=181
+true
+variable a1;
+Select a1 such that Modifies(251, a1)
+I, x1
+while a; variable a1;
+Select a such that Modifies(a,a1) with a.stmt#=251
+251
+while a; variable a1;
+Select a1 such that Modifies(a,a1) with a.stmt#=251
+I, x1
+while a; variable a1;
+Select BOOLEAN such that Modifies(a,a1) with a.stmt#=251
+true
+while a;
+Select a such that Modifies(a,_)
+6, 12, 16, 26, 29, 47, 59, 69, 79, 83, 89, 95, 101, 103, 105, 113, 136, 143, 180, 181, 184, 187, 191, 196, 209, 217, 218, 234, 239, 251, 256, 264, 265, 279, 281, 289, 301
+if a; variable a1;
+Select a such that Modifies(a,a1)
+14, 15, 80, 86, 107, 266, 34, 38, 66, 76, 97, 250, 159, 160, 163, 173, 109, 192, 72, 166, 23, 144, 176, 55, 51, 140, 170, 198, 204, 216, 267, 224, 230, 241, 237, 278, 291, 309, 303
+if a; variable a1;
+Select a1 such that Modifies(a,a1)
+width, height, tmp, I, x1, incre, left, x2, right, y1, top, y2, bottom, area, j, difference, decrement, radius, x3, x4, volume, distance, length, x5, x8, x9, x6, x7, y7, x, b, c, weight, factor, pct, dx, dy, marking, asterick, range, peak, trim, s, p1, p2, pink, green, blue, pixel, dot, notmove, line, edge, depth, semi, temporary, total, triangle, base, location, cs1, cs2, cs3, cs5, cs6, cs9, cs8
+if a; variable a1;
+Select BOOLEAN such that Modifies(a,a1)
+true
+if a;
+Select a such that Modifies(a,"y7")
+14
+if a; variable a1;
+Select a such that Modifies(a,a1) with a1.varName="y7"
+14
+if a; variable a1;
+Select a1 such that Modifies(a,a1) with a1.varName="y7"
+y7
+if a; variable a1;
+Select BOOLEAN such that Modifies(a,a1) with a1.varName="y7"
+true
+if a;
+Select a such that Modifies(a,"total")
+14, 15, 80, 216, 237
+if a; variable a1;
+Select a such that Modifies(a,a1) with a1.varName="total"
+14, 15, 80, 216, 237
+if a; variable a1;
+Select a1 such that Modifies(a,a1) with a1.varName="total"
+total
+if a; variable a1;
+Select BOOLEAN such that Modifies(a,a1) with a1.varName="total"
+true
+if a;
+Select a such that Modifies(a,"cs6")
+291, 303, 309
+if a; variable a1;
+Select a such that Modifies(a,a1) with a1.varName="cs6"
+291, 303, 309
+if a; variable a1;
+Select a1 such that Modifies(a,a1) with a1.varName="cs6"
+cs6
+if a; variable a1;
+Select BOOLEAN such that Modifies(a,a1) with a1.varName="cs6"
+true
+if a;
+Select a such that Modifies(a,"green")
+14, 15, 80, 86, 107, 216
+if a; variable a1;
+Select a such that Modifies(a,a1) with a1.varName="green"
+14, 15, 80, 86, 107, 216
+if a; variable a1;
+Select a1 such that Modifies(a,a1) with a1.varName="green"
+green
+if a; variable a1;
+Select BOOLEAN such that Modifies(a,a1) with a1.varName="green"
+true
+if a;
+Select a such that Modifies(a,"trim")
+14, 15, 80, 86, 198
+if a; variable a1;
+Select a such that Modifies(a,a1) with a1.varName="trim"
+14, 15, 80, 86, 198
+if a; variable a1;
+Select a1 such that Modifies(a,a1) with a1.varName="trim"
+trim
+if a; variable a1;
+Select BOOLEAN such that Modifies(a,a1) with a1.varName="trim"
+true
+variable a1;
+Select a1 such that Modifies(151, a1)
+bottom
+if a; variable a1;
+Select a such that Modifies(a,a1) with a.stmt#=151
+none
+if a; variable a1;
+Select a1 such that Modifies(a,a1) with a.stmt#=151
+none
+if a; variable a1;
+Select BOOLEAN such that Modifies(a,a1) with a.stmt#=151
+false
+variable a1;
+Select a1 such that Modifies(216, a1)
+pink, green, blue, pixel, notmove, line, edge, depth, semi, temporary, total
+if a; variable a1;
+Select a such that Modifies(a,a1) with a.stmt#=216
+216
+if a; variable a1;
+Select a1 such that Modifies(a,a1) with a.stmt#=216
+pink, green, blue, pixel, notmove, line, edge, depth, semi, temporary, total
+if a; variable a1;
+Select BOOLEAN such that Modifies(a,a1) with a.stmt#=216
+true
+variable a1;
+Select a1 such that Modifies(301, a1)
+cs5, cs6, cs9, cs8
+if a; variable a1;
+Select a such that Modifies(a,a1) with a.stmt#=301
+none
+if a; variable a1;
+Select a1 such that Modifies(a,a1) with a.stmt#=301
+none
+if a; variable a1;
+Select BOOLEAN such that Modifies(a,a1) with a.stmt#=301
+false
+if a;
+Select a such that Modifies(a,_)
+14, 15, 23, 34, 38, 51, 55, 66, 72, 76, 80, 86, 97, 107, 109, 140, 144, 159, 160, 163, 166, 170, 173, 176, 192, 198, 204, 216, 224, 230, 237, 241, 250, 266, 267, 278, 291, 303, 309
+call a; variable a1;
+Select a such that Modifies(a,a1)
+117, 262, 33, 42, 63, 78, 108, 22, 84, 1, 41, 119, 5, 44, 54, 87, 118, 195, 259, 274, 45, 114, 190, 18, 62, 92, 208, 227, 277, 221, 222, 231, 232, 235, 286, 287, 292, 293, 295, 294, 296, 297, 307
+call a; variable a1;
+Select a1 such that Modifies(a,a1)
+height, tmp, I, x1, incre, left, x2, right, y1, top, y2, bottom, j, decrement, x3, x4, x5, x8, x9, x6, x7, weight, factor, pct, dx, dy, marking, asterick, range, peak, trim, s, p1, p2, pink, green, blue, pixel, dot, notmove, line, edge, depth, semi, temporary, total, triangle, base, cs1, cs2, cs3, cs5, cs6, cs9, cs8
+call a; variable a1;
+Select BOOLEAN such that Modifies(a,a1)
+true
+call a;
+Select a such that Modifies(a,"cs4")
+none
+call a; variable a1;
+Select a such that Modifies(a,a1) with a1.varName="cs4"
+none
+call a; variable a1;
+Select a1 such that Modifies(a,a1) with a1.varName="cs4"
+none
+call a; variable a1;
+Select BOOLEAN such that Modifies(a,a1) with a1.varName="cs4"
+false
+call a;
+Select a such that Modifies(a,"correct")
+none
+call a; variable a1;
+Select a such that Modifies(a,a1) with a1.varName="correct"
+none
+call a; variable a1;
+Select a1 such that Modifies(a,a1) with a1.varName="correct"
+none
+call a; variable a1;
+Select BOOLEAN such that Modifies(a,a1) with a1.varName="correct"
+false
+call a;
+Select a such that Modifies(a,"width")
+none
+call a; variable a1;
+Select a such that Modifies(a,a1) with a1.varName="width"
+none
+call a; variable a1;
+Select a1 such that Modifies(a,a1) with a1.varName="width"
+none
+call a; variable a1;
+Select BOOLEAN such that Modifies(a,a1) with a1.varName="width"
+false
+call a;
+Select a such that Modifies(a,"cs1")
+286, 287, 292, 293, 295
+call a; variable a1;
+Select a such that Modifies(a,a1) with a1.varName="cs1"
+286, 287, 292, 293, 295
+call a; variable a1;
+Select a1 such that Modifies(a,a1) with a1.varName="cs1"
+cs1
+call a; variable a1;
+Select BOOLEAN such that Modifies(a,a1) with a1.varName="cs1"
+true
+call a;
+Select a such that Modifies(a,"j")
+22, 84
+call a; variable a1;
+Select a such that Modifies(a,a1) with a1.varName="j"
+22, 84
+call a; variable a1;
+Select a1 such that Modifies(a,a1) with a1.varName="j"
+j
+call a; variable a1;
+Select BOOLEAN such that Modifies(a,a1) with a1.varName="j"
+true
+variable a1;
+Select a1 such that Modifies(291, a1)
+cs1, cs2, cs3, cs5, cs6, cs9, cs8
+call a; variable a1;
+Select a such that Modifies(a,a1) with a.stmt#=291
+none
+call a; variable a1;
+Select a1 such that Modifies(a,a1) with a.stmt#=291
+none
+call a; variable a1;
+Select BOOLEAN such that Modifies(a,a1) with a.stmt#=291
+false
+variable a1;
+Select a1 such that Modifies(116, a1)
+x
+call a; variable a1;
+Select a such that Modifies(a,a1) with a.stmt#=116
+none
+call a; variable a1;
+Select a1 such that Modifies(a,a1) with a.stmt#=116
+none
+call a; variable a1;
+Select BOOLEAN such that Modifies(a,a1) with a.stmt#=116
+false
+variable a1;
+Select a1 such that Modifies(161, a1)
+y1
+call a; variable a1;
+Select a such that Modifies(a,a1) with a.stmt#=161
+none
+call a; variable a1;
+Select a1 such that Modifies(a,a1) with a.stmt#=161
+none
+call a; variable a1;
+Select BOOLEAN such that Modifies(a,a1) with a.stmt#=161
+false
+call a;
+Select a such that Modifies(a,_)
+1, 5, 18, 22, 33, 41, 42, 44, 45, 54, 62, 63, 78, 84, 87, 92, 108, 114, 117, 118, 119, 190, 195, 208, 221, 222, 227, 231, 232, 235, 259, 262, 274, 277, 286, 287, 292, 293, 294, 295, 296, 297, 307
+assign a; variable a1;
+Select a such that Modifies(a,a1)
+2, 30, 49, 82, 85, 3, 31, 61, 88, 91, 272, 4, 17, 48, 60, 81, 90, 96, 133, 137, 149, 188, 39, 70, 75, 98, 185, 253, 7, 67, 120, 138, 164, 165, 174, 182, 245, 252, 65, 110, 128, 134, 162, 124, 130, 8, 21, 74, 121, 139, 167, 168, 175, 186, 246, 254, 125, 131, 9, 24, 27, 122, 146, 147, 161, 177, 178, 247, 258, 77, 126, 150, 10, 25, 28, 123, 145, 148, 179, 248, 255, 127, 151, 11, 32, 73, 99, 100, 257, 13, 20, 37, 129, 135, 169, 19, 35, 36, 152, 153, 40, 56, 43, 46, 50, 52, 53, 57, 64, 154, 58, 157, 158, 68, 71, 155, 93, 156, 94, 102, 104, 106, 116, 111, 112, 115, 132, 141, 142, 171, 172, 183, 189, 244, 249, 260, 261, 201, 205, 207, 193, 270, 275, 194, 200, 206, 197, 203, 199, 202, 212, 210, 211, 213, 214, 215, 236, 269, 233, 219, 223, 225, 273, 229, 242, 220, 228, 243, 268, 226, 238, 240, 263, 276, 271, 280, 282, 283, 288, 284, 285, 290, 298, 302, 311, 299, 304, 306, 310, 300, 308, 305
+assign a; variable a1;
+Select a1 such that Modifies(a,a1)
+width, height, tmp, I, x1, incre, left, x2, right, y1, top, y2, bottom, area, j, difference, decrement, radius, x3, x4, volume, distance, length, x5, x8, x9, x6, x7, y7, circumference, x, b, c, weight, factor, pct, dx, dy, marking, asterick, range, peak, trim, s, p1, p2, pink, green, blue, pixel, dot, notmove, line, edge, depth, semi, temporary, total, triangle, base, location, cs1, cs2, cs3, cs5, cs6, cs9, cs8
+assign a; variable a1;
+Select BOOLEAN such that Modifies(a,a1)
+true
+assign a;
+Select a such that Modifies(a,"location")
+280, 282
+assign a; variable a1;
+Select a such that Modifies(a,a1) with a1.varName="location"
+280, 282
+assign a; variable a1;
+Select a1 such that Modifies(a,a1) with a1.varName="location"
+location
+assign a; variable a1;
+Select BOOLEAN such that Modifies(a,a1) with a1.varName="location"
+true
+assign a;
+Select a such that Modifies(a,"dx")
+193, 270, 275
+assign a; variable a1;
+Select a such that Modifies(a,a1) with a1.varName="dx"
+193, 270, 275
+assign a; variable a1;
+Select a1 such that Modifies(a,a1) with a1.varName="dx"
+dx
+assign a; variable a1;
+Select BOOLEAN such that Modifies(a,a1) with a1.varName="dx"
+true
+assign a;
+Select a such that Modifies(a,"total")
+238, 240
+assign a; variable a1;
+Select a such that Modifies(a,a1) with a1.varName="total"
+238, 240
+assign a; variable a1;
+Select a1 such that Modifies(a,a1) with a1.varName="total"
+total
+assign a; variable a1;
+Select BOOLEAN such that Modifies(a,a1) with a1.varName="total"
+true
+assign a;
+Select a such that Modifies(a,"length")
+46, 50, 52, 53
+assign a; variable a1;
+Select a such that Modifies(a,a1) with a1.varName="length"
+46, 50, 52, 53
+assign a; variable a1;
+Select a1 such that Modifies(a,a1) with a1.varName="length"
+length
+assign a; variable a1;
+Select BOOLEAN such that Modifies(a,a1) with a1.varName="length"
+true
+assign a;
+Select a such that Modifies(a,"top")
+77, 126, 150
+assign a; variable a1;
+Select a such that Modifies(a,a1) with a1.varName="top"
+77, 126, 150
+assign a; variable a1;
+Select a1 such that Modifies(a,a1) with a1.varName="top"
+top
+assign a; variable a1;
+Select BOOLEAN such that Modifies(a,a1) with a1.varName="top"
+true
+variable a1;
+Select a1 such that Modifies(6, a1)
+width, height, tmp, I, x1, incre, left, x2, right, y1, top, y2, bottom, area, j, difference, decrement, radius, x3, x4, volume, distance, length, x5, x8, x9, x6, x7, y7, circumference, x, b, c, weight, factor, pct, dx, dy, marking, asterick, range, peak, trim, s, p1, p2, pink, green, blue, pixel, dot, notmove, line, edge, depth, semi, temporary, total, triangle, base
+assign a; variable a1;
+Select a such that Modifies(a,a1) with a.stmt#=6
+none
+assign a; variable a1;
+Select a1 such that Modifies(a,a1) with a.stmt#=6
+none
+assign a; variable a1;
+Select BOOLEAN such that Modifies(a,a1) with a.stmt#=6
+false
+variable a1;
+Select a1 such that Modifies(211, a1)
+p2
+assign a; variable a1;
+Select a such that Modifies(a,a1) with a.stmt#=211
+211
+assign a; variable a1;
+Select a1 such that Modifies(a,a1) with a.stmt#=211
+p2
+assign a; variable a1;
+Select BOOLEAN such that Modifies(a,a1) with a.stmt#=211
+true
+variable a1;
+Select a1 such that Modifies(66, a1)
+tmp, I, x1, incre, x2, y1, top, y2, j, decrement, x6, weight
+assign a; variable a1;
+Select a such that Modifies(a,a1) with a.stmt#=66
+none
+assign a; variable a1;
+Select a1 such that Modifies(a,a1) with a.stmt#=66
+none
+assign a; variable a1;
+Select BOOLEAN such that Modifies(a,a1) with a.stmt#=66
+false
+assign a;
+Select a such that Modifies(a,_)
+2, 3, 4, 7, 8, 9, 10, 11, 13, 17, 19, 20, 21, 24, 25, 27, 28, 30, 31, 32, 35, 36, 37, 39, 40, 43, 46, 48, 49, 50, 52, 53, 56, 57, 58, 60, 61, 64, 65, 67, 68, 70, 71, 73, 74, 75, 77, 81, 82, 85, 88, 90, 91, 93, 94, 96, 98, 99, 100, 102, 104, 106, 110, 111, 112, 115, 116, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 137, 138, 139, 141, 142, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 161, 162, 164, 165, 167, 168, 169, 171, 172, 174, 175, 177, 178, 179, 182, 183, 185, 186, 188, 189, 193, 194, 197, 199, 200, 201, 202, 203, 205, 206, 207, 210, 211, 212, 213, 214, 215, 219, 220, 223, 225, 226, 228, 229, 233, 236, 238, 240, 242, 243, 244, 245, 246, 247, 248, 249, 252, 253, 254, 255, 257, 258, 260, 261, 263, 268, 269, 270, 271, 272, 273, 275, 276, 280, 282, 283, 284, 285, 288, 290, 298, 299, 300, 302, 304, 305, 306, 308, 310, 311
+procedure a; variable a1;
+Select a such that Modifies(a,a1)
+Main, Translate, Rotate, Transform, Move, Shrink, Init, Shear, Random, Draw, Shift, Clear, Show, Enlarge, Fill, Scale, PP, QQ, RR, TT, SS, UU, XX
+procedure a; variable a1;
+Select a1 such that Modifies(a,a1)
+width, height, tmp, I, x1, incre, left, x2, right, y1, top, y2, bottom, area, j, difference, decrement, radius, x3, x4, volume, distance, length, x5, x8, x9, x6, x7, y7, circumference, x, b, c, weight, factor, pct, dx, dy, marking, asterick, range, peak, trim, s, p1, p2, pink, green, blue, pixel, dot, notmove, line, edge, depth, semi, temporary, total, triangle, base, location, cs1, cs2, cs3, cs5, cs6, cs9, cs8
+procedure a; variable a1;
+Select BOOLEAN such that Modifies(a,a1)
+true
+procedure a;
+Select a such that Modifies(a,"cover")
+none
+procedure a; variable a1;
+Select a such that Modifies(a,a1) with a1.varName="cover"
+none
+procedure a; variable a1;
+Select a1 such that Modifies(a,a1) with a1.varName="cover"
+none
+procedure a; variable a1;
+Select BOOLEAN such that Modifies(a,a1) with a1.varName="cover"
+false
+procedure a;
+Select a such that Modifies(a,"location")
+Scale
+procedure a; variable a1;
+Select a such that Modifies(a,a1) with a1.varName="location"
+Scale
+procedure a; variable a1;
+Select a1 such that Modifies(a,a1) with a1.varName="location"
+location
+procedure a; variable a1;
+Select BOOLEAN such that Modifies(a,a1) with a1.varName="location"
+true
+procedure a;
+Select a such that Modifies(a,"depth")
+Main, Enlarge, Fill
+procedure a; variable a1;
+Select a such that Modifies(a,a1) with a1.varName="depth"
+Main, Enlarge, Fill
+procedure a; variable a1;
+Select a1 such that Modifies(a,a1) with a1.varName="depth"
+depth
+procedure a; variable a1;
+Select BOOLEAN such that Modifies(a,a1) with a1.varName="depth"
+true
+procedure a;
+Select a such that Modifies(a,"mtoggle")
+none
+procedure a; variable a1;
+Select a such that Modifies(a,a1) with a1.varName="mtoggle"
+none
+procedure a; variable a1;
+Select a1 such that Modifies(a,a1) with a1.varName="mtoggle"
+none
+procedure a; variable a1;
+Select BOOLEAN such that Modifies(a,a1) with a1.varName="mtoggle"
+false
+procedure a;
+Select a such that Modifies(a,"radius")
+Main
+procedure a; variable a1;
+Select a such that Modifies(a,a1) with a1.varName="radius"
+Main
+procedure a; variable a1;
+Select a1 such that Modifies(a,a1) with a1.varName="radius"
+radius
+procedure a; variable a1;
+Select BOOLEAN such that Modifies(a,a1) with a1.varName="radius"
+true
+variable a1;
+Select a1 such that Modifies("Draw", a1)
+left, right, pct, dx, dy, marking, asterick, range, peak, trim, s, p1, p2, pink, green, blue
+procedure a; variable a1;
+Select a such that Modifies(a,a1) with a.procName="Draw"
+Draw
+procedure a; variable a1;
+Select a1 such that Modifies(a,a1) with a.procName="Draw"
+left, right, pct, dx, dy, marking, asterick, range, peak, trim, s, p1, p2, pink, green, blue
+procedure a; variable a1;
+Select BOOLEAN such that Modifies(a,a1) with a.procName="Draw"
+true
+procedure a;
+Select a such that Modifies(a,_)
+Main, Init, Random, Transform, Shift, Shear, Move, Draw, Clear, Show, Enlarge, Fill, Shrink, Translate, Rotate, Scale, PP, QQ, RR, SS, TT, UU, XX
