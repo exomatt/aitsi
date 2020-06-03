@@ -11,6 +11,7 @@ from aitsi_parser.StatementTable import StatementTable
 from aitsi_parser.UsesTable import UsesTable
 from aitsi_parser.VarTable import VarTable
 from pql.Node import Node
+from pql.Reference import Reference
 
 
 class With:
@@ -36,7 +37,7 @@ class With:
                                          ConstTable,
                                          NextTable]] = all_tables
 
-    def execute(self, attr_node: Node) -> Union[Set[str], Set[int]]:
+    def execute(self, attr_node: Node) -> Set[Reference]:
         if attr_node.children[1].node_type == 'INTEGER':
             if attr_node.children[0].node_type == 'CONSTANT':
                 if not self.all_tables['const'].is_in(int(attr_node.children[1].value)):
@@ -48,7 +49,7 @@ class With:
                 if int(attr_node.children[1].value) not in self.all_tables['statement'].get_statement_line_by_type_name(
                         attr_node.children[0].node_type):
                     return set()
-            return {attr_node.children[1].value}
+            return {Reference(attr_node.children[1].value, '')}
         elif attr_node.children[1].node_type == 'IDENT_QUOTE':
             if attr_node.children[0].node_type == 'PROCEDURE':
                 if not self.all_tables['proc'].is_in(attr_node.children[1].value):
@@ -57,16 +58,17 @@ class With:
                 if not self.all_tables['var'].is_in(attr_node.children[1].value):
                     return set()
             else:
-                return set(self.all_tables['statement'].get_statement_line_by_type_name_and_value(
-                    attr_node.children[0].node_type,
-                    attr_node.children[1].value))
-            return {attr_node.children[1].value}
+                return set(Reference(line, '') for line in
+                           self.all_tables['statement'].get_statement_line_by_type_name_and_value(
+                               attr_node.children[0].node_type,
+                               attr_node.children[1].value))
+            return {Reference(attr_node.children[1].value, '')}
         elif attr_node.children[1].node_type == 'CONSTANT':
             if attr_node.children[0].node_type == 'STMT':
-                return set([const for const in self.all_tables['const'].get_all_constant() if
+                return set([Reference(const, '') for const in self.all_tables['const'].get_all_constant() if
                             self.all_tables['statement'].is_in(const)])
             else:
-                return set([const for const in self.all_tables['const'].get_all_constant() if
+                return set([Reference(const, '') for const in self.all_tables['const'].get_all_constant() if
                             const in self.all_tables[
                                 'statement'].get_statement_line_by_type_name(
                                 attr_node.children[0].value)])
@@ -81,4 +83,4 @@ class With:
             else:
                 right: Set[str] = set(self.all_tables['var'].get_all_var_name())
 
-            return left.intersection(right)
+            return {Reference(line, '') for line in left.intersection(right)}

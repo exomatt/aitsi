@@ -65,7 +65,7 @@ class ParentRelation:
         if param_second == '_':
             if param_first == 'STMT':
                 return self.parent_table.table.index.tolist()
-            return list(set(self.parent_table.table.columns.tolist())
+            return list(set(self.parent_table.table.index.tolist())
                         .intersection(self.stmt_table.get_statement_line_by_type_name(param_first)))
         if param_first == 'STMT':
             return list(filter(lambda line: line is not None, list({self.parent_table.get_parent(int(param_second))})))
@@ -83,8 +83,10 @@ class ParentRelation:
                 return self.parent_table.table.columns.tolist()
             return list(set(self.parent_table.table.columns.tolist())
                         .intersection(self.stmt_table.get_statement_line_by_type_name(param_second)))
+        if param_second == 'STMT':
+            return self.parent_table.get_child(int(param_first))
         return list(set(self.parent_table.get_child(int(param_first)))
-                    .intersection(self.stmt_table.get_statement_line_by_type_name(param_second)))
+                    .intersection(set(self.stmt_table.get_statement_line_by_type_name(param_second))))
 
     def value_from_query_and_value_from_query(self, param_first: str, param_second: str) -> bool:
         if param_first == '_':

@@ -2,6 +2,8 @@ from typing import List
 
 import pandas as pd
 
+from pql.Reference import Reference
+
 
 class CallsTable:
 
@@ -17,15 +19,22 @@ class CallsTable:
             self.table.loc[call_procedure] = 0
         self.table.loc[call_procedure, receiving_procedure] = 1
 
-    def get_calls(self, procedure: str) -> List[str]:
+    def get_all_procedures_with_procedures_they_are_called_from(self):
+        return sum([self.get_called_from(procedure) for procedure in self.table.index.tolist()], [])
+
+    def get_all_procedures_with_procedures_they_calls(self):
+        return sum([self.get_calls(procedure) for procedure in self.table.columns.tolist()], [])
+
+    def get_calls(self, procedure: str) -> List[Reference]:
         try:
-            return self.table.index[self.table[procedure] == 1].tolist()
+            return [Reference(index, procedure) for index in self.table.index[self.table[procedure] == 1].tolist()]
         except Exception:
             return []
 
-    def get_called_from(self, procedure: str) -> List[str]:
+    def get_called_from(self, procedure: str) -> List[Reference]:
         try:
-            return self.table.columns[self.table.loc[procedure] == 1].tolist()
+            return [Reference(column, procedure) for column in
+                    self.table.columns[self.table.loc[procedure] == 1].tolist()]
         except Exception:
             return []
 

@@ -2,6 +2,8 @@ from typing import List, Union, Set, Tuple
 
 import pandas as pd
 
+from pql.Reference import Reference
+
 
 class ResultsTable:
 
@@ -17,21 +19,26 @@ class ResultsTable:
             self.table[synonym] = self.table[synonym].astype('object')
             self.table.at['type', synonym] = synonym_type
 
-    def update_results(self, relation: str, synonym: str, results: Union[Set[str], Set[int], int, str]) -> None:
+    def update_results(self, relation: str, synonym: str, results: Union[Set[Reference], str]) -> None:
         if relation not in self.table.index.tolist():
             self.table.loc[relation] = 0
         self.table.at[relation, synonym] = results
         if synonym != 'CONST':
-            self.table.at['final', synonym] = results.intersection(
-                *[element for element in self.table[synonym].values if type(element) is set])
+            inter_table = self.table.loc[set(self.table.index.tolist()) - {'final', 'WITH', 'PATTERN', 'type'}]
+            if not inter_table.empty:
+                self.table.at['final', synonym] = results.intersection(
+                    *[element for element in inter_table[synonym] if type(element) is set])
+            else:
+                self.table.at['final', synonym] = results.intersection(
+                    *[element for element in self.table[synonym].values if type(element) is set])
         self.table.at[relation, 'BOOLEAN'] = bool(results)
         self.table.at['final', 'BOOLEAN'] = bool(results)
-        print(f'{relation}: {synonym}')
-        self.to_string()
+        # print(f'{relation}: {synonym}')
+        # self.to_string()
         if not self.table.loc['final', 'BOOLEAN']:
             raise Exception
 
-    def get_final_result(self, synonym: str) -> Union[Set[int], Set[str], None]:
+    def get_final_result(self, synonym: str) -> Set[Reference]:
         try:
             return self.table.at['final', synonym]
         except Exception:
@@ -53,7 +60,7 @@ class ResultsTable:
         try:
             if self.select[1] == 'BOOLEAN':
                 return str(self.table.at['final', self.select[1]]).lower()
-            return ', '.join(map(str, self.table.at['final', self.select[1]]))
+            return ', '.join({element.element for element in self.table.at['final', self.select[1]]})
         except:
             if self.select[0] in ['STMT', 'PROG_LINE']:
                 return ', '.join(map(str, all_tables['statement'].get_all_statement_lines()))

@@ -11,6 +11,7 @@ from aitsi_parser.StatementTable import StatementTable
 from aitsi_parser.UsesTable import UsesTable
 from aitsi_parser.VarTable import VarTable
 from pql.Node import Node
+from pql.Reference import Reference
 from pql.ResultsTable import ResultsTable
 from pql.relations.CallsRelation import CallsRelation
 from pql.relations.CallsTRelation import CallsTRelation
@@ -164,7 +165,7 @@ class QueryEvaluator:
         self.execution_of_relation(relation.node_type, first_argument_value, second_argument_value)
 
     def choosing_an_argument(self, relation_argument: Tuple[str, str]) -> Union[
-        str, Tuple[str, Set[int]], Tuple[str, str]]:
+        str, Tuple[str, Set[Reference]], Tuple[str, str]]:
         if relation_argument[0] in ['INTEGER', 'EVERYTHING', 'IDENT_QUOTE']:
             return relation_argument[1]
         else:
@@ -182,8 +183,8 @@ class QueryEvaluator:
                     return relation_argument[1], self.results_table.get_final_result(relation_argument[1])
 
     def execution_of_relation(self, node_type: str,
-                              first_argument_value: Union[str, Tuple[str, Set[int]]],
-                              second_argument_value: Union[str, Tuple[str, Set[int]]]) -> None:
+                              first_argument_value: Union[str, Tuple[str, Set[Reference]]],
+                              second_argument_value: Union[str, Tuple[str, Set[Reference]]]) -> None:
         """
             wykona relacjie dla danych argumentów połączy dane zwracane
         :param node_type: nazwa relacji
@@ -196,12 +197,12 @@ class QueryEvaluator:
                 if type(second_argument_value) is tuple:
                     if type(second_argument_value[1]) is set:  # drugi jest np. ('i2', [3,7]), ('s', [3,7,4,5])
                         relation_index = f"{node_type}_{first_argument_value[0]}_{second_argument_value[0]}"
-                        first_relation_result: Set[int] = set()
-                        second_relation_result: Set[int] = set()
+                        first_relation_result: Set[Reference] = set()
+                        second_relation_result: Set[Reference] = set()
                         for first_argument in first_argument_value[1]:
                             for second_argument in second_argument_value[1]:
                                 result: bool = self.relation[node_type].value_from_set_and_value_from_set(
-                                    str(first_argument), str(second_argument))
+                                    str(first_argument.element), str(second_argument.element))
                                 if result:
                                     first_relation_result.add(first_argument)
                                     second_relation_result.add(second_argument)
@@ -213,16 +214,17 @@ class QueryEvaluator:
                                                           second_relation_result)
                     else:  # drugi jest np. ('i1','IF'), ('w','WHILE'), ('v','VARIABLE')
                         relation_index = f"{node_type}_{first_argument_value[0]}_{second_argument_value[0]}"
-                        relation_result: Set[int] = set()
-                        first_argument_relation_result: Set[int] = set()
+                        relation_result: Set[Reference] = set()
+                        first_argument_relation_result: Set[Reference] = set()
                         for argument in first_argument_value[1]:
-                            result: Union[List[int], List[str]] = \
-                                self.relation[node_type].value_from_set_and_not_initialized_set(str(argument),
+                            result: List[Reference] = \
+                                self.relation[node_type].value_from_set_and_not_initialized_set(str(argument.element),
                                                                                                 second_argument_value[
                                                                                                     1])
                             if result:
                                 relation_result.update(result)
-                                first_argument_relation_result.add(argument)
+                                first_argument_relation_result.update(
+                                    [Reference(reference.reference, reference.element) for reference in result])
                         self.results_table.update_results(relation_index,
                                                           first_argument_value[0],
                                                           first_argument_relation_result)
@@ -231,10 +233,10 @@ class QueryEvaluator:
                                                           relation_result)
                 else:  # drugi argument jest np. 1, _, "x"
                     relation_index = f"{node_type}_{first_argument_value[0]}_CONST"
-                    relation_result: Set[int] = set()
+                    relation_result: Set[Reference] = set()
                     for argument in first_argument_value[1]:
                         result: bool = \
-                            self.relation[node_type].value_from_set_and_value_from_query(str(argument),
+                            self.relation[node_type].value_from_set_and_value_from_query(str(argument.element),
                                                                                          second_argument_value)
                         if result:
                             relation_result.add(argument)
@@ -248,13 +250,12 @@ class QueryEvaluator:
                 if type(second_argument_value) is tuple:
                     if type(second_argument_value[1]) is set:  # drugi jest np. ('i2', [3,7]), ('s', [3,7,4,5])
                         relation_index = f"{node_type}_{first_argument_value[0]}_{second_argument_value[0]}"
-                        relation_result_first_argument: Set[int] = set()
-                        relation_result_second_argument: Union[Set[int], Set[str]] = set()
+                        relation_result_first_argument: Set[Reference] = set()
+                        relation_result_second_argument: Set[Reference] = set()
                         for argument in second_argument_value[1]:
                             result: Union[List[int], List[str]] = \
                                 self.relation[node_type].not_initialized_set_and_value_from_set(first_argument_value[1],
-                                                                                                str(argument))
-                            result = list(filter(lambda line: line is not None, result))
+                                                                                                str(argument.element))
                             if result:
                                 relation_result_first_argument.update(result)
                                 relation_result_second_argument.add(argument)
@@ -268,10 +269,7 @@ class QueryEvaluator:
                             relation_result_second_argument)
                     else:  # drugi jest np. ('i1','IF'), ('w','WHILE')
                         relation_index = f"{node_type}_{first_argument_value[0]}_{second_argument_value[0]}"
-                        result: Union[Tuple[List[int], List[int]],
-                                      Tuple[List[str], List[str]],
-                                      Tuple[List[int], List[str]],
-                                      Tuple[List[str], List[int]]] = \
+                        result: Tuple[List[Reference], List[Reference]] = \
                             self.relation[node_type].not_initialized_set_and_not_initialized_set(
                                 first_argument_value[1], second_argument_value[1])
                         self.results_table.update_results(relation_index,
@@ -282,7 +280,7 @@ class QueryEvaluator:
                                                           set(result[1]))
                 else:  # drugi argument jest np. 1, _, "x"
                     relation_index = f"{node_type}_{first_argument_value[0]}_CONST"
-                    result: Union[List[int], List[str]] = \
+                    result: List[Reference] = \
                         self.relation[node_type].not_initialized_set_and_value_from_query(first_argument_value[1],
                                                                                           second_argument_value)
                     self.results_table.update_results(relation_index,
@@ -295,10 +293,10 @@ class QueryEvaluator:
             if type(second_argument_value) is tuple:
                 if type(second_argument_value[1]) is set:  # drugi jest np. ('i2', [3,7]), ('s', [3,7,4,5])
                     relation_index = f"{node_type}_CONST_{second_argument_value[0]}"
-                    relation_result: Union[Set[int], Set[str]] = set()
+                    relation_result: Set[Reference] = set()
                     for argument in second_argument_value[1]:
                         result: bool = self.relation[node_type].value_from_query_and_value_from_set(
-                            first_argument_value, str(argument))
+                            first_argument_value, str(argument.element))
                         if result:
                             relation_result.add(argument)
                     self.results_table.update_results(relation_index,
@@ -309,7 +307,7 @@ class QueryEvaluator:
                                                       relation_result)
                 else:  # drugi jest np. ('i1','IF'), ('w','WHILE')
                     relation_index = f"{node_type}_CONST_{second_argument_value[0]}"
-                    result: Union[List[int], List[str]] = \
+                    result: List[Reference] = \
                         self.relation[node_type].value_from_query_and_not_initialized_set(first_argument_value,
                                                                                           second_argument_value[1])
                     self.results_table.update_results(relation_index,
@@ -326,60 +324,60 @@ class QueryEvaluator:
                     raise Exception()
                 self.results_table.table.at['final', 'BOOLEAN'] = result
 
-        if type(first_argument_value) is tuple:
-            relations: List[str] = [relation for relation in
-                                    self.results_table.get_relations(first_argument_value[0]) if
-                                    relation not in ['type', 'final', 'PATTERN', 'WITH', relation_index,
-                                                     *self.relation_index_stack] and 'CONST' not in relation]
-            if relations:
-                self.relation_index_stack.add(relation_index)
-                for relation in relations:
-                    relation_data = relation.split('_')
-                    if relation_data[2] == first_argument_value[0]:
-                        first_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
-                            relation_data[1], self.results_table.table.at['type', relation_data[1]])
-                        second_argument: Tuple[str, str] = (
-                            relation_data[2], self.results_table.table.at['final', relation_data[2]])
-                    elif relation_data[2] == second_argument_value[0]:
-                        self.check_two_relation_with_the_same_argument(relation, relation_index)
-                        first_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
-                            relation_data[1], self.results_table.table.at['final', relation_data[1]])
-                        second_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
-                            relation_data[2], self.results_table.table.at['final', relation_data[2]])
-                    else:
-                        first_argument: Tuple[str, str] = (
-                            relation_data[1], self.results_table.table.at['final', relation_data[1]])
-                        second_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
-                            relation_data[2], self.results_table.table.at['type', relation_data[2]])
-                    self.execution_of_relation(relation_data[0], first_argument, second_argument)
-                self.relation_index_stack.remove(relation_index)
-
-        if type(second_argument_value) is tuple:
-            relations: List[str] = [relation for relation in
-                                    self.results_table.get_relations(second_argument_value[0]) if
-                                    relation not in ['type', 'final', 'PATTERN', 'WITH', relation_index,
-                                                     *self.relation_index_stack] and 'CONST' not in relation]
-            if relations:
-                self.relation_index_stack.add(relation_index)
-                for relation in relations:
-                    relation_data = relation.split('_')
-                    if relation_data[1] == second_argument_value[0]:
-                        first_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
-                            relation_data[1], self.results_table.table.at['final', relation_data[1]])
-                        second_argument: Tuple[str, str] = (
-                            relation_data[2], self.results_table.table.at['type', relation_data[2]])
-                    elif relation_data[1] == first_argument_value[0]:
-                        first_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
-                            relation_data[1], self.results_table.table.at['final', relation_data[1]])
-                        second_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
-                            relation_data[2], self.results_table.table.at['final', relation_data[2]])
-                    else:
-                        first_argument: Tuple[str, str] = (
-                            relation_data[1], self.results_table.table.at['type', relation_data[1]])
-                        second_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
-                            relation_data[2], self.results_table.table.at['final', relation_data[2]])
-                    self.execution_of_relation(relation_data[0], first_argument, second_argument)
-                self.relation_index_stack.remove(relation_index)
+        # if type(first_argument_value) is tuple:
+        #     relations: List[str] = [relation for relation in
+        #                             self.results_table.get_relations(first_argument_value[0]) if
+        #                             relation not in ['type', 'final', 'PATTERN', 'WITH', relation_index,
+        #                                              *self.relation_index_stack] and 'CONST' not in relation]
+        #     if relations:
+        #         self.relation_index_stack.add(relation_index)
+        #         for relation in relations:
+        #             relation_data = relation.split('_')
+        #             if relation_data[2] == first_argument_value[0]:
+        #                 first_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
+        #                     relation_data[1], self.results_table.table.at['type', relation_data[1]])
+        #                 second_argument: Tuple[str, str] = (
+        #                     relation_data[2], self.results_table.table.at['final', relation_data[2]])
+        #             elif relation_data[2] == second_argument_value[0]:
+        #                 self.check_two_relation_with_the_same_argument(relation, relation_index)
+        #                 first_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
+        #                     relation_data[1], self.results_table.table.at['final', relation_data[1]])
+        #                 second_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
+        #                     relation_data[2], self.results_table.table.at['final', relation_data[2]])
+        #             else:
+        #                 first_argument: Tuple[str, str] = (
+        #                     relation_data[1], self.results_table.table.at['final', relation_data[1]])
+        #                 second_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
+        #                     relation_data[2], self.results_table.table.at['type', relation_data[2]])
+        #             self.execution_of_relation(relation_data[0], first_argument, second_argument)
+        #         self.relation_index_stack.remove(relation_index)
+        #
+        # if type(second_argument_value) is tuple:
+        #     relations: List[str] = [relation for relation in
+        #                             self.results_table.get_relations(second_argument_value[0]) if
+        #                             relation not in ['type', 'final', 'PATTERN', 'WITH', relation_index,
+        #                                              *self.relation_index_stack] and 'CONST' not in relation]
+        #     if relations:
+        #         self.relation_index_stack.add(relation_index)
+        #         for relation in relations:
+        #             relation_data = relation.split('_')
+        #             if relation_data[1] == second_argument_value[0]:
+        #                 first_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
+        #                     relation_data[1], self.results_table.table.at['final', relation_data[1]])
+        #                 second_argument: Tuple[str, str] = (
+        #                     relation_data[2], self.results_table.table.at['type', relation_data[2]])
+        #             elif relation_data[1] == first_argument_value[0]:
+        #                 first_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
+        #                     relation_data[1], self.results_table.table.at['final', relation_data[1]])
+        #                 second_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
+        #                     relation_data[2], self.results_table.table.at['final', relation_data[2]])
+        #             else:
+        #                 first_argument: Tuple[str, str] = (
+        #                     relation_data[1], self.results_table.table.at['type', relation_data[1]])
+        #                 second_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
+        #                     relation_data[2], self.results_table.table.at['final', relation_data[2]])
+        #             self.execution_of_relation(relation_data[0], first_argument, second_argument)
+        #         self.relation_index_stack.remove(relation_index)
         # print('Here')
 
     def attr_analysis(self, attr_node: Node) -> None:
