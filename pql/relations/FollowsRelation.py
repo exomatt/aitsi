@@ -59,14 +59,11 @@ class FollowsRelation:
                     param_second_reference.append(Reference(reference.reference, reference.element))
             return param_first_reference, param_second_reference
         else:
-            param_first_lines: List[Reference] = list(
-                filter(lambda line: line, [self.follows_table.get_child(int(line)) for line in list(
-                    set(self.stmt_table.get_statement_line_by_type_name(param_first)).intersection(
-                        set(self.follows_table.table.index.tolist())))]))
+            param_first_lines: List[Reference] = [reference.reverse() for reference in list(
+                filter(lambda line: line, [self.follows_table.get_child(int(line)) for line in
+                                           self.stmt_table.get_statement_line_by_type_name(param_first)]))]
             if param_second == 'STMT':
-                return param_first_lines, list(filter(lambda line: line,
-                                                      [self.follows_table.get_child(int(line.element)) for line in
-                                                       param_first_lines]))
+                return param_first_lines, [line.reverse() for line in param_first_lines]
             else:
                 second_lines: List[int] = self.stmt_table.get_statement_line_by_type_name(param_second)
                 first_result: List[Reference] = []
@@ -97,9 +94,11 @@ class FollowsRelation:
         if param_first == '_':
             if param_second == 'STMT':
                 return self.follows_table.get_all_follows()
-            return list(filter(lambda line: line is not None, [self.follows_table.get_child(int(line)) for line in
-                                                               self.stmt_table.get_statement_line_by_type_name(
-                                                                   param_second)]))
+            return [reference.reverse() for reference in list(filter(lambda reference: reference,
+                                                                     [self.follows_table.get_follows(int(line)) for line
+                                                                      in
+                                                                      self.stmt_table.get_statement_line_by_type_name(
+                                                                          param_second)]))]
         return self.value_from_set_and_not_initialized_set(param_first, param_second)
 
     def value_from_query_and_value_from_query(self, param_first: str, param_second: str) -> bool:
