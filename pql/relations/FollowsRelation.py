@@ -6,7 +6,6 @@ from pql.Reference import Reference
 
 
 class FollowsRelation:
-    statements = ['WHILE', 'IF', 'CALL', 'ASSIGN']
 
     def __init__(self, follows_table: FollowsTable, stmt_table: StatementTable) -> None:
         super().__init__()
