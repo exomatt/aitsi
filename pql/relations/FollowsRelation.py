@@ -49,30 +49,38 @@ class FollowsRelation:
             if param_second == 'STMT':
                 return self.follows_table.get_all_follows(), \
                        self.follows_table.get_all_children()
-            param_first_reference: List[Reference] = self.follows_table.get_all_follows()
-            param_second_lines: List[int] = list(
-                set(self.stmt_table.get_statement_line_by_type_name(param_second)).intersection(
-                    set(self.follows_table.table.columns.tolist())))
-            param_second_reference: List[Reference] = []
-            for reference in param_first_reference:
-                if int(reference.reference) in param_second_lines:
-                    param_second_reference.append(Reference(reference.reference, reference.element))
-            return param_first_reference, param_second_reference
+            param_second_lines: List[int] = self.stmt_table.get_statement_line_by_type_name(param_second)
+            param_first_reference: List[Reference] = list(filter(lambda reference: reference,
+                                                                 [self.follows_table.get_child(line) for line in
+                                                                  self.stmt_table.get_all_statement_lines()]))
+            param_second_reference: List[Reference] = list(filter(lambda reference: reference,
+                                                                  [self.follows_table.get_follows(line) for line in
+                                                                   param_second_lines]))
+            return [reference.reverse() for reference in param_first_reference if
+                    int(reference.element) in param_second_lines], \
+                   [reference.reverse() for reference in param_second_reference]
         else:
-            param_first_lines: List[Reference] = [reference.reverse() for reference in list(
-                filter(lambda line: line, [self.follows_table.get_child(int(line)) for line in
-                                           self.stmt_table.get_statement_line_by_type_name(param_first)]))]
+            param_first_lines: List[int] = self.stmt_table.get_statement_line_by_type_name(param_first)
             if param_second == 'STMT':
-                return param_first_lines, [line.reverse() for line in param_first_lines]
+                param_first_reference: List[Reference] = list(filter(lambda reference: reference,
+                                                                     [self.follows_table.get_child(line) for line in
+                                                                      param_first_lines]))
+                param_second_reference: List[Reference] = list(filter(lambda reference: reference,
+                                                                      [self.follows_table.get_follows(line) for line in
+                                                                       self.stmt_table.get_all_statement_lines()]))
+                return [reference.reverse() for reference in param_first_reference], [reference.reverse() for reference
+                                                                                      in param_second_reference if int(
+                        reference.element) in param_first_lines]
             else:
-                second_lines: List[int] = self.stmt_table.get_statement_line_by_type_name(param_second)
-                first_result: List[Reference] = []
-                param_second_lines: List[Reference] = []
-                for reference in param_first_lines:
-                    if int(reference.element) in second_lines:
-                        first_result.append(reference)
-                        param_second_lines.append(Reference(reference.reference, reference.element))
-                return first_result, param_second_lines
+                param_second_lines: List[int] = self.stmt_table.get_statement_line_by_type_name(param_second)
+                return [reference.reverse() for reference in list(filter(lambda reference: reference,
+                                                                         [self.follows_table.get_child(line) for line in
+                                                                          param_first_lines])) if
+                        int(reference.element) in param_second_lines] \
+                    , [reference.reverse() for reference in list(filter(lambda reference: reference,
+                                                                        [self.follows_table.get_follows(line) for line
+                                                                         in param_second_lines])) if
+                       int(reference.element) in param_first_lines]
 
     def not_initialized_set_and_value_from_query(self, param_first: str, param_second: str) -> List[Reference]:
         if param_second == '_':
@@ -93,7 +101,7 @@ class FollowsRelation:
     def value_from_query_and_not_initialized_set(self, param_first: str, param_second: str) -> List[Reference]:
         if param_first == '_':
             if param_second == 'STMT':
-                return self.follows_table.get_all_follows()
+                return self.follows_table.get_all_children()
             return [reference.reverse() for reference in list(filter(lambda reference: reference,
                                                                      [self.follows_table.get_follows(int(line)) for line
                                                                       in
