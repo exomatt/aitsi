@@ -28,12 +28,12 @@ class NextRelation:
 
     def not_initialized_set_and_not_initialized_set(self, param_first: str, param_second: str) -> \
             Tuple[List[Reference], List[Reference]]:
-        return self.next_table.get_all_statements_with_next_statements(), \
-               self.next_table.get_all_statements_with_previous_statements()
+        return [reference.reverse() for reference in self.next_table.get_all_statements_with_next_statements()], \
+               [reference.reverse() for reference in self.next_table.get_all_statements_with_previous_statements()]
 
     def not_initialized_set_and_value_from_query(self, param_first: str, param_second: str) -> List[Reference]:
         if param_second == '_':
-            return self.next_table.table.get_all_statements_with_next_statements()
+            return self.next_table.get_all_statements_with_previous_statements()
         return self.next_table.get_previous(int(param_second))
 
     def value_from_query_and_value_from_set(self, param_first: str, param_second: str) -> bool:
@@ -43,7 +43,7 @@ class NextRelation:
 
     def value_from_query_and_not_initialized_set(self, param_first: str, param_second: str) -> List[Reference]:
         if param_first == '_':
-            return self.next_table.table.get_all_statements_with_previous_statements()
+            return self.next_table.get_all_statements_with_previous_statements()
         return self.next_table.get_next(int(param_first))
 
     def value_from_query_and_value_from_query(self, param_first: str, param_second: str) -> bool:
