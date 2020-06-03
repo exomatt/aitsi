@@ -2,6 +2,10 @@ from typing import List
 
 import pandas as pd
 
+from aitsi_parser.ProcTable import ProcTable
+from aitsi_parser.StatementTable import StatementTable
+from pql.Reference import Reference
+
 
 class UsesTable:
 
@@ -23,17 +27,40 @@ class UsesTable:
         except Exception:
             pass
 
-    def get_used(self, stmt: str) -> List[str]:
+    def get_used(self, stmt: str) -> List[Reference]:
         try:
-            return self.table.index[self.table[str(stmt)] == 1].tolist()
+            return [Reference(index, stmt) for index in
+                    self.table.index[self.table[str(stmt)] == 1].tolist()]
         except Exception:
             return []
 
-    def get_uses(self, var_name: str) -> List[str]:
+    def get_uses(self, var_name: str) -> List[Reference]:
         try:
-            return self.table.columns[self.table.loc[var_name] == 1].tolist()
+            return [Reference(column, var_name) for column in
+                    self.table.columns[self.table.loc[var_name] == 1].tolist()]
         except Exception:
             return []
+
+    def get_all_procedures_with_variables_they_use(self, proc_table: ProcTable):
+        return sum([self.get_used(proc) for proc in
+                    list(set(proc_table.get_all_proc_name()).intersection(
+                        self.table.columns.tolist()))], [])
+
+    def get_all_variables_with_procedures_they_are_used(self):
+        return sum([self.get_uses(procedure) for procedure in self.table.index.tolist()], [])
+
+    def get_all_stmts_with_variables_they_use(self, stmt_table: StatementTable):
+        return sum([self.get_used(str(stmt)) for stmt in list(
+            set(stmt_table.get_all_statement_lines()).intersection(
+                [int(value) for value in self.table.columns.tolist() if str(value).isdigit()]))], [])
+
+    def get_all_variables_with_stmts_they_are_used(self):
+        return sum([self.get_uses(stmt) for stmt in self.table.index.tolist()], [])
+
+    def get_all_stmts_with_variables_they_use_by_stmt_type(self, stmt_type: str, stmt_table: StatementTable):
+        return sum([self.get_used(str(stmt)) for stmt in list(
+            set(stmt_table.get_statement_line_by_type_name(stmt_type)).intersection(
+                [int(value) for value in self.table.columns.tolist() if str(value).isdigit()]))], [])
 
     def is_used(self, stmt: str, var_name: str) -> bool:
         try:

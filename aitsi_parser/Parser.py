@@ -103,22 +103,22 @@ class Parser:
         for statement in self.statement_table.table.values:
             if statement[1]['name'] == 'CALL':
                 modified_vars: List[Reference] = self.mod_table.get_modified(statement[1]['value'])
-                used_vars: List[str] = self.uses_table.get_used(statement[1]['value'])
+                used_vars: List[Reference] = self.uses_table.get_used(statement[1]['value'])
                 for var in modified_vars:
                     self.mod_table.set_modifies(var.element, str(statement[0]))
                 for var in used_vars:
-                    self.uses_table.set_uses(var, str(statement[0]))
+                    self.uses_table.set_uses(var.element, str(statement[0]))
             elif statement[1]['name'] == 'WHILE' or statement[1]['name'] == 'IF':
                 statements_inside_statement: List = [self.statement_table.table.values[i] for i in
                                                      range(statement[1]['start'], statement[1]['end'])]
                 for stmt in statements_inside_statement:
                     if stmt[1]['name'] == 'CALL':
                         modified_vars: List[Reference] = self.mod_table.get_modified(stmt[1]['value'])
-                        used_vars: List[str] = self.uses_table.get_used(stmt[1]['value'])
+                        used_vars: List[Reference] = self.uses_table.get_used(stmt[1]['value'])
                         for var in modified_vars:
                             self.mod_table.set_modifies(var.element, str(statement[0]))
                         for var in used_vars:
-                            self.uses_table.set_uses(var, str(statement[0]))
+                            self.uses_table.set_uses(var.element, str(statement[0]))
 
     def procedure(self) -> Node:
         self.match("PROCEDURE")
@@ -197,8 +197,8 @@ class Parser:
                     self.mod_table.set_modifies(letter.element, str(while_node.line))
                     self.mod_table.set_modifies(letter.element, self.call_procedure)
                 for letter in self.uses_table.get_used(str(child.line)):
-                    self.uses_table.set_uses(letter, str(while_node.line))
-                    self.uses_table.set_uses(letter, self.call_procedure)
+                    self.uses_table.set_uses(letter.element, str(while_node.line))
+                    self.uses_table.set_uses(letter.element, self.call_procedure)
         self.match("CLOSE_BRACKET")
 
         return while_node
@@ -248,8 +248,8 @@ class Parser:
                     self.mod_table.set_modifies(letter.element, str(if_node.line))
                     self.mod_table.set_modifies(letter.element, self.call_procedure)
                 for letter in self.uses_table.get_used(str(child.line)):
-                    self.uses_table.set_uses(letter, str(if_node.line))
-                    self.uses_table.set_uses(letter, self.call_procedure)
+                    self.uses_table.set_uses(letter.element, str(if_node.line))
+                    self.uses_table.set_uses(letter.element, self.call_procedure)
         self.match("CLOSE_BRACKET")
         self.match("ELSE")
         self.match("OPEN_BRACKET")
@@ -263,8 +263,8 @@ class Parser:
                     self.mod_table.set_modifies(letter.element, str(if_node.line))
                     self.mod_table.set_modifies(letter.element, self.call_procedure)
                 for letter in self.uses_table.get_used(str(child.line)):
-                    self.uses_table.set_uses(letter, str(if_node.line))
-                    self.uses_table.set_uses(letter, self.call_procedure)
+                    self.uses_table.set_uses(letter.element, str(if_node.line))
+                    self.uses_table.set_uses(letter.element, self.call_procedure)
         self.match("CLOSE_BRACKET")
         self.statement_table.update_statement(if_node.line, {'end': self.current_line, 'last_else_line': last_else_line,
                                                              'last_if_line': last_if_line})
