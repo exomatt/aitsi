@@ -3,6 +3,8 @@ from typing import List
 import numpy as np
 import pandas as pd
 
+from pql.Reference import Reference
+
 
 class NextTable:
 
@@ -22,15 +24,21 @@ class NextTable:
         self.table = self.table.drop([stmt])
         self.table = self.table.replace(0, np.nan).dropna(axis=1, how='all').fillna(0)
 
-    def get_previous(self, stmt: int) -> List[int]:
+    def get_all_statements_with_next_statements(self):
+        return sum([self.get_next(stmt) for stmt in self.table.index.tolist()], [])
+
+    def get_all_statements_with_previous_statements(self):
+        return sum([self.get_previous(stmt) for stmt in self.table.columns.tolist()], [])
+
+    def get_previous(self, stmt: int) -> List[Reference]:
         try:
-            return self.table.index[self.table[stmt] == 1].tolist()
+            return [Reference(index, stmt) for index in self.table.index[self.table[stmt] == 1].tolist()]
         except Exception:
             return []
 
-    def get_next(self, stmt: int) -> List[int]:
+    def get_next(self, stmt: int) -> List[Reference]:
         try:
-            return self.table.columns[self.table.loc[stmt] == 1].tolist()
+            return [Reference(column, stmt) for column in self.table.columns[self.table.loc[stmt] == 1].tolist()]
         except Exception:
             return []
 
