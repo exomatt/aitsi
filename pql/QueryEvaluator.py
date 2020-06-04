@@ -10,6 +10,7 @@ from aitsi_parser.ProcTable import ProcTable
 from aitsi_parser.StatementTable import StatementTable
 from aitsi_parser.UsesTable import UsesTable
 from aitsi_parser.VarTable import VarTable
+from pql.Graph import Graph
 from pql.Node import Node
 from pql.Reference import Reference
 from pql.ResultsTable import ResultsTable
@@ -54,6 +55,8 @@ class QueryEvaluator:
                                          NextTable]] = all_tables
         self.results_table: ResultsTable = ResultsTable()
         self.relation_index_stack: Set[str] = set()
+        self.relations_graph_map: Dict[str, int] = {}
+        self.is_graph_cycled: bool = False
         # stopien ograniczenia
         # 1.stala liczba
         # 1.staly nazwa
@@ -136,10 +139,30 @@ class QueryEvaluator:
                 root.children.sort(key=self.relation_sort)
                 root.children = list(set(root.children))
                 root.children.sort(key=self.relation_sort)
+                self.check_if_relations_constains_cycle(root.children)
+
                 for node in root.children:
                     self.relation_preparation(node)
+                if self.is_graph_cycled:
+                    self.final_check()
             else:
                 self.relation_preparation(root.children[0])
+
+    def check_if_relations_constains_cycle(self, relations: List[Node]):
+        index: int = 0
+        for relation in relations:
+            if relation.children[0].value not in self.relations_graph_map:
+                self.relations_graph_map[relation.children[0].value] = index
+                index += 1
+            if relation.children[1].value not in self.relations_graph_map:
+                self.relations_graph_map[relation.children[1].value] = index
+                index += 1
+
+        graph: Graph = Graph(index)
+        for relation in relations:
+            graph.addEdge(self.relations_graph_map[relation.children[0].value],
+                          self.relations_graph_map[relation.children[1].value])
+        self.is_graph_cycled = graph.isCyclic()
 
     def relation_sort(self, relation: Node) -> int:
         return self.degree_of_restriction[relation.node_type] \
@@ -258,7 +281,7 @@ class QueryEvaluator:
                                                                                                 str(argument.element))
                             if result:
                                 relation_result_first_argument.update(result)
-                                relation_result_second_argument.add(argument)
+                                relation_result_second_argument.update([reference.reverse() for reference in result])
                         self.results_table.update_results(
                             relation_index,
                             first_argument_value[0],
@@ -326,61 +349,10 @@ class QueryEvaluator:
 
         if type(first_argument_value) is tuple:
             self.abc_przemek_tak_chyba_kazal(relation_index, first_argument_value[0])
-            # relations: List[str] = [relation for relation in
-            #                         self.results_table.get_relations(first_argument_value[0]) if
-            #                         relation not in ['type', 'final', 'PATTERN', 'WITH', relation_index,
-            #                                          *self.relation_index_stack] and 'CONST' not in relation]
-            # if relations:
-            #     self.relation_index_stack.add(relation_index)
-            #     for relation in relations:
-            #         relation_data = relation.split('_')
-            #         if relation_data[2] == first_argument_value[0]:
-            #             first_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
-            #                 relation_data[1], self.results_table.table.at['type', relation_data[1]])
-            #             second_argument: Tuple[str, str] = (
-            #                 relation_data[2], self.results_table.table.at['final', relation_data[2]])
-            #         elif relation_data[2] == second_argument_value[0]:
-            #             self.check_two_relation_with_the_same_argument(relation, relation_index)
-            #             first_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
-            #                 relation_data[1], self.results_table.table.at['final', relation_data[1]])
-            #             second_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
-            #                 relation_data[2], self.results_table.table.at['final', relation_data[2]])
-            #         else:
-            #             first_argument: Tuple[str, str] = (
-            #                 relation_data[1], self.results_table.table.at['final', relation_data[1]])
-            #             second_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
-            #                 relation_data[2], self.results_table.table.at['type', relation_data[2]])
-            #         self.execution_of_relation(relation_data[0], first_argument, second_argument)
-            #     self.relation_index_stack.remove(relation_index)
 
         if type(second_argument_value) is tuple:
             self.abc_przemek_tak_chyba_kazal(relation_index, second_argument_value[0])
-            # relations: List[str] = [relation for relation in
-            #                         self.results_table.get_relations(second_argument_value[0]) if
-            #                         relation not in ['type', 'final', 'PATTERN', 'WITH', relation_index,
-            #                                          *self.relation_index_stack] and 'CONST' not in relation]
-            # if relations:
-            #     self.relation_index_stack.add(relation_index)
-            #     for relation in relations:
-            #         relation_data = relation.split('_')
-            #         if relation_data[1] == second_argument_value[0]:
-            #             first_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
-            #                 relation_data[1], self.results_table.table.at['final', relation_data[1]])
-            #             second_argument: Tuple[str, str] = (
-            #                 relation_data[2], self.results_table.table.at['type', relation_data[2]])
-            #         elif relation_data[1] == first_argument_value[0]:
-            #             first_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
-            #                 relation_data[1], self.results_table.table.at['final', relation_data[1]])
-            #             second_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
-            #                 relation_data[2], self.results_table.table.at['final', relation_data[2]])
-            #         else:
-            #             first_argument: Tuple[str, str] = (
-            #                 relation_data[1], self.results_table.table.at['type', relation_data[1]])
-            #             second_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
-            #                 relation_data[2], self.results_table.table.at['final', relation_data[2]])
-            #         self.execution_of_relation(relation_data[0], first_argument, second_argument)
-            #     self.relation_index_stack.remove(relation_index)
-        # print('Here')
+
 
     def attr_analysis(self, attr_node: Node) -> None:
         self.results_table.set_results(attr_node.children[0].value, attr_node.children[0].node_type)
@@ -389,6 +361,7 @@ class QueryEvaluator:
                                           self.relation['WITH'].execute(attr_node))
 
     def final_check(self):
+        # print('\n\nfinal check\n')
         relations: List[str] = [relation for relation in
                                 self.results_table.table.index.tolist() if
                                 relation not in ['type', 'final', 'PATTERN', 'WITH'] and 'CONST' not in relation]
@@ -398,11 +371,11 @@ class QueryEvaluator:
                 relation, relation_data[2]] \
                     or self.results_table.table.at['final', relation_data[1]] != self.results_table.table.at[
                 relation, relation_data[1]]:
-                first_argument: Tuple[str, Set[Reference]] = (
+                first_arguments: Tuple[str, Set[Reference]] = (
                     relation_data[1], self.results_table.table.at['final', relation_data[1]])
-                second_argument: Tuple[str, Set[Reference]] = (
+                second_arguments: Tuple[str, Set[Reference]] = (
                     relation_data[2], self.results_table.table.at['final', relation_data[2]])
-                self.execution_of_relation(relation_data[0], first_argument, second_argument)
+                self.execution_of_relation(relation_data[0], first_arguments, second_arguments)
 
     def check_two_relations_with_the_same_arguments(self, first_relation: str, second_relation: str):
         first_relation_data: List[str] = first_relation.split('_')
@@ -471,7 +444,7 @@ class QueryEvaluator:
         update_argument: str = update_relation_data[1] if update_relation_data[1] != argument else update_relation_data[
             2]
         results: Set[Reference] = set()
-        for reference in self.results_table.table.at[update_relation_index, update_argument]:
+        for reference in self.results_table.table.at['final', update_argument]:
             if reference.reference in references_elements:
                 results.add(reference)
 
