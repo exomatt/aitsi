@@ -62,3 +62,6 @@ class Node:
 
     def __repr__(self) -> str:
         return "TYPE:" + self.node_type + "\t VALUE:" + self.value
+
+    def __hash__(self):
+        return hash(self.value + self.node_type + "".join([node.value + node.node_type for node in self.children]))
