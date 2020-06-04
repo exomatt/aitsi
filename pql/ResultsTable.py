@@ -35,8 +35,8 @@ class ResultsTable:
                     *[element for element in self.table[synonym].values if type(element) is set])
         self.table.at[relation, 'BOOLEAN'] = bool(results)
         self.table.at['final', 'BOOLEAN'] = bool(results)
-        # print(f'{relation}: {synonym}')
-        # self.to_string()
+        print(f'{relation}: {synonym}')
+        self.to_string()
         if not self.table.loc['final', 'BOOLEAN']:
             raise Exception
 

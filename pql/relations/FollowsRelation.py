@@ -32,8 +32,9 @@ class FollowsRelation:
         return self.follows_table.is_follows(int(param_first), int(param_second))
 
     def not_initialized_set_and_value_from_set(self, param_first: str, param_second: str) -> List[Reference]:
-        follows_line: Union[Reference, None] = self.follows_table.get_follows(int(param_second))
+        follows_line: Union[Reference, None] = self.follows_table.get_child(int(param_second))
         if follows_line is not None:
+            # follows_line = follows_line.reverse()
             if param_first == 'STMT' or int(follows_line.element) in self.stmt_table.get_statement_line_by_type_name(
                     param_first):
                 return [follows_line]

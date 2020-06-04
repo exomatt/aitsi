@@ -133,11 +133,11 @@ class QueryEvaluator:
                 self.pattern(node)
         elif root.node_type == 'SUCH_THAT':
             if len(root.children) > 1:
+                root.children.sort(key=self.relation_sort)
                 root.children = list(set(root.children))
                 root.children.sort(key=self.relation_sort)
                 for node in root.children:
                     self.relation_preparation(node)
-                # self.final_check()
             else:
                 self.relation_preparation(root.children[0])
 
@@ -253,7 +253,7 @@ class QueryEvaluator:
                         relation_result_first_argument: Set[Reference] = set()
                         relation_result_second_argument: Set[Reference] = set()
                         for argument in second_argument_value[1]:
-                            result: Union[List[int], List[str]] = \
+                            result: List[Reference] = \
                                 self.relation[node_type].not_initialized_set_and_value_from_set(first_argument_value[1],
                                                                                                 str(argument.element))
                             if result:
@@ -404,25 +404,45 @@ class QueryEvaluator:
                     relation_data[2], self.results_table.table.at['final', relation_data[2]])
                 self.execution_of_relation(relation_data[0], first_argument, second_argument)
 
-    def check_two_relation_with_the_same_argument(self, first_relation: str, second_relation: str):
+    def check_two_relations_with_the_same_arguments(self, first_relation: str, second_relation: str):
         first_relation_data: List[str] = first_relation.split('_')
         second_relation_data: List[str] = second_relation.split('_')
-        results_final: Tuple[Union[Set[str], Set[int]], Union[Set[str], Set[int]]] = (
-            self.results_table.table.at['final', first_relation_data[1]],
-            self.results_table.table.at['final', first_relation_data[2]])
-        results: Tuple[Union[Set[str], Set[int]], Union[Set[str], Set[int]]] = (set(), set())
-        for first_argument in results_final[0]:
-            for second_argument in results_final[1]:
-                if self.relation[first_relation_data[0]] \
-                        .value_from_set_and_value_from_set(str(first_argument), second_argument) and \
-                        self.relation[second_relation_data[0]] \
-                                .value_from_set_and_value_from_set(str(first_argument), second_argument):
-                    results[0].add(first_argument)
-                    results[1].add(second_argument)
+        result_final: Set[Reference] = self.results_table.table.at['final', first_relation_data[1]]
+        results: Tuple[Set[Reference], Set[Reference]] = (set(), set())
+        for first_argument in result_final:
+            if self.relation[first_relation_data[0]] \
+                    .value_from_set_and_value_from_set(first_argument.element, first_argument.reference) and \
+                    self.relation[second_relation_data[0]] \
+                            .value_from_set_and_value_from_set(first_argument.element, first_argument.reference):
+                results[0].add(first_argument)
+                results[1].add(first_argument.reverse())
         self.results_table.update_results(first_relation, first_relation_data[1], results[0])
         self.results_table.update_results(second_relation, first_relation_data[1], results[0])
         self.results_table.update_results(second_relation, first_relation_data[2], results[1])
         self.results_table.update_results(first_relation, first_relation_data[2], results[1])
+
+    def check_two_relations_crossed_with_the_same_arguments(self, first_relation: str, second_relation: str):
+        first_relation_data: List[str] = first_relation.split('_')
+        second_relation_data: List[str] = second_relation.split('_')
+        first_relation_result_final: Set[Reference] = self.results_table.table.at['final', first_relation_data[1]]
+        second_relation_result_final: Set[Reference] = self.results_table.table.at['final', second_relation_data[1]]
+        first_results: Tuple[Set[Reference], Set[Reference]] = (set(), set())
+        second_results: Tuple[Set[Reference], Set[Reference]] = (set(), set())
+        for first_argument in first_relation_result_final:
+            for second_relation_argument in second_relation_result_final:
+                if self.relation[first_relation_data[0]] \
+                        .value_from_set_and_value_from_set(first_argument.element, first_argument.reference) and \
+                        self.relation[second_relation_data[0]] \
+                                .value_from_set_and_value_from_set(second_relation_argument.element,
+                                                                   second_relation_argument.reference):
+                    first_results[0].add(first_argument)
+                    first_results[1].add(first_argument.reverse())
+                    second_results[0].add(second_relation_argument)
+                    second_results[1].add(second_relation_argument.reverse())
+        self.results_table.update_results(first_relation, first_relation_data[1], first_results[0])
+        self.results_table.update_results(second_relation, first_relation_data[1], second_results[0])
+        self.results_table.update_results(second_relation, first_relation_data[2], second_results[1])
+        self.results_table.update_results(first_relation, first_relation_data[2], first_results[1])
 
     def abc_przemek_tak_chyba_kazal(self, relation_index: str, argument: str):
         relations_index: List[str] = [relation for relation in
@@ -430,24 +450,30 @@ class QueryEvaluator:
                                       relation not in ['type', 'final', 'PATTERN', 'WITH', relation_index,
                                                        *self.relation_index_stack] and 'CONST' not in relation]
         self.relation_index_stack.add(relation_index)
+        relation_data: List[str] = relation_index.split('_')
         for update_relation_index in relations_index:
             update_relation_data: List[str] = update_relation_index.split('_')
-            self.xyz_przemek_tak_kazal(argument, update_relation_index)
-            self.abc_przemek_tak_chyba_kazal(update_relation_index,
-                                             update_relation_data[1] if update_relation_data[1] != argument else
-                                             update_relation_data[2])
+            if update_relation_data[1] == relation_data[1] and update_relation_data[2] == relation_data[2]:
+                self.check_two_relations_with_the_same_arguments(relation_index, update_relation_index)
+            elif update_relation_data[1] == relation_data[2] and update_relation_data[2] == relation_data[1]:
+                self.check_two_relations_crossed_with_the_same_arguments(relation_index, update_relation_index)
+            else:
+                self.xyz_przemek_tak_kazal(argument, update_relation_index)
+                self.abc_przemek_tak_chyba_kazal(update_relation_index,
+                                                 update_relation_data[1] if update_relation_data[1] != argument else
+                                                 update_relation_data[2])
         self.relation_index_stack.remove(relation_index)
 
     def xyz_przemek_tak_kazal(self, argument: str, update_relation_index: str):
-        references_argument: Set[Reference] = set(self.results_table.table.at['final', argument])
+        references: Set[Reference] = set(self.results_table.table.at['final', argument])
+        references_elements: Set[str] = {reference.element for reference in references}
         update_relation_data: List[str] = update_relation_index.split('_')
-        if update_relation_data[1] == argument:
-            references_update_argument: Set[Reference] = set(
-                self.results_table.table.at['final', update_relation_data[2]])
-            self.execution_of_relation(update_relation_data[0], (argument, references_argument),
-                                       (update_relation_data[2], references_update_argument))
-        else:
-            references_update_argument: Set[Reference] = set(
-                self.results_table.table.at['final', update_relation_data[1]])
-            self.execution_of_relation(update_relation_data[0], (update_relation_data[1], references_update_argument),
-                                       (argument, references_argument))
+        update_argument: str = update_relation_data[1] if update_relation_data[1] != argument else update_relation_data[
+            2]
+        results: Set[Reference] = set()
+        for reference in self.results_table.table.at[update_relation_index, update_argument]:
+            if reference.reference in references_elements:
+                results.add(reference)
+
+        self.results_table.update_results(update_relation_index, argument, references)
+        self.results_table.update_results(update_relation_index, update_argument, results)

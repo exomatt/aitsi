@@ -22,7 +22,7 @@ class CallsTRelation:
         if param_first == param_second:
             return False
         for procedure in self.calls_table.get_called_from(param_first):
-            if procedure == param_second:
+            if procedure.element == param_second:
                 return True
             else:
                 return_value = self.value_from_set_and_value_from_set(procedure.element, param_second)
