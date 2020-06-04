@@ -136,7 +136,7 @@ class QueryEvaluator:
                 root.children.sort(key=self.relation_sort)
                 for node in root.children:
                     self.relation_preparation(node)
-                self.final_check()
+                # self.final_check()
             else:
                 self.relation_preparation(root.children[0])
 
@@ -324,60 +324,62 @@ class QueryEvaluator:
                     raise Exception()
                 self.results_table.table.at['final', 'BOOLEAN'] = result
 
-        # if type(first_argument_value) is tuple:
-        #     relations: List[str] = [relation for relation in
-        #                             self.results_table.get_relations(first_argument_value[0]) if
-        #                             relation not in ['type', 'final', 'PATTERN', 'WITH', relation_index,
-        #                                              *self.relation_index_stack] and 'CONST' not in relation]
-        #     if relations:
-        #         self.relation_index_stack.add(relation_index)
-        #         for relation in relations:
-        #             relation_data = relation.split('_')
-        #             if relation_data[2] == first_argument_value[0]:
-        #                 first_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
-        #                     relation_data[1], self.results_table.table.at['type', relation_data[1]])
-        #                 second_argument: Tuple[str, str] = (
-        #                     relation_data[2], self.results_table.table.at['final', relation_data[2]])
-        #             elif relation_data[2] == second_argument_value[0]:
-        #                 self.check_two_relation_with_the_same_argument(relation, relation_index)
-        #                 first_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
-        #                     relation_data[1], self.results_table.table.at['final', relation_data[1]])
-        #                 second_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
-        #                     relation_data[2], self.results_table.table.at['final', relation_data[2]])
-        #             else:
-        #                 first_argument: Tuple[str, str] = (
-        #                     relation_data[1], self.results_table.table.at['final', relation_data[1]])
-        #                 second_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
-        #                     relation_data[2], self.results_table.table.at['type', relation_data[2]])
-        #             self.execution_of_relation(relation_data[0], first_argument, second_argument)
-        #         self.relation_index_stack.remove(relation_index)
-        #
-        # if type(second_argument_value) is tuple:
-        #     relations: List[str] = [relation for relation in
-        #                             self.results_table.get_relations(second_argument_value[0]) if
-        #                             relation not in ['type', 'final', 'PATTERN', 'WITH', relation_index,
-        #                                              *self.relation_index_stack] and 'CONST' not in relation]
-        #     if relations:
-        #         self.relation_index_stack.add(relation_index)
-        #         for relation in relations:
-        #             relation_data = relation.split('_')
-        #             if relation_data[1] == second_argument_value[0]:
-        #                 first_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
-        #                     relation_data[1], self.results_table.table.at['final', relation_data[1]])
-        #                 second_argument: Tuple[str, str] = (
-        #                     relation_data[2], self.results_table.table.at['type', relation_data[2]])
-        #             elif relation_data[1] == first_argument_value[0]:
-        #                 first_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
-        #                     relation_data[1], self.results_table.table.at['final', relation_data[1]])
-        #                 second_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
-        #                     relation_data[2], self.results_table.table.at['final', relation_data[2]])
-        #             else:
-        #                 first_argument: Tuple[str, str] = (
-        #                     relation_data[1], self.results_table.table.at['type', relation_data[1]])
-        #                 second_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
-        #                     relation_data[2], self.results_table.table.at['final', relation_data[2]])
-        #             self.execution_of_relation(relation_data[0], first_argument, second_argument)
-        #         self.relation_index_stack.remove(relation_index)
+        if type(first_argument_value) is tuple:
+            self.abc_przemek_tak_chyba_kazal(relation_index, first_argument_value[0])
+            # relations: List[str] = [relation for relation in
+            #                         self.results_table.get_relations(first_argument_value[0]) if
+            #                         relation not in ['type', 'final', 'PATTERN', 'WITH', relation_index,
+            #                                          *self.relation_index_stack] and 'CONST' not in relation]
+            # if relations:
+            #     self.relation_index_stack.add(relation_index)
+            #     for relation in relations:
+            #         relation_data = relation.split('_')
+            #         if relation_data[2] == first_argument_value[0]:
+            #             first_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
+            #                 relation_data[1], self.results_table.table.at['type', relation_data[1]])
+            #             second_argument: Tuple[str, str] = (
+            #                 relation_data[2], self.results_table.table.at['final', relation_data[2]])
+            #         elif relation_data[2] == second_argument_value[0]:
+            #             self.check_two_relation_with_the_same_argument(relation, relation_index)
+            #             first_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
+            #                 relation_data[1], self.results_table.table.at['final', relation_data[1]])
+            #             second_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
+            #                 relation_data[2], self.results_table.table.at['final', relation_data[2]])
+            #         else:
+            #             first_argument: Tuple[str, str] = (
+            #                 relation_data[1], self.results_table.table.at['final', relation_data[1]])
+            #             second_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
+            #                 relation_data[2], self.results_table.table.at['type', relation_data[2]])
+            #         self.execution_of_relation(relation_data[0], first_argument, second_argument)
+            #     self.relation_index_stack.remove(relation_index)
+
+        if type(second_argument_value) is tuple:
+            self.abc_przemek_tak_chyba_kazal(relation_index, second_argument_value[0])
+            # relations: List[str] = [relation for relation in
+            #                         self.results_table.get_relations(second_argument_value[0]) if
+            #                         relation not in ['type', 'final', 'PATTERN', 'WITH', relation_index,
+            #                                          *self.relation_index_stack] and 'CONST' not in relation]
+            # if relations:
+            #     self.relation_index_stack.add(relation_index)
+            #     for relation in relations:
+            #         relation_data = relation.split('_')
+            #         if relation_data[1] == second_argument_value[0]:
+            #             first_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
+            #                 relation_data[1], self.results_table.table.at['final', relation_data[1]])
+            #             second_argument: Tuple[str, str] = (
+            #                 relation_data[2], self.results_table.table.at['type', relation_data[2]])
+            #         elif relation_data[1] == first_argument_value[0]:
+            #             first_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
+            #                 relation_data[1], self.results_table.table.at['final', relation_data[1]])
+            #             second_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
+            #                 relation_data[2], self.results_table.table.at['final', relation_data[2]])
+            #         else:
+            #             first_argument: Tuple[str, str] = (
+            #                 relation_data[1], self.results_table.table.at['type', relation_data[1]])
+            #             second_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
+            #                 relation_data[2], self.results_table.table.at['final', relation_data[2]])
+            #         self.execution_of_relation(relation_data[0], first_argument, second_argument)
+            #     self.relation_index_stack.remove(relation_index)
         # print('Here')
 
     def attr_analysis(self, attr_node: Node) -> None:
@@ -421,3 +423,27 @@ class QueryEvaluator:
         self.results_table.update_results(second_relation, first_relation_data[1], results[0])
         self.results_table.update_results(second_relation, first_relation_data[2], results[1])
         self.results_table.update_results(first_relation, first_relation_data[2], results[1])
+
+    def abc_przemek_tak_chyba_kazal(self, relation_index: str, argument: str):
+        relations_index: List[str] = [relation for relation in
+                                      self.results_table.get_relations(argument) if
+                                      relation not in ['type', 'final', 'PATTERN', 'WITH', relation_index,
+                                                       *self.relation_index_stack] and 'CONST' not in relation]
+        for update_relation_index in relations_index:
+            update_relation_data: List[str] = update_relation_index.split('_')
+            self.xyz_przemek_tak_kazal(argument, update_relation_index)
+            self.abc_przemek_tak_chyba_kazal(update_relation_index,
+                                             update_relation_data[1] if update_relation_data[1] != argument else
+                                             update_relation_data[2])
+
+    def xyz_przemek_tak_kazal(self, argument: str, update_relation_index: str):
+        references: List[Reference] = self.results_table.table.at['final', argument]
+        update_relation_data: List[str] = update_relation_index.split('_')
+        update_argument: str = update_relation_data[1] if update_relation_data[1] != argument else update_relation_data[
+            2]
+        results: Set[Reference] = set()
+        for reference in self.results_table.table.at[update_relation_index, argument]:
+            if reference.reverse() in references:
+                results.add(reference)
+        self.results_table.update_results(update_relation_index, argument, set(references))
+        self.results_table.update_results(update_relation_index, update_argument, results)

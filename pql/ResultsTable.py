@@ -26,8 +26,10 @@ class ResultsTable:
         if synonym != 'CONST':
             inter_table = self.table.loc[set(self.table.index.tolist()) - {'final', 'WITH', 'PATTERN', 'type'}]
             if not inter_table.empty:
-                self.table.at['final', synonym] = results.intersection(
-                    *[element for element in inter_table[synonym] if type(element) is set])
+                self.table.at['final', synonym] = [reference for element in inter_table[synonym]
+                                                   if type(element) is set
+                                                   for reference in element
+                                                   if reference.element in [ref.element for ref in results]]
             else:
                 self.table.at['final', synonym] = results.intersection(
                     *[element for element in self.table[synonym].values if type(element) is set])
