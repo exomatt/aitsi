@@ -281,7 +281,7 @@ class Parser:
     def expression(self) -> Node:
         node: Node = self.term()
         while self.next_token[0] in ["PLUS", "MINUS"]:
-            op_node: Node = Node(self.next_token[0], self.next_token[1].strip(), line=self.current_line)
+            op_node: Node = Node(self.next_token[0].strip(), self.next_token[1].strip(), line=self.current_line)
             self.match(self.next_token[0])
             op_node.add_child(node)
             op_node.add_child(self.term())
@@ -291,7 +291,7 @@ class Parser:
     def term(self) -> Node:
         node: Node = self.factor()
         while self.next_token[0] == "MULTIPLY":
-            multiply_node: Node = Node(self.next_token[0], self.next_token[1], self.current_line)
+            multiply_node: Node = Node(self.next_token[0].strip(), self.next_token[1].strip(), self.current_line)
             self.match("MULTIPLY")
             multiply_node.add_child(node)
             multiply_node.add_child(self.factor())
@@ -315,13 +315,13 @@ class Parser:
                     self.const_table.insert_const(int(self.prev_token[1]))
                     self.const_table.update_const(int(self.prev_token[1]), {'lines': [self.current_line]})
 
-                return Node(self.prev_token[0], self.prev_token[1], self.current_line)
+                return Node(self.prev_token[0].strip(), self.prev_token[1].strip(), self.current_line)
             elif self.next_token[0] == "NAME":
                 self.match("NAME")
                 self.uses_table.set_uses(self.prev_token[1], str(self.current_line))
                 self.uses_table.set_uses(self.prev_token[1], self.call_procedure)
                 self.var_table.insert_var(self.prev_token[1])
-                return Node(self.prev_token[0], self.prev_token[1], self.current_line)
+                return Node(self.prev_token[0].strip(), self.prev_token[1].strip(), self.current_line)
             else:
                 raise Exception(
                     f"Line {self.current_line}: Expected a variable or integer but received '{self.next_token[2]}'.")
