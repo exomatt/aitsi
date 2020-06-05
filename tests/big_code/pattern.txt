@@ -1,0 +1,48 @@
+assign a;
+Select a pattern a(_, _"c -1"_)
+115
+assign a;
+Select a pattern a(_, _"1"_)
+2, 20, 27, 28, 39, 40, 48, 70, 73, 75, 96, 102, 106, 110, 115, 116, 124, 125, 126, 127, 132, 172, 183, 193, 200, 203, 207, 212, 214, 223, 225, 229, 242, 243, 253, 257, 283, 302, 304, 308, 310
+assign a;
+Select a pattern a(_, _"area + length"_)
+none
+assign a;
+Select a pattern a(_, _"200"_)
+none
+assign a;
+Select a pattern a(_, _"0"_)
+3, 4, 24, 25, 52, 53, 60, 81, 88, 90, 94, 98, 99, 100, 111, 120, 121, 122, 123, 149, 164, 171, 174, 175, 177, 179, 189, 201, 202, 205, 210, 211, 260, 261, 290
+assign a;
+Select a pattern a("c", "x1 -1")
+none
+assign a;
+Select a pattern a(_, _"half * base"_)
+263
+assign a;
+Select a pattern a(_, _"delta  + l  * width"_)
+none
+assign a;
+Select a pattern a(_, _"1 + (8 - temporary)"_)
+225
+assign a;
+Select a pattern a(_, _"pixel + notdone"_)
+240
+assign a;
+Select a pattern a(_, _"(Romeo - 1)"_)
+none
+assign a;
+Select a pattern a(_, "dy + dx")
+none
+assign a;
+Select a pattern a(_, "factor * 0")
+260
+assign a;
+Select a pattern a(_, _"1 - decrease * temporary"_)
+none
+assign a;
+Select a pattern a(_, _"dx * marking"_)
+194
+assign a;
+Select a pattern a(_, _"x1 * x2 * y1 * y2 * left * right"_)
+156

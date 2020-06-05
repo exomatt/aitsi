@@ -37,20 +37,12 @@ class StatementTable:
         return self.table.loc[self.table['statement_line'] == statement_line].index[0]
 
     def get_statement_line_by_type_name(self, type_name: str) -> List[int]:
-        statements: List[int] = self.table['statement_line'].tolist()
-        result: List[int] = []
-        for statement in statements:
-            if self.get_other_info(statement)['name'] == type_name:
-                result.append(statement)
-        return result
+        return self.table.loc[self.table['other_info']
+            .apply(lambda line: line['name'] == type_name)]['statement_line'].tolist()
 
     def get_statement_line_by_type_name_and_value(self, type_name: str, value: str) -> List[int]:
-        statements: List[int] = self.table['statement_line'].tolist()
-        result: List[int] = []
-        for statement in statements:
-            if self.get_other_info(statement)['name'] == type_name and self.get_other_info(statement)['value'] == value:
-                result.append(statement)
-        return result
+        return self.table.loc[self.table['other_info']
+            .apply(lambda line: line['name'] == type_name and line['value'] == value)]['statement_line'].tolist()
 
     def get_all_statement_lines(self) -> List[int]:
         return self.table['statement_line'].tolist()

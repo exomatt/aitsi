@@ -1,0 +1,63 @@
+assign a;
+Select a pattern a(_, "y + 5")
+2
+assign a;
+Select a pattern a(_, "x * y + 4")
+3
+assign a;
+Select a pattern a(_, _"x + z * 12"_)
+4
+assign a;
+Select a pattern a(_, _"d+t"_)
+none
+assign a;
+Select a pattern a(_, _"x + z + t"_)
+none
+assign a;
+Select a pattern a(_, _"x"_)
+3, 4, 6, 8, 10, 20, 25, 26, 30
+assign a;
+Select a pattern a(_, _"z + t * v"_)
+none
+assign a;
+Select a pattern a(_, _"z*3"_)
+20
+assign a;
+Select a pattern a(_, _"y + 80"_)
+29
+assign a;
+Select a pattern a(_, _"d+1"_)
+none
+assign a;
+Select a pattern a("idx", "idx - 16")
+16
+assign a;
+Select a pattern a("b", "t+a"_)
+none
+assign a;
+Select a pattern a("b", _"t+a")
+none
+assign a;
+Select a pattern a("y", _"z*3"_)
+20
+assign a;
+Select a pattern a(_, _"v + y * x"_)
+8
+assign a;
+Select a pattern a(_, _"(z + y)"_)
+12, 14, 17, 23
+assign a;
+Select a pattern a("idx", "(idx - 16)")
+16
+assign a;
+Select a pattern a("y", "(2*x)"_)
+none
+assign a;
+Select a pattern a("y", _"(3 + 2)")
+none
+assign a;
+Select a pattern a("y", _"(y * x + z + t)"_)
+none
+assign a;
+Select a pattern a(_, _"(x - z)"_)
+10

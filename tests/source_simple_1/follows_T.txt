@@ -304,3 +304,1587 @@ Select s such that Follows* (s1,s) with s1.stmt#=12
 stmt s,s1;
 Select s such that Follows* (s1,s) with s1.stmt#=13
 none
+stmt s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=5
+none
+stmt s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=15
+14
+stmt s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=34
+31
+stmt s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=14
+none
+stmt s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=4
+1, 2, 3
+stmt s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=6
+none
+stmt s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=36
+none
+stmt s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=31
+none
+stmt s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=26
+none
+stmt s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=28
+none
+stmt s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=35
+none
+stmt s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=13
+12
+stmt s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=29
+28
+stmt s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=1
+none
+stmt s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=10
+none
+stmt s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=11
+10
+stmt s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=32
+none
+stmt s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=16
+14, 15
+stmt s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=18
+none
+stmt s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=24
+none
+stmt s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=19
+18
+stmt s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=33
+32
+stmt s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=17
+none
+stmt s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=20
+17
+stmt s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=23
+none
+stmt s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=9
+5
+stmt s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=30
+28, 29
+stmt s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=2
+1
+stmt s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=37
+none
+stmt s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=8
+none
+stmt s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=7
+6
+stmt s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=25
+none
+stmt s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=21
+none
+stmt s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=17
+20
+stmt s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=8
+none
+stmt s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=35
+none
+stmt s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=13
+none
+stmt s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=2
+3, 4
+stmt s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=29
+30
+stmt s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=3
+4
+stmt s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=12
+13
+stmt s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=30
+none
+stmt s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=28
+29, 30
+stmt s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=27
+none
+stmt s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=18
+19
+stmt s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=36
+none
+stmt s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=16
+none
+stmt s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=7
+none
+stmt s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=19
+none
+stmt s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=31
+34
+stmt s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=9
+none
+stmt s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=5
+9
+stmt s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=20
+none
+stmt s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=23
+none
+stmt s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=11
+none
+stmt s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=21
+none
+stmt s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=4
+none
+stmt s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=33
+none
+stmt s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=6
+7
+stmt s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=24
+none
+stmt s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=22
+none
+stmt s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=26
+27
+stmt s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=34
+none
+stmt s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=37
+none
+stmt s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=15
+16
+stmt s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=1
+2, 3, 4
+stmt s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=18
+18
+stmt s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=12
+12
+stmt s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=37
+none
+stmt s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=27
+none
+stmt s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=6
+6
+stmt s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=24
+none
+stmt s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=16
+none
+stmt s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=14
+14
+stmt s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=11
+none
+stmt s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=3
+3
+stmt s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=2
+2
+stmt s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=19
+none
+stmt s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=17
+17
+stmt s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=25
+none
+stmt s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=23
+none
+stmt s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=30
+none
+stmt s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=34
+none
+stmt s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=29
+29
+stmt s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=36
+none
+stmt s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=22
+none
+stmt s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=5
+5
+stmt s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=9
+none
+stmt s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=26
+26
+stmt s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=1
+1
+stmt s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=15
+15
+stmt s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=7
+none
+stmt s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=21
+none
+stmt s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=4
+none
+stmt s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=33
+none
+stmt s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=32
+32
+stmt s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=8
+none
+stmt s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=20
+none
+stmt s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=31
+31
+stmt s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=3
+3
+stmt s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=33
+33
+stmt s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=16
+16
+stmt s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=7
+7
+stmt s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=2
+2
+stmt s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=13
+13
+stmt s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=21
+none
+stmt s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=35
+none
+stmt s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=11
+11
+stmt s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=29
+29
+stmt s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=1
+none
+stmt s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=8
+none
+stmt s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=24
+none
+stmt s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=23
+none
+stmt s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=28
+none
+stmt s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=37
+none
+stmt s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=14
+none
+stmt s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=20
+20
+stmt s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=15
+15
+stmt s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=9
+9
+stmt s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=18
+none
+stmt s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=27
+27
+stmt s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=12
+none
+stmt s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=34
+34
+stmt s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=6
+none
+stmt s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=19
+19
+stmt s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=22
+none
+stmt s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=10
+none
+stmt s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=30
+30
+stmt s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=5
+none
+stmt s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=26
+none
+stmt s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=36
+none
+stmt s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=32
+none
+while s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=23
+none
+while s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=9
+5
+while s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=37
+none
+while s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=4
+none
+while s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=34
+31
+while s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=3
+none
+while s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=12
+none
+while s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=7
+none
+while s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=14
+none
+while s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=36
+none
+while s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=33
+none
+while s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=19
+none
+while s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=32
+none
+while s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=29
+none
+while s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=24
+none
+while s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=31
+none
+while s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=28
+none
+while s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=35
+none
+while s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=10
+none
+while s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=25
+none
+while s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=8
+none
+while s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=30
+none
+while s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=11
+none
+while s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=27
+none
+while s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=5
+none
+while s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=2
+none
+while s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=17
+none
+while s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=16
+none
+while s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=15
+none
+while s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=1
+none
+while s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=21
+none
+while s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=13
+none
+while s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=26
+none
+while s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=13
+none
+while s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=27
+none
+while s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=26
+none
+while s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=15
+none
+while s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=3
+none
+while s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=16
+none
+while s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=19
+none
+while s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=35
+none
+while s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=28
+none
+while s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=17
+20
+while s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=2
+none
+while s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=11
+none
+while s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=23
+none
+while s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=14
+none
+while s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=6
+none
+while s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=24
+none
+while s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=12
+none
+while s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=20
+none
+while s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=22
+none
+while s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=36
+none
+while s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=32
+none
+while s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=21
+none
+while s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=33
+none
+while s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=7
+none
+while s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=30
+none
+while s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=37
+none
+while s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=31
+34
+while s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=18
+none
+while s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=10
+none
+while s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=25
+none
+while s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=8
+none
+while s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=5
+9
+while s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=29
+none
+while s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=32
+none
+while s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=11
+none
+while s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=35
+none
+while s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=24
+none
+while s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=19
+none
+while s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=17
+17
+while s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=9
+none
+while s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=20
+none
+while s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=2
+none
+while s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=22
+none
+while s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=21
+none
+while s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=26
+none
+while s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=31
+31
+while s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=28
+none
+while s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=8
+none
+while s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=6
+none
+while s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=10
+none
+while s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=27
+none
+while s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=30
+none
+while s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=23
+none
+while s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=3
+none
+while s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=18
+none
+while s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=5
+5
+while s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=15
+none
+while s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=12
+none
+while s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=36
+none
+while s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=34
+none
+while s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=7
+none
+while s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=37
+none
+while s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=25
+none
+while s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=29
+none
+while s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=14
+none
+while s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=1
+none
+while s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=2
+none
+while s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=15
+none
+while s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=19
+none
+while s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=35
+none
+while s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=31
+none
+while s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=6
+none
+while s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=34
+none
+while s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=9
+9
+while s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=3
+none
+while s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=36
+none
+while s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=33
+none
+while s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=37
+none
+while s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=21
+none
+while s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=28
+none
+while s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=16
+none
+while s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=1
+none
+while s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=14
+none
+while s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=23
+none
+while s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=18
+none
+while s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=32
+none
+while s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=27
+none
+while s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=30
+none
+while s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=22
+none
+while s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=24
+none
+while s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=26
+none
+while s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=4
+none
+while s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=11
+none
+while s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=29
+none
+while s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=25
+none
+while s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=7
+7
+while s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=8
+none
+while s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=5
+none
+while s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=12
+none
+if s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=16
+none
+if s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=32
+none
+if s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=17
+none
+if s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=30
+none
+if s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=5
+none
+if s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=33
+none
+if s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=18
+none
+if s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=11
+none
+if s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=22
+none
+if s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=24
+none
+if s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=27
+none
+if s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=1
+none
+if s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=20
+none
+if s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=26
+none
+if s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=8
+none
+if s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=12
+none
+if s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=35
+none
+if s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=25
+none
+if s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=37
+none
+if s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=29
+none
+if s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=13
+none
+if s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=14
+none
+if s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=3
+none
+if s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=15
+none
+if s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=31
+none
+if s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=7
+none
+if s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=6
+none
+if s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=9
+none
+if s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=36
+none
+if s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=4
+none
+if s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=2
+none
+if s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=23
+none
+if s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=10
+none
+if s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=13
+none
+if s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=11
+none
+if s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=6
+none
+if s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=29
+none
+if s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=36
+none
+if s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=8
+none
+if s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=24
+none
+if s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=32
+none
+if s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=12
+none
+if s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=35
+none
+if s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=30
+none
+if s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=26
+none
+if s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=31
+none
+if s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=25
+none
+if s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=22
+none
+if s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=28
+none
+if s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=10
+none
+if s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=34
+none
+if s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=9
+none
+if s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=4
+none
+if s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=23
+none
+if s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=18
+none
+if s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=19
+none
+if s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=21
+none
+if s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=2
+none
+if s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=37
+none
+if s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=7
+none
+if s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=5
+none
+if s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=14
+none
+if s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=16
+none
+if s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=33
+none
+if s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=20
+none
+if s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=1
+none
+if s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=11
+none
+if s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=31
+none
+if s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=7
+none
+if s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=10
+none
+if s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=35
+none
+if s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=14
+none
+if s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=2
+none
+if s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=21
+none
+if s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=15
+none
+if s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=37
+none
+if s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=19
+none
+if s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=30
+none
+if s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=3
+none
+if s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=17
+none
+if s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=18
+none
+if s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=29
+none
+if s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=6
+none
+if s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=4
+none
+if s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=12
+none
+if s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=32
+none
+if s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=28
+none
+if s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=27
+none
+if s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=20
+none
+if s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=16
+none
+if s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=36
+none
+if s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=33
+none
+if s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=13
+none
+if s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=5
+none
+if s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=26
+none
+if s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=25
+none
+if s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=9
+none
+if s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=8
+none
+if s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=23
+none
+if s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=24
+none
+if s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=8
+none
+if s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=35
+none
+if s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=14
+none
+if s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=11
+11
+if s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=34
+none
+if s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=7
+none
+if s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=3
+none
+if s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=15
+none
+if s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=36
+none
+if s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=18
+none
+if s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=9
+none
+if s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=23
+none
+if s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=37
+none
+if s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=28
+none
+if s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=30
+none
+if s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=1
+none
+if s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=31
+none
+if s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=10
+none
+if s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=25
+none
+if s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=13
+13
+if s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=22
+none
+if s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=2
+none
+if s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=5
+none
+if s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=12
+none
+if s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=21
+none
+if s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=32
+none
+if s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=4
+4
+if s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=29
+none
+if s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=33
+none
+if s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=16
+none
+if s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=17
+none
+if s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=6
+none
+call s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=3
+none
+call s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=6
+none
+call s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=12
+none
+call s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=13
+12
+call s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=9
+none
+call s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=17
+none
+call s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=15
+none
+call s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=30
+none
+call s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=11
+none
+call s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=36
+none
+call s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=2
+none
+call s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=16
+none
+call s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=24
+none
+call s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=23
+none
+call s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=29
+none
+call s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=1
+none
+call s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=14
+none
+call s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=31
+none
+call s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=22
+none
+call s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=32
+none
+call s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=34
+none
+call s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=5
+none
+call s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=21
+none
+call s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=18
+none
+call s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=4
+none
+call s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=10
+none
+call s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=35
+none
+call s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=8
+none
+call s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=26
+none
+call s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=25
+none
+call s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=7
+none
+call s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=20
+none
+call s1; stmt s2;
+Select s1 such that Follows*(s1,s2) with s2.stmt#=33
+32
+call s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=1
+none
+call s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=2
+none
+call s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=27
+none
+call s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=31
+none
+call s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=32
+33
+call s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=11
+none
+call s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=36
+none
+call s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=34
+none
+call s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=28
+none
+call s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=12
+13
+call s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=25
+none
+call s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=4
+none
+call s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=26
+27
+call s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=7
+none
+call s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=5
+none
+call s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=17
+none
+call s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=22
+none
+call s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=8
+none
+call s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=16
+none
+call s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=37
+none
+call s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=15
+none
+call s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=19
+none
+call s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=35
+none
+call s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=9
+none
+call s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=24
+none
+call s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=10
+none
+call s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=23
+none
+call s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=33
+none
+call s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=29
+none
+call s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=21
+none
+call s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=14
+none
+call s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=30
+none
+call s1; stmt s2;
+Select s2 such that Follows*(s1,s2) with s1.stmt#=3
+none
+call s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=36
+none
+call s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=33
+none
+call s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=37
+none
+call s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=31
+none
+call s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=34
+none
+call s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=25
+none
+call s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=13
+none
+call s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=17
+none
+call s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=3
+none
+call s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=12
+12
+call s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=26
+26
+call s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=14
+none
+call s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=1
+none
+call s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=9
+none
+call s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=23
+none
+call s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=24
+none
+call s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=18
+18
+call s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=35
+none
+call s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=16
+none
+call s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=19
+none
+call s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=11
+none
+call s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=20
+none
+call s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=28
+none
+call s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=7
+none
+call s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=21
+none
+call s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=15
+none
+call s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=6
+none
+call s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=29
+none
+call s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=8
+none
+call s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=27
+none
+call s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=10
+none
+call s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=32
+32
+call s1;
+Select s1 such that Follows*(s1,_) with s1.stmt#=2
+none
+call s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=19
+none
+call s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=36
+none
+call s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=23
+none
+call s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=4
+none
+call s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=10
+none
+call s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=17
+none
+call s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=12
+none
+call s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=7
+none
+call s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=21
+none
+call s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=37
+none
+call s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=3
+none
+call s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=26
+none
+call s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=34
+none
+call s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=20
+none
+call s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=31
+none
+call s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=18
+none
+call s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=32
+none
+call s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=27
+none
+call s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=30
+none
+call s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=1
+none
+call s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=15
+none
+call s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=6
+none
+call s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=35
+none
+call s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=9
+none
+call s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=16
+none
+call s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=11
+none
+call s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=2
+none
+call s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=22
+none
+call s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=8
+none
+call s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=29
+none
+call s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=5
+none
+call s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=13
+none
+call s1;
+Select s1 such that Follows*(_,s1) with s1.stmt#=28
+none

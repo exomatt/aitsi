@@ -168,8 +168,12 @@ class QueryProcessor:
             self.match("EVERYTHING")
         elif self.next_token[0] == "IDENT_QUOTE":
             if self.next_token[1].strip().replace('"', '') not in self.var_names:
-                self.return_none()
+                #self.return_none()
+                self.match("IDENT_QUOTE")
+                return None
             self.match("IDENT_QUOTE")
+        else:
+            self.return_none()
 
         return Node(self.prev_token[0].strip(), self.prev_token[1].strip().replace('"', ''))
 
@@ -213,8 +217,6 @@ class QueryProcessor:
 
     def declaration(self) -> None:
         variable_type: str = self.prev_token[1].upper().strip()
-        if variable_type.upper() == "PROG_LINE":
-            variable_type = "STMT"
         while self.next_token[0] != "SEMICOLON":
             if self.next_token[1].strip() in self.declaration_dict:
                 self.error("Variable " + self.next_token[1].strip() + " already exist")
@@ -291,12 +293,14 @@ class QueryProcessor:
         self.match("CLOSE_PARENTHESIS")
         pattern_assign_node.add_child(argument1_node)
         pattern_assign_node.add_child(argument2_node)
+        if argument1_node is None:
+            self.return_none()
         return pattern_assign_node
 
     def expression(self) -> Node:
         node: Node = self.term()
         while self.next_token[0] in ["PLUS", "MINUS"]:
-            op_node: Node = Node(self.next_token[0], self.next_token[1].strip())
+            op_node: Node = Node(self.next_token[0].strip(), self.next_token[1].strip())
             self.match(self.next_token[0])
             op_node.add_child(node)
             op_node.add_child(self.term())
@@ -306,7 +310,7 @@ class QueryProcessor:
     def term(self) -> Node:
         node: Node = self.factor()
         while self.next_token[0] == "MULTIPLY":
-            multiply_node: Node = Node(self.next_token[0], self.next_token[1])
+            multiply_node: Node = Node(self.next_token[0].strip(), self.next_token[1].strip())
             self.match("MULTIPLY")
             multiply_node.add_child(node)
             multiply_node.add_child(self.factor())
@@ -321,10 +325,10 @@ class QueryProcessor:
             return factor_node
         elif self.next_token[0] == "INTEGER":
             self.match("INTEGER")
-            return Node(self.prev_token[0], self.prev_token[1])
+            return Node(self.prev_token[0].strip(), self.prev_token[1].strip())
         elif self.next_token[0] == "IDENT":
             self.match("IDENT")
-            return Node("NAME", self.prev_token[1])
+            return Node("NAME", self.prev_token[1].strip())
         elif self.next_token[0] == "IDENT_QUOTE":
             self.match("IDENT_QUOTE")
             return Node("NAME", self.prev_token[1].replace('"', '').strip())
@@ -353,6 +357,8 @@ class QueryProcessor:
         pattern_if_node.add_child(argument1_node)
         pattern_if_node.add_child(argument2_node)
         pattern_if_node.add_child(argument3_node)
+        if argument1_node is None:
+            self.return_none()
         return pattern_if_node
 
     def while_cond(self) -> Node:
@@ -371,6 +377,8 @@ class QueryProcessor:
         self.match("CLOSE_PARENTHESIS")
         pattern_while_node.add_child(argument1_node)
         pattern_while_node.add_child(argument2_node)
+        if argument1_node is None:
+            self.return_none()
         return pattern_while_node
 
     def rel_ref(self) -> Node:
@@ -414,12 +422,16 @@ class QueryProcessor:
             self.match("COMMA")
             argument2_node: Node = self.stmt_ref()
             relation_node.add_child(argument2_node)
+            if argument1_node.value == argument2_node.value and argument2_node.value != '_':
+                self.return_none()
         elif type_node in ["CALLS", "CALLST"]:
             argument1_node = self.proc_ref()
             relation_node.add_child(argument1_node)
             self.match("COMMA")
             argument2_node: Node = self.proc_ref()
             relation_node.add_child(argument2_node)
+            if argument1_node.value == argument2_node.value and argument2_node.value != '_':
+                self.return_none()
         elif type_node in ["NEXT", "NEXTT"]:
             argument1_node = self.line_ref()
             relation_node.add_child(argument1_node)
@@ -454,6 +466,8 @@ class QueryProcessor:
             argument2_node: Node = self.var_ref()
             relation_node.add_child(argument2_node)
         self.match("CLOSE_PARENTHESIS")
+        if argument2_node is None:
+            self.return_none()
         # TODO ze stanem omowione ze mozna wyrzucac bład w przy[adku pierwszego argumentu _ w modifies i uses ale w oficjalu jest to mozliwe
         # if argument1_node.node_type == "EVERYTHING":
         #     self.error("Error - in this relation _ as first argument is invalid")
@@ -475,7 +489,7 @@ class QueryProcessor:
         synonym_node: Node = Node(declaration_variable_type, self.prev_token[1].strip())
         if self.validate_attribute_name(declaration_variable_type) is False:
             self.error("attribute validate error")
-        else:
+        elif declaration_variable_type != "PROG_LINE":
             synonym_node.add_child(self.attr_name())
         attribute_node.add_child(synonym_node)
         attribute_node.add_child(self.ref())
@@ -514,6 +528,12 @@ class QueryProcessor:
 
     def ref(self) -> Node:
         self.match("EQUALS_SIGN")
+        if self.next_token[0] == 'QUOTE':
+            self.match("QUOTE")
+            ref_node: Node = Node('IDENT_QUOTE', self.next_token[1].replace('.', '').replace('"', '').strip())
+            self.match(self.next_token[0].strip())
+            self.match('QUOTE')
+            return ref_node
         ref_node: Node = Node(self.next_token[0].strip(), self.next_token[1].replace('.', '').replace('"', '').strip())
         # if ref_node.value not in
         if self.next_token[0] == "IDENT_QUOTE":
@@ -524,6 +544,7 @@ class QueryProcessor:
             self.match("INTEGER")
         elif self.next_token[0] == "IDENT":
             return self.attribute_value()
+
         return ref_node
 
     def synonym(self) -> None:
@@ -540,6 +561,8 @@ class QueryProcessor:
         if variable_type == "VARIABLE" and self.next_token[1].replace('.', '').strip() == "varName":
             return True
         if variable_type == "CALL" and self.next_token[1].replace('.', '').strip() == "procName":
+            return True
+        if variable_type == "PROG_LINE" and self.next_token[1].replace('.', '').strip() == "=":
             return True
         return False
 

@@ -1,0 +1,324 @@
+stmt s, s1; 
+Select s such that Parent (s,s1) with s1.stmt#=2
+none
+stmt s, s1; 
+Select s such that Parent (s,s1) with s1.stmt#=10
+6
+stmt s, s1; 
+Select s such that Parent (s,s1) with s1.stmt#=11
+6
+stmt s, s1; 
+Select s such that Parent (s,s1) with s1.stmt#=20
+16
+stmt s;
+Select s such that Parent (s,2)
+none
+stmt s;
+Select s such that Parent (s,10)
+6
+stmt s;
+Select s such that Parent (s,11)
+6
+stmt s;
+Select s such that Parent (s,20)
+16
+stmt s;
+Select s such that Parent (2,s)
+none
+stmt s;
+Select s such that Parent (8,s)
+none
+stmt s;
+Select s such that Parent (9,s)
+none
+stmt s;
+Select s such that Parent (25,s)
+none
+stmt s;
+Select s such that Parent* (s,2)
+none
+stmt s;
+Select s such that Parent* (s,10)
+6
+stmt s;
+Select s such that Parent* (s,11)
+6
+stmt s;
+Select s such that Parent* (s,20)
+6, 12, 14, 15, 16
+stmt s; while w;
+Select w such that Parent* (s,2)
+none
+stmt s; while w;
+Select w such that Parent* (s,10)
+6, 12, 16, 26, 29, 47, 59, 69, 79, 83, 89, 95, 101, 103, 105, 113, 136, 143, 180, 181, 184, 187, 191, 196, 209, 217, 218, 234, 239, 251, 256, 264, 265, 279, 281, 289, 301
+stmt s; while w;
+Select w such that Parent* (s,11)
+6, 12, 16, 26, 29, 47, 59, 69, 79, 83, 89, 95, 101, 103, 105, 113, 136, 143, 180, 181, 184, 187, 191, 196, 209, 217, 218, 234, 239, 251, 256, 264, 265, 279, 281, 289, 301
+stmt s; while w;
+Select w such that Parent* (s,20)
+6, 12, 16, 26, 29, 47, 59, 69, 79, 83, 89, 95, 101, 103, 105, 113, 136, 143, 180, 181, 184, 187, 191, 196, 209, 217, 218, 234, 239, 251, 256, 264, 265, 279, 281, 289, 301
+while w;
+Select w such that Parent* (w,9)
+6
+while w;
+Select w such that Parent* (w,11)
+6
+while w;
+Select w such that Parent* (w,13)
+6, 12
+while w;
+Select w such that Parent* (w,21)
+6, 12, 16
+stmt s;
+Select s such that Follows (s,1)
+none
+stmt s;
+Select s such that Follows (s,8)
+7
+stmt s;
+Select s such that Follows (s,9)
+8
+stmt s;
+Select s such that Follows (s,10)
+9
+stmt s;
+Select s such that Follows (s,12)
+11
+stmt s;
+Select s such that Follows (s,13)
+none
+stmt s;
+Select s such that Follows (s,23)
+22
+assign a;
+Select a such that Follows (a,1)
+none
+assign a;
+Select a such that Follows (a,8)
+7
+assign a;
+Select a such that Follows (a,9)
+8
+assign a;
+Select a such that Follows (a,10)
+9
+assign a;
+Select a such that Follows (a,12)
+11
+assign a;
+Select a such that Follows (a,13)
+none
+while w; stmt s;
+Select w such that Follows* (s,w)
+6, 12, 29, 47, 59, 69, 83, 95, 101, 103, 105, 136, 143, 184, 187, 191, 196, 234, 256, 264, 301
+while w; stmt s;
+Select w such that Follows* (w,s)
+29, 47, 16, 95, 101, 113, 12, 6, 143, 184, 196, 191, 218, 234, 251, 265
+stmt s;
+Select s such that Follows* (s,1)
+none
+stmt s;
+Select s such that Follows* (s,8)
+7
+stmt s;
+Select s such that Follows* (s,9)
+7, 8
+stmt s;
+Select s such that Follows* (s,13)
+none
+stmt s;
+Select s such that Follows* (s,19)
+17, 18
+stmt s;
+Select s such that Follows* (s,22)
+17, 18, 19, 20, 21
+if ifstat;
+Select ifstat such that Follows* (ifstat, 8)
+none
+if ifstat;
+Select ifstat such that Follows* (ifstat, 17)
+none
+if ifstat;
+Select ifstat such that Follows* (ifstat, 25)
+none
+if ifstat;
+Select ifstat such that Follows* (ifstat, 27)
+none
+assign a;
+Select a such that Follows* (a,6)
+2, 3, 4
+assign a;
+Select a such that Follows* (a,9)
+7, 8
+assign a;
+Select a such that Follows* (a,10)
+7, 8, 9
+assign a;
+Select a such that Follows* (a,12)
+7, 8, 9, 10, 11
+assign a;
+Select a such that Follows* (a,17)
+none
+assign a;
+Select a such that Follows* (a,28)
+27
+variable v;
+Select v such that Modifies (3,v)
+height
+variable v;
+Select v such that Modifies (4,v)
+tmp
+variable v;
+Select v such that Modifies (6,v)
+width, height, tmp, I, x1, incre, left, x2, right, y1, top, y2, bottom, area, j, difference, decrement, radius, x3, x4, volume, distance, length, x5, x8, x9, x6, x7, y7, circumference, x, b, c, weight, factor, pct, dx, dy, marking, asterick, range, peak, trim, s, p1, p2, pink, green, blue, pixel, dot, notmove, line, edge, depth, semi, temporary, total, triangle, base
+variable v;
+Select v such that Modifies (18,v)
+pink, green, blue, pixel, notmove, line, edge, depth, semi, temporary, total
+variable v;
+Select v such that Modifies (24,v)
+y1
+variable v;
+Select v such that Modifies (28,v)
+y2
+while w;
+Select w such that Modifies (w,"d")
+none
+while w;
+Select w such that Modifies (w,"c")
+6, 12, 105, 113
+variable v;
+Select v such that Modifies ("Rectangle",v)
+none
+stmt s;
+Select s such that Uses (s,"d")
+none
+stmt s;
+Select s such that Uses (s,"c")
+6, 12, 105, 107, 109, 113, 115
+variable v;
+Select v such that Uses (10,v)
+incre, y1, bottom
+variable v;
+Select v such that Uses (18,v)
+difference, pink, green, pixel, dot, notmove, edge, depth, semi, increase, temporary, decrease, half, notdone
+variable v;
+Select v such that Uses (23,v)
+tmp, y1
+assign a; variable v;
+Select v such that Uses (a,v)
+width, height, tmp, I, x1, incre, left, x2, right, y1, top, y2, bottom, area, j, difference, k, decrement, radius, x3, x4, volume, length, x5, x8, x9, x, c, weight, factor, pct, dx, lengx, cover, dy, marking, median, range, mean, s, pink, green, pixel, dot, line, edge, depth, semi, increase, temporary, decrease, half, notdone, triangle, base, degrees, triange, wcounter, unknown, correct, cs2, cs3, cs5, cs6, cs9
+assign a;
+Select a such that Modifies (a,"a") and Uses (a,"a")
+none
+assign a;
+Select a such that Modifies (a,"d") and Uses (a,"d")
+none
+assign a;
+Select a such that Modifies (a,"b") and Uses (a,"b")
+none
+assign a;
+Select a such that Modifies (a,"c") and Uses (a,"c")
+115
+while w; assign a;
+Select a such that Modifies (a,"t") and Parent (w,a)
+none
+while w; assign a;
+Select a such that Parent (w,a) and Modifies (a,"t")
+none
+while w; assign a;
+Select a such that Modifies (a,"t") such that Parent (w,a)
+none
+procedure p;
+Select p such that Calls* (p, "Triangle")
+none
+procedure p;
+Select p such that Calls ("Circle", p) and Modifies (p, "c") and Uses (p, "a")
+none
+procedure p;
+Select p such that Calls* ("Circle", p) and Modifies (p, "c")
+none
+assign a;
+Select a pattern a("d",_)
+none
+assign a;
+Select a pattern a("t","3*a")
+none
+while w; assign a;
+Select a pattern a("a",_) such that Follows (w,a)
+none
+assign a;
+Select a pattern a(_, "d+1")
+none
+assign a;
+Select a pattern a(_, "d*5+3")
+none
+assign a;
+Select a pattern a(_, _"d+k*b"_)
+none
+assign a;
+Select a pattern a(_, _"d+t"_)
+none
+assign a;
+Select a pattern a(_, _"k+d"_)
+none
+assign a;
+Select a pattern a(_, _"d+3"_)
+none
+assign a;
+Select a pattern a(_, _"d+3*a"_)
+none
+assign a;
+Select a pattern a(_, _"3*a"_)
+none
+assign a;
+Select a pattern a(_, _"5+3"_)
+none
+assign a;
+Select a pattern a(_, _"d+1"_)
+none
+stmt s; constant co;
+Select s with s.stmt# = co.value
+1, 10, 3, 2, 16, 83, 11, 32, 5, 100, 8, 20
+if ifstat; constant co;
+Select BOOLEAN pattern ifstat ("t", _, _) with co.value = 2
+false
+prog_line n2;
+Select BOOLEAN such that Next (1,2)
+true
+prog_line n2;
+Select BOOLEAN such that Next (6,8)
+false
+prog_line n2;
+Select BOOLEAN such that Next (8,9)
+true
+prog_line n2;
+Select BOOLEAN such that Next (10,11)
+true
+prog_line n2;
+Select BOOLEAN such that Next (12,10)
+false
+prog_line n2;
+Select BOOLEAN such that Next (12,11)
+false
+prog_line n2;
+Select BOOLEAN such that Next (13,14)
+true
+prog_line n2;
+Select BOOLEAN such that Next (17,18)
+true
+prog_line n2;
+Select BOOLEAN such that Next (23,27)
+false
+prog_line n2;
+Select BOOLEAN such that Next* (9,9)
+true
+prog_line n2;
+Select BOOLEAN such that Next* (10,10)
+true
+prog_line n2;
+Select BOOLEAN such that Next* (12,12)
+true
+prog_line n2;
+Select BOOLEAN such that Next* (20,20)
+true

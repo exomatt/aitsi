@@ -1,0 +1,60 @@
+stmt s; constant co;
+Select s with s.stmt# = co.value
+1, 10, 3, 2, 16, 83, 11, 32, 5, 100, 8, 20
+procedure p;
+Select p with p.procName = "Init"
+Init
+procedure p;
+Select p with p.procName = "Main"
+Main
+assign a;
+Select a with a.stmt# = 10
+10
+variable v; procedure p;
+Select p with p.procName = v.varName
+none
+assign a;
+Select BOOLEAN with a.stmt# = 3
+true
+assign a, a1;
+Select a1 with a.stmt# = 3
+2, 3, 4, 7, 8, 9, 10, 11, 13, 17, 19, 20, 21, 24, 25, 27, 28, 30, 31, 32, 35, 36, 37, 39, 40, 43, 46, 48, 49, 50, 52, 53, 56, 57, 58, 60, 61, 64, 65, 67, 68, 70, 71, 73, 74, 75, 77, 81, 82, 85, 88, 90, 91, 93, 94, 96, 98, 99, 100, 102, 104, 106, 110, 111, 112, 115, 116, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 137, 138, 139, 141, 142, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 161, 162, 164, 165, 167, 168, 169, 171, 172, 174, 175, 177, 178, 179, 182, 183, 185, 186, 188, 189, 193, 194, 197, 199, 200, 201, 202, 203, 205, 206, 207, 210, 211, 212, 213, 214, 215, 219, 220, 223, 225, 226, 228, 229, 233, 236, 238, 240, 242, 243, 244, 245, 246, 247, 248, 249, 252, 253, 254, 255, 257, 258, 260, 261, 263, 268, 269, 270, 271, 272, 273, 275, 276, 280, 282, 283, 284, 285, 288, 290, 298, 299, 300, 302, 304, 305, 306, 308, 310, 311
+variable v;
+Select v with v.varName = "x"
+x
+if i;
+Select i with i.stmt# = 4
+none
+if i; assign a;
+Select i with a.stmt# = 8
+14, 15, 23, 34, 38, 51, 55, 66, 72, 76, 80, 86, 97, 107, 109, 140, 144, 159, 160, 163, 166, 170, 173, 176, 192, 198, 204, 216, 224, 230, 237, 241, 250, 266, 267, 278, 291, 303, 309
+while w; assign a;
+Select w with a.stmt# = 10
+6, 12, 16, 26, 29, 47, 59, 69, 79, 83, 89, 95, 101, 103, 105, 113, 136, 143, 180, 181, 184, 187, 191, 196, 209, 217, 218, 234, 239, 251, 256, 264, 265, 279, 281, 289, 301
+procedure p; assign a;
+Select p with a.stmt# = 14
+none
+call c; assign a;
+Select c with a.stmt# = 16
+none
+constant co; while w;
+Select co with w.stmt# = 17
+none
+call c; while w;
+Select c with c.procName = "Init"
+1, 119
+call c; if i;
+Select c with i.stmt# = 11
+none
+call c; while w;
+Select w with c.procName = "Clear"
+6, 12, 16, 26, 29, 47, 59, 69, 79, 83, 89, 95, 101, 103, 105, 113, 136, 143, 180, 181, 184, 187, 191, 196, 209, 217, 218, 234, 239, 251, 256, 264, 265, 279, 281, 289, 301
+call c; variable v;
+Select v with c.stmt# = 12
+none
+variable v;
+Select v with v.varName = "dot"
+dot
+procedure p;
+Select p with p.procName = "pink"
+none

@@ -26,24 +26,26 @@ def main(simple_file_path: str = "code_short.txt", tree_output: str = "AST.json"
          output_directory: str = "test") -> str:
     parser: Parser = read_program_from_file(simple_file_path)
     parser.program()
-    json_tree: Dict[str, dict] = parser.get_node_json()
+    # json_tree: Dict[str, dict] = parser.get_node_json()
+    fill_empty_values(parser)
+    # result = [parser.next_table.get_next(n) for n in range(1,312)]
     ##todo można odkomentować żeby wypisac sobie dane cyk najlepiej zmienic na logi
-    log.debug(json_tree)
-    log.debug(parser.var_table.to_log())
-    log.debug(parser.proc_table.to_log())
-    log.debug(parser.calls_table.to_log())
-    log.debug(parser.mod_table.to_log())
-    log.debug(parser.parent_table.to_log())
-    log.debug(parser.uses_table.to_log())
-    log.debug(parser.follows_table.to_log())
-    log.debug(parser.statement_table.to_log())
-    log.debug(parser.const_table.to_log())
-    log.debug(parser.next_table.to_log())
+    # log.debug(json_tree)
+    # log.debug(parser.var_table.to_log())
+    # log.debug(parser.proc_table.to_log())
+    # log.debug(parser.calls_table.to_log())
+    # log.debug(parser.mod_table.to_log())
+    # log.debug(parser.parent_table.to_log())
+    # log.debug(parser.uses_table.to_log())
+    # log.debug(parser.follows_table.to_log())
+    # log.debug(parser.statement_table.to_log())
+    # log.debug(parser.const_table.to_log())
+    # log.debug(parser.next_table.to_log())
     dirname, filename = os.path.split(os.path.abspath(__file__))
     path: str = os.path.join(dirname, "database/", output_directory, os.path.basename(simple_file_path).split('.')[0],
                              "")
     os.makedirs(path, exist_ok=True)
-    export_AST_to_file(json_tree, path + tree_output)
+    export_AST_to_file(parser.get_node_json(), path + tree_output)
     CsvBuilder.save_table_to_csv_file(parser.mod_table.table, path + "ModifiesTable.csv")
     CsvBuilder.save_table_to_csv_file(parser.var_table.table, path + "VarTable.csv")
     CsvBuilder.save_table_to_csv_file(parser.proc_table.table, path + "ProcTable.csv")
@@ -57,6 +59,19 @@ def main(simple_file_path: str = "code_short.txt", tree_output: str = "AST.json"
     CsvBuilder.save_table_to_csv_file(parser.next_table.table, path + "NextTable.csv")
     # todo - dodać resztę tabelek jak będą :*
     return path
+
+
+def fill_empty_values(parser):
+    parser.var_table.table = parser.var_table.table.fillna(value=0)
+    parser.proc_table.table = parser.proc_table.table.fillna(value=0)
+    parser.calls_table.table = parser.calls_table.table.fillna(value=0)
+    parser.mod_table.table = parser.mod_table.table.fillna(value=0)
+    parser.parent_table.table = parser.parent_table.table.fillna(value=0)
+    parser.uses_table.table = parser.uses_table.table.fillna(value=0)
+    parser.follows_table.table = parser.follows_table.table.fillna(value=0)
+    parser.statement_table.table = parser.statement_table.table.fillna(value=0)
+    parser.const_table.table = parser.const_table.table.fillna(value=0)
+    parser.next_table.table = parser.next_table.table.fillna(value=0)
 
 
 if __name__ == '__main__':

@@ -17,122 +17,84 @@ class UsesRelation:
         self.stmt_table: StatementTable = stmt_table
         self.proc_table: ProcTable = proc_table
 
-    def uses(self, param_first: str, param_second: str) -> Union[Tuple[bool, None],
-                                                                 Tuple[List[int], List[str]],
-                                                                 Tuple[List[str], None],
-                                                                 Tuple[List[int], None],
-                                                                 Tuple[List[str], List[str]]]:
-        if param_first.isdigit():
-            if param_second == '_':
-                # p1 - numer linii | p2 - '_'   #Uses(4,"_")
-                return self.uses_table.get_used(param_first), None
-            elif param_second == 'VARIABLE':
-                # p1 - numer linii | p2 - zmienna jakaś
-                return self.uses_table.get_used(param_first), None
-            else:
-                # p1 - numer linii | p2 - zmienna konkretna (np. "x")
-                return self.uses_table.is_used(param_second, param_first), None
-        elif param_first == '_':
-            if param_second == '_':
-                # p1 - '_' | p2 - '_'    #Uses(4,"_")
-                return self.uses_table.table.index.tolist(), self.uses_table.table.columns.tolist()
-            elif param_second == 'VARIABLE':
-                # p1 - '_' | p2 - zmienna jakaś
-                return self.uses_table.table.index.values, self.uses_table.table.columns.tolist()
-            else:
-                # p1 - '_' | p2 - zmienna konkretna (np. "x")
-                return self.uses_table.get_uses(param_second), None
-        elif param_first == 'PROCEDURE':
-            if param_second == '_':
-                # p1 - p | p2 - '_'
-                return self._procedure_and_wildcard()
-            elif param_second == 'VARIABLE':
-                # p1 - p | p2 - v
-                return self._procedure_and_wildcard()
-            else:
-                # p1 - p | p2 - np. "x"
-                return self._procedure_and_variable_name(param_second), None
+    def value_from_set_and_value_from_set(self, param_first: str, param_second: str) -> bool:
+        return self.uses_table.is_used(str(param_first), str(param_second))
+
+    def value_from_set_and_not_initialized_set(self, param_first: str, param_second: str) -> List[str]:
+        return self.uses_table.get_used(param_first)
+
+    def value_from_set_and_value_from_query(self, param_first: str, param_second: str) -> bool:
+        if param_second == '_':
+            return bool(self.uses_table.get_used(param_first))
+        return self.uses_table.is_used(str(param_first), str(param_second))
+
+    def not_initialized_set_and_value_from_set(self, param_first: str, param_second: str) -> Union[
+        List[str], List[int]]:
+        if param_first == 'PROCEDURE':
+            return [value for value in self.proc_table.get_all_proc_name() if
+                    self.uses_table.is_used(str(value), str(param_second))]
+        if param_first == 'STMT':
+            return [value for value in self.stmt_table.get_all_statement_lines() if
+                    self.uses_table.is_used(str(value), str(param_second))]
+        return [value for value in self.stmt_table.get_statement_line_by_type_name(param_first) if
+                self.uses_table.is_used(str(value), str(param_second))]
+
+    def not_initialized_set_and_not_initialized_set(self, param_first: str, param_second: str) -> \
+            Union[Tuple[List[str], List[str]], Tuple[List[int], List[str]]]:
+        if param_first == 'PROCEDURE':
+            return list(set(self.proc_table.get_all_proc_name())
+                        .intersection(self.uses_table.table.columns.tolist())), \
+                   self.uses_table.table.index.tolist()
         else:
-            if param_second == '_':
-                # p1 - statement | p2 - '_'
-                return self._str_type_and_wildcard(param_first)
-            elif param_second == 'VARIABLE':
-                # p1 - statement | p2 - zmienna jakaś
-                return self._str_type_and_wildcard(param_first)
+            if param_first == 'STMT':
+                return list(set(self.stmt_table.get_all_statement_lines())
+                    .intersection(
+                    [int(value) for value in self.uses_table.table.columns.tolist() if str(value).isdigit()])), \
+                       self.uses_table.table.index.tolist()
             else:
-                # p1 - statement | p2 - zmienna konkretna (np. "x")
-                return self._str_type_and_variable_name(param_first, param_second)
-        pass
+                lines: List[int] = list(set(self.stmt_table.get_statement_line_by_type_name(param_first))
+                    .intersection(
+                    [int(value) for value in self.uses_table.table.columns.tolist() if str(value).isdigit()]))
+                var_name: Set[str] = set()
+                for line in lines:
+                    var_name.update(self.uses_table.get_used(line))
+                return lines, list(var_name)
 
-    def _procedure_and_wildcard(self) -> Tuple[List[str], List[str]]:
-        result_left: Set[str] = set()
-        result_right: Set[str] = set()
-        proc_names: List[str] = self.proc_table.get_all_proc_name()
-        variables: List[str] = self.var_table.table['variable_name'].tolist()
-        for variable in variables:
-            for proc_name in proc_names:
-                if self.uses_table.is_used(variable, proc_name):
-                    result_right.add(variable)
-                    result_left.add(proc_name)
-        return list(result_left), list(result_right)
+    def not_initialized_set_and_value_from_query(self, param_first: str, param_second: str) -> Union[
+        List[str], List[int]]:
+        if param_first == 'PROCEDURE':
+            if param_second == '_':
+                return list(set(self.proc_table.get_all_proc_name())
+                            .intersection(self.uses_table.table.columns.tolist()))
+            return [value for value in self.proc_table.get_all_proc_name() if
+                    self.uses_table.is_used(str(value), str(param_second))]
+        if param_second == '_':
+            if param_first == 'STMT':
+                return list(set(map(str, self.stmt_table.get_all_statement_lines()))
+                            .intersection(self.uses_table.table.columns.tolist()))
+            return list(set(map(str, self.stmt_table.get_statement_line_by_type_name(param_first)))
+                        .intersection(self.uses_table.table.columns.tolist()))
+        if param_first == 'STMT':
+            return [value for value in self.stmt_table.get_all_statement_lines() if
+                    self.uses_table.is_used(str(value), str(param_second))]
+        return [value for value in self.stmt_table.get_statement_line_by_type_name(param_first) if
+                self.uses_table.is_used(str(value), str(param_second))]
 
-    def _procedure_and_variable_name(self, var_name: str) -> List[str]:
-        proc_names: List[str] = self.proc_table.get_all_proc_name()
-        result: Set[str] = set()
-        for proc_name in proc_names:
-            if self.uses_table.is_used(var_name, proc_name):
-                result.add(proc_name)
-        return list(result)
+    def value_from_query_and_value_from_set(self, param_first: str, param_second: str) -> bool:
+        if param_first == '_':
+            return bool(self.uses_table.table.index.tolist())
+        return self.uses_table.is_used(str(param_first), str(param_second))
 
-    def _str_type_and_variable_name(self, param_first, param_second) -> Union[Tuple[List[int], None],
-                                                                              Tuple[List[str], None],
-                                                                              Tuple[bool, None]]:
-        lines_by_type_name: List[int] = []
-        result_right: Set[str] = set()
-        result_left: Set[int] = set()
+    def value_from_query_and_not_initialized_set(self, param_first: str, param_second: str) -> List[str]:
+        if param_first == '_':
+            return self.uses_table.table.index.tolist()
+        return self.uses_table.get_used(param_first)
 
-        if param_first in self.statements:  # IF, WHILE, CALL, ASSIGN
-            lines_by_type_name.extend(self.stmt_table.get_statement_line_by_type_name(param_first))
-            for line_number in lines_by_type_name:
-                if self.uses_table.is_used(param_second, str(line_number)):
-                    result_left.add(line_number)
-            return list(result_left), None
-
-        elif param_first == 'STMT':
-            line_numbers: List[int] = self.stmt_table.get_all_statement_lines()
-            for line_number in line_numbers:
-                if self.uses_table.is_used(param_second, str(line_number)):
-                    result_left.add(line_number)
-            return list(result_left), None
-
-        else:  # NAZWA PROCEDURY np. "First"
-            return self.uses_table.is_used(param_second, param_first), None
-
-    def _str_type_and_wildcard(self, param_first) -> Union[Tuple[List[int], List[str]],
-                                                           Tuple[List[str], None]]:
-        lines_by_type_name: List[int] = []
-        result_right: Set[str] = set()
-        result_left: Set[int] = set()
-
-        if param_first in self.statements:  # IF, WHILE, CALL, ASSIGN
-            lines_by_type_name.extend(self.stmt_table.get_statement_line_by_type_name(param_first))
-            variables: List[str] = self.var_table.table['variable_name'].tolist()
-            for line_number in lines_by_type_name:
-                for variable in variables:
-                    if self.uses_table.is_used(variable, str(line_number)):
-                        result_left.add(line_number)
-                        result_right.add(variable)
-            return list(result_left), list(result_right)
-
-        elif param_first == 'STMT':
-            line_numbers: List[int] = self.stmt_table.get_all_statement_lines()
-            variables: List[str] = self.var_table.table['variable_name'].tolist()
-            for line_number in line_numbers:
-                for variable in variables:
-                    if self.uses_table.is_used(variable, str(line_number)):
-                        result_left.add(line_number)
-                        result_right.add(variable)
-            return list(result_left), list(result_right)
-
-        else:  # NAZWA PROCEDURY np. "First"
-            return self.uses_table.get_used(param_first), None
+    def value_from_query_and_value_from_query(self, param_first: str, param_second: str) -> bool:
+        if param_first == '_':
+            if param_second == '_':
+                return bool(self.uses_table.table.index.tolist() and self.uses_table.table.columns.tolist())
+            return bool(self.uses_table.get_uses(param_second))
+        if param_second == '_':
+            return bool(self.uses_table.get_used(param_first))
+        return self.uses_table.is_used(str(param_first), str(param_second))

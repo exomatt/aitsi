@@ -1,0 +1,318 @@
+procedure p, p2;
+Select p such that Uses (p, "a") such that Calls(p ,p2)
+Circle, Rectangle
+procedure p, p2;
+Select p such that Uses (p, "b")  such that Calls(p ,p2)
+Circle, Rectangle
+procedure p, p2;
+Select p such that Uses (p, "c") such that Calls(p ,p2)
+Circle, Rectangle
+procedure p, p2;
+Select p such that Uses (p, "d") such that Calls(p ,p2)
+Circle, Rectangle
+procedure p, p2;
+Select p such that Uses (p, "t") such that Calls(p ,p2)
+Circle, Rectangle
+procedure p, p2;
+Select p such that Uses (p, "k") such that Calls(p ,p2)
+Circle, Rectangle
+procedure p, p2;
+Select p such that Uses (p, "a") such that Calls(p2 ,p)
+Rectangle, Triangle, Hexagon
+procedure p, p2;
+Select p such that Uses (p, "b")  such that Calls(p2 ,p)
+Rectangle, Triangle
+procedure p, p2;
+Select p such that Uses (p, "c") such that Calls(p2 ,p)
+Rectangle
+procedure p, p2;
+Select p such that Uses (p, "d") such that Calls(p2 ,p)
+Rectangle, Triangle
+procedure p, p2;
+Select p such that Uses (p, "t") such that Calls(p2 ,p)
+Rectangle, Triangle, Hexagon
+procedure p, p2;
+Select p such that Uses (p, "k") such that Calls(p2 ,p)
+Rectangle, Triangle
+procedure p, p2;
+Select p such that Uses (p, "a") such that Calls*(p ,p2)
+Circle, Rectangle
+procedure p, p2;
+Select p such that Uses (p, "b")  such that Calls*(p ,p2)
+Circle, Rectangle
+procedure p, p2;
+Select p such that Uses (p, "c") such that Calls*(p ,p2)
+Circle, Rectangle
+procedure p, p2;
+Select p such that Uses (p, "d") such that Calls*(p ,p2)
+Circle, Rectangle
+procedure p, p2;
+Select p such that Uses (p, "t") such that Calls*(p ,p2)
+Circle, Rectangle
+procedure p, p2;
+Select p such that Uses (p, "a") such that Calls*(p2 ,p)
+Rectangle, Triangle, Hexagon
+procedure p, p2;
+Select p such that Uses (p, "b")  such that Calls*(p2 ,p)
+Rectangle, Triangle
+procedure p, p2;
+Select p such that Uses (p, "c") such that Calls*(p2 ,p)
+Rectangle
+procedure p, p2;
+Select p such that Uses (p, "d") such that Calls*(p2 ,p)
+Rectangle, Triangle
+procedure p, p2;
+Select p such that Uses (p, "t") such that Calls*(p2 ,p)
+Rectangle, Triangle, Hexagon
+procedure p, p2;
+Select p such that Uses (p, "k") such that Calls*(p2 ,p)
+Rectangle, Triangle
+procedure p, p2;
+Select p such that Modifies (p, "a") such that Calls(p ,p2)
+Circle, Rectangle
+procedure p, p2;
+Select p such that Modifies (p, "b")  such that Calls(p ,p2)
+Circle
+procedure p, p2;
+Select p such that Modifies (p, "c") such that Calls(p ,p2)
+Circle, Rectangle
+procedure p, p2;
+Select p such that Modifies (p, "d") such that Calls(p ,p2)
+Circle, Rectangle
+procedure p, p2;
+Select p such that Modifies (p, "t") such that Calls(p ,p2)
+Circle, Rectangle
+procedure p, p2;
+Select p such that Modifies (p, "k") such that Calls(p ,p2)
+Circle
+procedure p, p2;
+Select p such that Modifies (p, "a") such that Calls(p2 ,p)
+Rectangle, Triangle
+procedure p, p2;
+Select p such that Modifies (p, "b")  such that Calls(p2 ,p)
+none
+procedure p, p2;
+Select p such that Modifies (p, "c") such that Calls(p2 ,p)
+Rectangle, Triangle
+procedure p, p2;
+Select p such that Modifies (p, "d") such that Calls(p2 ,p)
+Rectangle, Triangle
+procedure p, p2;
+Select p such that Modifies (p, "t") such that Calls(p2 ,p)
+Rectangle, Hexagon
+procedure p, p2;
+Select p such that Modifies (p, "k") such that Calls(p2 ,p)
+none
+procedure p, p2;
+Select p such that Modifies (p, "a") such that Calls*(p ,p2)
+Circle, Rectangle
+procedure p, p2;
+Select p such that Modifies (p, "b")  such that Calls*(p ,p2)
+Circle
+procedure p, p2;
+Select p such that Modifies (p, "c") such that Calls*(p ,p2)
+Circle, Rectangle
+procedure p, p2;
+Select p such that Modifies (p, "d") such that Calls*(p ,p2)
+Circle, Rectangle
+procedure p, p2;
+Select p such that Modifies (p, "t") such that Calls*(p ,p2)
+Circle, Rectangle
+procedure p, p2;
+Select p such that Modifies (p, "k") such that Calls*(p ,p2)
+Circle
+procedure p, p2;
+Select p such that Modifies (p, "a") such that Calls*(p2 ,p)
+Rectangle, Triangle
+procedure p, p2;
+Select p such that Modifies (p, "b")  such that Calls*(p2 ,p)
+none
+procedure p, p2;
+Select p such that Modifies (p, "c") such that Calls*(p2 ,p)
+Rectangle, Triangle
+procedure p, p2;
+Select p such that Modifies (p, "d") such that Calls*(p2 ,p)
+Rectangle, Triangle
+procedure p, p2;
+Select p such that Modifies (p, "t") such that Calls*(p2 ,p)
+Rectangle, Hexagon
+procedure p, p2;
+Select p such that Modifies (p, "k") such that Calls*(p2 ,p)
+none
+procedure p, p2; variable v;
+Select v such that Uses (p, v) such that Calls(p ,p2) such that Modifies(p2, v)
+t, a, d, c
+procedure p, p2; variable v;
+Select p such that Uses (p, v) such that Calls(p ,p2) such that Modifies(p2, v)
+Circle, Rectangle
+procedure p, p2; variable v;
+Select p2 such that Uses (p, v) such that Calls(p ,p2) such that Modifies(p2, v)
+Rectangle, Hexagon, Triangle
+procedure p, p2; variable v;
+Select v such that Uses (p, v) such that Calls(p ,p2) such that Modifies(p, v)
+t, a, d, b, k, c
+procedure p, p2; variable v;
+Select p such that Uses (p, v) such that Calls(p ,p2) such that Modifies(p, v)
+Circle, Rectangle
+procedure p, p2; variable v;
+Select p2 such that Uses (p, v) such that Calls(p ,p2) such that Modifies(p, v)
+Rectangle, Triangle, Hexagon
+procedure p, p2; variable v;
+Select p such that Uses (p, v) such that Calls(p ,p2) such that Modifies(p2, v) with v.varName="a"
+Circle, Rectangle
+procedure p, p2; variable v;
+Select p2 such that Uses (p, v) such that Calls(p ,p2) such that Modifies(p2, v) with v.varName="b"
+none
+procedure p, p2; variable v;
+Select v such that Uses (p, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="c"
+c
+procedure p, p2; variable v;
+Select p such that Uses (p, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="d"
+Circle, Rectangle
+procedure p, p2; variable v;
+Select p2 such that Uses (p, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="t"
+Rectangle, Triangle, Hexagon
+procedure p, p2; variable v;
+Select p2 such that Uses (p, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="k"
+Rectangle, Triangle, Hexagon
+procedure p, p2; variable v;
+Select v such that Uses (p, v) such that Calls(p ,p2) such that Modifies(p, v) with p.procName="Circle"
+t, a, d, b, k, c
+procedure p, p2; variable v;
+Select v such that Uses (p, v) such that Calls(p ,p2) such that Modifies(p, v) with p.procName="Rectangle"
+t, a, d, c
+procedure p, p2; variable v;
+Select v such that Uses (p, v) such that Calls(p ,p2) such that Modifies(p, v) with p.procName="Triangle"
+none
+procedure p, p2; variable v;
+Select v such that Uses (p, v) such that Calls(p ,p2) such that Modifies(p, v) with p.procName="Hexagon"
+none
+procedure p, p2; variable v;
+Select v such that Uses (p, v) such that Calls(p ,p2) such that Modifies(p, v) with p2.procName="Circle"
+none
+procedure p, p2; variable v;
+Select v such that Uses (p, v) such that Calls(p ,p2) such that Modifies(p, v) with p2.procName="Rectangle"
+t, a, d, b, k, c
+procedure p, p2; variable v;
+Select v such that Uses (p, v) such that Calls(p ,p2) such that Modifies(p, v) with p2.procName="Triangle"
+t, a, d, b, k, c
+procedure p, p2; variable v;
+Select v such that Uses (p, v) such that Calls(p ,p2) such that Modifies(p, v) with p2.procName="Hexagon"
+t, a, d, b, k, c
+procedure p,p2; variable v; stmt s;
+Select s such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v)
+2, 3, 4, 5, 6, 7, 8, 10, 11, 13, 14, 15, 17, 18, 20, 22, 23, 24, 25, 26, 27, 28, 9, 19, 12, 16, 21
+procedure p,p2; variable v; stmt s;
+Select p such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v)
+Circle, Rectangle
+procedure p,p2; variable v; stmt s;
+Select p2 such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v)
+Rectangle, Triangle, Hexagon
+procedure p,p2; variable v; stmt s;
+Select s such that Uses (p, v) such that Calls(p ,p2) such that Modifies(s, v)
+1, 6, 8, 15, 17, 18, 19, 28, 2, 4, 13, 14, 20, 23, 24, 26, 3, 10, 11, 22, 25, 5, 7, 9, 12, 16, 21, 27
+procedure p,p2; variable v; stmt s;
+Select p such that Uses (p, v) such that Calls(p ,p2) such that Modifies(s, v)
+Circle, Rectangle
+procedure p,p2; variable v; stmt s;
+Select p2 such that Uses (p, v) such that Calls(p ,p2) such that Modifies(s, v)
+Rectangle, Triangle, Hexagon
+procedure p,p2; variable v; stmt s;
+Select s such that Uses (p, v) such that Calls(p ,p2) such that Modifies(s, v) with v.varName="a"
+2, 4, 8, 13, 14, 17, 18, 20, 23, 24, 26
+procedure p,p2; variable v; stmt s;
+Select p such that Uses (p, v) such that Calls(p ,p2) such that Modifies(s, v) with v.varName="b"
+Circle, Rectangle
+procedure p,p2; variable v; stmt s;
+Select p2 such that Uses (p, v) such that Calls(p ,p2) such that Modifies(s, v) with v.varName="c"
+Rectangle, Triangle, Hexagon
+procedure p,p2; variable v; stmt s;
+Select p2 such that Uses (p, v) such that Calls(p ,p2) such that Modifies(s, v) with v.varName="d"
+Rectangle, Triangle, Hexagon
+procedure p,p2; variable v; stmt s;
+Select p2 such that Uses (p, v) such that Calls(p ,p2) such that Modifies(s, v) with v.varName="t"
+Rectangle, Triangle, Hexagon
+procedure p,p2; variable v; stmt s;
+Select p2 such that Uses (p, v) such that Calls(p ,p2) such that Modifies(s, v) with v.varName="k"
+Rectangle, Triangle, Hexagon
+procedure p,p2; variable v; stmt s;
+Select s such that Uses (p, v) such that Calls(p ,p2) such that Modifies(s, v) with p.procName="Circle"
+1, 6, 8, 15, 17, 18, 19, 28, 2, 4, 13, 14, 20, 23, 24, 26, 3, 10, 11, 22, 25, 5, 7, 9, 12, 16, 21, 27
+procedure p,p2; variable v; stmt s;
+Select s such that Uses (p, v) such that Calls(p ,p2) such that Modifies(s, v) with p.procName="Rectangle"
+1, 6, 8, 15, 17, 18, 19, 28, 2, 4, 13, 14, 20, 23, 24, 26, 3, 10, 11, 22, 25, 5, 7, 9, 12, 16, 21, 27
+procedure p,p2; variable v; stmt s;
+Select s such that Uses (p, v) such that Calls(p ,p2) such that Modifies(s, v) with p.procName="Hexagon"
+none
+procedure p,p2; variable v; stmt s;
+Select s such that Uses (p, v) such that Calls(p ,p2) such that Modifies(s, v) with p.procName="Triangle"
+none
+procedure p,p2; variable v; stmt s;
+Select s such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="a"
+3, 4, 5, 6, 7, 8, 9, 15, 17, 18, 19, 20, 23, 24, 26, 28
+procedure p,p2; variable v; stmt s;
+Select s such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="b"
+4, 17, 18, 20, 23, 24, 26
+procedure p,p2; variable v; stmt s;
+Select s such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="c"
+8, 10, 16, 17, 18, 19, 21
+procedure p,p2; variable v; stmt s;
+Select s such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="d"
+4, 8, 9, 10, 11, 12, 13, 14, 17, 18, 19, 20, 23, 24, 26, 27
+procedure p,p2; variable v; stmt s;
+Select s such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="t"
+2, 3, 4, 5, 6, 7, 8, 10, 11, 13, 14, 15, 17, 18, 20, 22, 23, 24, 25, 26, 27, 28
+procedure p,p2; variable v; stmt s;
+Select s such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="k"
+4, 17, 18, 20, 23, 24, 26, 27
+procedure p,p2; variable v; stmt s;
+Select p such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="a"
+Circle, Rectangle
+procedure p,p2; variable v; stmt s;
+Select p such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="b"
+Circle
+procedure p,p2; variable v; stmt s;
+Select p such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="c"
+Circle, Rectangle
+procedure p,p2; variable v; stmt s;
+Select p such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="d"
+Circle, Rectangle
+procedure p,p2; variable v; stmt s;
+Select p such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="t"
+Circle, Rectangle
+procedure p,p2; variable v; stmt s;
+Select p such that Uses (s, v) such that Calls(p ,p2) such that Modifies(p, v) with v.varName="k"
+Circle
+stmt s1,s2,s3;
+Select s1 such that Parent (s1, s2) such that Parent(s2,s3)
+8, 23
+stmt s1,s2,s3;
+Select s2 such that Parent (s1, s2) such that Parent(s2,s3)
+10, 24
+stmt s1,s2,s3;
+Select s3 such that Parent (s1, s2) such that Parent(s2,s3)
+11, 12, 25, 26
+stmt s1,s2; variable v;
+Select s1 such that Follows (s1, s2) such that Uses(s2,v)
+1, 2, 3, 4, 5, 6, 7, 9, 11, 10, 14, 15, 8, 19, 20, 18, 23
+stmt s1,s2; variable v;
+Select s2 such that Follows (s1, s2) such that Uses(s2,v)
+2, 3, 4, 5, 6, 7, 8, 10, 12, 13, 15, 16, 17, 20, 21, 22, 27
+stmt s1,s2; variable v;
+Select s1 such that Follows (s1, s2) such that Uses(s2,v) with v.varName="a"
+2, 3, 4, 5, 6, 7, 14, 8, 19
+stmt s1,s2; variable v;
+Select s1 such that Follows (s1,s2) such that Uses(s2,v) with v.varName="b"
+3, 8, 19
+stmt s1,s2; variable v;
+Select s1 such that Follows (s1,s2) such that Uses(s2,v) with v.varName="c"
+7, 9, 15, 8, 20
+stmt s1,s2; variable v;
+Select s1 such that Follows (s1,s2) such that Uses(s2,v) with v.varName="d"
+3, 7, 9, 11, 10, 8, 19, 23
+stmt s1,s2; variable v;
+Select s1 such that Follows (s1,s2) such that Uses(s2,v) with v.varName="t"
+1, 2, 3, 4, 5, 6, 7, 9, 10, 14, 8, 19, 18, 23
+stmt s1,s2; variable v;
+Select s1 such that Follows (s1,s2) such that Uses(s2,v) with v.varName="k"
+3, 8, 19, 23

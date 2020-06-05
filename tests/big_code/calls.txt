@@ -1,0 +1,153 @@
+procedure p;
+Select p such that Calls (p, "Init")
+Main
+procedure p;
+Select p such that Calls (p, "Main")
+none
+procedure p;
+Select p such that Calls (p, "Transform")
+Main
+procedure p;
+Select p such that Calls* (p, "Transform")
+Main
+procedure p;
+Select p such that Calls* (p, "Init")
+Main
+procedure p;
+Select p such that Calls (p, "XX")
+SS, UU
+procedure p;
+Select p such that Calls (p, "Scale")
+none
+procedure p;
+Select p such that Calls (p, "Fill")
+Enlarge
+procedure p;
+Select p such that Calls* (p, "Fill")
+Main, Enlarge
+procedure p;
+Select p such that Calls* (p, "XX")
+PP, RR, SS, TT, UU
+procedure p;
+Select p such that Calls* ("Transform", p)
+none
+procedure p;
+Select p such that Calls ("Transform", p)
+none
+procedure p;
+Select p such that Calls ("Init", p)
+none
+procedure p;
+Select p such that Calls ("Main", p)
+Init, Random, Transform, Shift, Shear, Move, Draw, Enlarge, Shrink, Translate
+procedure p;
+Select p such that Calls (_, p)
+Init, Random, Transform, Shift, Shear, Move, Draw, Clear, Show, Enlarge, Fill, Shrink, Translate, Rotate, PP, QQ, SS, TT, UU, XX
+procedure p;
+Select p such that Calls (p,_)
+Main, Draw, Enlarge, Shrink, Translate, Rotate, PP, RR, SS, TT, UU
+procedure p;
+Select p such that Calls* (_, p)
+Init, Random, Transform, Shift, Shear, Move, Draw, Clear, Show, Enlarge, Fill, Shrink, Translate, Rotate, PP, QQ, SS, TT, UU, XX
+procedure p;
+Select p such that Calls* (p,_)
+Main, Draw, Enlarge, Shrink, Translate, Rotate, PP, RR, SS, TT, UU
+procedure p,q;
+Select p such that Calls (p, q) with p.procName = "Init"
+none
+procedure p,q;
+Select p such that Calls (p, q) with p.procName = "Transform"
+none
+procedure p,q;
+Select p such that Calls (p, q) with p.procName = "Main"
+Main
+procedure p,q;
+Select p such that Calls (p, q) with q.procName = "Main"
+none
+procedure p,q;
+Select p such that Calls (p, q) with q.procName = "Transform"
+Main
+procedure p,q;
+Select p such that Calls (p, q) with q.procName = "Init"
+Main
+procedure p,q;
+Select p such that Calls* (p, q) with p.procName = "Init"
+none
+procedure p,q;
+Select p such that Calls* (p, q) with p.procName = "Transform"
+none
+procedure p,q;
+Select p such that Calls* (p, q) with p.procName = "Main"
+Main
+procedure p,q;
+Select p such that Calls* (p, q) with q.procName = "Main"
+none
+procedure p,q;
+Select p such that Calls* (p, q) with q.procName = "Transform"
+Main
+procedure p,q;
+Select p such that Calls* (p, q) with q.procName = "Init"
+Main
+procedure p,q;
+Select p such that Calls (p, _) with p.procName = "Init"
+none
+procedure p,q;
+Select p such that Calls (p, _) with p.procName = "Transform"
+none
+procedure p,q;
+Select p such that Calls (p, _) with p.procName = "Main"
+Main
+procedure p,q;
+Select p such that Calls (_, q) with q.procName = "Main"
+none
+procedure p,q;
+Select p such that Calls (_, q) with q.procName = "Transform"
+Main, Init, Random, Transform, Shift, Shear, Move, Draw, Clear, Show, Enlarge, Fill, Shrink, Translate, Rotate, Scale, PP, QQ, RR, SS, TT, UU, XX
+procedure p,q;
+Select p such that Calls* (p, q) with q.procName = "Shift"
+Main
+procedure p,q;
+Select p such that Calls* (p, q) with q.procName = "Shear"
+Main
+procedure p,q;
+Select p such that Calls (p, _) with p.procName = "Move"
+none
+procedure p,q;
+Select p such that Calls (p, _) with p.procName = "Draw"
+Draw
+procedure p,q;
+Select p such that Calls (p, _) with p.procName = "Clear"
+none
+procedure p,q;
+Select p such that Calls (_, q) with q.procName = "Enlarge"
+Main, Init, Random, Transform, Shift, Shear, Move, Draw, Clear, Show, Enlarge, Fill, Shrink, Translate, Rotate, Scale, PP, QQ, RR, SS, TT, UU, XX
+procedure p,q;
+Select p such that Calls (_, q) with q.procName = "SS"
+Main, Init, Random, Transform, Shift, Shear, Move, Draw, Clear, Show, Enlarge, Fill, Shrink, Translate, Rotate, Scale, PP, QQ, RR, SS, TT, UU, XX
+procedure p,q;
+Select p such that Calls (_, q) with q.procName = "Init"
+Main, Init, Random, Transform, Shift, Shear, Move, Draw, Clear, Show, Enlarge, Fill, Shrink, Translate, Rotate, Scale, PP, QQ, RR, SS, TT, UU, XX
+procedure p,q;
+Select p such that Calls* (p, _) with p.procName = "Init"
+none
+procedure p,q;
+Select p such that Calls* (p, _) with p.procName = "Transform"
+none
+procedure p,q;
+Select p such that Calls* (p, _) with p.procName = "Main"
+Main
+procedure p,q;
+Select p such that Calls* (_, q) with q.procName = "Main"
+none
+procedure p,q;
+Select p such that Calls* (_, q) with q.procName = "Transform"
+Main, Init, Random, Transform, Shift, Shear, Move, Draw, Clear, Show, Enlarge, Fill, Shrink, Translate, Rotate, Scale, PP, QQ, RR, SS, TT, UU, XX
+procedure p,q;
+Select p such that Calls* (_, q) with q.procName = "Init"
+Main, Init, Random, Transform, Shift, Shear, Move, Draw, Clear, Show, Enlarge, Fill, Shrink, Translate, Rotate, Scale, PP, QQ, RR, SS, TT, UU, XX
+procedure p, p2;
+Select p such that Calls*(p2 ,p)
+Init, Random, Transform, Shift, Shear, Move, Draw, Clear, Show, Enlarge, Fill, Shrink, Translate, Rotate, PP, QQ, SS, TT, UU, XX
+procedure p, p2;
+Select p such that Calls(p2 ,p)
+Init, Random, Transform, Shift, Shear, Move, Draw, Clear, Show, Enlarge, Fill, Shrink, Translate, Rotate, PP, QQ, SS, TT, UU, XX
