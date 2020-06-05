@@ -438,15 +438,28 @@ class QueryEvaluator:
         self.relation_index_stack.remove(relation_index)
 
     def xyz_przemek_tak_kazal(self, argument: str, update_relation_index: str):
-        references: Set[Reference] = set(self.results_table.table.at['final', argument])
-        references_elements: Set[str] = {reference.element for reference in references}
-        update_relation_data: List[str] = update_relation_index.split('_')
-        update_argument: str = update_relation_data[1] if update_relation_data[1] != argument else update_relation_data[
-            2]
-        results: Set[Reference] = set()
-        for reference in self.results_table.table.at['final', update_argument]:
-            if reference.reference in references_elements:
-                results.add(reference)
+        if self.is_graph_cycled:
+            references: Set[Reference] = set(self.results_table.table.at['final', argument])
+            references_references: Set[str] = {reference.reference for reference in references}
+            update_relation_data: List[str] = update_relation_index.split('_')
+            update_argument: str = update_relation_data[1] if update_relation_data[1] != argument else \
+            update_relation_data[
+                2]
+            results: Set[Reference] = set()
+            for reference in self.results_table.table.at['final', update_argument]:
+                if reference.element in references_references:
+                    results.add(reference)
+        else:
+            references: Set[Reference] = set(self.results_table.table.at['final', argument])
+            references_elements: Set[str] = {reference.element for reference in references}
+            update_relation_data: List[str] = update_relation_index.split('_')
+            update_argument: str = update_relation_data[1] if update_relation_data[1] != argument else \
+                update_relation_data[
+                    2]
+            results: Set[Reference] = set()
+            for reference in self.results_table.table.at[update_relation_index, update_argument]:
+                if reference.reference in references_elements:
+                    results.add(reference)
 
         self.results_table.update_results(update_relation_index, argument, references)
         self.results_table.update_results(update_relation_index, update_argument, results)
