@@ -59,6 +59,42 @@ stmt s;
 Select s such that Parent (s,9)
 6
 stmt s;
+Select s such that Parent (111,s)
+none
+stmt s;
+Select s such that Parent (43,s)
+none
+stmt s;
+Select s such that Parent (117,s)
+none
+stmt s;
+Select s such that Parent (82,s)
+none
+stmt s;
+Select s such that Parent (100,s)
+none
+stmt s;
+Select s such that Parent (211,s)
+none
+stmt s;
+Select s such that Parent (s,304)
+303
+stmt s;
+Select s such that Parent (s,202)
+198
+stmt s;
+Select s such that Parent (s,192)
+191
+stmt s;
+Select s such that Parent (s,108)
+107
+stmt s;
+Select s such that Parent (s,68)
+66
+stmt s;
+Select s such that Parent (s,219)
+218
+stmt s;
 Select s such that Parent (s,18)
 16
 stmt s;
@@ -82,6 +118,18 @@ none
 while w;
 Select w such that Parent (w,23)
 16
+while w;
+Select w such that Parent (w,111)
+none
+while w;
+Select w such that Parent (w,123)
+none
+while w;
+Select w such that Parent (w,124)
+none
+while w;
+Select w such that Parent (w,213)
+none
 while w;
 Select w such that Parent (w,1)
 none
@@ -159,6 +207,15 @@ Select s such that Parent (8,_)
 none
 stmt s;
 Select s such that Parent (10,_)
+none
+stmt s;
+Select s such that Parent (111,_)
+none
+stmt s;
+Select s such that Parent (28,_)
+none
+stmt s;
+Select s such that Parent (210,_)
 none
 stmt s;
 Select s such that Parent (23,_)

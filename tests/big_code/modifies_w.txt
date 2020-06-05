@@ -5,41 +5,59 @@ variable v; stmt s;
 Select s such that Modifies(s, v) with v.varName="left"
 1, 5, 6, 12, 14, 15, 16, 22, 34, 38, 44, 54, 79, 80, 83, 84, 86, 87, 105, 107, 117, 118, 119, 124, 130, 191, 192, 195, 259, 262, 264, 265, 266, 274
 variable v; stmt s;
-Select s such that Modifies(s, v) with v.varName="Romeo"
-none
+Select s such that Modifies(s, v) with v.varName="right"
+1, 5, 6, 12, 14, 15, 16, 22, 34, 38, 44, 54, 79, 80, 83, 84, 86, 87, 105, 107, 117, 118, 119, 125, 131, 191, 192, 195, 259, 262, 264, 265, 266, 274
 procedure p,p2; variable v; stmt s;
-Select p such that Modifies(p, v) with v.varName="c"
-Main
+Select p such that Modifies(p, v) with v.varName="cs1"
+PP, QQ, RR, TT
 procedure p,p2; variable v; stmt s;
 Select p such that Modifies(p, v) with v.varName="tmp"
 Main, Transform, Move
 procedure p,p2; variable v; stmt s;
-Select p such that Modifies(p, v) with v.varName="right"
-Main, Init, Random, Draw, Shrink, Translate, Rotate
+Select p such that Modifies(p, v) with v.varName="cs6"
+PP, RR, SS, TT, UU, XX
 procedure p,p2; variable v; stmt s;
 Select p such that Modifies(p, v) with v.varName="k"
 none
 procedure p,p2; variable v; stmt s;
-Select p such that Modifies(p, v) with v.varName="I"
-Main, Move, Shrink
+Select p such that Modifies(p, v) with v.varName="tmp"
+Main, Transform, Move
 procedure p,p2; variable v; stmt s;
-Select p such that Modifies(p, v) with v.varName="j1k"
+Select p such that Modifies(p, v) with v.varName="top"
+Main, Init, Shift
+procedure p, p1; variable v;
+Select BOOLEAN such that Modifies(p1,v) with v.varName="location"
+true
+procedure p, p1; variable v;
+Select p1 such that Modifies(p1,v) with v.varName="degrees"
 none
 procedure p, p1; variable v;
-Select BOOLEAN such that Modifies(p1,v) with v.varName="a"
-false
-procedure p, p1; variable v;
-Select p1 such that Modifies(p1,v) with v.varName="false"
-none
-procedure p, p1; variable v;
-Select v such that Modifies(p1,v) with v.varName="true"
+Select v such that Modifies(p1,v) with v.varName="half"
 none
 procedure p1; variable v;
-Select p1 such that Modifies(p1,v) with v.varName="Rectangle"
-none
+Select p1 such that Modifies(p1,v) with v.varName="semi"
+Main, Enlarge, Fill, Translate, Rotate
 procedure p, p1; variable v;
-Select p1 such that Modifies(p1,v) with v.varName="yes"
+Select p1 such that Modifies(p1,v) with v.varName="pixel"
+Main, Enlarge
+procedure p, p1; variable v;
+Select p1 such that Modifies(p1,v) with v.varName="p1"
+Main, Draw, Clear, Shrink
+procedure p, p1; variable v;
+Select p1 such that Modifies(p1,v) with v.varName="dot"
+Main, Translate, Rotate
+procedure p, p1; variable v;
+Select p1 such that Modifies(p1,v) with v.varName="marking"
+Main, Draw, Shrink
+procedure p, p1; variable v;
+Select p1 such that Modifies(p1,v) with v.varName="cover"
 none
+procedure p1; variable v;
+Select p1 such that Modifies(p1,v) with v.varName="y7"
+Main
+procedure p, p1; variable v;
+Select p1 such that Modifies(p1,v) with v.varName="radius"
+Main
 stmt s; variable v; 
 Select s such that Modifies (s,v) with v.varName=2
 none
@@ -104,14 +122,50 @@ stmt s; variable v;
 Select s such that Modifies (s,v) with v.varName="v"
 none
 procedure p; variable v;
-Select p such that Modifies (p,v) with p.procName="Orchid"
-none
+Select p such that Modifies (p,v) with p.procName="Main"
+Main
 procedure p; variable v;
-Select p such that Modifies (p,v) with p.procName="Lily"
-none
+Select p such that Modifies (p,v) with p.procName="Init"
+Init
 procedure p; variable v;
-Select p such that Modifies (p,v) with p.procName="Tulip"
-none
+Select p such that Modifies (p,v) with p.procName="Random"
+Random
+procedure p; variable v;
+Select p such that Modifies (p,v) with p.procName="Shift"
+Shift
+procedure p; variable v;
+Select p such that Modifies (p,v) with p.procName="Move"
+Move
+procedure p; variable v;
+Select p such that Modifies (p,v) with p.procName="Draw"
+Draw
+procedure p; variable v;
+Select p such that Modifies (p,v) with p.procName="Enlarge"
+Enlarge
+procedure p; variable v;
+Select p such that Modifies (p,v) with p.procName="Fill"
+Fill
+procedure p; variable v;
+Select p such that Modifies (p,v) with p.procName="Scale"
+Scale
+procedure p; variable v;
+Select p such that Modifies (p,v) with p.procName="Rotate"
+Rotate
+procedure p; variable v;
+Select p such that Modifies (p,v) with p.procName="PP"
+PP
+procedure p; variable v;
+Select p such that Modifies (p,v) with p.procName="XX"
+XX
+procedure p; variable v;
+Select p such that Modifies (p,v) with p.procName="RR"
+RR
+procedure p; variable v;
+Select p such that Modifies (p,v) with p.procName="QQ"
+QQ
+procedure p; variable v;
+Select p such that Modifies (p,v) with p.procName="Show"
+Show
 variable v;
 Select v such that Modifies (7,v) with v.varName="idx"
 none

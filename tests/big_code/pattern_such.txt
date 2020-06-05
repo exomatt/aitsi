@@ -1,14 +1,14 @@
 procedure p, p1, p2; assign a;
-Select a pattern a("a",_) such that Calls(p,p1) and Calls(p1,p2)
+Select a pattern a("k",_) such that Calls(p,p1) and Calls(p1,p2)
 none
 procedure p, p1, p2; assign a;
-Select a pattern a("x",_) such that Calls (p, "Lily")
+Select a pattern a(_,"width + incre + left") such that Calls (p, "Main")
 none
 procedure p, p1, p2; assign a;
-Select a pattern a("y",_) such that Calls (p, "Orchid")
+Select a pattern a(_,"x1 + incre") such that Calls (p, "Init")
 none
 procedure p, p1, p2; assign a;
-Select a pattern a("z",_) such that Calls (p, "Tulip")
+Select a pattern a(_,"correct - wcounter") such that Calls (p, "Scale")
 none
 while w; assign a;
 Select a pattern a("x",_) such that Follows (w,a)
@@ -197,19 +197,19 @@ stmt s, s1; while w; assign a;
 Select a pattern a("y",_) such that Follows(a, w) and Follows(w,s1) and Next(7,8)
 none
 stmt s; variable v;  assign a;
-Select a pattern a("t",_) such that Modifies(s, v) and Modifies(s,"x") and Next(7,8)
+Select a pattern a("t",_) such that Modifies(s, v) and Modifies(s,"x1") and Next(7,8)
 none
 stmt s; variable v;  assign a;
-Select a pattern a("t",_) such that Modifies(s, v) and Modifies(s,"y") and Next(7,8)
+Select a pattern a("t",_) such that Modifies(s, v) and Modifies(s,"y7") and Next(7,8)
 none
 stmt s; variable v;  assign a;
-Select a pattern a("x*t",_) such that Modifies(s, v) and Modifies(s,"y") and Next(5,9)
+Select a pattern a("x*t",_) such that Modifies(s, v) and Modifies(s,"y7") and Next(5,9)
 none
 stmt s; variable v;  assign a;
-Select a pattern a("t+1",_) such that Modifies(s, v) and Modifies(s,"y") and Next(4,5)
+Select a pattern a("t+1",_) such that Modifies(s, v) and Modifies(s,"y7") and Next(4,5)
 none
 stmt s; variable v;  assign a;
-Select a pattern a("t",_) such that Modifies(s, v) and Modifies(s,"t") and Next(7,8)
+Select a pattern a("t",_) such that Modifies(s, v) and Modifies(s,"tmp") and Next(7,8)
 none
 stmt s; variable v;  assign a;
 Select a pattern a("x",_) such that Modifies(s, v) and Modifies(s,"x") and Next(7,8)
