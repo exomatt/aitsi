@@ -300,7 +300,7 @@ class QueryProcessor:
     def expression(self) -> Node:
         node: Node = self.term()
         while self.next_token[0] in ["PLUS", "MINUS"]:
-            op_node: Node = Node(self.next_token[0], self.next_token[1].strip())
+            op_node: Node = Node(self.next_token[0].strip(), self.next_token[1].strip())
             self.match(self.next_token[0])
             op_node.add_child(node)
             op_node.add_child(self.term())
@@ -310,7 +310,7 @@ class QueryProcessor:
     def term(self) -> Node:
         node: Node = self.factor()
         while self.next_token[0] == "MULTIPLY":
-            multiply_node: Node = Node(self.next_token[0], self.next_token[1])
+            multiply_node: Node = Node(self.next_token[0].strip(), self.next_token[1].strip())
             self.match("MULTIPLY")
             multiply_node.add_child(node)
             multiply_node.add_child(self.factor())
@@ -325,10 +325,10 @@ class QueryProcessor:
             return factor_node
         elif self.next_token[0] == "INTEGER":
             self.match("INTEGER")
-            return Node(self.prev_token[0], self.prev_token[1])
+            return Node(self.prev_token[0].strip(), self.prev_token[1].strip())
         elif self.next_token[0] == "IDENT":
             self.match("IDENT")
-            return Node("NAME", self.prev_token[1])
+            return Node("NAME", self.prev_token[1].strip())
         elif self.next_token[0] == "IDENT_QUOTE":
             self.match("IDENT_QUOTE")
             return Node("NAME", self.prev_token[1].replace('"', '').strip())

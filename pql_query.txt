@@ -1,2 +1,2 @@
-stmt s,s1; variable v;
-Select s1 such that Modifies(s, v) and Modifies(s1,v) and Follows(s,s1)
+assign a;
+Select a pattern a(_, _"half * base"_)
