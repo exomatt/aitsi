@@ -1,3 +1,4 @@
+import itertools
 from typing import List, Union, Dict, Tuple, Set
 
 from aitsi_parser.CallsTable import CallsTable
@@ -10,6 +11,7 @@ from aitsi_parser.ProcTable import ProcTable
 from aitsi_parser.StatementTable import StatementTable
 from aitsi_parser.UsesTable import UsesTable
 from aitsi_parser.VarTable import VarTable
+from pql.Graph import Graph
 from pql.Node import Node
 from pql.ResultsTable import ResultsTable
 from pql.relations.CallsRelation import CallsRelation
@@ -133,11 +135,65 @@ class QueryEvaluator:
         elif root.node_type == 'SUCH_THAT':
             if len(root.children) > 1:
                 root.children.sort(key=self.relation_sort)
+                root.children = list(set(root.children))
+                root.children.sort(key=self.relation_sort)
                 for node in root.children:
                     self.relation_preparation(node)
                 self.final_check()
+                if self.check_if_relations_constains_cycle(root.children):
+                    self.check_relations_when_we_got_cycle(root.children)
             else:
                 self.relation_preparation(root.children[0])
+
+    def check_if_relations_constains_cycle(self, relations: List[Node]) -> bool:
+        index: int = 0
+        relations_graph_map = {}
+        for relation in relations:
+            if relation.children[0].node_type not in ['INTEGER', 'EVERYTHING', 'IDENT_QUOTE'] and relation.children[
+                1].node_type not in ['INTEGER', 'EVERYTHING', 'IDENT_QUOTE']:
+                if relation.children[0].value not in relations_graph_map:
+                    relations_graph_map[relation.children[0].value] = index
+                    index += 1
+                if relation.children[1].value not in relations_graph_map:
+                    relations_graph_map[relation.children[1].value] = index
+                    index += 1
+
+        graph: Graph = Graph(index)
+        for relation in relations:
+            if relation.children[0].node_type not in ['INTEGER', 'EVERYTHING', 'IDENT_QUOTE'] \
+                    and relation.children[1].node_type not in ['INTEGER', 'EVERYTHING', 'IDENT_QUOTE']:
+                graph.addEdge(relations_graph_map[relation.children[0].value],
+                              relations_graph_map[relation.children[1].value])
+        return graph.isCyclic()
+
+    def check_relations_when_we_got_cycle(self, relations: List[Node]):
+        synonyms_names: List[str] = self.results_table.table.columns.tolist()
+        synonyms_names.remove('BOOLEAN')
+        synonyms_names.remove('CONST')
+        mapa: Dict[str, int] = {}
+        for index, sn in enumerate(synonyms_names):
+            mapa[sn] = index
+
+        zmienna = [self.results_table.get_final_result(sn) for sn in synonyms_names]
+        wyniki: Dict[str, Union[Set[str], Set[int]]] = {}
+        for k in mapa:
+            wyniki[k] = set()
+
+        for x in itertools.product(*zmienna):
+            passed_test = True
+            for relation in relations:
+                relation_result = self.relation[relation.node_type].value_from_set_and_value_from_set(
+                    x[mapa.get(relation.children[0].value)], x[mapa.get(relation.children[1].value)])
+                if not relation_result:
+                    passed_test = False
+                    break
+
+            if passed_test:
+                for k in mapa:
+                    wyniki[k].add(x[mapa[k]])
+
+        for k in mapa:
+            self.results_table.update_results('final', k, wyniki[k])
 
     def relation_sort(self, relation: Node) -> int:
         return self.degree_of_restriction[relation.node_type] \
