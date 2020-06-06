@@ -1,0 +1,70 @@
+prog line n;
+Select n usch that Next(n,n)
+costam
+prog line n;
+Select n such that Next*(n,n)
+costam
+assign a;
+Select a pattern a(_, _"x1 + x2 * y1"_)
+costam
+assign a; variable v;
+Select a pattern a (v,_) with v.varName = "x1"
+120,138, 164, 165
+while w; variable v;
+Select w pattern w (v,_) with v.varName = "I"
+184,187,251,6,69
+if ifs; variable v;
+Select ifs pattern ifs (v,_,_) with v.varName="pct"
+204
+variable v; assign a;
+Select BOOLEAN pattern a (v,_) with a.stmt# = 169 and v.costam
+false
+while w; stmt s;
+Select s with s.stmt#=w.stmt#
+101, 102 // zwrócic liczby/ numery stmt  -> u nas zwracało nazwy zmiennych
+constant c1,c2;
+Select c1 with c1.value = c2.value and c2.value=1;
+1
+assign a1,a2; variable v;
+Select a1 pattern a1 (v,_) with a1.stmt#=a2.stmt# and v.varName = "area" and a1.stmt# = 32
+32
+prog_line n1,n2;
+Select n2 such that Next*(n1,n2) and Next*(n2,n1);
+timeouty lecom
+assign a; variable v; while w; if ifs;
+Select v pattern a (v,_) and ifs (v,_,_) and w (v,_)
+area, edge,factory ...
+assign a; variable v;
+Select a such that Uses (a,v) pattern a (v,_)
+102,110.. .
+variable v1, v2; assign a;
+Select a such that Modifies (a,v1) and Uses (a, v2) with v1.varName=v2.varName
+106,110,115
+stmt s; assign a; if ifs; variable v; while w;
+Select v such Parent*(ifs, s) such that Parent*(s,a) such.. itd uciete
+c,diffrence,dot
+if ifs1, ifs2; while w;call c1,c2;
+Select if1 such that Parent*(ifs1,ifs2) and Parent*(w,ifs2) and Parent //dalej uciete
+107,14,15
+assign a; variable v;
+Select a such that Uses (a,v) pattern a (v,_) with v.varName = " width"
+85
+call c; if ifs; assign a; while w; variable v;
+Select v such that Parent*(ifs,w) and Follows*(a,c) and Modifies (ifs,v) and Modifies (a,v) and Parent*(ifs,c)
+timeout poleciał
+call c; if ifs; prog_line n1,n2;while w;
+Select c such that Parent*(ifs,_) and Follows*(n1,ifs) and  Next*(n1,n2) and Follows*(n2,w) and Parent(w,c)
+timout poleciał
+call c; if ifs; prog_line n1,n2;while w;
+Select c such that Parent*(ifs,_) and Follows*(n1,ifs) and  Next(n1,n2) and Follows*(n2,w) and Parent(w,c)
+timout poleciał
+stmt s; assign a;
+Select a pattern a (_,_"c5"_) with a.stmt# = s.stmt#
+302,305,304 itak dalej
+procedure p; call c;
+Select p with p.procName = c.procName
+Int, Random, Enlarge
+procedure p; call c;
+Select p with p.procName = c.procName and c.stmt#=294
+XX
+
