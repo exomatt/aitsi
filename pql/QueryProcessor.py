@@ -17,6 +17,8 @@ class QueryProcessor:
                          (r'\s*Uses\*', 'USEST'), (r'\s*Calls\*', 'CALLST'), (r'\s*Next\*', 'NEXTT'),
                          (r"\s*Follows", 'FOLLOWS'), (r'\s*Parent', 'PARENT'), (r'\s*Modifies', 'MODIFIES'),
                          (r'\s*Uses', 'USES'), (r'\s*Calls', 'CALLS'), (r'\s*Next', 'NEXT'),
+                         (r'\s*Affects', 'AFFECTS'), (r'\s*Affects\*', 'AFFECTST'),
+                         (r'\s*\<', 'MINORITY_SIGN'),
                          (r'\s*\(', 'OPEN_PARENTHESIS'), (r'\s*\)', 'CLOSE_PARENTHESIS'), (r'\s*;', 'SEMICOLON'),
                          (r"\s*=", "EQUALS_SIGN"),
                          (r'\s*_', 'EVERYTHING'),
@@ -182,6 +184,8 @@ class QueryProcessor:
         self.match("SELECT")
         result_node: Node = Node("RESULT")
         self.select = self.next_token[0]
+        if self.next_token[0] == "MINORITY_SIGN":
+            self.error('Tuple Not Implemented')
         if self.next_token[0] == 'BOOLEAN':
             self.match('BOOLEAN')
             result_node.add_child(Node('BOOLEAN', 'BOOLEAN'))
@@ -406,6 +410,8 @@ class QueryProcessor:
             return self.relation_with_the_same_arguments("NEXT")
         elif self.next_token[0] == "NEXTT":
             return self.relation_with_the_same_arguments("NEXTT")
+        elif self.next_token[0] in ["AFFECTS", "AFFECTST"]:
+            self.error('Affects Not Implemented')
 
     def relation_with_the_same_arguments(self, type_node: str) -> Node:
         self.match(type_node)
