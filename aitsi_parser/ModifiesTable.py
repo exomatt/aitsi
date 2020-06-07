@@ -22,6 +22,7 @@ class ModifiesTable:
             self.table.loc[self.table[called_to] == 1, called_from] = 1
         except:
             pass
+
     def get_modified(self, stmt: str) -> List[str]:
         try:
             return self.table.index[self.table[str(stmt)] == 1].tolist()

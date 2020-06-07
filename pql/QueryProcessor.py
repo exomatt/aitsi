@@ -17,6 +17,8 @@ class QueryProcessor:
                          (r'\s*Uses\*', 'USEST'), (r'\s*Calls\*', 'CALLST'), (r'\s*Next\*', 'NEXTT'),
                          (r"\s*Follows", 'FOLLOWS'), (r'\s*Parent', 'PARENT'), (r'\s*Modifies', 'MODIFIES'),
                          (r'\s*Uses', 'USES'), (r'\s*Calls', 'CALLS'), (r'\s*Next', 'NEXT'),
+                         (r'\s*Affects', 'AFFECTS'), (r'\s*Affects\*', 'AFFECTST'),
+                         (r'\s*\<', 'MINORITY_SIGN'),
                          (r'\s*\(', 'OPEN_PARENTHESIS'), (r'\s*\)', 'CLOSE_PARENTHESIS'), (r'\s*;', 'SEMICOLON'),
                          (r"\s*=", "EQUALS_SIGN"),
                          (r'\s*_', 'EVERYTHING'),
@@ -182,6 +184,8 @@ class QueryProcessor:
         self.match("SELECT")
         result_node: Node = Node("RESULT")
         self.select = self.next_token[0]
+        if self.next_token[0] == "MINORITY_SIGN":
+            self.error('Tuple Not Implemented')
         if self.next_token[0] == 'BOOLEAN':
             self.match('BOOLEAN')
             result_node.add_child(Node('BOOLEAN', 'BOOLEAN'))
@@ -300,7 +304,7 @@ class QueryProcessor:
     def expression(self) -> Node:
         node: Node = self.term()
         while self.next_token[0] in ["PLUS", "MINUS"]:
-            op_node: Node = Node(self.next_token[0], self.next_token[1].strip())
+            op_node: Node = Node(self.next_token[0].strip(), self.next_token[1].strip())
             self.match(self.next_token[0])
             op_node.add_child(node)
             op_node.add_child(self.term())
@@ -310,7 +314,7 @@ class QueryProcessor:
     def term(self) -> Node:
         node: Node = self.factor()
         while self.next_token[0] == "MULTIPLY":
-            multiply_node: Node = Node(self.next_token[0], self.next_token[1])
+            multiply_node: Node = Node(self.next_token[0].strip(), self.next_token[1].strip())
             self.match("MULTIPLY")
             multiply_node.add_child(node)
             multiply_node.add_child(self.factor())
@@ -325,10 +329,10 @@ class QueryProcessor:
             return factor_node
         elif self.next_token[0] == "INTEGER":
             self.match("INTEGER")
-            return Node(self.prev_token[0], self.prev_token[1])
+            return Node(self.prev_token[0].strip(), self.prev_token[1].strip())
         elif self.next_token[0] == "IDENT":
             self.match("IDENT")
-            return Node("NAME", self.prev_token[1])
+            return Node("NAME", self.prev_token[1].strip())
         elif self.next_token[0] == "IDENT_QUOTE":
             self.match("IDENT_QUOTE")
             return Node("NAME", self.prev_token[1].replace('"', '').strip())
@@ -406,6 +410,8 @@ class QueryProcessor:
             return self.relation_with_the_same_arguments("NEXT")
         elif self.next_token[0] == "NEXTT":
             return self.relation_with_the_same_arguments("NEXTT")
+        elif self.next_token[0] in ["AFFECTS", "AFFECTST"]:
+            self.error('Affects Not Implemented')
 
     def relation_with_the_same_arguments(self, type_node: str) -> Node:
         self.match(type_node)
@@ -422,12 +428,16 @@ class QueryProcessor:
             self.match("COMMA")
             argument2_node: Node = self.stmt_ref()
             relation_node.add_child(argument2_node)
+            if argument1_node.value == argument2_node.value and argument2_node.value != '_':
+                self.return_none()
         elif type_node in ["CALLS", "CALLST"]:
             argument1_node = self.proc_ref()
             relation_node.add_child(argument1_node)
             self.match("COMMA")
             argument2_node: Node = self.proc_ref()
             relation_node.add_child(argument2_node)
+            if argument1_node.value == argument2_node.value and argument2_node.value != '_':
+                self.return_none()
         elif type_node in ["NEXT", "NEXTT"]:
             argument1_node = self.line_ref()
             relation_node.add_child(argument1_node)

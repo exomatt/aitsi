@@ -1,7 +1,6 @@
 import json
 import logging
 import re
-import datetime
 from typing import Tuple, Dict, List
 
 from aitsi_parser.CallsTable import CallsTable

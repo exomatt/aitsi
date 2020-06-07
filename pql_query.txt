@@ -1,2 +1,2 @@
-prog_line n;
-Select n such that Next*(12,n)
+assign a;
+Select a pattern a(_, _"half * base"_)

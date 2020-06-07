@@ -62,3 +62,15 @@ class Node:
 
     def __repr__(self) -> str:
         return "TYPE:" + self.node_type + "\t VALUE:" + self.value
+
+    def __hash__(self):
+        if self.node_type in ['CALLST', 'PARENTT', 'NEXTT', 'FOLLOWST']:
+            return hash(
+                self.value + self.node_type[:-1] + "".join([node.value + node.node_type for node in self.children]))
+        return hash(self.value + self.node_type + "".join([node.value + node.node_type for node in self.children]))
+
+    def __eq__(self, other: 'Node'):
+        if not isinstance(other, Node):
+            return NotImplemented
+
+        return self.__hash__() == other.__hash__()
