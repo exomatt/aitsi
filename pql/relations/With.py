@@ -48,7 +48,7 @@ class With:
                 if int(attr_node.children[1].value) not in self.all_tables['statement'].get_statement_line_by_type_name(
                         attr_node.children[0].node_type):
                     return set()
-            return {attr_node.children[1].value}
+            return {int(attr_node.children[1].value)}
         elif attr_node.children[1].node_type == 'IDENT_QUOTE':
             if attr_node.children[0].node_type == 'PROCEDURE':
                 if not self.all_tables['proc'].is_in(attr_node.children[1].value):
@@ -61,24 +61,53 @@ class With:
                     attr_node.children[0].node_type,
                     attr_node.children[1].value))
             return {attr_node.children[1].value}
-        elif attr_node.children[1].node_type == 'CONSTANT':
-            if attr_node.children[0].node_type == 'STMT':
-                return set([const for const in self.all_tables['const'].get_all_constant() if
-                            self.all_tables['statement'].is_in(const)])
-            else:
-                return set([const for const in self.all_tables['const'].get_all_constant() if
-                            const in self.all_tables[
-                                'statement'].get_statement_line_by_type_name(
-                                attr_node.children[0].value)])
         else:
-            if attr_node.children[0].node_type in ['CALL', 'PROCEDURE']:
-                left: Set[str] = set(self.all_tables['proc'].get_all_proc_name())
-            else:
-                left: Set[str] = set(self.all_tables['var'].get_all_var_name())
-
-            if attr_node.children[1].node_type in ['CALL', 'PROCEDURE']:
-                right: Set[str] = set(self.all_tables['proc'].get_all_proc_name())
-            else:
-                right: Set[str] = set(self.all_tables['var'].get_all_var_name())
-
-            return left.intersection(right)
+            if attr_node.children[0].node_type == 'STMT':
+                if attr_node.children[1].node_type == 'STMT':
+                    return set(self.all_tables['statement'].get_all_statement_lines())
+                elif attr_node.children[1].node_type == 'CONSTANT':
+                    return set(self.all_tables['const'].get_all_constant()).intersection(
+                        self.all_tables['statement'].get_all_statement_lines())
+                return set(
+                    self.all_tables['statement'].get_statement_line_by_type_name(attr_node.children[1].node_type))
+            elif attr_node.children[0].node_type == 'PROCEDURE':
+                if attr_node.children[1].node_type == 'PROCEDURE':
+                    return set(self.all_tables['proc'].get_all_proc_name())
+                elif attr_node.children[1].node_type == 'CALL':
+                    return set(self.all_tables['calls'].table.columns.tolist())
+                return set(self.all_tables['var'].get_all_var_name()).intersection(
+                    self.all_tables['proc'].get_all_proc_name())
+            elif attr_node.children[0].node_type == 'CALL':
+                if attr_node.children[0].children[0].value == 'stmt#':
+                    if attr_node.children[1].node_type in ['STMT', 'CALL']:
+                        return set(self.all_tables['statement'].get_statement_line_by_type_name('CALL'))
+                    return set(self.all_tables['statement'].get_statement_line_by_type_name(
+                        attr_node.children[1].node_type)).intersection(
+                        self.all_tables['statement'].get_statement_line_by_type_name('CALL'))
+                if attr_node.children[1].node_type == 'PROCEDURE':
+                    return set(self.all_tables['calls'].table.columns.tolist())
+                elif attr_node.children[1].node_type == 'VARIABLE':
+                    return set(self.all_tables['var'].get_all_var_name()).intersection(
+                        self.all_tables['proc'].get_all_proc_name())
+            elif attr_node.children[0].node_type == 'CONSTANT':
+                if attr_node.children[1].node_type == 'STMT':
+                    return set(self.all_tables['statement'].get_all_statement_lines()).intersection(
+                        self.all_tables['const'].get_all_constant())
+                elif attr_node.children[1].node_type == 'CONSTANT':
+                    return set(self.all_tables['const'].get_all_constant())
+                return set(self.all_tables['statement'].get_statement_line_by_type_name(
+                    attr_node.children[1].node_type)).intersection(self.all_tables['const'].get_all_constant())
+            elif attr_node.children[0].node_type == 'VARIABLE':
+                if attr_node.children[1].node_type == 'PROCEDURE':
+                    return set(self.all_tables['proc'].get_all_proc_name()).intersection(
+                        self.all_tables['var'].get_all_var_name())
+                return set(self.all_tables['var'].get_all_var_name())
+            if attr_node.children[1].node_type == 'STMT':
+                return set(
+                    self.all_tables['statement'].get_statement_line_by_type_name(attr_node.children[0].node_type))
+            elif attr_node.children[1].node_type == 'CONSTANT':
+                return set(self.all_tables['const'].get_all_constant()).intersection(
+                    self.all_tables['statement'].get_statement_line_by_type_name(attr_node.children[0].node_type))
+            return set(self.all_tables['statement'].get_statement_line_by_type_name(
+                attr_node.children[1].node_type)).intersection(
+                self.all_tables['statement'].get_statement_line_by_type_name(attr_node.children[0].node_type))

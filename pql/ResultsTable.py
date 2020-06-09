@@ -53,6 +53,13 @@ class ResultsTable:
         try:
             if self.select[1] == 'BOOLEAN':
                 return str(self.table.at['final', self.select[1]]).lower()
+            if self.select[0] == 'CALL':
+                result: Union[Set[str], Set[int]] = self.table.at['final', self.select[1]]
+                if type(list(result)[0]) is str and self.select[2] == 'stmt#':
+                    return ', '.join({line for line in all_tables['statement'].get_statement_line_by_type_name('CALL')
+                               if all_tables['statement'].get_other_info(line)['value'] in result})
+                elif type(list(result)[0]) is int and self.select[2] == 'procName':
+                    return ', '.join({all_tables['statement'].get_other_info(line)['value'] for line in result})
             return ', '.join(map(str, self.table.at['final', self.select[1]]))
         except:
             if self.select[0] in ['STMT', 'PROG_LINE']:
@@ -64,6 +71,9 @@ class ResultsTable:
             elif self.select[0] == 'CONSTANT':
                 return ', '.join(map(str, all_tables['const'].get_all_constant()))
             else:
+                if self.select[0] == 'CALL':
+                    if self.select[2] == 'procName':
+                       return ', '.join(set(all_tables['calls'].table.columns.tolist()))
                 return ', '.join(
                     map(str, all_tables['statement'].get_statement_line_by_type_name(self.select[0])))
 

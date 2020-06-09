@@ -194,7 +194,10 @@ class QueryProcessor:
             declaration_variable_type: str = self.get_declaration_type(self.prev_token[1].strip())
             if declaration_variable_type is None:
                 self.error("select_cl " + self.prev_token[1].strip() + " not exist")
-            result_node.add_child(Node(declaration_variable_type, self.prev_token[1].strip()))
+            synonym_node: Node = Node(declaration_variable_type, self.prev_token[1].strip())
+            if self.validate_attribute_name(declaration_variable_type):
+                synonym_node.add_child(self.attr_name_value())
+            result_node.add_child(synonym_node)
         self.root.add_child(result_node)
         such_that_node: Node = Node("SUCH_THAT")
         with_node: Node = Node("WITH")
@@ -444,6 +447,8 @@ class QueryProcessor:
             self.match("COMMA")
             argument2_node: Node = self.line_ref()
             relation_node.add_child(argument2_node)
+            if argument1_node.value == argument2_node.value and argument2_node.value != '_' and type_node == 'NEXT':
+                self.return_none()
         self.match("CLOSE_PARENTHESIS")
         return relation_node
 

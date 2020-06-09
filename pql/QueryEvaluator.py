@@ -55,6 +55,10 @@ class QueryEvaluator:
                                          NextTable]] = all_tables
         self.results_table: ResultsTable = ResultsTable()
         self.relation_index_stack: Set[str] = set()
+        self.with_index_stack: Set[str] = set()
+        self.with_stack: Dict[str, Node] = {}
+        self.pattern_index_stack: Set[str] = set()
+        self.pattern_stack: Dict[str, Node] = {}
         # stopien ograniczenia
         # 1.stala liczba
         # 1.staly nazwa
@@ -124,11 +128,11 @@ class QueryEvaluator:
 
     def distribution_of_tasks(self, root: Node) -> None:
         if root.node_type == 'RESULT':
-            self.select = root.children[0].node_type, root.children[0].value
-            self.results_table.select = root.children[0].node_type, root.children[0].value
+            self.results_table.select = (root.children[0].node_type, root.children[0].value, None if not root.children[0].children else root.children[0].children[0].value)
         elif root.node_type == 'WITH':
             for node in root.children:
                 self.attr_analysis(node)
+            self.final_check_with()
         elif root.node_type == 'PATTERN':
             for node in root.children:
                 self.pattern(node)
@@ -201,10 +205,19 @@ class QueryEvaluator:
                + self.degree_of_restriction[relation.children[1].node_type]
 
     def pattern(self, pattern_node: Node) -> None:
+        result: Tuple[Union[Set[int], Set[str]], Union[Set[int], Set[str], None]] = \
+            self.relation['PATTERN'].execute(pattern_node,
+                                             self.results_table.get_final_result(pattern_node.children[0].value),
+                                             self.results_table.get_final_result(pattern_node.children[1].value))
         self.results_table.set_results(pattern_node.children[0].value, pattern_node.children[0].node_type)
         self.results_table.update_results('PATTERN',
                                           pattern_node.children[0].value,
-                                          self.relation['PATTERN'].execute(pattern_node))
+                                          result[0])
+        if pattern_node.children[1].node_type == 'VARIABLE':
+            self.results_table.set_results(pattern_node.children[1].value, pattern_node.children[1].node_type)
+            self.results_table.update_results('PATTERN',
+                                              pattern_node.children[1].value,
+                                              result[1])
 
     def relation_preparation(self, relation: Node) -> None:
         # tworzenie tupli dwróch argumentów danej relacji
@@ -382,11 +395,20 @@ class QueryEvaluator:
                     raise Exception()
                 self.results_table.table.at['final', 'BOOLEAN'] = result
 
+        if first_argument_value[0] == second_argument_value[0]:
+            result: Union[Set[int], Set[str]] = set()
+            for value in self.results_table.get_final_result(first_argument_value[0]):
+                if self.relation[node_type].value_from_set_and_value_from_set(value, value):
+                    result.add(value)
+            self.results_table.update_results(relation_index, first_argument_value[0], result)
+
         if type(first_argument_value) is tuple:
             relations: List[str] = [relation for relation in
-                                    self.results_table.get_relations(first_argument_value[0]) if
-                                    relation not in ['type', 'final', 'PATTERN', 'WITH', relation_index,
-                                                     *self.relation_index_stack] and 'CONST' not in relation]
+                                    self.results_table.get_relations(first_argument_value[0])
+                                    if relation not in ['type', 'final', relation_index, *self.relation_index_stack]
+                                    and 'CONST' not in relation
+                                    and 'WITH' not in relation
+                                    and 'PATTERN' not in relation]
             if relations:
                 self.relation_index_stack.add(relation_index)
                 for relation in relations:
@@ -412,9 +434,11 @@ class QueryEvaluator:
 
         if type(second_argument_value) is tuple:
             relations: List[str] = [relation for relation in
-                                    self.results_table.get_relations(second_argument_value[0]) if
-                                    relation not in ['type', 'final', 'PATTERN', 'WITH', relation_index,
-                                                     *self.relation_index_stack] and 'CONST' not in relation]
+                                    self.results_table.get_relations(second_argument_value[0])
+                                    if relation not in ['type', 'final', relation_index, *self.relation_index_stack]
+                                    and 'CONST' not in relation
+                                    and 'WITH' not in relation
+                                    and 'PATTERN' not in relation]
             if relations:
                 self.relation_index_stack.add(relation_index)
                 for relation in relations:
@@ -439,15 +463,85 @@ class QueryEvaluator:
         # print('Here')
 
     def attr_analysis(self, attr_node: Node) -> None:
-        self.results_table.set_results(attr_node.children[0].value, attr_node.children[0].node_type)
-        self.results_table.update_results('WITH',
-                                          attr_node.children[0].value,
-                                          self.relation['WITH'].execute(attr_node))
+        with_index: str = f'WITH_{attr_node.children[0].value}_{attr_node.children[1].value}'
+        self.with_stack[with_index] = attr_node
+        if not self.results_table.get_final_result(attr_node.children[0].value):
+            self.results_table.set_results(attr_node.children[0].value, attr_node.children[0].node_type)
+        result: Union[Set[int], Set[str]] = self.relation['WITH'].execute(attr_node)
+
+        final_result: Union[Set[int], Set[str]] = self.results_table.get_final_result(attr_node.children[0].value)
+        if attr_node.children[0].node_type == 'CALL' and final_result:
+            if type(list(final_result)[0]) is int:
+                if attr_node.children[0].children[0].value == 'procName':
+                    result = {self.all_tables['statement'].get_other_info(line)['value'] for line in final_result
+                              if self.all_tables['statement'].get_other_info(line)['value'] in list(result)}
+                else:
+                    if attr_node.children[0].children[0].value == 'stmt#':
+                        result = {line for line in result
+                                  if self.all_tables['statement'].get_other_info(line)['value'] in list(final_result)}
+                self.results_table.update_results(with_index,
+                                                  attr_node.children[0].value,
+                                                  result)
+        else:
+            self.results_table.update_results(with_index,
+                                              attr_node.children[0].value,
+                                              result)
+
+        indexes: Set[str] = {index for index in
+                             self.results_table.get_relations(attr_node.children[0].value)
+                             if index not in ['type', 'final', with_index, *self.with_index_stack]
+                             and 'WITH' in index}
+
+        if attr_node.children[1].node_type not in ['INTEGER', 'EVERYTHING', 'IDENT_QUOTE']:
+            if not self.results_table.get_final_result(attr_node.children[1].value):
+                self.results_table.set_results(attr_node.children[1].value, attr_node.children[1].node_type)
+            self.results_table.update_results(with_index,
+                                              attr_node.children[1].value,
+                                              result)
+
+            second_result: Union[Set[int], Set[str]] = self.results_table.get_final_result(attr_node.children[1].value)
+            if attr_node.children[1].node_type == 'CALL' and second_result:
+                if type(list(second_result)[0]) is int:
+                    if attr_node.children[1].children[0].value == 'procName':
+                        second_result = {self.all_tables['statement'].get_other_info(line)['value'] for line in
+                                         second_result}
+                else:
+                    if attr_node.children[1].children[0].value == 'stmt#':
+                        second_result = {line for line in
+                                         self.all_tables['statement'].get_statement_line_by_type_name('CALL')
+                                         if self.all_tables['statement'].get_other_info(line)['value'] in list(
+                                second_result)}
+                self.results_table.update_results(with_index,
+                                                  attr_node.children[0].value,
+                                                  result.intersection(second_result))
+            elif second_result:
+                self.results_table.update_results(with_index,
+                                                  attr_node.children[0].value,
+                                                  result.intersection(second_result))
+            indexes.update({index for index in
+                            self.results_table.get_relations(attr_node.children[1].value)
+                            if index not in ['type', 'final', with_index, *self.with_index_stack]
+                            and 'WITH' in index})
+        for index in indexes:
+            self.with_index_stack.add(with_index)
+            self.attr_analysis(self.with_stack[index])
+            self.with_index_stack.remove(with_index)
+
+    def final_check_with(self):
+        indexes: Set[str] = {index for index in
+                             self.results_table.table.index.tolist()
+                             if index not in ['type', 'final']
+                             and 'WITH' in index}
+        for index in indexes:
+            self.attr_analysis(self.with_stack[index])
 
     def final_check(self):
         relations: List[str] = [relation for relation in
-                                self.results_table.table.index.tolist() if
-                                relation not in ['type', 'final', 'PATTERN', 'WITH'] and 'CONST' not in relation]
+                                self.results_table.table.index.tolist()
+                                if relation not in ['type', 'final']
+                                and 'CONST' not in relation
+                                and 'WITH' not in relation
+                                and 'PATTERN' not in relation]
         for relation in relations:
             relation_data = str(relation).split('_')
             if self.results_table.table.at['final', relation_data[2]] != self.results_table.table.at[
