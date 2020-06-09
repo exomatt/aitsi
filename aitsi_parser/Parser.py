@@ -3,13 +3,11 @@ import logging
 import re
 from typing import Tuple, Dict, List
 
+from pandas import DataFrame
+
 from aitsi_parser.CallsTable import CallsTable
-from aitsi_parser.ConstTable import ConstTable
-from aitsi_parser.FollowsTable import FollowsTable
 from aitsi_parser.ModifiesTable import ModifiesTable
-from aitsi_parser.NextTable import NextTable
 from aitsi_parser.Node import Node
-from aitsi_parser.ParentTable import ParentTable
 from aitsi_parser.ProcTable import ProcTable
 from aitsi_parser.StatementTable import StatementTable
 from aitsi_parser.UsesTable import UsesTable
@@ -31,23 +29,33 @@ class Parser:
                          (r"\s*[0-9]+", 'INTEGER', 'integer')]
 
     def __init__(self, code: str, filename: str) -> None:
-        self.calls_table: CallsTable = CallsTable()
+        # self.calls_table: CallsTable = CallsTable()
+        # self.const_table: ConstTable = ConstTable()
+        # self.mod_table: ModifiesTable = ModifiesTable()
+        # self.next_table: NextTable = NextTable()
+        # self.parent_table: ParentTable = ParentTable()
+        # self.follows_table: FollowsTable = FollowsTable()
+        # self.proc_table: ProcTable = ProcTable()
+        # self.statement_table: StatementTable = StatementTable()
+        # self.var_table: VarTable = VarTable()
+        # self.uses_table: UsesTable = UsesTable()
+        self.calls_table: Dict = {}
+        self.const_table: Dict = {}
+        self.mod_table: Dict = {}
+        self.next_table: Dict = {}
+        self.parent_table: Dict = {}
+        self.follows_table: Dict = {}
+        self.proc_table: List = []
+        self.statement_table: List = []
+        self.var_table: List = []
+        self.uses_table: Dict = {}
         self.call_procedure = None
         self.code: str = code.replace('\n', '')
-        self.const_table: ConstTable = ConstTable()
         self.current_line: int = 0
-        self.mod_table: ModifiesTable = ModifiesTable()
         self.next_token: Tuple[str, str] = ('', '')  # np.("NAME","x")
-        self.next_table: NextTable = NextTable()
-        self.parent_table: ParentTable = ParentTable()
-        self.follows_table: FollowsTable = FollowsTable()
         self.pos: int = 0
         self.prev_token: Tuple[str, str] = ('', '')  # np.("ASSIGN")
-        self.proc_table: ProcTable = ProcTable()
         self.root: Node = Node("PROGRAM", filename)
-        self.statement_table: StatementTable = StatementTable()
-        self.var_table: VarTable = VarTable()
-        self.uses_table: UsesTable = UsesTable()
 
     def match(self, token: str) -> None:
         try:
@@ -94,41 +102,59 @@ class Parser:
         self.next_token = self.get_token()
         while self.next_token[0] == "PROCEDURE":
             self.root.add_child(next(self.procedure()))
-        calls_relation = CallsTRelation(self.calls_table, self.var_table, self.statement_table, self.proc_table)
-        for child in self.proc_table.get_all_proc_name():
-            for proc in calls_relation.value_from_set_and_not_initialized_set(child, ''):
-                self.mod_table.set_modifies_from_procedure(child, proc)
-                self.uses_table.set_uses_from_procedure(child, proc)
-        for statement in self.statement_table.table.values:
-            if statement[1]['name'] == 'CALL':
-                modified_vars: List[str] = self.mod_table.get_modified(statement[1]['value'])
-                used_vars: List[str] = self.uses_table.get_used(statement[1]['value'])
-                for var in modified_vars:
-                    self.mod_table.set_modifies(var, str(statement[0]))
-                for var in used_vars:
-                    self.uses_table.set_uses(var, str(statement[0]))
-            elif statement[1]['name'] == 'WHILE' or statement[1]['name'] == 'IF':
-                statements_inside_statement: List = [self.statement_table.table.values[i] for i in
-                                                     range(statement[1]['start'], statement[1]['end'])]
-                for stmt in statements_inside_statement:
-                    if stmt[1]['name'] == 'CALL':
-                        modified_vars: List[str] = self.mod_table.get_modified(stmt[1]['value'])
-                        used_vars: List[str] = self.uses_table.get_used(stmt[1]['value'])
-                        for var in modified_vars:
-                            self.mod_table.set_modifies(var, str(statement[0]))
-                        for var in used_vars:
-                            self.uses_table.set_uses(var, str(statement[0]))
+        # stmt_table = StatementTable(DataFrame(self.statement_table))
+        # calls_relation = CallsTRelation(CallsTable(DataFrame(self.calls_table).transpose()), VarTable(DataFrame(self.var_table)),  stmt_table, ProcTable(DataFrame(self.proc_table)))
+        # for child in self.proc_table.get_all_proc_name():
+        #     if not self.mod_table.get(child, None):
+        #         self.mod_table[child] = {}
+        #     if not self.uses_table.get(child, None):
+        #         self.uses_table[child] = {}
+        #     for proc in calls_relation.value_from_set_and_not_initialized_set(child, ''):
+        #         self.mod_table[child][proc] = 1
+        #         self.uses_table[child][proc] = 1
+        # for statement in stmt_table.table.values:
+        #     if statement[1]['name'] == 'CALL':
+        #         modified_vars: List[str] = ModifiesTable(DataFrame(self.mod_table)).get_modified(statement[1]['value'])
+        #         used_vars: List[str] = UsesTable(DataFrame(self.uses_table)).get_used(statement[1]['value'])
+        #         for var in modified_vars:
+        #             if not self.mod_table.get(child, None):
+        #                 self.mod_table[var] = {str(statement[0]): 1}
+        #             else:
+        #                 self.mod_table[var][str(statement[0])] = 1
+        #         for var in used_vars:
+        #             if not self.uses_table.get(child, None):
+        #                 self.uses_table[var] = {str(statement[0]): 1}
+        #             else:
+        #                 self.uses_table[var][str(statement[0])] = 1
+        #     elif statement[1]['name'] == 'WHILE' or statement[1]['name'] == 'IF':
+        #         statements_inside_statement: List = [self.statement_table.table.values[i] for i in
+        #                                              range(statement[1]['start'], statement[1]['end'])]
+        #         for stmt in statements_inside_statement:
+        #             if stmt[1]['name'] == 'CALL':
+        #                 modified_vars: List[str] = ModifiesTable(DataFrame(self.mod_table)).get_modified(stmt[1]['value'])
+        #                 used_vars: List[str] = UsesTable(DataFrame(self.uses_table)).get_used(stmt[1]['value'])
+        #                 for var in modified_vars:
+        #                     if not self.mod_table.get(child, None):
+        #                         self.mod_table[var] = {str(statement[0]): 1}
+        #                     else:
+        #                         self.mod_table[var][str(statement[0])] = 1
+        #                 for var in used_vars:
+        #                     if not self.uses_table.get(child, None):
+        #                         self.uses_table[var] = {str(statement[0]): 1}
+        #                     else:
+        #                         self.uses_table[var][str(statement[0])] = 1
 
     def procedure(self) -> Node:
         self.match("PROCEDURE")
         self.match("NAME")
         proc_node: Node = Node("PROCEDURE", self.prev_token[1])
-        self.proc_table.insert_proc(proc_node.value)
         self.call_procedure = proc_node.value
+        self.calls_table[self.call_procedure] = {}
         self.match("OPEN_BRACKET")
-        self.proc_table.update_proc(proc_node.value, {'start': self.current_line + 1})
+        start = self.current_line + 1
         proc_node.add_child(next(self.statement_list()))
-        self.proc_table.update_proc(proc_node.value, {'finish': self.current_line})
+        self.proc_table.append(
+            {'proc_name': proc_node.value, 'other_info': {'start': start, 'finish': self.current_line}})
         self.match("CLOSE_BRACKET")
         yield proc_node
 
@@ -139,11 +165,12 @@ class Parser:
             stmt_node = next(self.statement())
             if prev_node is not None:
                 if prev_node.node_type == 'IF':
+                    self.next_table[stmt_node.line] = {}
                     for line in self.get_all_possible_endings(prev_node):
-                        self.next_table.set_next(line, stmt_node.line)
+                        self.next_table[stmt_node.line][line] = 1
                 else:
-                    self.next_table.set_next(prev_node.line, stmt_node.line)
-                self.follows_table.set_follows(prev_node.line, stmt_node.line)
+                    self.next_table[stmt_node.line] = {prev_node.line: 1}
+                self.follows_table[prev_node.line] = {stmt_node.line: 1}
             stmt_list_node.add_child(stmt_node)
             prev_node = stmt_node
         yield stmt_list_node
@@ -161,12 +188,12 @@ class Parser:
 
     def call(self) -> Node:
         self.match("CALL")
-        self.calls_table.set_calls(self.call_procedure, self.next_token[1].strip())
+        self.calls_table[self.call_procedure][self.next_token[1].strip()] = 1
         self.match("NAME")
         call_node: Node = Node("CALL", self.prev_token[1], self.current_line)
-        self.statement_table.insert_statement(self.current_line,
-                                              {'name': 'CALL', 'value': call_node.value, 'start': self.current_line,
-                                               'end': self.current_line})
+        self.statement_table.append({'statement_line': self.current_line, 'other_info':
+            {'name': 'CALL', 'value': call_node.value, 'start': self.current_line,
+             'end': self.current_line}})
         self.match("SEMICOLON")
         yield call_node
 
@@ -175,29 +202,38 @@ class Parser:
         self.match("NAME")
         while_node: Node = Node("WHILE", line=self.current_line)
         while_node.add_child(Node(self.prev_token[0], self.prev_token[1], self.current_line))
-        self.var_table.insert_var(self.prev_token[1])
-        self.uses_table.set_uses(self.prev_token[1], str(self.current_line))
-        self.uses_table.set_uses(self.prev_token[1], self.call_procedure)
-        self.statement_table.insert_statement(self.current_line, {'name': 'WHILE', 'value': self.prev_token[1],
-                                                                  'start': self.current_line})
+        self.var_table.append({'variable_name': self.prev_token[1], 'other_info': {}})
+        if not self.uses_table.get(str(self.current_line), None):
+            self.uses_table[str(self.current_line)] = {self.prev_token[1]: 1}
+        else:
+            self.uses_table[str(self.current_line)][self.prev_token[1]] = 1
+        if not self.uses_table.get(self.call_procedure, None):
+            self.uses_table[self.call_procedure] = {self.prev_token[1]: 1}
+        else:
+            self.uses_table[self.call_procedure][self.prev_token[1]] = 1
         self.match("OPEN_BRACKET")
-        self.next_table.set_next(while_node.line, self.current_line + 1)
+        self.next_table[self.current_line + 1] = {while_node.line: 1}
         while_node.add_child(next(self.statement_list()))
-        self.statement_table.update_statement(while_node.line, {'end': self.current_line})
+        self.statement_table.append(
+            {'statement_line': while_node.line, 'other_info': {'name': 'WHILE', 'value': while_node.children[0].value,
+                                                               'start': while_node.line, 'end': self.current_line}})
+        self.next_table[while_node.line] = {}
         if while_node.children[1].children[-1].node_type == 'IF':
             for line in self.get_all_possible_endings(while_node.children[1].children[-1]):
-                self.next_table.set_next(line, while_node.line)
+                self.next_table[while_node.line][line] = 1
         else:
-            self.next_table.set_next(while_node.children[1].children[-1].line, while_node.line)
+            self.next_table[while_node.line][while_node.children[1].children[-1].line] = 1
+        self.parent_table[while_node.line] = {}
+        self.mod_table[str(while_node.line)] = {}
         for child in while_node.children[1].children:
-            self.parent_table.set_parent(while_node.line, child.line)
+            self.parent_table[while_node.line][child.line] = 1
             if child.node_type == 'ASSIGN' or child.node_type == 'WHILE' or child.node_type == 'IF':
-                for letter in self.mod_table.get_modified(str(child.line)):
-                    self.mod_table.set_modifies(letter, str(while_node.line))
-                    self.mod_table.set_modifies(letter, self.call_procedure)
-                for letter in self.uses_table.get_used(str(child.line)):
-                    self.uses_table.set_uses(letter, str(while_node.line))
-                    self.uses_table.set_uses(letter, self.call_procedure)
+                for letter in self.mod_table.get(str(child.line), []):
+                    self.mod_table[str(while_node.line)][letter] = 1
+                    self.mod_table[self.call_procedure][letter] = 1
+                for letter in self.uses_table.get(str(child.line), []):
+                    self.uses_table[str(while_node.line)][letter] = 1
+                    self.uses_table[self.call_procedure][letter] = 1
         self.match("CLOSE_BRACKET")
 
         yield while_node
@@ -206,11 +242,12 @@ class Parser:
         assign_node: Node = Node("ASSIGN", line=self.current_line)
         self.match("NAME")
         assign_node.add_child(Node(self.prev_token[0], self.prev_token[1], self.current_line))
-        self.var_table.insert_var(self.prev_token[1])
-        self.mod_table.set_modifies(self.prev_token[1], str(self.current_line))
-        self.mod_table.set_modifies(self.prev_token[1], self.call_procedure)
-        self.statement_table.insert_statement(self.current_line, {'name': 'ASSIGN', 'value': self.prev_token[1],
-                                                                  'start': self.current_line, 'end': self.current_line})
+        self.var_table.append({'variable_name': self.prev_token[1], 'other_info': {}})
+        self.mod_table[str(self.current_line)] = {self.prev_token[1]: 1}
+        self.mod_table[self.call_procedure] = {self.prev_token[1]: 1}
+        self.statement_table.append(
+            {'statement_line': self.current_line, 'other_info': {'name': 'ASSIGN', 'value': self.prev_token[1],
+                                                                 'start': self.current_line, 'end': self.current_line}})
         self.match("ASSIGN")
         assign_node.add_child(next(self.expression()))
         self.match("SEMICOLON")
@@ -230,43 +267,52 @@ class Parser:
         self.match("IF")
         self.match("NAME")
         if_node.add_child(Node(self.prev_token[0], self.prev_token[1], self.current_line))
-        self.statement_table.insert_statement(self.current_line,
-                                              {'name': 'IF', 'value': self.prev_token[1], 'start': self.current_line})
-        self.uses_table.set_uses(self.prev_token[1], str(self.current_line))
-        self.uses_table.set_uses(self.prev_token[1], self.call_procedure)
-        self.var_table.insert_var(self.prev_token[1])
+        if not self.uses_table.get(str(self.current_line), None):
+            self.uses_table[str(self.current_line)] = {self.prev_token[1]: 1}
+        else:
+            self.uses_table[str(self.current_line)][self.prev_token[1]] = 1
+        if not self.uses_table.get(self.call_procedure, None):
+            self.uses_table[self.call_procedure] = {self.prev_token[1]: 1}
+        else:
+            self.uses_table[self.call_procedure][self.prev_token[1]] = 1
+        self.var_table.append({'variable_name': self.prev_token[1], 'other_info': {}})
         self.match("THEN")
         self.match("OPEN_BRACKET")
-        self.next_table.set_next(if_node.line, self.current_line + 1)
+        self.next_table[self.current_line + 1] = {if_node.line: 1}
         if_node.add_child(next(self.statement_list()))
         last_if_line: int = self.find_last_child_line_number(if_node.children[1])
+        self.parent_table[if_node.line] = {}
+        self.mod_table[str(if_node.line)] = {}
         for child in if_node.children[1].children:
-            self.parent_table.set_parent(if_node.line, child.line)
+            self.parent_table[if_node.line][child.line] = 1
             if child.node_type == 'ASSIGN' or child.node_type == 'WHILE' or child.node_type == 'IF':
-                for letter in self.mod_table.get_modified(str(child.line)):
-                    self.mod_table.set_modifies(letter, str(if_node.line))
-                    self.mod_table.set_modifies(letter, self.call_procedure)
-                for letter in self.uses_table.get_used(str(child.line)):
-                    self.uses_table.set_uses(letter, str(if_node.line))
-                    self.uses_table.set_uses(letter, self.call_procedure)
+                for letter in self.mod_table.get(str(child.line), []):
+                    self.mod_table[str(if_node.line)][letter] = 1
+                    self.mod_table[self.call_procedure][letter] = 1
+                for letter in self.uses_table.get(str(child.line), []):
+                    self.uses_table[str(if_node.line)][letter] = 1
+                    self.uses_table[self.call_procedure][letter] = 1
         self.match("CLOSE_BRACKET")
         self.match("ELSE")
         self.match("OPEN_BRACKET")
-        self.next_table.set_next(if_node.line, self.current_line + 1)
+        self.next_table[self.current_line + 1] = {if_node.line: 1}
         if_node.add_child(next(self.statement_list()))
         last_else_line: int = self.find_last_child_line_number(if_node.children[2])
         for child in if_node.children[2].children:
-            self.parent_table.set_parent(if_node.line, child.line)
+            self.parent_table[if_node.line][child.line] = 1
             if child.node_type == 'ASSIGN' or child.node_type == 'WHILE' or child.node_type == 'IF':
-                for letter in self.mod_table.get_modified(str(child.line)):
-                    self.mod_table.set_modifies(letter, str(if_node.line))
-                    self.mod_table.set_modifies(letter, self.call_procedure)
-                for letter in self.uses_table.get_used(str(child.line)):
-                    self.uses_table.set_uses(letter, str(if_node.line))
-                    self.uses_table.set_uses(letter, self.call_procedure)
+                for letter in self.mod_table.get(str(child.line), []):
+                    self.mod_table[str(if_node.line)][letter] = 1
+                    self.mod_table[self.call_procedure][letter] = 1
+                for letter in self.uses_table.get(str(child.line), []):
+                    self.uses_table[str(if_node.line)][letter] = 1
+                    self.uses_table[self.call_procedure][letter] = 1
         self.match("CLOSE_BRACKET")
-        self.statement_table.update_statement(if_node.line, {'end': self.current_line, 'last_else_line': last_else_line,
-                                                             'last_if_line': last_if_line})
+        self.statement_table.append({'statement_line': if_node.line,
+                                     'other_info': {'name': 'IF', 'value': if_node.children[0].value,
+                                                    'start': if_node.line, 'end': self.current_line,
+                                                    'last_else_line': last_else_line,
+                                                    'last_if_line': last_if_line}})
         yield if_node
 
     def find_last_child_line_number(self, node: Node):
@@ -307,20 +353,23 @@ class Parser:
                 yield factor_node
             elif self.next_token[0] == "INTEGER":
                 self.match("INTEGER")
-                if self.const_table.is_in(int(self.prev_token[1])):
-                    const_lines: List[int] = self.const_table.get_other_info(int(self.prev_token[1]))['lines']
-                    const_lines.append(self.current_line)
-                    self.const_table.update_const(int(self.prev_token[1]), {'lines': const_lines})
+                if self.const_table.get(self.prev_token[1], None):
+                    self.const_table[self.prev_token[1]]['lines'].append(self.current_line)
                 else:
-                    self.const_table.insert_const(int(self.prev_token[1]))
-                    self.const_table.update_const(int(self.prev_token[1]), {'lines': [self.current_line]})
+                    self.const_table[self.prev_token[1]] = {'lines': [self.current_line]}
 
                 yield Node(self.prev_token[0], self.prev_token[1], self.current_line)
             elif self.next_token[0] == "NAME":
                 self.match("NAME")
-                self.uses_table.set_uses(self.prev_token[1], str(self.current_line))
-                self.uses_table.set_uses(self.prev_token[1], self.call_procedure)
-                self.var_table.insert_var(self.prev_token[1])
+                if not self.uses_table.get(str(self.current_line), None):
+                    self.uses_table[str(self.current_line)] = {self.prev_token[1]: 1}
+                else:
+                    self.uses_table[str(self.current_line)][self.prev_token[1]] = 1
+                if not self.uses_table.get(self.call_procedure, None):
+                    self.uses_table[self.call_procedure] = {self.prev_token[1]: 1}
+                else:
+                    self.uses_table[self.call_procedure][self.prev_token[1]] = 1
+                self.var_table.append({'variable_name': self.prev_token[1], 'other_info': {}})
                 yield Node(self.prev_token[0], self.prev_token[1], self.current_line)
             else:
                 raise Exception(

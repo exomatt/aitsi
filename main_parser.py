@@ -3,7 +3,10 @@ import json
 import logging
 import logging.config as conf
 import os
+import time
 from typing import Dict
+
+from pandas import DataFrame
 
 from aitsi_parser.CsvBuilder import CsvBuilder
 from aitsi_parser.Parser import Parser
@@ -27,7 +30,7 @@ def main(simple_file_path: str = "code_short.txt", tree_output: str = "AST.json"
     parser: Parser = read_program_from_file(simple_file_path)
     parser.program()
     # json_tree: Dict[str, dict] = parser.get_node_json()
-    fill_empty_values(parser)
+    # fill_empty_values(parser)
     # result = [parser.next_table.get_next(n) for n in range(1,312)]
     ##todo można odkomentować żeby wypisac sobie dane cyk najlepiej zmienic na logi
     # log.debug(json_tree)
@@ -46,17 +49,16 @@ def main(simple_file_path: str = "code_short.txt", tree_output: str = "AST.json"
                              "")
     os.makedirs(path, exist_ok=True)
     export_AST_to_file(parser.get_node_json(), path + tree_output)
-    CsvBuilder.save_table_to_csv_file(parser.mod_table.table, path + "ModifiesTable.csv")
-    CsvBuilder.save_table_to_csv_file(parser.var_table.table, path + "VarTable.csv")
-    CsvBuilder.save_table_to_csv_file(parser.proc_table.table, path + "ProcTable.csv")
-    CsvBuilder.save_table_to_csv_file(parser.calls_table.table, path + "CallsTable.csv")
-    CsvBuilder.save_table_to_csv_file(parser.mod_table.table, path + "ModifiesTable.csv")
-    CsvBuilder.save_table_to_csv_file(parser.parent_table.table, path + "ParentTable.csv")
-    CsvBuilder.save_table_to_csv_file(parser.uses_table.table, path + "UsesTable.csv")
-    CsvBuilder.save_table_to_csv_file(parser.follows_table.table, path + "FollowsTable.csv")
-    CsvBuilder.save_table_to_csv_file(parser.statement_table.table, path + "StatementTable.csv")
-    CsvBuilder.save_table_to_csv_file(parser.const_table.table, path + "ConstTable.csv")
-    CsvBuilder.save_table_to_csv_file(parser.next_table.table, path + "NextTable.csv")
+    CsvBuilder.save_table_to_csv_file(DataFrame(parser.var_table), path + "VarTable.csv")
+    CsvBuilder.save_table_to_csv_file(DataFrame(parser.proc_table), path + "ProcTable.csv")
+    CsvBuilder.save_table_to_csv_file(DataFrame(parser.statement_table), path + "StatementTable.csv")
+    CsvBuilder.save_table_to_csv_file(DataFrame([{'constant': key, 'other_info':{'lines': parser.const_table[key]['lines']}} for key in parser.const_table]), path + "ConstTable.csv")
+    CsvBuilder.save_table_to_csv_file(DataFrame(parser.follows_table).transpose(), path + "FollowsTable.csv")
+    CsvBuilder.save_table_to_csv_file(DataFrame(parser.parent_table).transpose(), path + "ParentTable.csv")
+    CsvBuilder.save_table_to_csv_file(DataFrame(parser.calls_table).transpose(), path + "CallsTable.csv")
+    CsvBuilder.save_table_to_csv_file(DataFrame(parser.next_table), path + "NextTable.csv")
+    CsvBuilder.save_table_to_csv_file(DataFrame(parser.mod_table), path + "ModifiesTable.csv")
+    CsvBuilder.save_table_to_csv_file(DataFrame(parser.uses_table), path + "UsesTable.csv")
     # todo - dodać resztę tabelek jak będą :*
     return path
 
