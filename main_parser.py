@@ -1,15 +1,10 @@
 import argparse
 import json
-import logging
-import logging.config as conf
 import os
-import time
 from typing import Dict
 
 from aitsi_parser.JsonBuilder import JsonBuilder
 from aitsi_parser.Parser import Parser
-
-log = logging.getLogger(__name__)
 
 
 def export_AST_to_file(json_ast: Dict[str, dict], filename: str = "AST.json") -> None:
@@ -25,7 +20,6 @@ def read_program_from_file(filename: str = "code_short.txt") -> Parser:
 
 def main(simple_file_path: str = "code_short.txt", tree_output: str = "AST.json",
          output_directory: str = "test") -> str:
-    current = time.time()
     parser: Parser = read_program_from_file(simple_file_path)
     parser.program()
     dirname, filename = os.path.split(os.path.abspath(__file__))
@@ -45,12 +39,10 @@ def main(simple_file_path: str = "code_short.txt", tree_output: str = "AST.json"
     JsonBuilder.save_table_to_json_file(parser.mod_table, path + "ModifiesTable.json")
     JsonBuilder.save_table_to_json_file(parser.uses_table, path + "UsesTable.json")
     # todo - dodać resztę tabelek jak będą :*
-    # print(time.time() - current)
     return path
 
 
 if __name__ == '__main__':
-    conf.fileConfig("logging.conf", disable_existing_loggers=False)
     arg_parser = argparse.ArgumentParser(description='Aitsi parser!')
     arg_parser.add_argument("--i", default="code_short.txt", type=str, help="Input file with program")
     arg_parser.add_argument("--o", default="AST.json", type=str, help="Output file for AST json ")

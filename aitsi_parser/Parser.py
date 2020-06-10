@@ -2,7 +2,7 @@ import json
 import re
 from typing import Tuple, Dict, List, Set
 
-from aitsi_parser.Node import Node
+from pql.Node import Node
 
 
 class Parser:
@@ -44,7 +44,6 @@ class Parser:
                 self.throw_exception(token)
                 raise Exception
         except:
-            log.exception("SyntaxWhileParsingError")
             raise Exception("Check logs for more info")
 
     def throw_exception(self, token):
@@ -74,7 +73,8 @@ class Parser:
         return new_token
 
     def error(self, info: str) -> None:
-        log.error("ERROR: " + info)
+        # log.error("ERROR: " + info)
+        pass
 
     def program(self) -> None:
         self.next_token = self.get_token()
@@ -395,7 +395,6 @@ class Parser:
                 raise Exception(
                     f"Line {self.current_line}: Expected a variable or integer but received '{self.next_token[2]}'.")
         except Exception:
-            log.exception("SyntaxError")
             raise Exception("Check logs for more info")
 
     def get_node_json(self) -> Dict[str, dict]:

@@ -1,8 +1,5 @@
 import argparse
 import json
-import logging
-import logging.config as conf
-import warnings
 from typing import Dict, Union
 
 from aitsi_parser.CallsTable import CallsTable
@@ -19,11 +16,6 @@ from pql.Node import Node
 from pql.QueryEvaluator import QueryEvaluator
 from pql.QueryProcessor import QueryProcessor
 from pql.utils.JsonReader import JsonReader
-
-log = logging.getLogger(__name__)
-
-# TODO - tutaj uwaga! Są warningi wyciszone z pandasa i numpy
-warnings.simplefilter(action='ignore', category=FutureWarning)
 
 
 def load_ast_from_file(filename: str) -> Node:
@@ -96,7 +88,6 @@ class PQL:
         try:
             response = query_evaluator.evaluate_query(query_processor.root)
         except Exception as e:
-            log.error(e)
             if query_evaluator.results_table.select[0] == 'BOOLEAN':
                 return 'false'
             else:
@@ -107,7 +98,6 @@ class PQL:
 
 
 if __name__ == '__main__':
-    conf.fileConfig("logging.conf", disable_existing_loggers=False)
     arg_parser = argparse.ArgumentParser(description='PQL program!')
     arg_parser.add_argument("--i", default="pql_query.txt", type=str, help="Input file with pql query")
     arg_parser.add_argument("--o", default="pql_query_tree.json", type=str, help="Output file for pql query tree ")
@@ -122,4 +112,3 @@ if __name__ == '__main__':
     _query: str = load_query_from_file(_input_query_filename)
     pql = PQL(_tables_directory_path)
     result: str = pql.main(_query)
-    log.debug(result)
