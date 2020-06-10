@@ -1,7 +1,7 @@
 import json
 import logging
 import re
-from typing import Tuple, Dict, List
+from typing import Tuple, Dict, List, Set
 
 from pandas import DataFrame
 
@@ -104,45 +104,52 @@ class Parser:
             self.root.add_child(next(self.procedure()))
         # stmt_table = StatementTable(DataFrame(self.statement_table))
         # calls_relation = CallsTRelation(CallsTable(DataFrame(self.calls_table).transpose()), VarTable(DataFrame(self.var_table)),  stmt_table, ProcTable(DataFrame(self.proc_table)))
-        # for child in self.proc_table.get_all_proc_name():
-        #     if not self.mod_table.get(child, None):
-        #         self.mod_table[child] = {}
-        #     if not self.uses_table.get(child, None):
-        #         self.uses_table[child] = {}
-        #     for proc in calls_relation.value_from_set_and_not_initialized_set(child, ''):
-        #         self.mod_table[child][proc] = 1
-        #         self.uses_table[child][proc] = 1
-        # for statement in stmt_table.table.values:
-        #     if statement[1]['name'] == 'CALL':
-        #         modified_vars: List[str] = ModifiesTable(DataFrame(self.mod_table)).get_modified(statement[1]['value'])
-        #         used_vars: List[str] = UsesTable(DataFrame(self.uses_table)).get_used(statement[1]['value'])
-        #         for var in modified_vars:
-        #             if not self.mod_table.get(child, None):
-        #                 self.mod_table[var] = {str(statement[0]): 1}
-        #             else:
-        #                 self.mod_table[var][str(statement[0])] = 1
-        #         for var in used_vars:
-        #             if not self.uses_table.get(child, None):
-        #                 self.uses_table[var] = {str(statement[0]): 1}
-        #             else:
-        #                 self.uses_table[var][str(statement[0])] = 1
-        #     elif statement[1]['name'] == 'WHILE' or statement[1]['name'] == 'IF':
-        #         statements_inside_statement: List = [self.statement_table.table.values[i] for i in
-        #                                              range(statement[1]['start'], statement[1]['end'])]
-        #         for stmt in statements_inside_statement:
-        #             if stmt[1]['name'] == 'CALL':
-        #                 modified_vars: List[str] = ModifiesTable(DataFrame(self.mod_table)).get_modified(stmt[1]['value'])
-        #                 used_vars: List[str] = UsesTable(DataFrame(self.uses_table)).get_used(stmt[1]['value'])
-        #                 for var in modified_vars:
-        #                     if not self.mod_table.get(child, None):
-        #                         self.mod_table[var] = {str(statement[0]): 1}
-        #                     else:
-        #                         self.mod_table[var][str(statement[0])] = 1
-        #                 for var in used_vars:
-        #                     if not self.uses_table.get(child, None):
-        #                         self.uses_table[var] = {str(statement[0]): 1}
-        #                     else:
-        #                         self.uses_table[var][str(statement[0])] = 1
+        for child in self.proc_table:
+            if not self.mod_table.get(child['proc_name'], None):
+                self.mod_table[child['proc_name']] = {}
+            if not self.uses_table.get(child['proc_name'], None):
+                self.uses_table[child['proc_name']] = {}
+            for proc in self.get_called_from_procedure(child['proc_name']):
+                self.mod_table[child['proc_name']][proc] = 1
+                self.uses_table[child['proc_name']][proc] = 1
+        for statement in self.statement_table:
+            if statement['other_info']['name'] == 'CALL':
+                modified_vars: List[str] = self.mod_table[statement['other_info']['value']].keys()
+                used_vars: List[str] = self.uses_table[statement['other_info']['value']].keys()
+                for var in modified_vars:
+                    if not self.mod_table.get(var, None):
+                        self.mod_table[var] = {str(statement['statement_line']): 1}
+                    else:
+                        self.mod_table[var][str(statement['statement_line'])] = 1
+                for var in used_vars:
+                    if not self.uses_table.get(var, None):
+                        self.uses_table[var] = {str(statement['statement_line']): 1}
+                    else:
+                        self.uses_table[var][str(statement['statement_line'])] = 1
+            elif statement['other_info']['name'] == 'WHILE' or statement['other_info']['name'] == 'IF':
+                statements_inside_statement: List = [self.statement_table[i] for i in
+                                                     range(statement['other_info']['start'], statement['other_info']['end'])]
+                for stmt in statements_inside_statement:
+                    if stmt['other_info']['name'] == 'CALL':
+                        modified_vars: List[str] = ModifiesTable(DataFrame(self.mod_table)).get_modified(stmt['other_info']['value'])
+                        used_vars: List[str] = UsesTable(DataFrame(self.uses_table)).get_used(stmt['other_info']['value'])
+                        for var in modified_vars:
+                            if not self.mod_table.get(var, None):
+                                self.mod_table[var] = {str(statement['statement_line']): 1}
+                            else:
+                                self.mod_table[var][str(statement['statement_line'])] = 1
+                        for var in used_vars:
+                            if not self.uses_table.get(var, None):
+                                self.uses_table[var] = {str(statement['statement_line']): 1}
+                            else:
+                                self.uses_table[var][str(statement['statement_line'])] = 1
+
+    def get_called_from_procedure(self, calls_procedure: str) -> List[str]:
+        result: List[str] = list(self.calls_table[calls_procedure].keys())
+        procedures_to_check: Set[str] = self.calls_table[calls_procedure].keys()
+        for procedure in procedures_to_check:
+            result.extend(self.get_called_from_procedure(procedure))
+        return list(set(result))
 
     def procedure(self) -> Node:
         self.match("PROCEDURE")

@@ -27,10 +27,10 @@ def read_program_from_file(filename: str = "code_short.txt") -> Parser:
 
 def main(simple_file_path: str = "code_short.txt", tree_output: str = "AST.json",
          output_directory: str = "test") -> str:
+    current = time.time()
     parser: Parser = read_program_from_file(simple_file_path)
     parser.program()
     # json_tree: Dict[str, dict] = parser.get_node_json()
-    # fill_empty_values(parser)
     # result = [parser.next_table.get_next(n) for n in range(1,312)]
     ##todo można odkomentować żeby wypisac sobie dane cyk najlepiej zmienic na logi
     # log.debug(json_tree)
@@ -60,20 +60,8 @@ def main(simple_file_path: str = "code_short.txt", tree_output: str = "AST.json"
     CsvBuilder.save_table_to_csv_file(DataFrame(parser.mod_table), path + "ModifiesTable.csv")
     CsvBuilder.save_table_to_csv_file(DataFrame(parser.uses_table), path + "UsesTable.csv")
     # todo - dodać resztę tabelek jak będą :*
+    # print(time.time() - current)
     return path
-
-
-def fill_empty_values(parser):
-    parser.var_table.table = parser.var_table.table.fillna(value=0)
-    parser.proc_table.table = parser.proc_table.table.fillna(value=0)
-    parser.calls_table.table = parser.calls_table.table.fillna(value=0)
-    parser.mod_table.table = parser.mod_table.table.fillna(value=0)
-    parser.parent_table.table = parser.parent_table.table.fillna(value=0)
-    parser.uses_table.table = parser.uses_table.table.fillna(value=0)
-    parser.follows_table.table = parser.follows_table.table.fillna(value=0)
-    parser.statement_table.table = parser.statement_table.table.fillna(value=0)
-    parser.const_table.table = parser.const_table.table.fillna(value=0)
-    parser.next_table.table = parser.next_table.table.fillna(value=0)
 
 
 if __name__ == '__main__':
