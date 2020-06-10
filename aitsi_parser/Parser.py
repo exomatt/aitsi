@@ -114,6 +114,10 @@ class Parser:
                     self.mod_table[child['proc_name']].update(self.mod_table[proc])
                 if self.uses_table.get(proc, None):
                     self.uses_table[child['proc_name']].update(self.uses_table[proc])
+            if self.mod_table.get(child['proc_name'], None) == {}:
+                self.mod_table.pop(child['proc_name'], None)
+            if self.uses_table.get(child['proc_name'], None) == {}:
+                self.uses_table.pop(child['proc_name'], None)
         for statement in self.statement_table:
             if statement['other_info']['name'] == 'CALL':
                 if self.mod_table.get(statement['other_info']['value'], None):
@@ -140,7 +144,7 @@ class Parser:
                             else:
                                 self.mod_table[str(statement['statement_line'])].update(modified_vars)
                         if self.uses_table.get(stmt['other_info']['value'], None):
-                            used_vars: List[str] = self.uses_table[stmt['other_info']['value']]
+                            used_vars: List[str] = {x:y for x, y in self.uses_table[stmt['other_info']['value']].items()}
                             if not self.uses_table.get(str(statement['statement_line']), None):
                                 self.uses_table[str(statement['statement_line'])] = used_vars
                             else:
