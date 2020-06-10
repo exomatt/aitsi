@@ -30,16 +30,6 @@ class Parser:
                          (r"\s*[0-9]+", 'INTEGER', 'integer')]
 
     def __init__(self, code: str, filename: str) -> None:
-        # self.calls_table: CallsTable = CallsTable()
-        # self.const_table: ConstTable = ConstTable()
-        # self.mod_table: ModifiesTable = ModifiesTable()
-        # self.next_table: NextTable = NextTable()
-        # self.parent_table: ParentTable = ParentTable()
-        # self.follows_table: FollowsTable = FollowsTable()
-        # self.proc_table: ProcTable = ProcTable()
-        # self.statement_table: StatementTable = StatementTable()
-        # self.var_table: VarTable = VarTable()
-        # self.uses_table: UsesTable = UsesTable()
         self.calls_table: Dict = {}
         self.const_table: Dict = {}
         self.mod_table: Dict = {}
