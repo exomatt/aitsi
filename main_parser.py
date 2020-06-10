@@ -6,9 +6,7 @@ import os
 import time
 from typing import Dict
 
-from pandas import DataFrame
-
-from aitsi_parser.CsvBuilder import CsvBuilder
+from aitsi_parser.JsonBuilder import JsonBuilder
 from aitsi_parser.Parser import Parser
 
 log = logging.getLogger(__name__)
@@ -30,35 +28,22 @@ def main(simple_file_path: str = "code_short.txt", tree_output: str = "AST.json"
     current = time.time()
     parser: Parser = read_program_from_file(simple_file_path)
     parser.program()
-    # json_tree: Dict[str, dict] = parser.get_node_json()
-    # result = [parser.next_table.get_next(n) for n in range(1,312)]
-    ##todo można odkomentować żeby wypisac sobie dane cyk najlepiej zmienic na logi
-    # log.debug(json_tree)
-    # log.debug(parser.var_table.to_log())
-    # log.debug(parser.proc_table.to_log())
-    # log.debug(parser.calls_table.to_log())
-    # log.debug(parser.mod_table.to_log())
-    # log.debug(parser.parent_table.to_log())
-    # log.debug(parser.uses_table.to_log())
-    # log.debug(parser.follows_table.to_log())
-    # log.debug(parser.statement_table.to_log())
-    # log.debug(parser.const_table.to_log())
-    # log.debug(parser.next_table.to_log())
     dirname, filename = os.path.split(os.path.abspath(__file__))
     path: str = os.path.join(dirname, "database/", output_directory, os.path.basename(simple_file_path).split('.')[0],
                              "")
     os.makedirs(path, exist_ok=True)
     export_AST_to_file(parser.get_node_json(), path + tree_output)
-    CsvBuilder.save_table_to_csv_file(DataFrame([{'variable_name': key, 'other_info':{}} for key in parser.var_table]).fillna(value=0), path + "VarTable.csv")
-    CsvBuilder.save_table_to_csv_file(DataFrame(parser.proc_table).fillna(value=0), path + "ProcTable.csv")
-    CsvBuilder.save_table_to_csv_file(DataFrame(parser.statement_table).fillna(value=0), path + "StatementTable.csv")
-    CsvBuilder.save_table_to_csv_file(DataFrame([{'constant': key, 'other_info':{'lines': parser.const_table[key]['lines']}} for key in parser.const_table]).fillna(value=0), path + "ConstTable.csv")
-    CsvBuilder.save_table_to_csv_file(DataFrame(parser.follows_table).transpose().fillna(value=0), path + "FollowsTable.csv")
-    CsvBuilder.save_table_to_csv_file(DataFrame(parser.parent_table).transpose().fillna(value=0), path + "ParentTable.csv")
-    CsvBuilder.save_table_to_csv_file(DataFrame(parser.calls_table).transpose().fillna(value=0), path + "CallsTable.csv")
-    CsvBuilder.save_table_to_csv_file(DataFrame(parser.next_table).fillna(value=0), path + "NextTable.csv")
-    CsvBuilder.save_table_to_csv_file(DataFrame(parser.mod_table).fillna(value=0), path + "ModifiesTable.csv")
-    CsvBuilder.save_table_to_csv_file(DataFrame(parser.uses_table).fillna(value=0), path + "UsesTable.csv")
+    JsonBuilder.save_table_to_json_file([{'variable_name': key, 'other_info': {}} for key in parser.var_table],
+                                        path + "VarTable.json")
+    JsonBuilder.save_table_to_json_file(parser.proc_table, path + "ProcTable.json")
+    JsonBuilder.save_table_to_json_file(parser.statement_table, path + "StatementTable.json")
+    JsonBuilder.save_table_to_json_file(parser.const_table, path + "ConstTable.json")
+    JsonBuilder.save_table_to_json_file(parser.follows_table, path + "FollowsTable.json")
+    JsonBuilder.save_table_to_json_file(parser.parent_table, path + "ParentTable.json")
+    JsonBuilder.save_table_to_json_file(parser.calls_table, path + "CallsTable.json")
+    JsonBuilder.save_table_to_json_file(parser.next_table, path + "NextTable.json")
+    JsonBuilder.save_table_to_json_file(parser.mod_table, path + "ModifiesTable.json")
+    JsonBuilder.save_table_to_json_file(parser.uses_table, path + "UsesTable.json")
     # todo - dodać resztę tabelek jak będą :*
     # print(time.time() - current)
     return path

@@ -7,7 +7,6 @@ from aitsi_parser.VarTable import VarTable
 
 
 class CallsRelation:
-    statements = ['WHILE', 'IF', 'ASSIGN', 'CALL']
 
     def __init__(self, calls_table: CallsTable, var_table: VarTable, stmt_table: StatementTable,
                  proc_table: ProcTable) -> None:
@@ -33,11 +32,11 @@ class CallsRelation:
 
     def not_initialized_set_and_not_initialized_set(self, param_first: str, param_second: str) -> Tuple[
         List[str], List[str]]:
-        return self.calls_table.table.index.tolist(), self.calls_table.table.columns.tolist()
+        return self.calls_table.get_all_index(), self.calls_table.get_all_columns()
 
     def not_initialized_set_and_value_from_query(self, param_first: str, param_second: str) -> List[str]:
         if param_second == '_':
-            return self.calls_table.table.index.tolist()
+            return self.calls_table.get_all_index()
         return self.calls_table.get_calls(param_second)
 
     def value_from_query_and_value_from_set(self, param_first: str, param_second: str) -> bool:
@@ -47,13 +46,13 @@ class CallsRelation:
 
     def value_from_query_and_not_initialized_set(self, param_first: str, param_second: str) -> List[str]:
         if param_first == '_':
-            return self.calls_table.table.columns.tolist()
+            return self.calls_table.get_all_columns()
         return self.calls_table.get_called_from(param_first)
 
     def value_from_query_and_value_from_query(self, param_first: str, param_second: str) -> bool:
         if param_first == '_':
             if param_second == '_':
-                return bool(self.calls_table.table.index.tolist() and self.calls_table.table.columns.tolist())
+                return bool(self.calls_table.get_all_index() and self.calls_table.get_all_columns())
             return bool(self.calls_table.get_calls(param_second))
         if param_second == '_':
             return bool(self.calls_table.get_called_from(param_first))

@@ -167,7 +167,7 @@ class QueryEvaluator:
         return graph.isCyclic()
 
     def check_relations_when_we_got_cycle(self, relations: List[Node]):
-        synonyms_names: List[str] = self.results_table.table.columns.tolist()
+        synonyms_names: List[str] = list(self.results_table.table.keys())
         synonyms_names.remove('BOOLEAN')
         synonyms_names.remove('CONST')
         mapa: Dict[str, int] = {}
@@ -380,7 +380,7 @@ class QueryEvaluator:
                                                                                    second_argument_value)
                 if not result:
                     raise Exception()
-                self.results_table.table.at['final', 'BOOLEAN'] = result
+                self.results_table.table['BOOLEAN']['final'] = result
 
         if type(first_argument_value) is tuple:
             relations: List[str] = [relation for relation in
@@ -393,20 +393,20 @@ class QueryEvaluator:
                     relation_data = relation.split('_')
                     if relation_data[2] == first_argument_value[0]:
                         first_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
-                            relation_data[1], self.results_table.table.at['type', relation_data[1]])
+                            relation_data[1], self.results_table.table[relation_data[1]]['type'])
                         second_argument: Tuple[str, str] = (
-                            relation_data[2], self.results_table.table.at['final', relation_data[2]])
+                            relation_data[2], self.results_table.table[relation_data[2]]['final'])
                     elif relation_data[2] == second_argument_value[0]:
                         self.check_two_relation_with_the_same_argument(relation, relation_index)
                         first_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
-                            relation_data[1], self.results_table.table.at['final', relation_data[1]])
+                            relation_data[1], self.results_table.table[relation_data[1]]['final'])
                         second_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
-                            relation_data[2], self.results_table.table.at['final', relation_data[2]])
+                            relation_data[2], self.results_table.table[relation_data[2]]['final'])
                     else:
                         first_argument: Tuple[str, str] = (
-                            relation_data[1], self.results_table.table.at['final', relation_data[1]])
+                            relation_data[1], self.results_table.table[relation_data[1]]['final'])
                         second_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
-                            relation_data[2], self.results_table.table.at['type', relation_data[2]])
+                            relation_data[2], self.results_table.table[relation_data[2]]['type'])
                     self.execution_of_relation(relation_data[0], first_argument, second_argument)
                 self.relation_index_stack.remove(relation_index)
 
@@ -421,19 +421,19 @@ class QueryEvaluator:
                     relation_data = relation.split('_')
                     if relation_data[1] == second_argument_value[0]:
                         first_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
-                            relation_data[1], self.results_table.table.at['final', relation_data[1]])
+                            relation_data[1], self.results_table.table[relation_data[1]]['final'])
                         second_argument: Tuple[str, str] = (
-                            relation_data[2], self.results_table.table.at['type', relation_data[2]])
+                            relation_data[2], self.results_table.table[relation_data[2]]['type'])
                     elif relation_data[1] == first_argument_value[0]:
                         first_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
-                            relation_data[1], self.results_table.table.at['final', relation_data[1]])
+                            relation_data[1], self.results_table.table[relation_data[1]]['final'])
                         second_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
-                            relation_data[2], self.results_table.table.at['final', relation_data[2]])
+                            relation_data[2], self.results_table.table[relation_data[2]]['final'])
                     else:
                         first_argument: Tuple[str, str] = (
-                            relation_data[1], self.results_table.table.at['type', relation_data[1]])
+                            relation_data[1], self.results_table.table[relation_data[1]]['type'])
                         second_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
-                            relation_data[2], self.results_table.table.at['final', relation_data[2]])
+                            relation_data[2], self.results_table.table[relation_data[2]]['final'])
                     self.execution_of_relation(relation_data[0], first_argument, second_argument)
                 self.relation_index_stack.remove(relation_index)
         # print('Here')
@@ -446,26 +446,27 @@ class QueryEvaluator:
 
     def final_check(self):
         relations: List[str] = [relation for relation in
-                                self.results_table.table.index.tolist() if
+                                self.results_table.get_all_relations() if
                                 relation not in ['type', 'final', 'PATTERN', 'WITH'] and 'CONST' not in relation]
         for relation in relations:
             relation_data = str(relation).split('_')
-            if self.results_table.table.at['final', relation_data[2]] != self.results_table.table.at[
-                relation, relation_data[2]] \
-                    or self.results_table.table.at['final', relation_data[1]] != self.results_table.table.at[
-                relation, relation_data[1]]:
+            if self.results_table.table[relation_data[2]]['final'] != self.results_table.table[relation_data[2]][
+                relation] \
+                    or self.results_table.table[relation_data[1]]['final'] != \
+                    self.results_table.table[relation_data[1]][
+                        relation]:
                 first_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
-                    relation_data[1], self.results_table.table.at['final', relation_data[1]])
+                    relation_data[1], self.results_table.table[relation_data[1]]['final'])
                 second_argument: Union[Tuple[str, Set[int]], Tuple[str, Set[str]]] = (
-                    relation_data[2], self.results_table.table.at['final', relation_data[2]])
+                    relation_data[2], self.results_table.table[relation_data[2]]['final'])
                 self.execution_of_relation(relation_data[0], first_argument, second_argument)
 
     def check_two_relation_with_the_same_argument(self, first_relation: str, second_relation: str):
         first_relation_data: List[str] = first_relation.split('_')
         second_relation_data: List[str] = second_relation.split('_')
         results_final: Tuple[Union[Set[str], Set[int]], Union[Set[str], Set[int]]] = (
-            self.results_table.table.at['final', first_relation_data[1]],
-            self.results_table.table.at['final', first_relation_data[2]])
+            self.results_table.table[first_relation_data[1]]['final'],
+            self.results_table.table[first_relation_data[2]]['final'])
         results: Tuple[Union[Set[str], Set[int]], Union[Set[str], Set[int]]] = (set(), set())
         for first_argument in results_final[0]:
             for second_argument in results_final[1]:

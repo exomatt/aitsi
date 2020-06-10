@@ -1,55 +1,41 @@
-from typing import List
-
-import pandas as pd
+from typing import List, Union, Dict
 
 
 class ModifiesTable:
 
-    def __init__(self, table: pd.DataFrame = None) -> None:
-        if table is None:
-            table = pd.DataFrame()
-        self.table: pd.DataFrame = table
+    def __init__(self, table: Union[Dict, List]) -> None:
+        self.table: Union[Dict, List] = table
 
-    def set_modifies(self, var_name: str, stmt: str) -> None:
-        if stmt not in self.table.columns.tolist():
-            self.table[stmt] = 0
-        if var_name not in self.table.index.tolist():
-            self.table.loc[var_name] = 0
-        self.table.loc[var_name, stmt] = 1
+    def get_all_columns(self) -> List[str]:
+        return list(self.table.keys())
 
-    def set_modifies_from_procedure(self, called_from: str, called_to: str) -> None:
-        try:
-            self.table.loc[self.table[called_to] == 1, called_from] = 1
-        except:
-            pass
+    def get_all_index(self) -> List[str]:
+        return list(set(sum([list(self.table[key].keys()) for key in self.table], [])))
 
     def get_modified(self, stmt: str) -> List[str]:
         try:
-            return self.table.index[self.table[str(stmt)] == 1].tolist()
+            return list(self.table[str(stmt)].keys())
         except Exception:
             return []
 
     def get_modifies(self, var_name: str) -> List[str]:
         try:
-            return self.table.columns[self.table.loc[var_name] == 1].tolist()
+            return [element for element in self.table if str(var_name) in self.table[element].keys()]
         except Exception:
             return []
 
     def is_modified(self, stmt: str, var_name: str) -> bool:
         try:
-            return bool(self.table.at[var_name, stmt])
+            return bool(self.table[stmt][var_name])
         except Exception:
             return False
 
-    def get_all_variables(self) -> List[str]:
-        return self.table.index.tolist()
-
     def get_all_lines(self) -> List[int]:
-        return [int(x) for x in self.table.columns.tolist() if x.isdigit()]
+        return [int(key) for key in self.table if str(key).isdigit()]
 
     def to_string(self) -> None:
         print("ModifiesTable:")
-        print(self.table.to_string())
+        print(self.table)
 
     def to_log(self) -> str:
-        return "ModifiesTable: \n" + self.table.to_string()
+        return "ModifiesTable: \n" + str(self.table)

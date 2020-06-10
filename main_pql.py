@@ -18,7 +18,7 @@ from aitsi_parser.VarTable import VarTable
 from pql.Node import Node
 from pql.QueryEvaluator import QueryEvaluator
 from pql.QueryProcessor import QueryProcessor
-from pql.utils.CsvReader import CsvReader
+from pql.utils.JsonReader import JsonReader
 
 log = logging.getLogger(__name__)
 
@@ -46,23 +46,23 @@ def export_query_tree_to_file(query_json_tree: Dict[str, dict], filename: str = 
 class PQL:
     def __init__(self, tables_directory_path: str = "database/test/code_short", input_ast_filename: str = "AST.json"):
         self.ast_node: Node = load_ast_from_file(tables_directory_path + "/" + input_ast_filename)
-        var_table: VarTable = VarTable(CsvReader.read_csv_from_file(tables_directory_path + "/VarTable.csv"))
-        proc_table: ProcTable = ProcTable(CsvReader.read_csv_from_file(tables_directory_path + "/ProcTable.csv"))
+        var_table: VarTable = VarTable(JsonReader.read_json_from_file(tables_directory_path + "/VarTable.json"))
+        proc_table: ProcTable = ProcTable(JsonReader.read_json_from_file(tables_directory_path + "/ProcTable.json"))
         calls_table: CallsTable = CallsTable(
-            CsvReader.read_csv_from_file(tables_directory_path + "/CallsTable.csv"))
+            JsonReader.read_json_from_file(tables_directory_path + "/CallsTable.json"))
         modifies_table: ModifiesTable = ModifiesTable(
-            CsvReader.read_csv_from_file(tables_directory_path + "/ModifiesTable.csv"))
+            JsonReader.read_json_from_file(tables_directory_path + "/ModifiesTable.json"))
         parent_table: ParentTable = ParentTable(
-            CsvReader.read_csv_from_file(tables_directory_path + "/ParentTable.csv", True))
-        uses_table: UsesTable = UsesTable(CsvReader.read_csv_from_file(tables_directory_path + "/UsesTable.csv"))
+            JsonReader.read_json_from_file(tables_directory_path + "/ParentTable.json"))
+        uses_table: UsesTable = UsesTable(JsonReader.read_json_from_file(tables_directory_path + "/UsesTable.json"))
         follows_table: FollowsTable = FollowsTable(
-            CsvReader.read_csv_from_file(tables_directory_path + "/FollowsTable.csv", True))
+            JsonReader.read_json_from_file(tables_directory_path + "/FollowsTable.json"))
         statement_table: StatementTable = StatementTable(
-            CsvReader.read_csv_from_file(tables_directory_path + "/StatementTable.csv"))
+            JsonReader.read_json_from_file(tables_directory_path + "/StatementTable.json"))
         const_table: ConstTable = ConstTable(
-            CsvReader.read_csv_from_file(tables_directory_path + "/ConstTable.csv"))
+            JsonReader.read_json_from_file(tables_directory_path + "/ConstTable.json"))
         next_table: NextTable = NextTable(
-            CsvReader.read_csv_from_file(tables_directory_path + "/NextTable.csv", True))
+            JsonReader.read_json_from_file(tables_directory_path + "/NextTable.json"))
         self.all_tables: Dict[str, Union[VarTable,
                                          ProcTable,
                                          UsesTable,

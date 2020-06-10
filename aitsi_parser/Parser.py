@@ -1,21 +1,8 @@
-import copy
 import json
-import logging
 import re
 from typing import Tuple, Dict, List, Set
 
-from pandas import DataFrame
-
-from aitsi_parser.CallsTable import CallsTable
-from aitsi_parser.ModifiesTable import ModifiesTable
 from aitsi_parser.Node import Node
-from aitsi_parser.ProcTable import ProcTable
-from aitsi_parser.StatementTable import StatementTable
-from aitsi_parser.UsesTable import UsesTable
-from aitsi_parser.VarTable import VarTable
-from pql.relations.CallsTRelation import CallsTRelation
-
-log = logging.getLogger(__name__)
 
 
 class Parser:
@@ -30,16 +17,6 @@ class Parser:
                          (r"\s*[0-9]+", 'INTEGER', 'integer')]
 
     def __init__(self, code: str, filename: str) -> None:
-        # self.calls_table: CallsTable = CallsTable()
-        # self.const_table: ConstTable = ConstTable()
-        # self.mod_table: ModifiesTable = ModifiesTable()
-        # self.next_table: NextTable = NextTable()
-        # self.parent_table: ParentTable = ParentTable()
-        # self.follows_table: FollowsTable = FollowsTable()
-        # self.proc_table: ProcTable = ProcTable()
-        # self.statement_table: StatementTable = StatementTable()
-        # self.var_table: VarTable = VarTable()
-        # self.uses_table: UsesTable = UsesTable()
         self.calls_table: Dict = {}
         self.const_table: Dict = {}
         self.mod_table: Dict = {}
@@ -134,17 +111,19 @@ class Parser:
                         self.uses_table[str(statement['statement_line'])].update(used_vars)
             elif statement['other_info']['name'] == 'WHILE' or statement['other_info']['name'] == 'IF':
                 statements_inside_statement: List = [self.statement_table[i] for i in
-                                                     range(statement['other_info']['start'], statement['other_info']['end'])]
+                                                     range(statement['other_info']['start'],
+                                                           statement['other_info']['end'])]
                 for stmt in statements_inside_statement:
                     if stmt['other_info']['name'] == 'CALL':
                         if self.mod_table.get(stmt['other_info']['value'], None):
-                            modified_vars: Dict = {x:y for x, y in self.mod_table[stmt['other_info']['value']].items()}
+                            modified_vars: Dict = {x: y for x, y in self.mod_table[stmt['other_info']['value']].items()}
                             if not self.mod_table.get(str(statement['statement_line']), None):
                                 self.mod_table[str(statement['statement_line'])] = modified_vars
                             else:
                                 self.mod_table[str(statement['statement_line'])].update(modified_vars)
                         if self.uses_table.get(stmt['other_info']['value'], None):
-                            used_vars: List[str] = {x:y for x, y in self.uses_table[stmt['other_info']['value']].items()}
+                            used_vars: List[str] = {x: y for x, y in
+                                                    self.uses_table[stmt['other_info']['value']].items()}
                             if not self.uses_table.get(str(statement['statement_line']), None):
                                 self.uses_table[str(statement['statement_line'])] = used_vars
                             else:
@@ -182,14 +161,14 @@ class Parser:
                 if prev_node.node_type == 'IF':
                     for line in self.get_all_possible_endings(prev_node):
                         if not self.next_table.get(stmt_node.line, None):
-                            self.next_table[stmt_node.line] = {line:1}
+                            self.next_table[stmt_node.line] = {line: 1}
                         else:
                             self.next_table[stmt_node.line][line] = 1
                 else:
                     if not self.next_table.get(stmt_node.line, None):
                         self.next_table[stmt_node.line] = {prev_node.line: 1}
                     else:
-                        self.next_table[stmt_node.line][prev_node.line]= 1
+                        self.next_table[stmt_node.line][prev_node.line] = 1
                 self.follows_table[prev_node.line] = {stmt_node.line: 1}
             stmt_list_node.add_child(stmt_node)
             prev_node = stmt_node
@@ -247,12 +226,12 @@ class Parser:
         if while_node.children[1].children[-1].node_type == 'IF':
             for line in self.get_all_possible_endings(while_node.children[1].children[-1]):
                 if not self.next_table.get(while_node.line, None):
-                    self.next_table[while_node.line] = {line:1}
+                    self.next_table[while_node.line] = {line: 1}
                 else:
                     self.next_table[while_node.line][line] = 1
         else:
             if not self.next_table.get(while_node.line, None):
-                self.next_table[while_node.line] = {while_node.children[1].children[-1].line : 1}
+                self.next_table[while_node.line] = {while_node.children[1].children[-1].line: 1}
             else:
                 self.next_table[while_node.line][while_node.children[1].children[-1].line] = 1
         self.parent_table[while_node.line] = {}
@@ -279,7 +258,7 @@ class Parser:
         if not self.mod_table.get(self.call_procedure, None):
             self.mod_table[self.call_procedure] = {self.prev_token[1]: 1}
         else:
-            self.mod_table[self.call_procedure][self.prev_token[1]]= 1
+            self.mod_table[self.call_procedure][self.prev_token[1]] = 1
         self.statement_table.append(
             {'statement_line': self.current_line, 'other_info': {'name': 'ASSIGN', 'value': self.prev_token[1],
                                                                  'start': self.current_line, 'end': self.current_line}})

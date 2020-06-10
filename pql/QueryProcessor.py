@@ -170,7 +170,7 @@ class QueryProcessor:
             self.match("EVERYTHING")
         elif self.next_token[0] == "IDENT_QUOTE":
             if self.next_token[1].strip().replace('"', '') not in self.var_names:
-                #self.return_none()
+                # self.return_none()
                 self.match("IDENT_QUOTE")
                 return None
             self.match("IDENT_QUOTE")

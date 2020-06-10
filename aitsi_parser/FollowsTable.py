@@ -1,42 +1,37 @@
-from typing import List, Union
-
-import pandas as pd
+from typing import List, Union, Dict
 
 
 class FollowsTable:
-    def __init__(self, table: pd.DataFrame = None) -> None:
-        if table is None:
-            table = pd.DataFrame()
-        self.table: pd.DataFrame = table
+    def __init__(self, table: Union[Dict, List]) -> None:
+        self.table: Union[Dict, List] = table
 
-    def set_follows(self, follows_stmt: int, child_stmt: int) -> None:
-        if child_stmt not in self.table.columns.tolist():
-            self.table[child_stmt] = 0
-        if follows_stmt not in self.table.index.tolist():
-            self.table.loc[follows_stmt] = 0
-        self.table.loc[follows_stmt, child_stmt] = 1
+    def get_all_columns(self) -> List[int]:
+        return list(map(int, set(sum([list(self.table[key].keys()) for key in self.table], []))))
+
+    def get_all_index(self) -> List[int]:
+        return list(map(int, self.table.keys()))
 
     def get_follows(self, stmt: int) -> Union[int, None]:
         try:
-            return self.table.index[self.table[stmt] == 1].tolist()[0]
+            return int([element for element in self.table if str(stmt) in self.table[element].keys()][0])
         except Exception:
             return None
 
     def get_child(self, stmt: int) -> Union[int, None]:
         try:
-            return self.table.columns[self.table.loc[stmt] == 1].tolist()[0]
+            return int(list(self.table[str(stmt)].keys())[0])
         except Exception:
             return None
 
     def is_follows(self, follows_stmt: int, child_stmt: int) -> bool:
         try:
-            return bool(self.table.at[follows_stmt, child_stmt])
+            return bool(self.table[str(follows_stmt)][str(child_stmt)])
         except Exception:
             return False
 
     def to_string(self) -> None:
         print("followsTable:")
-        print(self.table.to_string())
+        print(self.table)
 
     def to_log(self) -> str:
-        return "FollowsTable: \n" + self.table.to_string()
+        return "FollowsTable: \n" + str(self.table)

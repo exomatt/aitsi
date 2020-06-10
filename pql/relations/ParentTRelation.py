@@ -16,7 +16,7 @@ class ParentTRelation:
 
     def value_from_set_and_not_initialized_set(self, param_first: str, param_second: str) -> List[int]:
         if param_second == 'STMT':
-            pom: List[int] = self.parent_table.table.columns.tolist()
+            pom: List[int] = list(map(int, self.parent_table.get_all_children()))
         else:
             pom: List[int] = self.stmt_table.get_statement_line_by_type_name(param_second)
         return list(set(self.get_all_lines_in_stmt_lst_child_line(int(param_first))).intersection(pom))
@@ -28,7 +28,7 @@ class ParentTRelation:
 
     def not_initialized_set_and_value_from_set(self, param_first: str, param_second: str) -> List[int]:
         if param_first == 'STMT':
-            pom: List[int] = self.parent_table.table.index.tolist()
+            pom: List[int] = list(map(int, self.parent_table.get_all_parents()))
         else:
             pom: List[int] = self.stmt_table.get_statement_line_by_type_name(param_first)
         return list(set(self.get_all_lines_in_stmt_lst_parent_line(int(param_second))).intersection(pom))
@@ -37,7 +37,8 @@ class ParentTRelation:
             Tuple[List[int], List[int]]:
         if param_first == 'STMT':
             if param_second == 'STMT':
-                return self.parent_table.table.index.tolist(), self.parent_table.table.columns.tolist()
+                return list(map(int, self.parent_table.get_all_parents())), list(
+                    map(int, self.parent_table.get_all_children()))
             else:
                 pom_second: List[int] = self.stmt_table.get_statement_line_by_type_name(param_second)
                 result_first: Set[int] = set()
@@ -74,10 +75,10 @@ class ParentTRelation:
     def not_initialized_set_and_value_from_query(self, param_first: str, param_second: str) -> List[int]:
         if param_second == '_':
             if param_first == 'STMT':
-                pom: List[int] = self.parent_table.table.index.tolist()
+                pom: List[int] = list(map(int, self.parent_table.get_all_parents()))
             else:
                 pom: List[int] = list(set(self.stmt_table.get_statement_line_by_type_name(param_first)).intersection(
-                    self.parent_table.table.index.tolist()))
+                    self.parent_table.get_all_parents()))
             return pom
         return self.not_initialized_set_and_value_from_set(param_first, param_second)
 
@@ -89,17 +90,17 @@ class ParentTRelation:
     def value_from_query_and_not_initialized_set(self, param_first: str, param_second: str) -> List[int]:
         if param_first == '_':
             if param_second == 'STMT':
-                pom: List[int] = self.parent_table.table.columns.tolist()
+                pom: List[int] = list(map(int, self.parent_table.get_all_children()))
             else:
                 pom: List[int] = list(set(self.stmt_table.get_statement_line_by_type_name(param_second)).intersection(
-                    self.parent_table.table.columns.tolist()))
+                    self.parent_table.get_all_children()))
             return pom
         return self.value_from_set_and_not_initialized_set(param_first, param_second)
 
     def value_from_query_and_value_from_query(self, param_first: str, param_second: str) -> bool:
         if param_first == '_':
             if param_second == '_':
-                return bool(self.parent_table.table.index.tolist() and self.parent_table.table.columns.tolist())
+                return bool(self.parent_table.get_all_parents() and self.parent_table.get_all_children())
             return bool(self.parent_table.get_parent(int(param_second)))
         if param_second == '_':
             return bool(self.parent_table.get_child(int(param_first)))
