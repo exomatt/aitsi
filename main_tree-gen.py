@@ -1,9 +1,11 @@
-import json
 import argparse
+import json
+
 from anytree.exporter import UniqueDotExporter
 from anytree.importer import DictImporter
 
 importer = DictImporter()
+
 
 def remove_dots(obj):
     for key in obj.keys():
@@ -17,6 +19,7 @@ def remove_dots(obj):
                     obj['line'])
             del obj[key]
     return obj
+
 
 if __name__ == '__main__':
     arg_parser = argparse.ArgumentParser(description='Tree Gnerator!')

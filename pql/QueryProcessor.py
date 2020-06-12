@@ -1,11 +1,8 @@
 import json
-import logging
 import re
 from typing import Tuple, Dict, List
 
 from pql.Node import Node
-
-log = logging.getLogger(__name__)
 
 
 class QueryProcessor:
@@ -52,7 +49,6 @@ class QueryProcessor:
             self.error(self.next_token[0] + " not equals " + token)
 
     def error(self, info: str) -> None:
-        log.error("ERROR: " + info)
         raise Exception("#ERROR " + info)
 
     def return_none(self):
@@ -83,7 +79,6 @@ class QueryProcessor:
         self.query = query.replace('\n', '')
         self.next_token = self.get_token()
         self.select_cl()
-        self.root.to_log(0)
 
     def stmt_ref(self) -> Node:
         if self.next_token[0] == "IDENT":
@@ -170,7 +165,7 @@ class QueryProcessor:
             self.match("EVERYTHING")
         elif self.next_token[0] == "IDENT_QUOTE":
             if self.next_token[1].strip().replace('"', '') not in self.var_names:
-                #self.return_none()
+                # self.return_none()
                 self.match("IDENT_QUOTE")
                 return None
             self.match("IDENT_QUOTE")

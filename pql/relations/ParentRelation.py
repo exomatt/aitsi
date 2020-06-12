@@ -5,7 +5,6 @@ from aitsi_parser.StatementTable import StatementTable
 
 
 class ParentRelation:
-    statements = ['WHILE', 'IF', 'CALL', 'ASSIGN']
 
     def __init__(self, parent_table: ParentTable, stmt_table: StatementTable) -> None:
         super().__init__()
@@ -36,15 +35,15 @@ class ParentRelation:
             Tuple[List[int], List[int]]:
         if param_first == 'STMT':
             if param_second == 'STMT':
-                return self.parent_table.table.index.tolist(), self.parent_table.table.columns.tolist()
+                return self.parent_table.get_all_parents(), self.parent_table.get_all_children()
             param_second_lines: List[int] = list(
                 set(self.stmt_table.get_statement_line_by_type_name(param_second)).intersection(
-                    set(self.parent_table.table.columns.tolist())))
+                    set(self.parent_table.get_all_children())))
             return list(filter(lambda line: line is not None,
                                [self.parent_table.get_parent(int(line)) for line in param_second_lines])), \
                    param_second_lines
         param_first_lines: List[int] = list(set(self.stmt_table.get_statement_line_by_type_name(param_first))
-                                            .intersection(self.parent_table.table.index.tolist()))
+                                            .intersection(self.parent_table.get_all_parents()))
         if param_second == 'STMT':
             result_second: Set[int] = set()
             for line in param_first_lines:
@@ -64,8 +63,8 @@ class ParentRelation:
     def not_initialized_set_and_value_from_query(self, param_first: str, param_second: str) -> List[int]:
         if param_second == '_':
             if param_first == 'STMT':
-                return self.parent_table.table.index.tolist()
-            return list(set(self.parent_table.table.index.tolist())
+                return list(map(int, self.parent_table.get_all_parents()))
+            return list(set(map(int, self.parent_table.get_all_parents()))
                         .intersection(self.stmt_table.get_statement_line_by_type_name(param_first)))
         if param_first == 'STMT':
             return list(filter(lambda line: line is not None, list({self.parent_table.get_parent(int(param_second))})))
@@ -80,8 +79,8 @@ class ParentRelation:
     def value_from_query_and_not_initialized_set(self, param_first: str, param_second: str) -> List[int]:
         if param_first == '_':
             if param_second == 'STMT':
-                return self.parent_table.table.columns.tolist()
-            return list(set(self.parent_table.table.columns.tolist())
+                return list(map(int, self.parent_table.get_all_children()))
+            return list(set(map(int, self.parent_table.get_all_children()))
                         .intersection(self.stmt_table.get_statement_line_by_type_name(param_second)))
         if param_second == 'STMT':
             return self.parent_table.get_child(int(param_first))
@@ -91,7 +90,7 @@ class ParentRelation:
     def value_from_query_and_value_from_query(self, param_first: str, param_second: str) -> bool:
         if param_first == '_':
             if param_second == '_':
-                return bool(self.parent_table.table.index.tolist() and self.parent_table.table.columns.tolist())
+                return bool(self.parent_table.get_all_parents() and self.parent_table.get_all_children())
             return bool(self.parent_table.get_parent(int(param_second)))
         if param_second == '_':
             return bool(self.parent_table.get_child(int(param_first)))

@@ -5,7 +5,7 @@ from aitsi_parser.ConstTable import ConstTable
 from aitsi_parser.ProcTable import ProcTable
 from aitsi_parser.StatementTable import StatementTable
 from aitsi_parser.VarTable import VarTable
-from pql.utils.CsvReader import CsvReader
+from pql.utils.JsonReader import JsonReader
 
 
 class Generator:
@@ -27,11 +27,11 @@ class Generator:
             'Calls': ['procedure'],
             'Calls*': ['procedure'],
         }
-        self.var_table: VarTable = VarTable(CsvReader.read_csv_from_file(path_tables + "/VarTable.csv"))
-        self.proc_table: ProcTable = ProcTable(CsvReader.read_csv_from_file(path_tables + "/ProcTable.csv"))
-        self.const_table: ConstTable = ConstTable(CsvReader.read_csv_from_file(path_tables + "/ConstTable.csv"))
+        self.var_table: VarTable = VarTable(JsonReader.read_json_from_file(path_tables + "/VarTable.json"))
+        self.proc_table: ProcTable = ProcTable(JsonReader.read_json_from_file(path_tables + "/ProcTable.json"))
+        self.const_table: ConstTable = ConstTable(JsonReader.read_json_from_file(path_tables + "/ConstTable.json"))
         self.stmt_table: StatementTable = StatementTable(
-            CsvReader.read_csv_from_file(path_tables + "/StatementTable.csv"))
+            JsonReader.read_json_from_file(path_tables + "/StatementTable.json"))
 
     def _generate_single_relation(self, relation: str, f):
         for varname in self.arguments_in_relation[relation]:

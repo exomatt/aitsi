@@ -1,59 +1,54 @@
-from typing import List, Union, Set, Tuple
-
-import pandas as pd
+from typing import List, Union, Set, Tuple, Dict
 
 
 class ResultsTable:
 
-    def __init__(self, table: pd.DataFrame = None) -> None:
-        if table is None:
-            table = pd.DataFrame(columns=['BOOLEAN', 'CONST'], index=['type', 'final'])
-        self.table: pd.DataFrame = table
+    def __init__(self) -> None:
+        self.table: Dict = {}
+        self.table['BOOLEAN'] = {}
+        self.table['CONST'] = {}
         self.select: Tuple[str, str] = ('', '')
 
     def set_results(self, synonym: str, synonym_type: str):
-        if synonym not in self.table.columns.tolist():
-            self.table[synonym] = 0
-            self.table[synonym] = self.table[synonym].astype('object')
-            self.table.at['type', synonym] = synonym_type
+        if synonym not in self.table.keys():
+            self.table[synonym] = {}
+            self.table[synonym]['type'] = synonym_type
 
     def update_results(self, relation: str, synonym: str, results: Union[Set[str], Set[int], int, str]) -> None:
-        if relation not in self.table.index.tolist():
-            self.table.loc[relation] = 0
-        self.table.at[relation, synonym] = results
+        self.table[synonym][relation] = results
         if synonym != 'CONST':
-            self.table.at['final', synonym] = results.intersection(
-                *[element for element in self.table[synonym].values if type(element) is set])
-        self.table.at[relation, 'BOOLEAN'] = bool(results)
-        self.table.at['final', 'BOOLEAN'] = bool(results)
+            self.table[synonym]['final'] = results.intersection(
+                *[result for result in self.table[synonym].values() if type(result) is set])
+        self.table['BOOLEAN'][relation] = bool(results)
+        self.table['BOOLEAN']['final'] = bool(results)
         # print(f'{relation}: {synonym}')
         # self.to_string()
-        if not self.table.loc['final', 'BOOLEAN']:
+        if not self.table['BOOLEAN']['final']:
             raise Exception
 
     def get_final_result(self, synonym: str) -> Union[Set[int], Set[str], None]:
         try:
-            return self.table.at['final', synonym]
+            return self.table[synonym]['final']
         except Exception:
             return None
 
     def get_relations(self, synonym: str) -> List[str]:
-        try:  # FIXME
-            return self.table.index[self.table[synonym] != 0].tolist()
+        try:
+            return list(self.table[synonym].keys())
         except Exception:
             return []
 
-    def get_results(self, relation: str) -> List[str]:
-        try:  # FIXME
-            return self.table.columns[self.table.loc[relation] == 1].tolist()
+    def get_all_relations(self) -> List[str]:
+        try:
+            return list(set(sum([list(self.table[element].keys()) for element in self.table], [])))
         except Exception:
             return []
 
     def get_select(self, all_tables) -> str:
         try:
             if self.select[1] == 'BOOLEAN':
-                return str(self.table.at['final', self.select[1]]).lower()
-            return ', '.join(map(str, self.table.at['final', self.select[1]]))
+                return str(self.table[self.select[1]]['final']).lower()
+            return ', '.join(map(str, self.table[self.select[1]]['final']))
         except:
             if self.select[0] in ['STMT', 'PROG_LINE']:
                 return ', '.join(map(str, all_tables['statement'].get_all_statement_lines()))
@@ -69,7 +64,7 @@ class ResultsTable:
 
     def to_string(self) -> None:
         print("ResultsTable:")
-        print(self.table.to_string())
+        print(self.table)
 
     def to_log(self) -> str:
-        return "ResultsTable: \n" + self.table.to_string()
+        return "ResultsTable: \n" + str(self.table)

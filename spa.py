@@ -1,10 +1,7 @@
-import logging
 import sys
 
 import main_parser
 import main_pql
-
-log = logging.getLogger(__name__)
 
 
 def main(argv):
@@ -19,7 +16,4 @@ def main(argv):
 
 
 if __name__ == "__main__":
-    log_format = "%(asctime)s::%(levelname)s::%(name)s::" \
-                 "%(filename)s::%(lineno)d::%(message)s"
-    logging.basicConfig(filename='spa.log', level=logging.DEBUG, format=log_format)
     main(sys.argv)
