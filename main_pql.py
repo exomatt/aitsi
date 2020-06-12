@@ -1,8 +1,5 @@
 import argparse
 import json
-import logging
-import logging.config as conf
-import warnings
 from typing import Dict, Union
 
 from aitsi_parser.CallsTable import CallsTable
@@ -18,12 +15,7 @@ from aitsi_parser.VarTable import VarTable
 from pql.Node import Node
 from pql.QueryEvaluator import QueryEvaluator
 from pql.QueryProcessor import QueryProcessor
-from pql.utils.CsvReader import CsvReader
-
-log = logging.getLogger(__name__)
-
-# TODO - tutaj uwaga! Są warningi wyciszone z pandasa i numpy
-warnings.simplefilter(action='ignore', category=FutureWarning)
+from pql.utils.JsonReader import JsonReader
 
 
 def load_ast_from_file(filename: str) -> Node:
@@ -46,23 +38,23 @@ def export_query_tree_to_file(query_json_tree: Dict[str, dict], filename: str = 
 class PQL:
     def __init__(self, tables_directory_path: str = "database/test/code_short", input_ast_filename: str = "AST.json"):
         self.ast_node: Node = load_ast_from_file(tables_directory_path + "/" + input_ast_filename)
-        var_table: VarTable = VarTable(CsvReader.read_csv_from_file(tables_directory_path + "/VarTable.csv"))
-        proc_table: ProcTable = ProcTable(CsvReader.read_csv_from_file(tables_directory_path + "/ProcTable.csv"))
+        var_table: VarTable = VarTable(JsonReader.read_json_from_file(tables_directory_path + "/VarTable.json"))
+        proc_table: ProcTable = ProcTable(JsonReader.read_json_from_file(tables_directory_path + "/ProcTable.json"))
         calls_table: CallsTable = CallsTable(
-            CsvReader.read_csv_from_file(tables_directory_path + "/CallsTable.csv"))
+            JsonReader.read_json_from_file(tables_directory_path + "/CallsTable.json"))
         modifies_table: ModifiesTable = ModifiesTable(
-            CsvReader.read_csv_from_file(tables_directory_path + "/ModifiesTable.csv"))
+            JsonReader.read_json_from_file(tables_directory_path + "/ModifiesTable.json"))
         parent_table: ParentTable = ParentTable(
-            CsvReader.read_csv_from_file(tables_directory_path + "/ParentTable.csv", True))
-        uses_table: UsesTable = UsesTable(CsvReader.read_csv_from_file(tables_directory_path + "/UsesTable.csv"))
+            JsonReader.read_json_from_file(tables_directory_path + "/ParentTable.json"))
+        uses_table: UsesTable = UsesTable(JsonReader.read_json_from_file(tables_directory_path + "/UsesTable.json"))
         follows_table: FollowsTable = FollowsTable(
-            CsvReader.read_csv_from_file(tables_directory_path + "/FollowsTable.csv", True))
+            JsonReader.read_json_from_file(tables_directory_path + "/FollowsTable.json"))
         statement_table: StatementTable = StatementTable(
-            CsvReader.read_csv_from_file(tables_directory_path + "/StatementTable.csv"))
+            JsonReader.read_json_from_file(tables_directory_path + "/StatementTable.json"))
         const_table: ConstTable = ConstTable(
-            CsvReader.read_csv_from_file(tables_directory_path + "/ConstTable.csv"))
+            JsonReader.read_json_from_file(tables_directory_path + "/ConstTable.json"))
         next_table: NextTable = NextTable(
-            CsvReader.read_csv_from_file(tables_directory_path + "/NextTable.csv", True))
+            JsonReader.read_json_from_file(tables_directory_path + "/NextTable.json"))
         self.all_tables: Dict[str, Union[VarTable,
                                          ProcTable,
                                          UsesTable,
@@ -96,7 +88,6 @@ class PQL:
         try:
             response = query_evaluator.evaluate_query(query_processor.root)
         except Exception as e:
-            log.error(e)
             if query_evaluator.results_table.select[0] == 'BOOLEAN':
                 return 'false'
             else:
@@ -107,7 +98,6 @@ class PQL:
 
 
 if __name__ == '__main__':
-    conf.fileConfig("logging.conf", disable_existing_loggers=False)
     arg_parser = argparse.ArgumentParser(description='PQL program!')
     arg_parser.add_argument("--i", default="pql_query.txt", type=str, help="Input file with pql query")
     arg_parser.add_argument("--o", default="pql_query_tree.json", type=str, help="Output file for pql query tree ")
@@ -122,4 +112,3 @@ if __name__ == '__main__':
     _query: str = load_query_from_file(_input_query_filename)
     pql = PQL(_tables_directory_path)
     result: str = pql.main(_query)
-    log.debug(result)

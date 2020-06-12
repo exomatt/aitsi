@@ -1,48 +1,38 @@
-from typing import List
-
-import numpy as np
-import pandas as pd
+from typing import List, Union, Dict
 
 
 class NextTable:
 
-    def __init__(self, table: pd.DataFrame = None) -> None:
-        if table is None:
-            table = pd.DataFrame()
-        self.table: pd.DataFrame = table
+    def __init__(self, table: Union[Dict, List]) -> None:
+        self.table: Union[Dict, List] = table
 
-    def set_next(self, previous_stmt: int, next_stmt: int) -> None:
-        if next_stmt not in self.table.columns.tolist():
-            self.table[next_stmt] = 0
-        if previous_stmt not in self.table.index.tolist():
-            self.table.loc[previous_stmt] = 0
-        self.table.loc[previous_stmt, next_stmt] = 1
+    def get_all_previous(self) -> List[int]:
+        return list(map(int, list(self.table.keys())))
 
-    def remove_next(self, stmt: int) -> None:
-        self.table = self.table.drop([stmt])
-        self.table = self.table.replace(0, np.nan).dropna(axis=1, how='all').fillna(0)
+    def get_all_next(self) -> List[int]:
+        return list(map(int, set(sum([list(self.table[key].keys()) for key in self.table], []))))
 
     def get_previous(self, stmt: int) -> List[int]:
         try:
-            return self.table.index[self.table[stmt] == 1].tolist()
+            return list(map(int, list(self.table[str(stmt)].keys())))
         except Exception:
             return []
 
     def get_next(self, stmt: int) -> List[int]:
         try:
-            return self.table.columns[self.table.loc[stmt] == 1].tolist()
+            return [int(element) for element in self.table if str(stmt) in self.table[element].keys()]
         except Exception:
             return []
 
     def is_next(self, previous_stmt: int, next_stmt: int) -> bool:
         try:
-            return bool(self.table.at[previous_stmt, next_stmt])
+            return bool(self.table[str(next_stmt)][str(previous_stmt)])
         except Exception:
             return False
 
     def to_string(self) -> None:
         print("NextTable:")
-        print(self.table.to_string())
+        print(self.table)
 
     def to_log(self) -> str:
-        return "NextTable: \n" + self.table.to_string()
+        return "NextTable: \n" + str(self.table)
